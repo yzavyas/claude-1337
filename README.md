@@ -6,13 +6,13 @@ Skills for Claude Code that teach it to use modern terminal tools.
 
 ## Quick Start
 
-Add this marketplace to Claude Code to access all skills:
+In Claude Code, run:
 
 ```
-https://github.com/yzavyas/claude-1337
+/plugin marketplace add https://github.com/yzavyas/claude-1337
 ```
 
-Claude will automatically detect and use elite tools (or offer to install them).
+That's it! Claude will automatically detect and use elite tools (or offer to install them).
 
 ## What's Included
 
