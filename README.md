@@ -66,12 +66,17 @@ If a tool isn't installed, Claude will explain why it's better and ask if you wa
 claude-1337/
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace definition
-├── skills/
-│   └── terminal-1337/
-│       ├── SKILL.md              # Skill instructions for Claude
-│       ├── references/           # Tool documentation
-│       ├── scripts/              # Install scripts
-│       └── assets/               # Config snippets
+├── plugins/
+│   └── terminal-1337/            # Plugin container
+│       ├── commands/             # Slash commands (future)
+│       ├── agents/               # Specialized agents (future)
+│       ├── hooks/                # Event hooks (future)
+│       └── skills/
+│           └── terminal-1337/    # The skill
+│               ├── SKILL.md      # Skill instructions
+│               ├── references/   # Tool documentation
+│               ├── scripts/      # Install scripts
+│               └── assets/       # Config snippets
 ├── docs/
 │   └── terminal-1337.md          # Full skill documentation
 └── README.md
