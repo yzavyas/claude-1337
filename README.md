@@ -90,8 +90,8 @@ claude-1337/
 
 MIT
 
-## Contributing
+## Documentation
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills, commands, agents, and hooks.
-
-**For Claude instances**: See [CLAUDE.md](CLAUDE.md) for project architecture and development patterns.
+- **[LAYOUT.md](LAYOUT.md)** - Visual reference of project structure
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributors
+- **[CLAUDE.md](CLAUDE.md)** - Project steward for Claude instances
