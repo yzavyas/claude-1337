@@ -1,0 +1,38 @@
+{
+  "name": "claude-1337",
+  "owner": {
+    "name": "yzavyas",
+    "email": "yza.vyas@example.com"
+  },
+  "metadata": {
+    "description": "Elite terminal tools and workflows for Claude Code",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "terminal-1337",
+      "source": "./plugins/terminal-1337",
+      "description": "Master elite terminal tools for 10x productivity - ripgrep, fd, bat, eza, fzf, xh, jq, atuin",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@example.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "terminal",
+        "cli",
+        "rust-tools",
+        "developer-tools",
+        "productivity"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./skills"
+      ]
+    }
+  ]
+}

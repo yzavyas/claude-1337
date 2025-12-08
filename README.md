@@ -6,14 +6,13 @@ Skills for Claude Code that teach it to use modern terminal tools.
 
 ## Quick Start
 
-```bash
-# Clone the repo
-git clone https://github.com/yzavyas/claude-1337.git
-cd claude-1337
+Add this marketplace to Claude Code to access all skills:
 
-# Install the skill (copy to Claude Code skills directory)
-# Then install the tools via individual scripts as needed
 ```
+https://github.com/yzavyas/claude-1337
+```
+
+Claude will automatically detect and use elite tools (or offer to install them).
 
 ## What's Included
 
@@ -39,36 +38,16 @@ Teaches Claude Code to use elite terminal tools instead of basic Unix utilities.
 - Asks permission before installing
 - Falls back to standard tools if declined
 
-## Installation
+## How It Works
 
-### 1. Install the Skill
+When you add this marketplace to Claude Code:
 
-Copy the skill to Claude Code:
-```bash
-# Method 1: Manual
-cp -r skills/terminal-1337 ~/.claude/skills/
+1. Claude gains access to the `terminal-1337` skill
+2. The skill automatically detects which elite tools are installed
+3. Claude uses elite tools when available, or offers to install them
+4. Install scripts handle OS detection and package manager selection
 
-# Method 2: Use the packaged .skill file
-# Load terminal-1337.skill in Claude Code (when available)
-```
-
-### 2. Install Tools
-
-Tools are installed individually via scripts in `skills/terminal-1337/scripts/`:
-
-```bash
-# Install specific tools
-bash skills/terminal-1337/scripts/install-ripgrep.sh
-bash skills/terminal-1337/scripts/install-fd.sh
-# ... etc
-
-# Or install all at once
-for script in skills/terminal-1337/scripts/install-*.sh; do
-  bash "$script"
-done
-```
-
-**Note:** Scripts detect your OS (macOS/Linux) and use appropriate package managers.
+**No manual installation required** - just add the marketplace URL to Claude Code.
 
 ## Usage
 
@@ -85,14 +64,21 @@ If a tool isn't installed, Claude will explain why it's better and ask if you wa
 
 ```
 claude-1337/
-├── skills/
-│   └── terminal-1337/
-│       ├── SKILL.md              # Skill instructions for Claude
-│       ├── references/           # Tool documentation
-│       ├── scripts/              # Install scripts
-│       └── assets/               # Config snippets
+├── .claude-plugin/
+│   └── marketplace.json          # Marketplace definition
+├── plugins/
+│   └── terminal-1337/            # Plugin container
+│       ├── commands/             # Slash commands (future)
+│       ├── agents/               # Specialized agents (future)
+│       ├── hooks/                # Event hooks (future)
+│       └── skills/
+│           └── terminal-1337/    # The skill
+│               ├── SKILL.md      # Skill instructions
+│               ├── references/   # Tool documentation
+│               ├── scripts/      # Install scripts
+│               └── assets/       # Config snippets
 ├── docs/
-│   └── TERMINAL_SETUP.md         # Comprehensive terminal guide
+│   └── terminal-1337.md          # Full skill documentation
 └── README.md
 ```
 
@@ -104,6 +90,8 @@ claude-1337/
 
 MIT
 
-## Contributing
+## Documentation
 
-Currently in development. Contributions will open in the new year.
+- **[LAYOUT.md](LAYOUT.md)** - Visual reference of project structure
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributors
+- **[CLAUDE.md](CLAUDE.md)** - Project steward for Claude instances

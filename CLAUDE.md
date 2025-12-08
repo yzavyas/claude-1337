@@ -1,0 +1,215 @@
+# Claude Code Marketplace: claude-1337
+
+You are working on **claude-1337**, a community-contributed Claude Code marketplace focused on elite terminal tools and developer productivity workflows.
+
+## Project Identity
+
+**Mission**: Teach Claude Code to use modern, high-performance terminal tools instead of basic Unix utilities.
+
+**Standards**: This is a serious community contribution. No marketing speak, no cringe content. Code and documentation must be production-ready.
+
+## Repository Structure
+
+```
+claude-1337/
+├── .claude-plugin/
+│   └── marketplace.json       # Marketplace definition (strict: false)
+├── plugins/
+│   └── terminal-1337/         # Plugin container
+│       ├── commands/          # Slash commands (future)
+│       ├── agents/            # Specialized agents (future)
+│       ├── hooks/             # Event hooks (future)
+│       └── skills/            # Current: terminal-1337 skill
+│           ├── SKILL.md       # Main skill instructions
+│           ├── references/    # Tool documentation (8 tools)
+│           ├── scripts/       # Install scripts (8 scripts)
+│           └── assets/        # Config snippets
+├── docs/
+│   ├── TERMINAL_SETUP.md      # Comprehensive terminal guide
+│   └── terminal-1337.md       # Skill documentation
+└── scripts/
+    └── install-terminal-tools.sh  # Bulk installer
+```
+
+## Architecture Principles
+
+### Marketplace Structure
+- **strict: false** - marketplace.json IS the complete plugin manifest
+- **Progressive disclosure** - Metadata always loaded → SKILL.md when triggered → references/scripts/assets on-demand
+- **Plugin-based organization** - Each plugin can contain commands, agents, hooks, and skills
+- **source field** points to plugin directory: `./plugins/terminal-1337`
+- **skills array** points to directories containing SKILL.md files
+
+### Current State: terminal-1337 Plugin
+
+**8 Elite Tools**:
+- `ripgrep` (rg) - Fast code search
+- `fd` - Fast file finding
+- `bat` - File viewing with syntax highlighting
+- `eza` - Directory listing with Git status
+- `fzf` - Fuzzy finding
+- `xh` - HTTP client
+- `jq` - JSON processing
+- `atuin` - Shell history
+
+**Each tool has**:
+- Reference doc in `references/` (200-400 lines, comprehensive)
+- Install script in `scripts/` (OS detection, package manager selection)
+- Executable permissions on all scripts
+
+### What We Don't Include
+- Human-facing tools (zoxide, mise, yazi, lazygit) - not needed by Claude
+- AI tools (aichat, llm, aider) - redundant with Claude Code
+- Tools without clear Claude Code use cases
+
+## Development Workflow
+
+### Making Changes
+
+1. **Branch naming**: `feat/feature-name`, `fix/issue-description`, `docs/what-changed`
+2. **Commit messages**: Descriptive, explain WHY not just WHAT
+3. **Always include**:
+   ```
+   🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+   Co-Authored-By: Claude <noreply@anthropic.com>
+   ```
+
+### Testing Skills
+
+Before committing skill changes:
+1. Validate SKILL.md structure (YAML frontmatter required)
+2. Verify all referenced files exist
+3. Test install scripts on target platforms
+4. Confirm no TODO/placeholder content
+5. Check script permissions (must be executable)
+
+### Adding New Plugins
+
+Future plugins should follow the pattern:
+```
+plugins/
+└── new-plugin/
+    ├── commands/          # Optional: slash commands
+    ├── agents/            # Optional: specialized agents
+    ├── hooks/             # Optional: event hooks
+    └── skills/            # Optional: skills
+        └── skill-name/
+            └── SKILL.md
+```
+
+Update `marketplace.json`:
+```json
+{
+  "plugins": [
+    {
+      "name": "new-plugin",
+      "source": "./plugins/new-plugin",
+      "description": "Brief description",
+      "version": "0.1.0",
+      "author": {...},
+      "keywords": [...],
+      "category": "development",
+      "strict": false,
+      "skills": ["./skills/skill-name"]
+    }
+  ]
+}
+```
+
+## Key Documentation
+
+- **Official marketplace docs**: https://code.claude.com/docs/en/plugin-marketplaces
+- **Skills documentation**: https://code.claude.com/docs/en/skills
+- **Reference implementation**: https://github.com/anthropics/skills
+- **Complex marketplace example**: https://github.com/wshobson/agents
+
+## Working with This Repo
+
+### Tool Detection Pattern
+```bash
+if command -v toolname >/dev/null 2>&1; then
+    # Tool available
+else
+    # Offer installation
+fi
+```
+
+### Install Script Pattern
+```bash
+#!/bin/bash
+set -e
+
+# OS detection
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    OS="macos"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    OS="linux"
+fi
+
+# Install based on OS
+case $OS in
+    macos)
+        brew install toolname
+        ;;
+    linux)
+        if command -v apt &> /dev/null; then
+            sudo apt install -y toolname
+        elif command -v dnf &> /dev/null; then
+            sudo dnf install -y toolname
+        fi
+        ;;
+esac
+
+# Verify
+if command -v toolname &> /dev/null; then
+    echo "✅ toolname installed successfully!"
+    toolname --version
+fi
+```
+
+### Progressive Disclosure in SKILL.md
+- Keep SKILL.md focused on behavior and decision logic
+- Reference docs contain comprehensive usage details
+- Scripts are self-contained and executable
+- Assets contain config snippets for user setup
+
+## Code Style
+
+- **No emojis** unless explicitly requested
+- **Clear, concise** - avoid marketing language
+- **Educational** - explain WHY when making architectural decisions
+- **Professional** - this represents the community
+
+## Current Status
+
+**v0.1.0** - Alpha phase
+- terminal-1337 skill: Complete with 8 tools
+- Marketplace structure: Established and validated
+- Documentation: Comprehensive
+- Future expansion: Ready for commands/agents/hooks
+
+## Future Roadmap
+
+### Near-term
+- Additional skills: 1337-python, 1337-rust (language-specific tooling)
+- Slash commands: Quick access patterns (e.g., `/rg`, `/fd`)
+- Testing: Validate marketplace loads correctly in Claude Code
+
+### Long-term
+- Specialized agents: terminal-optimizer, tool-recommender
+- Event hooks: Auto-suggest installations, update notifications
+- Community plugins: Accept external contributions
+
+## Maintainer Notes
+
+**Owner**: yzavyas (yza.vyas@example.com)
+**License**: MIT
+**Repository**: https://github.com/yzavyas/claude-1337
+
+When working on this project:
+1. Maintain high quality standards - this is a community contribution
+2. Test changes thoroughly before committing
+3. Update documentation when adding features
+4. Follow the established patterns and conventions
+5. Keep the structure clean and organized
