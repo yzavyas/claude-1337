@@ -92,4 +92,6 @@ MIT
 
 ## Contributing
 
-Currently in development. Contributions will open in the new year.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills, commands, agents, and hooks.
+
+**For Claude instances**: See [CLAUDE.md](CLAUDE.md) for project architecture and development patterns.
