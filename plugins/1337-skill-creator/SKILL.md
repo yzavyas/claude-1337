@@ -25,11 +25,20 @@ Standard skills teach. 1337 skills decide.
 3. **Concise** - Decision frameworks + gotchas, not tutorials
 4. **Claude is smart** - Only add what Claude doesn't already know
 
-## The Craftsmanship Methodology
+## Executable Workflow
 
-### Source Hierarchy
+Don't read process docs. Run prompts.
 
-Where to learn when building skills:
+| Step | Do | Reference |
+|------|----|-----------|
+| 1 | Test Claude's knowledge, find gaps | [research-workflow.md](references/research-workflow.md#step-1-define-the-gap) |
+| 2 | Research 3 production codebases | [research-workflow.md](references/research-workflow.md#step-2-research-production-codebases) |
+| 3 | Verify with maintainer quotes | [research-workflow.md](references/research-workflow.md#step-3-verify-with-maintainers) |
+| 4 | Collect production gotchas | [research-workflow.md](references/research-workflow.md#step-4-identify-production-gotchas) |
+| 5 | Fill in SKILL.md template | [research-workflow.md](references/research-workflow.md#step-5-draft-the-skill) |
+| 6 | Run validation checks | [research-workflow.md](references/research-workflow.md#step-6-validate) |
+
+**Source Hierarchy** (what to research):
 
 | Priority | Source | Why |
 |----------|--------|-----|
@@ -38,24 +47,6 @@ Where to learn when building skills:
 | 3 | Conference talks | War stories from practitioners |
 | 4 | Proven adoption | Social proof + real usage |
 | 5 | Technical blogs | Secondary, always verify |
-
-### The Guild Path
-
-Building skills is a craft:
-
-- **Learning** — Study existing skills, understand patterns
-- **Practicing** — Build skills, get feedback, iterate
-- **Mastering** — Contribute to the methodology itself
-
-### Balance
-
-Craftsmanship isn't perfectionism:
-
-- **Pragmatic** — Good enough for the context
-- **Incremental** — Boy Scout Rule, not rewrites
-- **Strategic** — Invest craft where it matters most
-
-*"The only way to go fast is to go well."*
 
 ## Content Triage
 

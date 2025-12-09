@@ -1,62 +1,21 @@
 # Skill Creation Process
 
-End-to-end workflow for creating elite skills.
+**Use [research-workflow.md](research-workflow.md) for executable prompts.**
 
-## Phase 1: Gap Analysis
+This file documents the overall process. For copy-paste prompts, see the research workflow.
 
-**Goal**: Find what Claude doesn't know (or gets wrong).
+## Quick Reference
 
-```
-1. Pick domain
-   ├── What am I expert at?
-   └── Where does Claude give generic/outdated advice?
+| Phase | What | Where |
+|-------|------|-------|
+| 1. Gap | Test Claude, find wrong/missing knowledge | [research-workflow.md#step-1](research-workflow.md#step-1-define-the-gap) |
+| 2. Research | 3 production codebases | [research-workflow.md#step-2](research-workflow.md#step-2-research-production-codebases) |
+| 3. Verify | Maintainer quotes, stats | [research-workflow.md#step-3](research-workflow.md#step-3-verify-with-maintainers) |
+| 4. Gotchas | Production issues, postmortems | [research-workflow.md#step-4](research-workflow.md#step-4-identify-production-gotchas) |
+| 5. Draft | Fill SKILL.md template | [research-workflow.md#step-5](research-workflow.md#step-5-draft-the-skill) |
+| 6. Validate | Run checklist | [research-workflow.md#step-6](research-workflow.md#step-6-validate) |
 
-2. Test Claude's knowledge
-   ├── Ask: "What's the best X for Y?"
-   ├── Is the answer current? Evidence-based?
-   └── Does it match production reality?
-
-3. Document gaps
-   ├── Wrong defaults
-   ├── Missing gotchas
-   ├── Outdated recommendations
-   └── No decision framework
-```
-
-## Phase 2: Research
-
-**Goal**: Evidence-based best practices, not opinion.
-
-### Source Hierarchy
-
-| Priority | Source | Why |
-|----------|--------|-----|
-| 1 | Production codebases | What actually ships |
-| 2 | Core maintainers | Primary knowledge |
-| 3 | Conference talks | War stories |
-| 4 | GitHub stars with usage | Social proof + adoption |
-| 5 | Blog posts | Secondary, verify |
-
-### Research Questions
-
-- What do elite teams actually use?
-- What footguns appear in production?
-- What's the 95% case vs edge cases?
-- What changed recently? (deprecations, new winners)
-- What compiles but fails at scale?
-
-### Evidence Capture
-
-```markdown
-## [Topic]
-
-**Claim**: [What you learned]
-**Source**: [URL/reference]
-**Evidence**: [Quote or example]
-**Applies to**: [SKILL.md or reference?]
-```
-
-## Phase 3: Structure
+## Structure
 
 **Goal**: Organize for progressive disclosure.
 
@@ -101,7 +60,7 @@ skill-name/
     └── ecosystem.md      # Loaded on: "crate/tool questions"
 ```
 
-## Phase 4: Write
+## Writing Rules
 
 **Goal**: Apply content triage to every line.
 
@@ -125,7 +84,7 @@ See [content-triage.md](content-triage.md) for the full filter.
 | Complete tutorials | Decision points only |
 | Marketing language | Evidence-based claims |
 
-## Phase 5: Validate
+## Validation
 
 **Goal**: Ensure skill triggers and loads correctly.
 
