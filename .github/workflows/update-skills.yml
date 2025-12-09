@@ -1,0 +1,84 @@
+name: Update Skills
+
+on:
+  schedule:
+    # Weekly on Sundays at 2am UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      skill:
+        description: 'Skill to update (rust-1337, terminal-1337, or all)'
+        required: false
+        default: 'all'
+
+jobs:
+  update-skills:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Claude Code
+        run: |
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Update Skills
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SKILL_INPUT: ${{ github.event.inputs.skill }}
+        run: |
+          SKILL="${SKILL_INPUT:-all}"
+
+          if [ "$SKILL" = "all" ] || [ "$SKILL" = "rust-1337" ]; then
+            claude -p "Review and update rust-1337 skill. Check for:
+            1. Deprecated crates or patterns
+            2. New best-in-class options that have reached production status
+            3. Version updates for recommended crates
+            4. Any outdated information
+
+            Research current state via web search. Only make changes with clear evidence.
+            If no updates needed, report that. If updates made, commit with context."
+          fi
+
+          if [ "$SKILL" = "all" ] || [ "$SKILL" = "terminal-1337" ]; then
+            claude -p "Review and update terminal-1337 skill. Check for:
+            1. New versions of tools (rg, fd, bat, eza, fzf, xh, jq, atuin)
+            2. Changed flags or deprecated options
+            3. Better alternatives that have emerged
+
+            Research current state via web search. Only make changes with clear evidence.
+            If no updates needed, report that. If updates made, commit with context."
+          fi
+
+      - name: Create PR if changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            BRANCH="auto-update/skills-$(date +%Y%m%d)"
+            git checkout -b "$BRANCH"
+            git add -A
+            git commit -m "Auto-update skills $(date +%Y-%m-%d)
+
+            Automated weekly skill review.
+
+            🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+            Co-Authored-By: Claude <noreply@anthropic.com>"
+
+            git push origin "$BRANCH"
+
+            gh pr create \
+              --title "Auto-update skills $(date +%Y-%m-%d)" \
+              --body "Automated weekly skill review by Claude.
+
+            Please review changes before merging.
+
+            🤖 Generated with [Claude Code](https://claude.com/claude-code)" \
+              --base main
+          else
+            echo "No updates needed"
+          fi

@@ -1,0 +1,153 @@
+# Rust Ecosystem Guide
+
+Crate selection, deprecations, and evaluation frameworks.
+
+## What Elite Tools Actually Use
+
+Evidence over opinion:
+
+| Tool | Dependencies | Insight |
+|------|--------------|---------|
+| ripgrep | lexopt, termcolor, anyhow | Migrated FROM clap in 2024 |
+| fd, bat, delta | clap derive, nu-ansi-term | Feature-rich CLI pattern |
+| crates.io | diesel | ORM at scale works |
+
+BurntSushi on lexopt: "demonstrates exactly how something new can arrive on the scene and just thoroughly solve a problem minimalistically."
+
+## Crate Selection by Category
+
+### Error Handling
+
+| Crate | Use When |
+|-------|----------|
+| thiserror | Library — callers match on variants |
+| anyhow | Application — just propagate errors |
+| color-eyre | CLI — colored pretty errors |
+| miette | Compiler/linter — source snippets |
+| snafu | Large multi-crate systems |
+
+### Serialization
+
+| Need | Default | High-perf |
+|------|---------|-----------|
+| JSON | serde_json | simd-json (3x faster, when >5% CPU) |
+| Config | toml | — |
+| Binary | bincode | — |
+| no_std binary | postcard | — |
+
+### Async Runtime
+
+| Scenario | Choice |
+|----------|--------|
+| Default | tokio |
+| Runtime-agnostic lib | smol |
+| io_uring (Linux) | monoio |
+| Embedded | embassy |
+| **DEAD** | async-std (March 2025) |
+
+### CLI Parsing
+
+| Complexity | Crate | Compile |
+|------------|-------|---------|
+| Simple flags | lexopt | ~0.5s |
+| Minimal | pico-args | ~1s |
+| Full-featured | clap derive | ~5s |
+
+### Web
+
+| Priority | Framework |
+|----------|-----------|
+| Default | axum |
+| Max performance | actix-web |
+| Best DX | rocket |
+
+| Need | Client |
+|------|--------|
+| Default | reqwest |
+| Max control | hyper |
+| Sync/minimal | ureq |
+
+### Database
+
+| Scenario | Crate |
+|----------|-------|
+| SQLite | rusqlite |
+| Async + raw SQL | sqlx |
+| Async + ORM | sea-orm |
+| Sync + type DSL | diesel |
+
+### Testing
+
+| Need | Crate |
+|------|-------|
+| Test runner | nextest (3x faster) |
+| Property testing | proptest |
+| Snapshots | insta |
+| Parameterized | rstest |
+| HTTP mocking | wiremock |
+
+### Observability
+
+| Need | Crate |
+|------|-------|
+| Logging | tracing (THE standard) |
+| OpenTelemetry | opentelemetry 0.27+ |
+| Metrics | metrics |
+
+### Concurrency
+
+| Need | Use |
+|------|-----|
+| Default mutex | std::sync::Mutex |
+| 1-byte mutex | parking_lot |
+| Data parallelism | rayon |
+| Concurrent HashMap | dashmap (only if bottleneck) |
+
+## Deprecation Details
+
+| Obsolete | Replacement | Migration |
+|----------|-------------|-----------|
+| `lazy_static!` | `LazyLock` | `static X: LazyLock<T> = LazyLock::new(\|\| ...)` |
+| `once_cell::Lazy` | `LazyLock` | Direct replacement (Rust 1.80+) |
+| `once_cell::OnceCell` | `OnceLock` | Direct replacement (Rust 1.70+) |
+| `async-std` | smol/tokio | Rewrite with new runtime |
+| `structopt` | clap v4 | Update derive syntax |
+| `cargo-edit` | `cargo add` | Native since Cargo 1.62 |
+| `ansi_term` | `nu-ansi-term` | Drop-in fork |
+| `wee_alloc` | default/Talc | Memory leak in wee_alloc |
+
+## Crate Evaluation Red Flags
+
+**Maintenance signals**:
+- Last release > 1 year without activity
+- Issues/PRs ignored
+- No CI badges
+
+**Dependency concerns**:
+- High transitive dep count
+- Pulling in tokio for sync-only lib
+- Feature flags that aren't additive
+
+**Check features**: `cargo tree --edges features`
+
+## MSRV Strategies
+
+| Project Type | Recommended |
+|--------------|-------------|
+| Tokio ecosystem | 6-month rolling (1.70-1.71) |
+| General libraries | 6-12 months behind stable |
+| Enterprise | 1 year behind |
+
+BurntSushi: "I try to target a year behind."
+
+## When Nightly Is Needed
+
+Rarely in 2025. Stable has:
+- async fn in traits (1.75)
+- GATs (1.65)
+- impl Trait in traits (1.75)
+
+Only need nightly for:
+- `cargo-udeps`
+- Miri testing
+- Experimental Cranelift
