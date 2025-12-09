@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="start">
+  <p class="opener">skills that pick winners. includes the 20% → 84% activation fix.</p>
+
+  <pre><code>/plugin marketplace add yzavyas/claude-1337
+/plugin install terminal-1337@claude-1337</code></pre>
+
+  <h2>plugins</h2>
+
+  <ul class="plugin-list">
+    <li><a href="/claude-1337/reference/terminal-1337/">terminal-1337</a> — rg, fd, bat, eza, xh, jq</li>
+    <li><a href="/claude-1337/reference/rust-1337/">rust-1337</a> — crate decisions from production</li>
+    <li><a href="/claude-1337/reference/1337-skill-creator/">1337-skill-creator</a> — build skills that pick winners</li>
+  </ul>
+
+  <h2>the problem</h2>
+
+  <p>claude code skills activate ~20% of the time. you install them, ask a relevant question, and claude ignores them.</p>
+
+  <div class="stats">
+    <div>
+      <div class="stat-value bad">20%</div>
+      <div class="stat-label">baseline</div>
+    </div>
+    <div>
+      <div class="stat-value good">84%</div>
+      <div class="stat-label">with fix</div>
+    </div>
+  </div>
+
+  <p>we researched why and built a fix. <a href="/claude-1337/explanation/">read more</a></p>
+
+  <h2>philosophy</h2>
+
+  <ul>
+    <li><strong>pick winners</strong> — "use tokio" not "options include tokio, async-std, smol"</li>
+    <li><strong>evidence over stars</strong> — what ripgrep, servo, cloudflare actually use</li>
+    <li><strong>skip training knowledge</strong> — only add what claude doesn't know</li>
+  </ul>
+</Base>

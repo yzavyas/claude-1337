@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="explanation" description="why skills don't activate and how we fixed it">
+  <p style="color: var(--fg-dim);">understanding the skill activation problem</p>
+
+  <h2>the problem</h2>
+
+  <p>claude code skills have a ~20% activation rate by default. you install a skill, ask a relevant question, and claude ignores it.</p>
+
+  <p>this isn't a bug. it's emergent behavior from how skills are surfaced.</p>
+
+  <h2>how skills work</h2>
+
+  <p>skills appear in an <code>&lt;available_skills&gt;</code> block in claude's context:</p>
+
+  <pre><code>&lt;available_skills&gt;
+&lt;skill&gt;
+  &lt;name&gt;terminal-1337&lt;/name&gt;
+  &lt;description&gt;modern cli tools...&lt;/description&gt;
+&lt;/skill&gt;
+...
+&lt;/available_skills&gt;</code></pre>
+
+  <p>claude sees this but doesn't automatically:</p>
+
+  <ol>
+    <li>evaluate each skill against the current request</li>
+    <li>decide which skills are relevant</li>
+    <li>activate them before responding</li>
+  </ol>
+
+  <p>it just... responds. sometimes it notices skills, usually it doesn't.</p>
+
+  <h2>the research</h2>
+
+  <p>scott spence documented this problem and found a fix:</p>
+
+  <blockquote style="border-left: 2px solid var(--accent); padding-left: 1rem; margin: 1rem 0;">
+    <p>"skills don't trigger automatically - claude needs explicit instruction to evaluate them"</p>
+  </blockquote>
+
+  <p>his forced evaluation prompt achieved 84% activation (4.2x improvement).</p>
+
+  <h2>our validation</h2>
+
+  <p>we built an eval framework using claude agent sdk to test this:</p>
+
+  <pre><code># baseline test
+result = query(
+    prompt="set up a rust project with async http",
+    options=ClaudeAgentOptions(plugins=[rust_1337_plugin])
+)
+# activation: 0%
+
+# with forced eval
+result = query(
+    prompt="set up a rust project with async http",
+    options=ClaudeAgentOptions(
+        plugins=[rust_1337_plugin],
+        system_prompt=FORCED_EVAL_PROMPT
+    )
+)
+# activation: 100%</code></pre>
+
+  <h2>the fix</h2>
+
+  <p>add this to your system prompt:</p>
+
+  <pre><code>Before responding to any user request, you MUST:
+
+1. EVALUATE each skill in &lt;available_skills&gt;:
+   - State: [skill-name] - YES/NO - [reason]
+
+2. ACTIVATE relevant skills:
+   - For each YES, call Skill(skill-name) BEFORE proceeding
+
+3. Only THEN respond.</code></pre>
+
+  <h2>why this works</h2>
+
+  <p>the prompt forces explicit evaluation before response generation. claude can't skip the skill check because it must output the evaluation first.</p>
+
+  <p>this is similar to chain-of-thought prompting - forcing intermediate steps improves final output quality.</p>
+
+  <h2>tradeoffs</h2>
+
+  <table>
+    <tr>
+      <th>aspect</th>
+      <th>without fix</th>
+      <th>with fix</th>
+    </tr>
+    <tr>
+      <td>activation rate</td>
+      <td class="bad">~20%</td>
+      <td class="good">84%</td>
+    </tr>
+    <tr>
+      <td>response latency</td>
+      <td>baseline</td>
+      <td>+evaluation step</td>
+    </tr>
+    <tr>
+      <td>token usage</td>
+      <td>baseline</td>
+      <td>+skill evaluation output</td>
+    </tr>
+  </table>
+
+  <p>the latency and token cost are negligible compared to missed skill activations.</p>
+
+  <h2>open questions</h2>
+
+  <ul>
+    <li>does anthropic plan to improve default activation?</li>
+    <li>can skills self-trigger based on keywords?</li>
+    <li>what's the optimal number of skills before truncation?</li>
+  </ul>
+
+  <h2>sources</h2>
+
+  <ul>
+    <li><a href="https://scottspence.com/posts/claude-code-skills">scott spence - claude code skills research</a></li>
+    <li><a href="https://www.reddit.com/r/ClaudeAI/comments/1pha74t/deep_dive_anatomy_of_a_skill_its_tokenomics_why/">reddit - anatomy of a skill, tokenomics, truncation</a></li>
+    <li><a href="https://www.reddit.com/r/ClaudeAI/comments/1pe37e3/claudemd_and_skills_experiment_whats_the_best_way/">reddit - CLAUDE.md and skills experiment</a></li>
+    <li>our eval framework: <code>/evals</code> in the repo</li>
+  </ul>
+</Base>
