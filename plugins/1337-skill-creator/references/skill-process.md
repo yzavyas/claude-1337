@@ -134,7 +134,7 @@ See [content-triage.md](content-triage.md) for the full filter.
 ```
 [ ] Description < 600 chars, has "Use when:" triggers
 [ ] No YAML multiline (>-, |) - use quoted strings
-[ ] SKILL.md < 350 lines (target 100-200)
+[ ] SKILL.md < 500 lines (target 100-200)
 [ ] References < 250 lines each (target 100-150)
 [ ] All linked files exist
 [ ] Evidence cited for recommendations

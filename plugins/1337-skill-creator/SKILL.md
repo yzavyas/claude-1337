@@ -89,8 +89,8 @@ One sentence purpose.
 
 | Component | Target | Max |
 |-----------|--------|-----|
-| SKILL.md | 100-200 lines | 350 lines |
-| Reference | 100-150 lines | 250 lines |
+| SKILL.md | 100-200 lines | 500 lines |
+| Reference | 100-150 lines | No hard limit |
 
 ## 1337 Validation
 
