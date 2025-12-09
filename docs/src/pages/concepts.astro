@@ -1,0 +1,416 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="concepts" description="understanding the claude code ecosystem">
+  <p style="color: var(--fg-dim);">how claude code's plugin system actually works</p>
+
+  <h2>marketplace</h2>
+
+  <p>a marketplace is a git repository that lists plugins. when you run:</p>
+
+  <pre><code>/plugin marketplace add yzavyas/claude-1337</code></pre>
+
+  <p>claude code reads <code>.claude-plugin/marketplace.json</code> from that repo. this file contains an array of plugins with their locations.</p>
+
+  <p>each marketplace entry points to a plugin directory using the <code>source</code> field:</p>
+
+  <pre><code>{"{"}"name": "terminal-1337",
+  "source": "./plugins/terminal-1337",
+  "description": "Modern CLI tools...",
+  "skills": ["./skills"]
+{"}"}</code></pre>
+
+  <p>the marketplace itself doesn't contain the plugins - it's a pointer. plugins live in subdirectories and can be from any repo.</p>
+
+  <h3>strict vs non-strict</h3>
+
+  <p>two loading modes exist:</p>
+
+  <table>
+    <tr>
+      <th>mode</th>
+      <th>behavior</th>
+      <th>when to use</th>
+    </tr>
+    <tr>
+      <td>strict: true</td>
+      <td>reads plugin.json from source directory</td>
+      <td>complex plugins with many components</td>
+    </tr>
+    <tr>
+      <td>strict: false</td>
+      <td>marketplace.json IS the complete manifest</td>
+      <td>simple marketplaces (our approach)</td>
+    </tr>
+  </table>
+
+  <h2>plugins</h2>
+
+  <p>a plugin is a directory containing specialized components for claude. think of it as a package.</p>
+
+  <pre><code>plugins/terminal-1337/
+├── .claude-plugin/
+│   └── plugin.json          # metadata (name, version, author)
+├── skills/
+│   └── SKILL.md             # knowledge that loads on demand
+├── commands/
+│   └── search.md            # slash commands
+├── agents/
+│   └── optimizer.md         # specialized subagents
+└── hooks/
+    └── session-start.md     # event triggers</code></pre>
+
+  <p>plugins can contain any combination of these. terminal-1337 has skills, rust-1337 has skills, sensei-1337 has skills AND an agent.</p>
+
+  <h3>progressive disclosure</h3>
+
+  <p>claude doesn't load everything at once. here's what loads when:</p>
+
+  <table>
+    <tr>
+      <th>stage</th>
+      <th>what loads</th>
+      <th>size impact</th>
+    </tr>
+    <tr>
+      <td>startup</td>
+      <td>skill descriptions only (~100 tokens each)</td>
+      <td>20-22k char budget</td>
+    </tr>
+    <tr>
+      <td>activation</td>
+      <td>SKILL.md content</td>
+      <td>target 100-200 lines</td>
+    </tr>
+    <tr>
+      <td>on-demand</td>
+      <td>references/, scripts/, assets/</td>
+      <td>no hard limit</td>
+    </tr>
+  </table>
+
+  <p>this means your skill description must trigger activation. if claude doesn't load the skill, the SKILL.md never gets read.</p>
+
+  <h2>skills</h2>
+
+  <p>skills add specialized knowledge to claude. example: you install rust-1337, ask about async rust, and claude loads production patterns from actual codebases.</p>
+
+  <h3>how activation works</h3>
+
+  <p>skills appear in claude's context as an <code>&lt;available_skills&gt;</code> block:</p>
+
+  <pre><code>&lt;available_skills&gt;
+&lt;skill&gt;
+  &lt;name&gt;terminal-1337&lt;/name&gt;
+  &lt;description&gt;Modern CLI tools. Use when: searching files,
+  grepping patterns, viewing code. Covers: rg, fd, bat&lt;/description&gt;
+&lt;/skill&gt;
+&lt;skill&gt;
+  &lt;name&gt;rust-1337&lt;/name&gt;
+  &lt;description&gt;Rust production patterns. Use when: building
+  async systems, choosing crates, debugging ownership&lt;/description&gt;
+&lt;/skill&gt;
+&lt;/available_skills&gt;</code></pre>
+
+  <p>when you ask a question, claude reads these descriptions and decides whether to activate a skill. there's no algorithmic routing - no regex, no embeddings. pure LLM reasoning.</p>
+
+  <h3>the activation problem</h3>
+
+  <p>skills only activate ~20% of the time by default. you install a skill, ask a relevant question, claude ignores it.</p>
+
+  <p>why? claude sees the skills but doesn't automatically evaluate them against your request. it responds without checking if a skill would help.</p>
+
+  <p>the fix: explicit evaluation prompts that force claude to check skills before responding. this increases activation to 84%. see <a href="/claude-1337/explanation/">explanation</a> for details.</p>
+
+  <h3>the available_skills budget</h3>
+
+  <p>the <code>&lt;available_skills&gt;</code> block has a ~20-22k character limit. with typical descriptions, that fits 34-36 skills.</p>
+
+  <p>what happens at 37 skills? truncation. skills beyond the limit don't appear in the block at all.</p>
+
+  <p>truncated skills cannot activate. claude can't see them, so they never trigger.</p>
+
+  <h3>what makes descriptions work</h3>
+
+  <p>from testing 200+ skills, these patterns activate reliably:</p>
+
+  <table>
+    <tr>
+      <th>pattern</th>
+      <th>example</th>
+      <th>why it works</th>
+    </tr>
+    <tr>
+      <td>"Use when:" clause</td>
+      <td>"Use when: building APIs, debugging async"</td>
+      <td>explicit trigger conditions</td>
+    </tr>
+    <tr>
+      <td>specific tools/terms</td>
+      <td>"Covers: tokio, axum, sqlx"</td>
+      <td>keyword matching</td>
+    </tr>
+    <tr>
+      <td>action verbs</td>
+      <td>"building, debugging, configuring"</td>
+      <td>matches user intent</td>
+    </tr>
+    <tr>
+      <td>front-loaded keywords</td>
+      <td>put critical terms early</td>
+      <td>claude scans top to bottom</td>
+    </tr>
+  </table>
+
+  <p>descriptions that say "helps with development" or "useful for coding" activate poorly. too vague.</p>
+
+  <h2>hooks</h2>
+
+  <p>hooks run code when specific events occur. example: show a tip when claude starts, or validate input when a user submits a prompt.</p>
+
+  <h3>event types</h3>
+
+  <table>
+    <tr>
+      <th>event</th>
+      <th>when it fires</th>
+      <th>use case</th>
+    </tr>
+    <tr>
+      <td>SessionStart</td>
+      <td>claude code session begins</td>
+      <td>welcome messages, mode setting</td>
+    </tr>
+    <tr>
+      <td>UserPromptSubmit</td>
+      <td>user sends a message</td>
+      <td>input validation, context injection</td>
+    </tr>
+  </table>
+
+  <h3>what hooks can do</h3>
+
+  <p>hooks output text that gets added to the conversation. they CANNOT invoke tools or make API calls.</p>
+
+  <p>example SessionStart hook:</p>
+
+  <pre><code>---
+event: SessionStart
+---
+
+Teaching mode active. I'll use the Feynman technique:
+- Example before theory
+- One concept per section
+- No unexplained jargon</code></pre>
+
+  <p>this text appears in the conversation when the session starts, setting context for claude's behavior.</p>
+
+  <h2>commands</h2>
+
+  <p>slash commands are shortcuts that expand to prompts. when you type <code>/skill-check</code>, claude sees the contents of <code>commands/skill-check.md</code>.</p>
+
+  <p>example command file:</p>
+
+  <pre><code>Diagnose skill health and triggering issues.
+
+## Check Available Skills
+
+1. How many skills are in your &lt;available_skills&gt; block?
+2. List each skill's name and first 50 chars of description
+3. Are any descriptions truncated?</code></pre>
+
+  <p>commands are prompts, not scripts. they tell claude what to do, claude executes using its normal tools.</p>
+
+  <h3>when to use commands</h3>
+
+  <table>
+    <tr>
+      <th>use case</th>
+      <th>example</th>
+    </tr>
+    <tr>
+      <td>repetitive tasks</td>
+      <td><code>/skill-check</code> to validate all skills</td>
+    </tr>
+    <tr>
+      <td>complex workflows</td>
+      <td><code>/skill-update</code> with multi-step process</td>
+    </tr>
+    <tr>
+      <td>domain shortcuts</td>
+      <td><code>/rg pattern</code> as ripgrep helper</td>
+    </tr>
+  </table>
+
+  <h2>agents</h2>
+
+  <p>agents are specialized versions of claude with custom system prompts. they run as subagents - separate conversations with focused capabilities.</p>
+
+  <p>example: the feynman agent in sensei-1337:</p>
+
+  <pre><code>---
+name: feynman
+description: "Documentation agent using Feynman technique"
+model: sonnet
+---
+
+You are an elite documentation agent.
+
+## Your Workflow
+
+### Phase 1: UNDERSTAND
+1. Read the domain
+2. Identify the audience
+3. List concepts
+
+### Phase 2: TEACH
+- Example before theory
+- No unexplained jargon
+- Max 5 lines per paragraph</code></pre>
+
+  <h3>agents vs skills</h3>
+
+  <table>
+    <tr>
+      <th>aspect</th>
+      <th>skill</th>
+      <th>agent</th>
+    </tr>
+    <tr>
+      <td>what it is</td>
+      <td>knowledge that loads into context</td>
+      <td>separate claude instance with custom prompt</td>
+    </tr>
+    <tr>
+      <td>when it runs</td>
+      <td>main conversation, activated on demand</td>
+      <td>separate thread, invoked explicitly</td>
+    </tr>
+    <tr>
+      <td>use for</td>
+      <td>reference data, decision frameworks</td>
+      <td>specialized workflows, different behavior</td>
+    </tr>
+  </table>
+
+  <p>agents are for when you need claude to behave fundamentally differently, not just know different things.</p>
+
+  <h2>mcp</h2>
+
+  <p>Model Context Protocol (MCP) servers provide tools to claude. think of them as plugin backends that expose new capabilities.</p>
+
+  <p>example: an MCP server for a database might provide:</p>
+
+  <ul>
+    <li><code>query_db(sql)</code> - run SQL queries</li>
+    <li><code>get_schema()</code> - fetch table definitions</li>
+    <li><code>explain_plan(sql)</code> - analyze query performance</li>
+  </ul>
+
+  <p>claude sees these as tools it can invoke, similar to its built-in tools like Read or Bash.</p>
+
+  <h3>mcp vs skills</h3>
+
+  <table>
+    <tr>
+      <th>aspect</th>
+      <th>skill</th>
+      <th>mcp server</th>
+    </tr>
+    <tr>
+      <td>provides</td>
+      <td>knowledge, context, patterns</td>
+      <td>executable tools, APIs, data access</td>
+    </tr>
+    <tr>
+      <td>runs as</td>
+      <td>markdown loaded into context</td>
+      <td>separate process claude calls</td>
+    </tr>
+    <tr>
+      <td>use for</td>
+      <td>decisions, references, gotchas</td>
+      <td>actions, queries, integrations</td>
+    </tr>
+  </table>
+
+  <p>skills teach claude what to do. MCP servers give claude new abilities.</p>
+
+  <p>note: claude-1337 focuses on skills. MCP servers are separate infrastructure.</p>
+
+  <h2>evals</h2>
+
+  <p>evals (evaluations) test whether skills activate when they should. they measure activation rate: how often claude loads a skill for relevant prompts.</p>
+
+  <h3>how testing works</h3>
+
+  <pre><code># send a prompt that should trigger rust-1337
+result = query(
+    prompt="How do I handle errors in async Rust?",
+    options=ClaudeAgentOptions(plugins=[rust_1337])
+)
+
+# did claude invoke the Skill() tool?
+skill_activated = check_tool_use(result, tool="Skill")
+# activation: true/false (ground truth)</code></pre>
+
+  <p>this isn't asking claude's opinion. it's observing actual behavior - did the skill load or not?</p>
+
+  <h3>interpreting results</h3>
+
+  <table>
+    <tr>
+      <th>activation rate</th>
+      <th>meaning</th>
+      <th>action</th>
+    </tr>
+    <tr>
+      <td>80%+</td>
+      <td>description working well</td>
+      <td>ship it</td>
+    </tr>
+    <tr>
+      <td>50-79%</td>
+      <td>description needs work</td>
+      <td>add "Use when:" clause, front-load keywords</td>
+    </tr>
+    <tr>
+      <td>&lt;50%</td>
+      <td>description too vague</td>
+      <td>rewrite with specific triggers and terms</td>
+    </tr>
+  </table>
+
+  <h3>why evals matter</h3>
+
+  <p>without testing, you don't know if your skill actually works. a skill with a poor description is invisible - installed but never activated.</p>
+
+  <p>the claude-1337 evals framework uses the Claude Agent SDK to run prompts and observe tool invocation. see <code>/evals</code> in the repo.</p>
+
+  <h2>putting it together</h2>
+
+  <p>here's how these concepts compose in practice:</p>
+
+  <ol>
+    <li>you add a <strong>marketplace</strong> that lists plugins</li>
+    <li>you install a <strong>plugin</strong> containing skills, commands, agents, hooks</li>
+    <li>plugin <strong>skills</strong> appear in <code>&lt;available_skills&gt;</code> with their descriptions</li>
+    <li>when you ask a question, claude reads descriptions and activates relevant skills</li>
+    <li><strong>hooks</strong> inject context at session start or prompt submit</li>
+    <li><strong>commands</strong> give you shortcuts for repetitive workflows</li>
+    <li><strong>agents</strong> run specialized tasks in separate threads</li>
+    <li><strong>MCP servers</strong> provide tools claude can invoke</li>
+    <li><strong>evals</strong> measure whether your skills actually activate</li>
+  </ol>
+
+  <p>the key insight: descriptions are critical. if claude doesn't load your skill, everything inside it is wasted. test activation, optimize descriptions, measure results.</p>
+
+  <h2>next steps</h2>
+
+  <ul>
+    <li><a href="/claude-1337/how-to/">how-to</a> - install and use the marketplace</li>
+    <li><a href="/claude-1337/explanation/">explanation</a> - why skills don't activate and how we fixed it</li>
+    <li><a href="/claude-1337/reference/">reference</a> - detailed plugin documentation</li>
+  </ul>
+</Base>

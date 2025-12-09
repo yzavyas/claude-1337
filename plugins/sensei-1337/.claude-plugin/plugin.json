@@ -1,0 +1,9 @@
+{
+  "name": "sensei-1337",
+  "description": "Teaching methodology for elite documentation. Feynman technique meets Diataxis. Use when: writing docs, tutorials, explanations, READMEs.",
+  "version": "0.1.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@example.com"
+  }
+}

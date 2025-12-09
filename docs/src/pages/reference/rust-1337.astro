@@ -101,14 +101,10 @@ import Base from '../../layouts/Base.astro';
   <p><strong>fix:</strong> spawn_blocking() for CPU work; async alternatives for I/O</p>
 
   <pre><code>// wrong
-async fn bad() {
-    std::thread::sleep(Duration::from_secs(2)); // blocks worker
-}
+async fn bad() {"{"} std::thread::sleep(Duration::from_secs(2)); {"}"}
 
 // correct
-async fn good() {
-    tokio::task::spawn_blocking(|| heavy_computation()).await.unwrap();
-}</code></pre>
+async fn good() {"{"} tokio::task::spawn_blocking(|| heavy_computation()).await.unwrap(); {"}"}</code></pre>
 
   <h3>mutex across await</h3>
 
@@ -116,19 +112,19 @@ async fn good() {
   <p><strong>fix:</strong> drop guard before await, or tokio::sync::Mutex</p>
 
   <pre><code>// deadlock risk
-async fn bad(mutex: Arc&lt;std::sync::Mutex&lt;i32&gt;&gt;) {
+async fn bad(mutex: Arc&lt;std::sync::Mutex&lt;i32&gt;&gt;) {"{"}
     let guard = mutex.lock().unwrap();
     some_async_op().await; // guard held!
-}
+{"}"}
 
 // safe: explicit drop
-async fn good(mutex: Arc&lt;std::sync::Mutex&lt;i32&gt;&gt;) {
-    {
+async fn good(mutex: Arc&lt;std::sync::Mutex&lt;i32&gt;&gt;) {"{"}
+    {"{"}
         let mut guard = mutex.lock().unwrap();
         *guard += 1;
-    } // dropped before await
+    {"}"} // dropped before await
     some_async_op().await;
-}</code></pre>
+{"}"}</code></pre>
 
   <h3>cancellation safety</h3>
 
@@ -170,7 +166,7 @@ async fn good(mutex: Arc&lt;std::sync::Mutex&lt;i32&gt;&gt;) {
     </tr>
     <tr>
       <td>async closure workarounds</td>
-      <td>native async || {} closures</td>
+      <td>native async || {"{}"} closures</td>
       <td>rust 1.85</td>
     </tr>
   </table>

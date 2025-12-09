@@ -339,6 +339,7 @@ const currentPath = Astro.url.pathname;
     <nav>
       <ul>
         <li><a href="/claude-1337/" class={currentPath === '/claude-1337/' ? 'active' : ''}>start</a></li>
+        <li><a href="/claude-1337/concepts/" class={currentPath.includes('/concepts') ? 'active' : ''}>concepts</a></li>
         <li><a href="/claude-1337/how-to/" class={currentPath.includes('/how-to') ? 'active' : ''}>how-to</a></li>
         <li class="has-sub">
           <a href="/claude-1337/reference/" class={currentPath.includes('/reference') ? 'active' : ''}>reference</a>
@@ -346,6 +347,7 @@ const currentPath = Astro.url.pathname;
             <li><a href="/claude-1337/reference/terminal-1337/">terminal-1337</a></li>
             <li><a href="/claude-1337/reference/rust-1337/">rust-1337</a></li>
             <li><a href="/claude-1337/reference/1337-skill-creator/">1337-skill-creator</a></li>
+            <li><a href="/claude-1337/reference/sensei-1337/">sensei-1337</a></li>
           </ul>
         </li>
         <li><a href="/claude-1337/explanation/" class={currentPath.includes('/explanation') ? 'active' : ''}>explanation</a></li>

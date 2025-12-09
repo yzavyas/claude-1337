@@ -1,0 +1,205 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="sensei-1337" description="teaching methodology for elite documentation">
+  <p style="color: var(--fg-dim);">the feynman technique meets diataxis</p>
+
+  <h2>what this is</h2>
+
+  <p>sensei-1337 provides teaching methodology for documentation. it answers: how do you explain complex things clearly?</p>
+
+  <p>two components:</p>
+
+  <table>
+    <tr>
+      <th>component</th>
+      <th>what it does</th>
+    </tr>
+    <tr>
+      <td><strong>skill</strong></td>
+      <td>teaching principles - diataxis framework, feynman technique, anti-patterns</td>
+    </tr>
+    <tr>
+      <td><strong>agent: feynman</strong></td>
+      <td>autonomous documentation workflow - understand, simplify, teach, refine</td>
+    </tr>
+  </table>
+
+  <h2>the feynman technique</h2>
+
+  <p>richard feynman's method for truly understanding anything:</p>
+
+  <ol>
+    <li><strong>choose the concept</strong> - be specific, not vague</li>
+    <li><strong>teach it to a child</strong> - simple words, no jargon</li>
+    <li><strong>identify gaps</strong> - where did you struggle? research more</li>
+    <li><strong>simplify</strong> - shorter sentences, better analogies</li>
+  </ol>
+
+  <p>if you can't explain it simply, you don't understand it well enough.</p>
+
+  <h2>diataxis framework</h2>
+
+  <p>four documentation types for four user needs:</p>
+
+  <table>
+    <tr>
+      <th>type</th>
+      <th>user says</th>
+      <th>form</th>
+    </tr>
+    <tr>
+      <td>tutorial</td>
+      <td>"teach me"</td>
+      <td>guided lesson</td>
+    </tr>
+    <tr>
+      <td>how-to</td>
+      <td>"help me do X"</td>
+      <td>focused recipe</td>
+    </tr>
+    <tr>
+      <td>explanation</td>
+      <td>"help me understand"</td>
+      <td>context discussion</td>
+    </tr>
+    <tr>
+      <td>reference</td>
+      <td>"what exactly is X?"</td>
+      <td>precise spec</td>
+    </tr>
+  </table>
+
+  <p>mixing types creates confusion. a tutorial that stops to explain theory loses momentum. a reference with narrative is hard to scan.</p>
+
+  <h2>anti-patterns</h2>
+
+  <table>
+    <tr>
+      <th>trap</th>
+      <th>why it fails</th>
+      <th>fix</th>
+    </tr>
+    <tr>
+      <td>wall of text</td>
+      <td>reader bounces</td>
+      <td>headers every 3-5 paragraphs</td>
+    </tr>
+    <tr>
+      <td>theory first</td>
+      <td>boring, loses people</td>
+      <td>hook with problem</td>
+    </tr>
+    <tr>
+      <td>"obviously" / "simply"</td>
+      <td>makes reader feel dumb</td>
+      <td>delete the word</td>
+    </tr>
+    <tr>
+      <td>explaining everything</td>
+      <td>buries the point</td>
+      <td>link for depth</td>
+    </tr>
+    <tr>
+      <td>no examples</td>
+      <td>can't apply knowledge</td>
+      <td>code within 30 seconds</td>
+    </tr>
+  </table>
+
+  <h2>the feynman agent</h2>
+
+  <p>invoke the agent for autonomous documentation:</p>
+
+  <pre><code>Task(
+  subagent_type="sensei-1337:feynman",
+  prompt="Write concept docs for the authentication system"
+)</code></pre>
+
+  <p>the agent executes four phases:</p>
+
+  <table>
+    <tr>
+      <th>phase</th>
+      <th>what happens</th>
+    </tr>
+    <tr>
+      <td>UNDERSTAND</td>
+      <td>read domain, identify audience, list concepts, find sources</td>
+    </tr>
+    <tr>
+      <td>SIMPLIFY</td>
+      <td>structure with one concept per section, plan examples</td>
+    </tr>
+    <tr>
+      <td>TEACH</td>
+      <td>write with example first, no jargon, max 5 lines per paragraph</td>
+    </tr>
+    <tr>
+      <td>REFINE</td>
+      <td>read aloud, cut ruthlessly, link for depth</td>
+    </tr>
+  </table>
+
+  <h2>simplicity checks</h2>
+
+  <p>quantifiable targets for clear writing:</p>
+
+  <table>
+    <tr>
+      <th>metric</th>
+      <th>target</th>
+    </tr>
+    <tr>
+      <td>sentence length</td>
+      <td>&lt; 25 words</td>
+    </tr>
+    <tr>
+      <td>paragraph length</td>
+      <td>&lt; 5 lines</td>
+    </tr>
+    <tr>
+      <td>time to first example</td>
+      <td>&lt; 30 seconds</td>
+    </tr>
+    <tr>
+      <td>unexplained jargon</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>concepts per section</td>
+      <td>1</td>
+    </tr>
+  </table>
+
+  <h2>when to use</h2>
+
+  <ul>
+    <li>writing concept explanations</li>
+    <li>creating tutorials or how-tos</li>
+    <li>drafting READMEs</li>
+    <li>building learning materials</li>
+  </ul>
+
+  <h2>structure</h2>
+
+  <pre><code>plugins/sensei-1337/
+├── .claude-plugin/plugin.json
+├── SKILL.md              # teaching methodology
+├── agents/
+│   └── feynman.md        # documentation workflow
+├── hooks/
+│   └── skill-eval.sh     # SessionStart activation
+└── references/
+    ├── diataxis.md       # doc type decisions
+    └── feynman-technique.md</code></pre>
+
+  <h2>sources</h2>
+
+  <ul>
+    <li><a href="https://diataxis.fr">diataxis.fr</a> - daniele procida's framework</li>
+    <li><a href="https://fs.blog/feynman-technique/">feynman technique</a> - learning method</li>
+    <li><a href="https://docs.stripe.com">stripe docs</a> - exemplar technical writing</li>
+  </ul>
+</Base>

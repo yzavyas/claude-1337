@@ -15,6 +15,7 @@
 | terminal-1337 | Modern CLI tools | skill, hook |
 | rust-1337 | Rust decisions | skill, hook |
 | 1337-skill-creator | Skill authoring | skill |
+| sensei-1337 | Teaching methodology | skill, agent, hook |
 
 See [docs/](docs/) for details.
 

@@ -85,6 +85,32 @@
       "skills": [
         "./"
       ]
+    },
+    {
+      "name": "sensei-1337",
+      "source": "./plugins/sensei-1337",
+      "description": "Teaching methodology for elite documentation. Feynman technique meets Diataxis. Use when: writing docs, tutorials, explanations, READMEs. Includes feynman agent for autonomous doc generation.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@example.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "documentation",
+        "teaching",
+        "feynman",
+        "diataxis",
+        "tutorials",
+        "explanations"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
     }
   ]
 }
