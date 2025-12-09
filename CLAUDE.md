@@ -100,16 +100,32 @@ claude-1337/
 
 ## Development Workflow
 
-### Making Changes
+### Git Workflow
 
-1. **Branch naming**: `feat/feature-name`, `fix/issue-description`, `docs/what-changed`
-2. **Commit messages**: Descriptive, explain WHY not just WHAT
-3. **Always include**:
-   ```
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
+**ALWAYS create PRs, never push directly to main.**
 
-   Co-Authored-By: Claude <noreply@anthropic.com>
-   ```
+Even with bypass privileges, maintainers must:
+1. Create a feature branch: `git checkout -b feat/description`
+2. Make changes and commit
+3. Push branch and create PR: `gh pr create`
+4. Wait for CI (if any) before merge
+
+Branch protection exists for a reason - use it.
+
+### Branch Naming
+
+- `feat/feature-name` — new functionality
+- `fix/issue-description` — bug fixes
+- `docs/what-changed` — documentation only
+
+### Commit Messages
+
+Descriptive, explain WHY not just WHAT. Always include:
+```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
 
 ### Testing Skills
 
