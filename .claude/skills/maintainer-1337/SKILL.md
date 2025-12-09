@@ -162,14 +162,50 @@ Run `/skill-update` or manually:
    ```
 4. Run `/skill-check` to validate
 
-## Quality Standards
+## Skill Activation Research
 
-- **Best-in-class only** - THE answer, not catalogs
-- **Evidence over opinion** - Production usage matters
-- **Concise** - Decision trees + gotchas, not tutorials
-- **Description < 600 chars** with "Use when:" triggers
-- **SKILL.md 100-200 lines** (max 350)
-- **Quoted strings** in YAML (not `>-`)
+**Problem**: Skills only activate ~20% of the time by default. Claude often ignores them and "wings it."
+
+### How Triggering Actually Works
+
+From [Lee Han Chung's deep dive](https://leehanchung.github.io/blogs/2025/10/26/claude-skills-deep-dive/):
+- **No algorithmic routing** - no regex, no embeddings, no classifiers
+- **Pure LLM reasoning** - Claude reads skill descriptions and decides
+- **Description is everything** - it's the only signal for matching
+
+### What Makes Skills Activate
+
+From [Scott Spence's 200+ test study](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably):
+
+| Approach | Success Rate |
+|----------|--------------|
+| No intervention (baseline) | ~20% |
+| Simple instruction | ~20% |
+| LLM eval hook | 80% |
+| Forced eval hook | **84%** |
+
+**Key insight**: Forcing Claude to explicitly evaluate each skill before proceeding dramatically improves activation.
+
+### Effective Description Patterns
+
+| Pattern | Example |
+|---------|---------|
+| Action verbs | "building", "debugging", "configuring" |
+| Specific tools | "axum, tonic, sqlx" not "backend" |
+| "Use when:" clause | Explicit trigger conditions |
+| Domain keywords | Terms Claude will match against |
+
+### Testing Skills
+
+1. **Trigger test**: Fresh session, ask related question (don't name skill) - does it activate?
+2. **Content test**: Compare output with/without skill - is there a difference?
+3. **Tokenomics test**: "How many skills in your `<available_skills>` block?"
+
+### Sources
+
+- [Anthropic: Equipping agents with skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) - eval-driven development
+- [Scott Spence: Skills activation](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - 200+ test study
+- [Lee Han Chung: Skills deep dive](https://leehanchung.github.io/blogs/2025/10/26/claude-skills-deep-dive/) - triggering mechanism
 
 ## Update Schedule
 

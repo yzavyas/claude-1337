@@ -54,12 +54,35 @@ Does Claude know this? → YES → Is there an elite twist? → NO → CUT
 | Generic explanations | "Rust uses ownership..." |
 | Complete tutorials | Step-by-step guides |
 
+## Description is Everything
+
+Skills activate through pure LLM reasoning - no algorithmic routing. The description is the **only signal** Claude uses to decide whether to load your skill.
+
+### What Works (from 200+ test study)
+
+| Pattern | Why |
+|---------|-----|
+| "Use when:" clause | Explicit trigger conditions |
+| Specific tools/terms | "axum, tonic, sqlx" not "backend" |
+| Action verbs | "building", "debugging", "configuring" |
+| Domain keywords | Front-load what Claude matches against |
+
+### What Fails
+
+| Anti-pattern | Problem |
+|--------------|---------|
+| Generic descriptions | Claude can't distinguish from others |
+| Missing triggers | No "Use when:" means guessing |
+| Abstract terms | "helps with development" - too vague |
+
+**Reality check**: Skills only activate ~20% by default. Good descriptions are critical.
+
 ## 1337 SKILL.md Structure
 
 ```markdown
 ---
 name: domain-1337
-description: "What + Use when: specific triggers"
+description: "What it does. Use when: specific trigger 1, trigger 2. Covers: keyword1, keyword2."
 ---
 
 # Title
