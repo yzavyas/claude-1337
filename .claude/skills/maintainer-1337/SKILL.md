@@ -55,8 +55,8 @@ Before merging any skill changes:
 
 | File | Target | Max |
 |------|--------|-----|
-| SKILL.md | 100-200 lines | 350 |
-| references/*.md | 100-150 lines | 250 |
+| SKILL.md | 100-200 lines | 500 |
+| references/*.md | 100-150 lines | No hard limit |
 | Description | ~400 chars | 600 |
 
 ### Tokenomics Check

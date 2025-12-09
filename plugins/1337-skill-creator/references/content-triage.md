@@ -81,5 +81,5 @@ Filter research content into skills. Apply to every piece of content.
 | Pattern with code | 15-30 |
 | Anti-patterns | 15-25 |
 | Domain routing | 15-25 |
-| **SKILL.md total** | **100-350** |
+| **SKILL.md total** | **100-500** |
 | Reference file | 100-200 |
