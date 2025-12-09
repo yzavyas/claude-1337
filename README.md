@@ -5,7 +5,7 @@ Elite skills for Claude Code. Best-in-class tools and patterns, not catalogs.
 ## Install
 
 ```
-/install-plugin https://github.com/yzavyas/claude-1337
+/plugin marketplace add yzavyas/claude-1337
 ```
 
 ## Skills
