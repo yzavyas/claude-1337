@@ -1,0 +1,15 @@
+{
+  "description": "Forced skill evaluation hook - improves activation from 20% to 84%",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-eval.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

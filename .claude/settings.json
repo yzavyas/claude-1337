@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/skill-eval.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

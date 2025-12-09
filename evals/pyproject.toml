@@ -1,0 +1,14 @@
+[project]
+name = "claude-1337-evals"
+version = "0.1.0"
+description = "Evaluation framework for claude-1337 skills"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.75.0",
+    "pytest>=9.0.2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
