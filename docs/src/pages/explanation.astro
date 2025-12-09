@@ -68,21 +68,25 @@ result = query(
 
   <p>add this to your system prompt:</p>
 
-  <pre><code>Before responding to any user request, you MUST:
+  <pre><code>When you receive a request that might benefit from specialized knowledge:
 
-1. EVALUATE each skill in &lt;available_skills&gt;:
-   - State: [skill-name] - YES/NO - [reason]
-
-2. ACTIVATE relevant skills:
-   - For each YES, call Skill(skill-name) BEFORE proceeding
-
-3. Only THEN respond.</code></pre>
+1. Check if you've already activated a relevant skill this session
+2. If not, scan &lt;available_skills&gt; for matches and activate before responding
+3. Skip re-evaluation for topics you've already covered</code></pre>
 
   <h2>why this works</h2>
 
-  <p>the prompt forces explicit evaluation before response generation. claude can't skip the skill check because it must output the evaluation first.</p>
+  <p>the prompt forces explicit evaluation before response generation. claude checks skills once per topic rather than ignoring them entirely.</p>
 
-  <p>this is similar to chain-of-thought prompting - forcing intermediate steps improves final output quality.</p>
+  <p>this is similar to chain-of-thought prompting — forcing the "should I use a skill?" step prevents Claude from skipping straight to answering.</p>
+
+  <h2>testing vs production</h2>
+
+  <p>for testing activation rates, use the aggressive version:</p>
+
+  <pre><code>Before responding to ANY request, you MUST evaluate skills...</code></pre>
+
+  <p>for production, the per-topic version saves tokens while maintaining activation.</p>
 
   <h2>tradeoffs</h2>
 

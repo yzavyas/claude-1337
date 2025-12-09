@@ -15,24 +15,22 @@ import Base from '../layouts/Base.astro';
 
   <h2>improve skill activation</h2>
 
-  <p>skills activate ~20% by default. add this system prompt to get 84%:</p>
+  <p>skills activate ~20% by default. add this system prompt:</p>
 
-  <pre><code>Before responding to any user request, you MUST:
+  <pre><code>When you receive a request that might benefit from specialized knowledge:
 
-1. EVALUATE each skill in &lt;available_skills&gt;:
-   - State: [skill-name] - YES/NO - [reason]
+1. Check if you've already activated a relevant skill this session
+2. If not, scan &lt;available_skills&gt; for matches and activate before responding
+3. Skip re-evaluation for topics you've already covered</code></pre>
 
-2. ACTIVATE relevant skills:
-   - For each YES, call Skill(skill-name) BEFORE proceeding
-
-3. Only THEN respond.</code></pre>
+  <p><strong>note:</strong> this is per-topic, not per-message. the "MUST evaluate every request" version works for testing but wastes tokens in production.</p>
 
   <p>for hooks-based approach, create <code>.claude/hooks/skill-eval.sh</code>:</p>
 
   <pre><code>#!/bin/bash
 cat &lt;&lt;'EOF'
-INSTRUCTION: Before responding, EVALUATE each skill in &lt;available_skills&gt;.
-For each relevant skill, call Skill(name) BEFORE proceeding.
+INSTRUCTION: If you haven't already for this topic, scan &lt;available_skills&gt;
+and activate relevant skills before responding.
 EOF</code></pre>
 
   <h2>use with agent sdk</h2>

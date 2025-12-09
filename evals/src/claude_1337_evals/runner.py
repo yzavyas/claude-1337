@@ -19,6 +19,7 @@ from .models import ActivationReport, ActivationRun, RunStatus, TestSuite
 DEFAULT_PLUGINS_PATH = Path(__file__).resolve().parent.parent.parent.parent / "plugins"
 
 # System prompt that forces skill evaluation before responding
+# Note: "any user request" is costly — this is for testing only
 FORCED_EVAL_SYSTEM_PROMPT = """Before responding to any user request, you MUST:
 
 1. EVALUATE each skill in <available_skills>:
@@ -29,6 +30,15 @@ FORCED_EVAL_SYSTEM_PROMPT = """Before responding to any user request, you MUST:
    - This is MANDATORY - do not skip
 
 3. Only THEN respond to the user request."""
+
+# Production-friendly prompt: only evaluate once per topic
+SMART_EVAL_SYSTEM_PROMPT = """When you receive a request that might benefit from specialized knowledge:
+
+1. Check if you've already activated a relevant skill this session
+2. If not, scan <available_skills> for matches and activate before responding
+3. Skip re-evaluation for topics you've already covered
+
+This is a one-time check per topic, not per message."""
 
 
 def get_default_options(
