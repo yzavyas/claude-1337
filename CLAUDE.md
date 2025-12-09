@@ -1,10 +1,12 @@
 # Claude Code Marketplace: claude-1337
 
-You are working on **claude-1337**, a community-contributed Claude Code marketplace focused on elite terminal tools and developer productivity workflows.
+You are working on **claude-1337**, a community-contributed Claude Code marketplace focused on elite developer tools and best-in-class workflows.
 
 ## Project Identity
 
-**Mission**: Teach Claude Code to use modern, high-performance terminal tools instead of basic Unix utilities.
+**Mission**: Provide Claude Code with opinionated, best-in-class tooling knowledge. Not catalogs of options - THE answer for each use case.
+
+**Philosophy**: Evidence over opinion. What elite teams actually use in production. Auto-updated to stay current.
 
 **Standards**: This is a serious community contribution. No marketing speak, no cringe content. Code and documentation must be production-ready.
 
@@ -15,20 +17,16 @@ claude-1337/
 ├── .claude-plugin/
 │   └── marketplace.json       # Marketplace definition (strict: false)
 ├── plugins/
-│   └── terminal-1337/         # Plugin container
-│       ├── commands/          # Slash commands (future)
-│       ├── agents/            # Specialized agents (future)
-│       ├── hooks/             # Event hooks (future)
-│       └── skills/            # Current: terminal-1337 skill
-│           ├── SKILL.md       # Main skill instructions
-│           ├── references/    # Tool documentation (8 tools)
-│           ├── scripts/       # Install scripts (8 scripts)
-│           └── assets/        # Config snippets
+│   ├── terminal-1337/         # Elite terminal tools
+│   │   └── skills/
+│   │       ├── SKILL.md
+│   │       ├── references/    # 8 tools: rg, fd, bat, eza, fzf, xh, jq, atuin
+│   │       └── scripts/       # Install scripts
+│   └── rust-1337/             # Elite Rust development
+│       ├── SKILL.md           # Core patterns, decision frameworks
+│       └── references/        # 8 domains: async, networking, wasm, embedded, ffi, proc-macros, ecosystem, tooling
 ├── docs/
-│   ├── TERMINAL_SETUP.md      # Comprehensive terminal guide
-│   └── terminal-1337.md       # Skill documentation
 └── scripts/
-    └── install-terminal-tools.sh  # Bulk installer
 ```
 
 ## Architecture Principles
@@ -40,27 +38,50 @@ claude-1337/
 - **source field** points to plugin directory: `./plugins/terminal-1337`
 - **skills array** points to directories containing SKILL.md files
 
-### Current State: terminal-1337 Plugin
+### Current Plugins
 
-**8 Elite Tools**:
-- `ripgrep` (rg) - Fast code search
-- `fd` - Fast file finding
-- `bat` - File viewing with syntax highlighting
-- `eza` - Directory listing with Git status
-- `fzf` - Fuzzy finding
-- `xh` - HTTP client
-- `jq` - JSON processing
-- `atuin` - Shell history
+**terminal-1337**: 8 elite terminal tools (rg, fd, bat, eza, fzf, xh, jq, atuin)
+- Reference docs + install scripts for each tool
+- Focus: tools Claude Code can use directly
 
-**Each tool has**:
-- Reference doc in `references/` (200-400 lines, comprehensive)
-- Install script in `scripts/` (OS detection, package manager selection)
-- Executable permissions on all scripts
+**rust-1337**: Elite Rust development patterns
+- Core: Decision frameworks, production gotchas, type design
+- App types: cli, backend, frontend, native
+- Infrastructure: data-plane, networking, embedded
+- Meta: async, ffi, proc-macros, ecosystem, tooling
+- Focus: Best-in-class choices, not catalogs
 
-### What We Don't Include
-- Human-facing tools (zoxide, mise, yazi, lazygit) - not needed by Claude
-- AI tools (aichat, llm, aider) - redundant with Claude Code
-- Tools without clear Claude Code use cases
+### Content Philosophy
+
+**Include**: The best tool/crate/pattern for each use case with evidence
+**Exclude**:
+- Catalogs of alternatives (pick THE answer)
+- Not-production-ready options
+- Tools Claude can't use (human-facing TUIs, AI assistants)
+
+### Skill Authoring Rules
+
+**From official spec + community research (see Key Documentation):**
+
+1. **Description is THE trigger mechanism**
+   - Max ~600 chars (name max ~50 chars)
+   - Formula: `[What it does] + [Use when: specific triggers]`
+   - Front-load keywords Claude will match against
+   - Only frontmatter (~100 tokens) loaded per skill at startup
+
+2. **SKILL.md should be lean** - 100-200 lines ideal
+   - Keep decision frameworks and gotchas
+   - Move deep content to references/ (loaded on-demand)
+
+3. **`<available_skills>` budget** - ~20-22k chars total
+   - 34-36 skills fit before truncation (depends on description size)
+   - Truncated skills DON'T TRIGGER - Claude can't see them
+   - Test: "How many skills are in your `<available_skills>` block?"
+
+4. **YAML multiline bug** - `>-`, `|`, `|-` parse as literal ">-"
+   - Use quoted strings: `description: "Your description here"`
+
+5. **CLAUDE.md as fallback** - if skills might truncate, add pointers in CLAUDE.md
 
 ## Development Workflow
 
@@ -119,10 +140,15 @@ Update `marketplace.json`:
 
 ## Key Documentation
 
-- **Official marketplace docs**: https://code.claude.com/docs/en/plugin-marketplaces
-- **Skills documentation**: https://code.claude.com/docs/en/skills
-- **Reference implementation**: https://github.com/anthropics/skills
-- **Complex marketplace example**: https://github.com/wshobson/agents
+**Official**:
+- [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
+- [Skills Documentation](https://code.claude.com/docs/en/skills)
+- [Reference Implementation](https://github.com/anthropics/skills)
+- [Complex Marketplace Example](https://github.com/wshobson/agents)
+
+**Community Research** (informed our skill authoring rules):
+- [Deep Dive: Anatomy of a Skill, Its Tokenomics](https://www.reddit.com/r/ClaudeAI/comments/1pha74t/deep_dive_anatomy_of_a_skill_its_tokenomics_why/) - tokenomics, `<available_skills>` budget (~20-22k chars), truncation behavior
+- [CLAUDE.md and Skills Experiment](https://www.reddit.com/r/ClaudeAI/comments/1pe37e3/claudemd_and_skills_experiment_whats_the_best_way/) - hybrid approach wins (short summaries + file pointers), embedded costs 30% more for no benefit
 
 ## Working with This Repo
 
@@ -200,6 +226,29 @@ fi
 - Specialized agents: terminal-optimizer, tool-recommender
 - Event hooks: Auto-suggest installations, update notifications
 - Community plugins: Accept external contributions
+
+## Automated Skill Updates
+
+Skills are auto-updated via GitHub Action (`.github/workflows/update-skills.yml`).
+
+**Schedule**: Weekly on Sundays at 2am UTC
+
+**Manual trigger**: Actions tab → "Update Skills" → Run workflow
+
+### What Claude Checks
+
+| Signal | Action |
+|--------|--------|
+| Deprecated crate/tool | Find replacement |
+| New best-in-class option | Validate production status, update if evidence |
+| Major version release | Review for breaking changes |
+| Security advisory | Update with mitigation |
+
+### Update Philosophy
+
+- Only change with clear evidence (production usage > GitHub stars)
+- Cite sources when making changes
+- Create PR for human review - never auto-merge
 
 ## Maintainer Notes
 

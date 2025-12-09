@@ -33,6 +33,58 @@
       "skills": [
         "./skills"
       ]
+    },
+    {
+      "name": "rust-1337",
+      "source": "./plugins/rust-1337",
+      "description": "Elite Rust development patterns for production systems - ownership decisions, async gotchas, error handling, type design, crate selection, and domain-specific knowledge (networking, embedded, WASM, FFI, proc-macros)",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@example.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "rust",
+        "systems-programming",
+        "async",
+        "tokio",
+        "embedded",
+        "wasm",
+        "ffi",
+        "production"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
+    },
+    {
+      "name": "1337-skill-creator",
+      "source": "./plugins/1337-skill-creator",
+      "description": "Create elite skills for Claude - opinionated, best-in-class, evidence-based",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@example.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "skills",
+        "meta",
+        "documentation",
+        "best-practices"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
     }
   ]
 }
