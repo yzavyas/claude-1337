@@ -25,6 +25,38 @@ Standard skills teach. 1337 skills decide.
 3. **Concise** - Decision frameworks + gotchas, not tutorials
 4. **Claude is smart** - Only add what Claude doesn't already know
 
+## The Craftsmanship Methodology
+
+### Source Hierarchy
+
+Where to learn when building skills:
+
+| Priority | Source | Why |
+|----------|--------|-----|
+| 1 | Production codebases | What actually ships |
+| 2 | Core maintainers | Primary knowledge holders |
+| 3 | Conference talks | War stories from practitioners |
+| 4 | Proven adoption | Social proof + real usage |
+| 5 | Technical blogs | Secondary, always verify |
+
+### The Guild Path
+
+Building skills is a craft:
+
+- **Learning** — Study existing skills, understand patterns
+- **Practicing** — Build skills, get feedback, iterate
+- **Mastering** — Contribute to the methodology itself
+
+### Balance
+
+Craftsmanship isn't perfectionism:
+
+- **Pragmatic** — Good enough for the context
+- **Incremental** — Boy Scout Rule, not rewrites
+- **Strategic** — Invest craft where it matters most
+
+*"The only way to go fast is to go well."*
+
 ## Content Triage
 
 See [content-triage.md](references/content-triage.md) for the full filter.

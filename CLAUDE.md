@@ -2,11 +2,39 @@
 
 You are working on **claude-1337**, a community-contributed Claude Code marketplace focused on elite developer tools and best-in-class workflows.
 
+## Craftsmanship Principles
+
+This project follows the Software Craftsmanship Manifesto.
+
+### Well-Crafted Plugins
+- Clean, readable structure
+- Documentation explains "why" not just "what"
+- No dead code or placeholder content
+- Leave the codebase better than you found it
+
+### Steadily Adding Value
+- Every plugin adds real value
+- Updates improve the system
+- Technical debt is tracked and addressed
+- Pragmatic, not perfectionist
+
+### Community of Professionals
+- Learn from industry leaders and master craftsmen
+- Source hierarchy: production > maintainers > talks > blogs
+- Share knowledge through clear documentation
+- PR reviews that elevate quality
+
+### Productive Partnerships
+- Plugins that collaborate with users
+- Ask clarifying questions when needed
+- Suggest better approaches
+- Take pride in the work
+
 ## Project Identity
 
 **Mission**: Provide Claude Code with opinionated, best-in-class tooling knowledge. Not catalogs of options - THE answer for each use case.
 
-**Philosophy**: Evidence over opinion. What elite teams actually use in production. Auto-updated to stay current.
+**Philosophy**: Evidence over opinion. What industry leaders and master craftsmen actually use in production. Auto-updated to stay current.
 
 **Standards**: This is a serious community contribution. No marketing speak, no cringe content. Code and documentation must be production-ready.
 
