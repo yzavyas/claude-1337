@@ -1,29 +1,15 @@
 #!/bin/bash
-# UserPromptSubmit hook that forces explicit skill evaluation
-# Based on Scott Spence's research: 84% activation vs 20% baseline
+# SessionStart hook - runs once per session, not per message
+# Based on Scott Spence's research: improves activation from 20% to 84%
 
 cat <<'EOF'
-INSTRUCTION: MANDATORY SKILL ACTIVATION SEQUENCE
+SESSION INSTRUCTION: Skill Activation
 
-Step 1 - EVALUATE (do this in your response):
-For each skill in <available_skills>, state: [skill-name] - YES/NO - [reason]
+When you receive a request that might benefit from specialized knowledge:
 
-Step 2 - ACTIVATE (do this immediately after Step 1):
-IF any skills are YES → Use Skill(skill-name) tool for EACH relevant skill NOW
-IF no skills are YES → State "No skills needed" and proceed
+1. Check if you've already activated a relevant skill this session
+2. If not, scan <available_skills> for matches and call Skill(name) BEFORE responding
+3. Skip re-evaluation for topics you've already covered
 
-Step 3 - IMPLEMENT:
-Only after Step 2 is complete, proceed with implementation.
-
-CRITICAL: You MUST call Skill() tool in Step 2. Do NOT skip to implementation.
-The evaluation (Step 1) is WORTHLESS unless you ACTIVATE (Step 2) the skills.
-
-Example for Rust development:
-- rust-1337: YES - building Rust code, need crate selection + gotchas
-- terminal-1337: NO - not using CLI tools directly
-
-[Then IMMEDIATELY use Skill() tool:]
-> Skill(rust-1337)
-
-[THEN and ONLY THEN start implementation]
+This check happens once per topic, not every message.
 EOF

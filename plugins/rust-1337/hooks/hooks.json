@@ -1,7 +1,7 @@
 {
-  "description": "Forced skill evaluation hook - improves activation from 20% to 84%",
+  "description": "Skill evaluation hook - runs once at session start, not per message",
   "hooks": {
-    "UserPromptSubmit": [
+    "SessionStart": [
       {
         "hooks": [
           {
