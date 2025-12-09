@@ -1,248 +1,135 @@
 ---
 name: terminal-1337
-description: Master elite terminal tools for 10x productivity. Use when helping developers search code (ripgrep), find files (fd), view files (bat), list directories (eza), test APIs (xh), process JSON (jq), search command history (atuin), or select items interactively (fzf). Always prefer these modern Rust-based tools over standard Unix utilities when available. Educate users on benefits and ask permission before installing.
+description: "Modern CLI tools replacing legacy Unix utilities. Use when: searching code (rg), finding files (fd), viewing files (bat), listing directories (eza), HTTP requests (xh), JSON processing (jq), command history (atuin), fuzzy selection (fzf). Detect before use, suggest installation if missing."
 ---
 
-# Terminal 1337: Elite Terminal Superpowers
+# Terminal 1337
 
-Give Claude superpowers through modern, fast terminal tools + educate developers on elite workflows.
+Modern Rust-based CLI tools that outperform legacy Unix utilities.
 
-## Overview
+## Tool Selection
 
-This skill enables Claude to:
-1. **Use elite tools** when available (10x faster, better defaults)
-2. **Detect what's installed** and adapt accordingly
-3. **Educate developers** on tool benefits before suggesting installation
-4. **Ask permission** before installing anything
-5. **Remember declined installations** and use fallbacks for that project
-6. **Work faster** through Rust-based modern utilities
+| Task | Use | Not | Why |
+|------|-----|-----|-----|
+| Search code | `rg` (ripgrep) | `grep -r` | 10x faster, respects .gitignore |
+| Find files | `fd` | `find` | Simpler syntax, faster |
+| View files | `bat` | `cat` | Syntax highlighting, line numbers |
+| List dirs | `eza` | `ls` | Git status, icons |
+| HTTP requests | `xh` | `curl` | Cleaner syntax, auto-formatting |
+| JSON | `jq` | manual | Query language, pretty-print |
+| History | `atuin` | `history` | Searchable, synced |
+| Selection | `fzf` | manual | Fuzzy find anything |
 
-## Core Workflow
+## Usage Pattern
 
 ```
-User requests task (search code, find files, test API, etc.)
-    ↓
-Detect if elite tool available (command -v toolname)
-    ↓
-├─ Tool available → Use it
-│
-└─ Tool missing → Follow suggestion workflow:
-    1. Check if tool would significantly help
-    2. If yes → Educate user (why it's better + example)
-    3. Ask permission to install
-    4. If yes → Run install script
-    5. If no → Mark tool as "declined for this project"
-    6. Use fallback tool (grep, find, cat, curl, etc.)
+1. Detect: command -v toolname >/dev/null 2>&1
+2. Available → use it
+3. Missing → suggest once → fallback if declined
 ```
 
-## Tool Detection
+## Command Quick Reference
 
-Always check before using elite tools:
+| Legacy | Modern | Example |
+|--------|--------|---------|
+| `grep -r "TODO" .` | `rg "TODO"` | Parallel, ignores .git |
+| `find . -name "*.ts"` | `fd -e ts` | Simpler glob syntax |
+| `cat config.json` | `bat config.json` | Highlighted output |
+| `ls -la` | `eza -la --git` | Shows git status |
+| `curl -X POST -H "Content-Type: application/json" -d '{"name":"x"}'` | `xh POST url name=x` | Auto JSON |
+| `history \| grep docker` | `atuin search docker` | Context-aware |
+
+## Tool-Specific Patterns
+
+### ripgrep (rg)
 
 ```bash
-# Pattern for checking availability
-command -v rg >/dev/null 2>&1 && echo "available" || echo "use fallback"
+rg "pattern"              # Search all files
+rg -t ts "import"         # TypeScript only
+rg -C 3 "ERROR"           # 3 lines context
+rg -l "TODO"              # Files only (no content)
+rg --json "pattern"       # Machine-readable
 ```
 
-## Tool Suggestion Workflow
+### fd
 
-When a tool is missing but would help, follow this pattern:
+```bash
+fd -e ts                  # Find by extension
+fd -t f "test"            # Files matching "test"
+fd -t d                   # Directories only
+fd -H .env                # Include hidden
+fd -e ts -x bat {}        # Find + view each
+```
 
-1. **Explain the benefit** (1-2 sentences max)
-2. **Show quick example** (1-2 commands)
-3. **Ask permission to install**
-4. **Wait for user response**
+### bat
 
-**Example:**
-> "I notice you don't have `ripgrep` installed. It's 10x faster than grep, runs searches in parallel, and automatically respects .gitignore.
->
-> Quick example:
-> ```bash
-> rg "TODO"       # Search all files
-> rg -C 3 "ERROR" # Show 3 lines of context
-> ```
->
-> Would you like me to install it? (I'll run: `bash scripts/install-ripgrep.sh`)"
+```bash
+bat file.rs               # Syntax highlighted
+bat -l json < data        # Force language
+bat -p file               # Plain (no line nums)
+bat --diff file           # Show git diff
+```
 
-**CRITICAL**: If user declines, remember this choice for the current project/session and always use fallback tools without asking again.
+### eza
 
-## Elite Tools Quick Reference
+```bash
+eza -la                   # Long + hidden
+eza --tree -L 2           # Tree, 2 levels
+eza -la --git             # With git status
+eza --icons               # With file icons
+```
 
-| Tool | Replaces | Use For | Install Script |
-|------|----------|---------|----------------|
-| `rg` (ripgrep) | `grep` | Searching code, finding patterns | `scripts/install-ripgrep.sh` |
-| `fd` | `find` | Finding files by name/extension | `scripts/install-fd.sh` |
-| `bat` | `cat` | Viewing source code/configs | `scripts/install-bat.sh` |
-| `eza` | `ls` | Listing directory contents | `scripts/install-eza.sh` |
-| `fzf` | manual selection | Interactive fuzzy finding | `scripts/install-fzf.sh` |
-| `xh` | `curl` | Testing REST APIs | `scripts/install-xh.sh` |
-| `jq` | manual parsing | Processing JSON data | `scripts/install-jq.sh` |
-| `atuin` | `history` | Searching command history | `scripts/install-atuin.sh` |
+### xh
 
-For detailed documentation on any tool, see `references/{tool-name}.md`
+```bash
+xh GET url                # GET request
+xh POST url name=value    # POST JSON
+xh url Authorization:Bearer\ token  # Headers
+xh --body url             # Response body only
+```
 
-## Task-Based Usage
+### jq
 
-### Searching Code
+```bash
+jq '.'                    # Pretty print
+jq '.users[].name'        # Extract field
+jq -r '.id'               # Raw output (no quotes)
+jq 'select(.active)'      # Filter
+```
 
-**User asks:** "Find all TODO comments"
+### fzf
 
-**Workflow:**
-1. Check: `command -v rg`
-2. If available: `rg -i "TODO"`
-3. If not: Suggest ripgrep OR use `grep -r -i "TODO" .`
+```bash
+fd -t f | fzf             # Fuzzy file picker
+rg -l "" | fzf --preview "bat {}"  # With preview
+history | fzf             # Search history
+```
 
-**Why ripgrep:** 10x faster, parallel search, respects .gitignore
+### atuin
 
-### Finding Files
+```bash
+atuin search docker       # Search commands
+atuin stats               # Usage statistics
+# Ctrl+R in shell         # Interactive search
+```
 
-**User asks:** "Find all TypeScript files"
+## Installation
 
-**Workflow:**
-1. Check: `command -v fd`
-2. If available: `fd -e ts`
-3. If not: Suggest fd OR use `find . -name "*.ts"`
+All scripts in `scripts/install-{tool}.sh`. Detect OS, use appropriate package manager.
 
-**Why fd:** Simpler syntax, faster, respects .gitignore
+```bash
+# Check if installed
+command -v rg >/dev/null 2>&1 && echo "available"
 
-### Viewing Files
-
-**User asks:** "Show me the config file"
-
-**Workflow:**
-1. Check: `command -v bat`
-2. If available: `bat config.json`
-3. If not: Suggest bat OR use `cat config.json`
-
-**Why bat:** Syntax highlighting, Git integration, line numbers
-
-### Listing Directories
-
-**User asks:** "What's in this directory?"
-
-**Workflow:**
-1. Check: `command -v eza`
-2. If available: `eza --icons -la --git`
-3. If not: Suggest eza OR use `ls -la`
-
-**Why eza:** Icons, Git status, better colors
-
-### Testing APIs
-
-**User asks:** "Test this API endpoint"
-
-**Workflow:**
-1. Check: `command -v xh`
-2. If available: `xh POST api.com/users name=john`
-3. If not: Suggest xh OR use `curl -X POST -d ...`
-
-**Why xh:** Human-friendly syntax, auto JSON formatting
-
-### Processing JSON
-
-**User asks:** "Extract the user IDs from this JSON"
-
-**Workflow:**
-1. Check: `command -v jq`
-2. If available: `cat data.json | jq '.users[].id'`
-3. If not: Suggest jq OR use Python one-liner
-
-**Why jq:** Powerful query language, pretty-printing
-
-### Searching History
-
-**User asks:** "What docker commands did I run?"
-
-**Workflow:**
-1. Check: `command -v atuin`
-2. If available: `atuin search docker`
-3. If not: Suggest atuin OR use `history | grep docker`
-
-**Why atuin:** Context-aware, unlimited history, sync across machines
-
-### Interactive Selection
-
-**User asks:** "Let me pick a file to edit"
-
-**Workflow:**
-1. Check: `command -v fzf`
-2. If available: `fd -t f | fzf | xargs bat`
-3. If not: Suggest fzf OR manually list files
-
-**Why fzf:** Real-time fuzzy search, preview pane, keyboard-driven
-
-## Command Translation Table
-
-Use this for quick reference when translating standard commands:
-
-| Standard Command | Elite Alternative | Key Benefit |
-|------------------|-------------------|-------------|
-| `grep -r "pattern" .` | `rg "pattern"` | 10x faster, parallel |
-| `find . -name "*.js"` | `fd -e js` | Simpler, faster |
-| `cat file.py` | `bat file.py` | Syntax highlighting |
-| `ls -la` | `eza -la --git` | Icons + Git status |
-| `curl -X POST` | `xh POST` | Human-friendly |
-| `history \| grep cmd` | `atuin search cmd` | Context-aware |
+# Install (example)
+bash scripts/install-ripgrep.sh
+```
 
 ## Rules
 
-1. **Always detect first** - Never assume tools are installed
-2. **Educate before suggesting** - Explain why tool is better
-3. **Always ask permission** - Never install without approval
-4. **Remember declined choices** - Don't keep asking
-5. **Always provide fallbacks** - Standard tools work too
-6. **Use tool-specific features** - Leverage syntax highlighting, Git integration, etc.
-7. **Keep suggestions brief** - 1-2 sentences + quick example
-8. **Reference detailed docs** - Point to `references/` for deep dives
+1. **Detect first** - Never assume installed
+2. **Suggest once** - Don't repeat if declined
+3. **Always fallback** - Legacy tools work fine
+4. **Use features** - Leverage syntax highlighting, git integration, etc.
 
-## Handling Declined Installations
-
-If a user declines installing a tool:
-
-1. **Acknowledge** their choice
-2. **Remember** for this project/session (don't ask again)
-3. **Use fallback** tool without mentioning elite alternative again
-4. **Work effectively** with standard tools
-
-**Example:**
-> "No problem! I'll use `grep` instead. Here's the search..."
-
-## Real-World Examples
-
-### Example 1: Bug Hunt
-```
-User: "Find all imports of the broken module"
-Claude: [Detects rg installed] rg "import.*brokenModule" --type ts
-```
-
-### Example 2: API Development
-```
-User: "Test the user creation endpoint"
-Claude: [Detects xh installed] xh POST localhost:3000/api/users name=john email=john@test.com
-Claude: [Detects jq installed] And extract the ID: xh GET localhost:3000/api/users | jq '.[0].id'
-```
-
-### Example 3: Code Exploration
-```
-User: "Show me the structure of the components directory"
-Claude: [Detects eza installed] eza --tree src/components
-Claude: [Detects bat installed] Want to see a specific file? bat src/components/Button.tsx
-```
-
-## Installation Notes
-
-- All install scripts are in `scripts/` directory
-- Scripts detect OS (macOS/Linux) and use appropriate package manager
-- Some tools require Rust toolchain (scripts handle this)
-- atuin requires shell config update (script provides instructions)
-
-## Golden Rules
-
-1. **Elite tools when available** - Use them automatically
-2. **Standard tools as fallback** - Always work, even without elite tools
-3. **Educate, don't pushy** - Respect user choices
-4. **Fast and user-friendly** - That's why these tools exist
-
----
-
-**This skill makes Claude 10x more effective** by using modern tools that are faster, more intuitive, and provide better output than traditional Unix utilities.
+For detailed tool docs: `references/{tool}.md`
