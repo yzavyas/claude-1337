@@ -38,19 +38,12 @@ bat config.json              # vs cat config.json
 eza -la --git                # vs ls -la
 ```
 
-## Reference Files
-
-Each tool has comprehensive docs in `plugins/terminal-1337/skills/references/`:
+## Contents
 
 ```
-ripgrep.md, fd.md, bat.md, eza.md, fzf.md, xh.md, jq.md, atuin.md
+terminal-1337/
+├── skills/
+│   ├── SKILL.md
+│   └── references/      # Per-tool docs (ripgrep.md, fd.md, etc.)
+└── scripts/             # Install scripts (install-*.sh)
 ```
-
-## Triggers
-
-Activates when Claude needs to:
-- Search code or files
-- View file contents
-- List directories
-- Make HTTP requests
-- Process JSON

@@ -1,6 +1,6 @@
 # claude-1337
 
-Elite skills for Claude Code. Best-in-class tools and patterns, not catalogs.
+Skills for Claude Code built by researching what production teams actually use, then distilling it into decision frameworks instead of tutorials.
 
 ## Install
 
@@ -10,17 +10,20 @@ Elite skills for Claude Code. Best-in-class tools and patterns, not catalogs.
 
 ## Skills
 
-See **[docs/](docs/)** for the full list of available skills.
+See [docs/](docs/).
 
-## Philosophy
+## How these were built
 
-- **Best-in-class only** - THE answer, not catalogs of options
-- **Evidence over opinion** - Production usage > GitHub stars
-- **Concise** - Decision frameworks + gotchas, not tutorials
+1. Research what tools/patterns ship in production (not just GitHub stars)
+2. Triage: cut anything Claude already knows, keep the non-obvious stuff
+3. Format as decision tables, not prose explanations
+4. Split into SKILL.md (always loaded) and references/ (loaded when needed)
+
+The methodology is documented in the `1337-skill-creator` skill.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Load the `1337-skill-creator` skill for methodology.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

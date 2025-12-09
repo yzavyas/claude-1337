@@ -17,15 +17,27 @@ claude-1337/
 ├── .claude-plugin/
 │   └── marketplace.json       # Marketplace definition (strict: false)
 ├── plugins/
-│   ├── terminal-1337/         # Elite terminal tools
+│   ├── terminal-1337/         # Modern CLI tools
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── README.md
 │   │   └── skills/
 │   │       ├── SKILL.md
 │   │       ├── references/    # 8 tools: rg, fd, bat, eza, fzf, xh, jq, atuin
 │   │       └── scripts/       # Install scripts
-│   └── rust-1337/             # Elite Rust development
-│       ├── SKILL.md           # Core patterns, decision frameworks
-│       └── references/        # 8 domains: async, networking, wasm, embedded, ffi, proc-macros, ecosystem, tooling
+│   ├── rust-1337/             # Rust development decisions
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── README.md
+│   │   ├── SKILL.md           # Core patterns, decision frameworks
+│   │   └── references/        # 12 domains: cli, backend, frontend, native, data-plane,
+│   │                          #   networking, embedded, ffi-unsafe, proc-macros,
+│   │                          #   async, ecosystem, tooling
+│   └── 1337-skill-creator/    # Skill authoring methodology
+│       ├── .claude-plugin/plugin.json
+│       ├── README.md
+│       ├── SKILL.md
+│       └── references/        # content-triage.md, skill-process.md
 ├── docs/
+│   └── README.md              # Plugin index
 └── scripts/
 ```
 
@@ -40,16 +52,19 @@ claude-1337/
 
 ### Current Plugins
 
-**terminal-1337**: 8 elite terminal tools (rg, fd, bat, eza, fzf, xh, jq, atuin)
+**terminal-1337**: Modern CLI tools (rg, fd, bat, eza, fzf, xh, jq, atuin)
 - Reference docs + install scripts for each tool
 - Focus: tools Claude Code can use directly
 
-**rust-1337**: Elite Rust development patterns
+**rust-1337**: Rust development decisions
 - Core: Decision frameworks, production gotchas, type design
-- App types: cli, backend, frontend, native
-- Infrastructure: data-plane, networking, embedded
-- Meta: async, ffi, proc-macros, ecosystem, tooling
+- 12 domains: cli, backend, frontend, native, data-plane, networking, embedded, ffi-unsafe, proc-macros, async, ecosystem, tooling
 - Focus: Best-in-class choices, not catalogs
+
+**1337-skill-creator**: Skill authoring methodology
+- Composes with `example-skills:skill-creator` (Anthropic's canonical guide)
+- Adds opinionated layer: decision frameworks over tutorials
+- Focus: Build skills that pick winners, not catalogs
 
 ### Content Philosophy
 
@@ -210,15 +225,16 @@ fi
 ## Current Status
 
 **v0.1.0** - Alpha phase
-- terminal-1337 skill: Complete with 8 tools
-- Marketplace structure: Established and validated
-- Documentation: Comprehensive
-- Future expansion: Ready for commands/agents/hooks
+- terminal-1337: Complete with 8 tools
+- rust-1337: Complete with 12 domain references
+- 1337-skill-creator: Complete methodology for building skills
+- Plugin structure: Following claude-code pattern (.claude-plugin/plugin.json per plugin)
+- Ready for: commands, agents, hooks
 
 ## Future Roadmap
 
 ### Near-term
-- Additional skills: 1337-python, 1337-rust (language-specific tooling)
+- Additional skills: 1337-python, 1337-go (language-specific tooling)
 - Slash commands: Quick access patterns (e.g., `/rg`, `/fd`)
 - Testing: Validate marketplace loads correctly in Claude Code
 
