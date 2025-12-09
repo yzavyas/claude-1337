@@ -1,0 +1,9 @@
+{
+  "name": "1337-skill-creator",
+  "description": "Build skills the 1337 way - opinionated, evidence-based, decision frameworks over tutorials",
+  "version": "0.1.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@example.com"
+  }
+}

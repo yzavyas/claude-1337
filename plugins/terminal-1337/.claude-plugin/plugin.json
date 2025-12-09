@@ -1,0 +1,9 @@
+{
+  "name": "terminal-1337",
+  "description": "Modern CLI tools that replace legacy Unix utilities - ripgrep, fd, bat, eza, fzf, xh, jq, atuin",
+  "version": "0.1.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@example.com"
+  }
+}

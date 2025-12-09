@@ -1,0 +1,9 @@
+{
+  "name": "rust-1337",
+  "description": "Rust development decisions - crate selection, patterns for CLI, backend, frontend, native, data-plane",
+  "version": "0.1.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@example.com"
+  }
+}

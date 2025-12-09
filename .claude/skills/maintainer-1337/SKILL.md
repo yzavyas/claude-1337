@@ -1,6 +1,6 @@
 ---
 name: maintainer-1337
-description: "Maintain the claude-1337 marketplace. Use when: updating skills, checking skill health, validating marketplace.json, adding new plugins, or running periodic updates on this repository."
+description: "Maintain the claude-1337 marketplace. Use when: committing, creating PRs, reviewing skills, verifying triggers, checking tokenomics, validating SKILL.md, adding plugins. Covers conventional commits, squash/rebase, skill review checklist, size limits."
 ---
 
 # claude-1337 Maintainer
@@ -31,22 +31,101 @@ claude-1337/
     └── update-skills.yml    # Weekly auto-update
 ```
 
-## Skill Health Check
+## Skill Review Checklist
 
-Run `/skill-check` or manually verify:
+Before merging any skill changes:
 
-1. **Check `<available_skills>`**:
-   - "How many skills in your `<available_skills>` block?"
-   - Any truncated or showing ">-"?
+### Frontmatter (Critical)
 
-2. **Validate SKILL.md files**:
-   - `name` < 50 chars
-   - `description` < 600 chars, quoted string
-   - Line count ~100-200 (max 350)
+| Check | Why |
+|-------|-----|
+| `name` < 50 chars | Hard limit |
+| `description` < 600 chars | Truncated otherwise |
+| Quoted strings only | `>-`, `\|` parse as literal ">-" |
+| "Use when:" in description | Explicit triggers help matching |
 
-3. **Check references**:
-   - All linked files exist
-   - No broken links
+### Trigger Quality
+
+- **Front-load keywords** Claude matches against
+- **Be specific**: "axum, tonic, sqlx" not just "backend"
+- **Include verbs**: "building", "debugging", "configuring"
+- Test: Ask related question without naming skill - does it trigger?
+
+### Size Limits
+
+| File | Target | Max |
+|------|--------|-----|
+| SKILL.md | 100-200 lines | 350 |
+| references/*.md | 100-150 lines | 250 |
+| Description | ~400 chars | 600 |
+
+### Tokenomics Check
+
+- `<available_skills>` budget: ~20-22k chars total
+- ~34-36 skills fit before truncation
+- **Truncated skills don't trigger** - Claude can't see them
+- Test: "How many skills in your `<available_skills>` block?"
+
+### Content Quality (1337 Standards)
+
+- [ ] Picks winners, not catalogs
+- [ ] Evidence cited (production > stars)
+- [ ] Decision frameworks, not tutorials
+- [ ] No "you could use X or Y" - pick one
+- [ ] Gotchas are non-obvious (Claude doesn't know)
+
+### File Integrity
+
+- [ ] All linked references exist
+- [ ] No broken internal links
+- [ ] Scripts executable (`chmod +x`)
+
+## Git Workflow
+
+### Conventional Commits
+
+```
+type(scope): description
+
+feat:     New feature
+fix:      Bug fix
+docs:     Documentation only
+refactor: No behavior change
+chore:    Build, deps, config
+```
+
+Examples:
+- `feat(rust-1337): add data-plane reference`
+- `fix: correct install command in README`
+- `refactor: restructure docs for maintainability`
+
+### PR Process
+
+```
+1. Branch from main
+   git checkout -b feat/my-feature
+
+2. Commit with conventional format
+   git commit -m "feat(skill): add X"
+
+3. Before PR: squash related commits
+   git rebase -i origin/main
+
+4. Force push after rebase
+   git push --force-with-lease
+
+5. PR → Squash and merge
+```
+
+### Squash Strategy
+
+| Commits | Strategy |
+|---------|----------|
+| WIP commits | Squash into logical units |
+| Fixup commits | Squash into original |
+| Unrelated changes | Split into separate PRs |
+
+Rule: **One PR = one logical change = one squashed commit on main.**
 
 ## Skill Update Workflow
 
@@ -55,11 +134,12 @@ Run `/skill-update` or manually:
 1. **Research**: Web search for deprecations, new releases, production usage
 2. **Validate**: Is "best-in-class" still best? Any new contenders?
 3. **Update**: Only with evidence (production usage > GitHub stars)
-4. **Commit**:
+4. **Commit**: Use conventional format
    ```
-   Update [skill]: [brief description]
+   fix(rust-1337): update deprecated crate recommendation
 
-   [Evidence]
+   thiserror 2.0 released with breaking changes.
+   Source: https://github.com/dtolnay/thiserror/releases
 
    🤖 Generated with [Claude Code](https://claude.com/claude-code)
 

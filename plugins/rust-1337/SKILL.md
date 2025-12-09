@@ -331,11 +331,10 @@ Load reference based on project context:
 ### Commands
 
 ```bash
-cargo clippy -- -W clippy::pedantic
-cargo nextest run              # Faster than cargo test
-cargo deny check               # Dependency policies
-cargo tree --edges features    # Feature resolution
-cargo bloat --release          # Binary size
+cargo clippy -- -W clippy::pedantic  # Lints
+cargo nextest run   # Faster tests    |  cargo deny check    # Deps
+cargo tree --edges features          # Feature resolution
+cargo bloat --release                # Binary size
 ```
 
 ### Common Crates
