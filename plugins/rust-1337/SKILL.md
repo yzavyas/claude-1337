@@ -134,6 +134,7 @@ async fn good(mutex: Arc<std::sync::Mutex<i32>>) {
 | `async-std` | smol (or tokio) | March 2025 |
 | `structopt` | clap v4 derive | clap 3.0 |
 | `async-trait` (some cases) | Native async fn in traits | Rust 1.75 |
+| async closure workarounds | Native `async \|\| {}` closures | Rust 1.85 |
 | `ansi_term` | `nu-ansi-term` | Unmaintained |
 | `wee_alloc` | Default allocator or Talc | Memory leak #106 |
 

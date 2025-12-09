@@ -146,8 +146,11 @@ Rarely in 2025. Stable has:
 - async fn in traits (1.75)
 - GATs (1.65)
 - impl Trait in traits (1.75)
+- async closures `async || {}` (1.85)
+- LazyLock/OnceLock (1.70-1.80)
 
 Only need nightly for:
 - `cargo-udeps`
 - Miri testing
 - Experimental Cranelift
+- gen blocks (coming soon)
