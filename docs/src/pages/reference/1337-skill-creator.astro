@@ -208,6 +208,43 @@ One sentence purpose.
     </tr>
   </table>
 
+  <h2>executable workflow</h2>
+
+  <p><strong>don't read process docs. run prompts.</strong></p>
+
+  <table>
+    <tr>
+      <th>step</th>
+      <th>do</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>test claude's knowledge, find gaps</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>research 3 production codebases</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>verify with maintainer quotes</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>collect production gotchas</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>fill in SKILL.md template</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>run validation checks</td>
+    </tr>
+  </table>
+
+  <p>see <code>references/research-workflow.md</code> for copy-paste prompts for each step.</p>
+
   <h2>validation checklist</h2>
 
   <p>after passing <code>example-skills:skill-creator</code> validation:</p>
@@ -224,6 +261,7 @@ One sentence purpose.
   <pre><code>plugins/1337-skill-creator/
 ├── SKILL.md                    # methodology
 └── references/
+    ├── research-workflow.md    # executable prompts (new)
     ├── content-triage.md       # what to include/cut
-    └── skill-process.md        # creation workflow</code></pre>
+    └── skill-process.md        # process overview</code></pre>
 </Base>
