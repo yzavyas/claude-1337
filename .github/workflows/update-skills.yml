@@ -2,8 +2,8 @@ name: Update Skills
 
 on:
   schedule:
-    # Weekly on Sundays at 2am UTC
-    - cron: '0 2 * * 0'
+    # Monthly on 1st at 2am UTC
+    - cron: '0 2 1 * *'
   workflow_dispatch:
     inputs:
       skill:
@@ -63,7 +63,7 @@ jobs:
             git add -A
             git commit -m "Auto-update skills $(date +%Y-%m-%d)
 
-            Automated weekly skill review.
+            Automated monthly skill review.
 
             🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -73,7 +73,7 @@ jobs:
 
             gh pr create \
               --title "Auto-update skills $(date +%Y-%m-%d)" \
-              --body "Automated weekly skill review by Claude.
+              --body "Automated monthly skill review by Claude.
 
             Please review changes before merging.
 

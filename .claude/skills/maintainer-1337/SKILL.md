@@ -95,4 +95,4 @@ Run `/skill-update` or manually:
 
 - **rust-1337**: Check quarterly (Rust moves fast)
 - **terminal-1337**: Check semi-annually
-- **GitHub Action**: Runs weekly Sundays 2am UTC
+- **GitHub Action**: Runs monthly (1st at 2am UTC)

@@ -231,7 +231,7 @@ fi
 
 Skills are auto-updated via GitHub Action (`.github/workflows/update-skills.yml`).
 
-**Schedule**: Weekly on Sundays at 2am UTC
+**Schedule**: Monthly on 1st at 2am UTC
 
 **Manual trigger**: Actions tab → "Update Skills" → Run workflow
 
