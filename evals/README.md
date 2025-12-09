@@ -43,6 +43,8 @@ cd evals
 uv sync
 ```
 
+> **Note**: Tested with Claude Code subscription (Max plan). API testing pending.
+
 ## Usage
 
 ### Single Test
