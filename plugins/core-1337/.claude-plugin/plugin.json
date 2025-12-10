@@ -1,0 +1,9 @@
+{
+  "name": "core-1337",
+  "description": "Core infrastructure for claude-1337. Provides skill activation hook that improves activation from 20% to 84%. Install this first.",
+  "version": "0.1.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@example.com"
+  }
+}

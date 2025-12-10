@@ -10,6 +10,27 @@
   },
   "plugins": [
     {
+      "name": "core-1337",
+      "source": "./plugins/core-1337",
+      "description": "The foundation. Activates 1337 mode: skill checking, decisions over catalogs, production mindset. Install first.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@example.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "core",
+        "activation",
+        "hooks",
+        "foundation"
+      ],
+      "category": "development",
+      "strict": false
+    },
+    {
       "name": "terminal-1337",
       "source": "./plugins/terminal-1337",
       "description": "Master elite terminal tools for 10x productivity - ripgrep, fd, bat, eza, fzf, xh, jq, atuin",
