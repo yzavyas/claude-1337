@@ -1,0 +1,15 @@
+{
+  "description": "Skill evaluation hook - runs once at session start, not per message",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-eval.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
