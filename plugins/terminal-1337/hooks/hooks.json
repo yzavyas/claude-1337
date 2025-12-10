@@ -1,12 +1,23 @@
 {
-  "description": "Skill evaluation hook - runs once at session start, not per message",
+  "description": "Terminal tool enforcement: modern alternatives to legacy commands",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
           {
-            "type": "prompt",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-eval.sh"
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/tool-replacements.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/block-legacy.sh"
           }
         ]
       }

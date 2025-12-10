@@ -12,10 +12,13 @@
 
 | Plugin | What | Contains |
 |--------|------|----------|
+| core-1337 | The foundation | hook |
 | terminal-1337 | Modern CLI tools | skill, hook |
-| rust-1337 | Rust decisions | skill, hook |
-| 1337-skill-creator | Skill authoring | skill, hook |
-| sensei-1337 | Teaching methodology | skill, agent, hook |
+| rust-1337 | Rust decisions | skill |
+| 1337-skill-creator | Skill authoring | skill |
+| sensei-1337 | Teaching methodology | skill, agent |
+
+**Install core-1337 first** - it activates 1337 mode (skill checking, decisions over catalogs, production mindset).
 
 See [docs/](docs/) for details.
 

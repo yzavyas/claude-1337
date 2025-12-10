@@ -1,11 +1,11 @@
 {
-  "description": "Skill evaluation hook - runs once at session start, not per message",
+  "description": "1337 mode: skill activation, decisions over catalogs, production mindset",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
           {
-            "type": "prompt",
+            "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-eval.sh"
           }
         ]
