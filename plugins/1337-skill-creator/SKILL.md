@@ -1,15 +1,15 @@
 ---
 name: 1337-skill-creator
-description: "Create elite Claude skills with opinionated, best-in-class content. Use when: building skills that pick winners not catalogs, need evidence-based recommendations, or want decision frameworks over tutorials. Composes with example-skills:skill-creator."
+description: "Create elite Claude skills with opinionated, best-in-class content. Use when: building skills with THE answer not catalogs, need evidence-based recommendations, or want decision frameworks over tutorials. Composes with example-skills:skill-creator."
 ---
 
 # 1337 Skill Creator
 
-**Composes with**: `example-skills:skill-creator` - load that first for skill anatomy, progressive disclosure, and packaging. This skill adds the "1337 layer": opinionated content that picks winners.
+**Composes with**: `example-skills:skill-creator` - load that first for skill anatomy, progressive disclosure, and packaging. This skill adds the "1337 layer": opinionated, best-in-class answers.
 
 ## The 1337 Difference
 
-Standard skills teach. 1337 skills decide.
+Standard skills teach. 1337 skills deliver THE answer.
 
 | Standard Skill | 1337 Skill |
 |----------------|------------|

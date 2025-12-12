@@ -1,6 +1,8 @@
 # claude-1337
 
-1337 plugins for Claude Code. best-in-class tooling, practices, and learnings from industry leaders and master craftsmen.
+**Yo dawg, I heard you like 1337 skills, so we put 1337 skills in your 1337 coding agent so you can 1337 while Claude Code 1337s.**
+
+Best-in-class tooling, practices, and learnings from industry leaders and master craftsmen.
 
 ## Install
 
@@ -28,6 +30,8 @@ See [docs/](docs/) for details.
 2. **Validate** against production codebases — what actually ships, not just what's popular
 3. **Distill** — cut what Claude already knows, keep non-obvious decisions and gotchas
 4. **Format** as decision tables, not prose explanations
+
+**Philosophy**: Best-in-class only. Not catalogs of options — THE answer for each use case.
 
 The methodology is documented in `1337-skill-creator`.
 
