@@ -287,28 +287,40 @@ fi
 - Event hooks: Auto-suggest installations, update notifications
 - Community plugins: Accept external contributions
 
-## Automated Skill Updates
+## Automated Skill Updates: curator-1337
 
-Skills are auto-updated via GitHub Action (`.github/workflows/update-skills.yml`).
+Skills are auto-updated via **curator-1337**, an Agent SDK app invoked by GitHub Actions (`.github/workflows/curator-1337.yml`).
+
+**Architecture**: Agent SDK Python app + GHA workflow
 
 **Schedule**: Monthly on 1st at 2am UTC
 
-**Manual trigger**: Actions tab → "Update Skills" → Run workflow
+**Manual trigger**: Actions tab → "Curator-1337" → Run workflow
 
-### What Claude Checks
+### What Curator Checks
 
 | Signal | Action |
 |--------|--------|
-| Deprecated crate/tool | Find replacement |
-| New best-in-class option | Validate production status, update if evidence |
-| Major version release | Review for breaking changes |
-| Security advisory | Update with mitigation |
+| Deprecated crate/tool | Find replacement with production evidence |
+| New best-in-class option | Validate adoption, update if multiple sources confirm |
+| Major version release | Review for breaking changes, update recommendations |
+| Security advisory | Update with mitigation strategy |
+
+### How It Works
+
+1. **Agent Analysis**: Claude analyzes each skill using structured prompts
+2. **Evidence Collection**: Requires production usage, maintainer announcements, or security advisories
+3. **PR Creation**: Generates PR with findings and citations
+4. **Human Review**: All updates require maintainer approval - never auto-merge
 
 ### Update Philosophy
 
-- Only change with clear evidence (production usage > GitHub stars)
-- Cite sources when making changes
-- Create PR for human review - never auto-merge
+- **Best-in-class only** - Production usage > GitHub stars
+- **High confidence** - Require multiple evidence sources
+- **Conservative** - Only suggest changes with clear justification
+- **Transparent** - All findings include citations
+
+See `scripts/curator-1337/` for implementation details.
 
 ## Maintainer Notes
 
