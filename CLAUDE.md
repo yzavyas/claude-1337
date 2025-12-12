@@ -92,7 +92,7 @@ claude-1337/
 **1337-skill-creator**: Skill authoring methodology
 - Composes with `example-skills:skill-creator` (Anthropic's canonical guide)
 - Adds opinionated layer: decision frameworks over tutorials
-- Focus: Build skills that pick winners, not catalogs
+- Focus: Build skills with best-in-class answers, not catalogs
 
 ### Content Philosophy
 
