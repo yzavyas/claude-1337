@@ -125,12 +125,6 @@ Even automation (like GHA workflows) should use plugins with agents. The workflo
 - Includes feynman agent for autonomous doc generation
 - Focus: Make complex concepts simple and scannable
 
-**curator-1337**: Evolutionary skill curator
-- Monitors for deprecations and new best-in-class options
-- Includes curator agent for validating recommendations
-- Auto-runs monthly via GHA + user-invocable
-- Focus: Keep skills actually best-in-class
-
 ### Content Philosophy
 
 **Include**: The best tool/crate/pattern for each use case with evidence
@@ -323,42 +317,7 @@ fi
 - Specialized agents: terminal-optimizer, tool-recommender
 - Event hooks: Auto-suggest installations, update notifications
 - Community plugins: Accept external contributions
-
-## Automated Skill Updates: curator-1337
-
-Skills are auto-updated via **curator-1337**, an Agent SDK app invoked by GitHub Actions (`.github/workflows/curator-1337.yml`).
-
-**Architecture**: Agent SDK Python app + GHA workflow
-
-**Schedule**: Monthly on 1st at 2am UTC
-
-**Manual trigger**: Actions tab → "Curator-1337" → Run workflow
-
-### What Curator Checks
-
-| Signal | Action |
-|--------|--------|
-| Deprecated crate/tool | Find replacement with production evidence |
-| New best-in-class option | Validate adoption, update if multiple sources confirm |
-| Major version release | Review for breaking changes, update recommendations |
-| Security advisory | Update with mitigation strategy |
-
-### How It Works
-
-1. **Agent Analysis**: Claude uses curator agent (`plugins/curator-1337/agents/curator.md`)
-2. **Evidence Collection**: Requires production usage, maintainer announcements, or security advisories
-3. **PR Creation**: GHA wrapper generates PR with findings and citations
-4. **Human Review**: All updates require maintainer approval - never auto-merge
-5. **User-Invocable**: Users can invoke curator agent directly for their own skills
-
-### Update Philosophy
-
-- **Best-in-class only** - Production usage > GitHub stars
-- **High confidence** - Require multiple evidence sources
-- **Conservative** - Only suggest changes with clear justification
-- **Transparent** - All findings include citations
-
-See `plugins/curator-1337/` for implementation details. Curator is a plugin, not a standalone script.
+- Curator-1337: Self-evolving marketplace (see `.github/ISSUE_CURATOR_IMPLEMENTATION.md`)
 
 ## Maintainer Notes
 
