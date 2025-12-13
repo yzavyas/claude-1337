@@ -71,6 +71,32 @@ claude-1337/
 
 ## Architecture Principles
 
+### Everything is a Plugin
+
+**CRITICAL**: All functionality in claude-1337 MUST be a plugin. No standalone scripts, no utilities outside plugins/.
+
+**Why**:
+- Users can install and use curator, skill-creator, sensei, etc. directly
+- Dogfooding: we use our own plugins to build and maintain the marketplace
+- Consistency: one way to package functionality
+- Discoverability: everything is in the marketplace
+
+**Bad** ❌:
+```
+scripts/curator-1337/       # Standalone automation
+scripts/build-docs/         # Utility scripts
+utils/validate-skills/      # Helper tools
+```
+
+**Good** ✅:
+```
+plugins/curator-1337/       # Plugin with agent + GHA wrapper
+plugins/builder-1337/       # Plugin for doc generation
+plugins/validator-1337/     # Plugin for skill validation
+```
+
+Even automation (like GHA workflows) should use plugins with agents. The workflow is just a thin wrapper that invokes the plugin agent.
+
 ### Marketplace Structure
 - **strict: false** - marketplace.json IS the complete plugin manifest
 - **Progressive disclosure** - Metadata always loaded → SKILL.md when triggered → references/scripts/assets on-demand
@@ -93,6 +119,17 @@ claude-1337/
 - Composes with `example-skills:skill-creator` (Anthropic's canonical guide)
 - Adds opinionated layer: decision frameworks over tutorials
 - Focus: Build skills with best-in-class answers, not catalogs
+
+**sensei-1337**: Teaching methodology for elite documentation
+- Feynman technique meets Diataxis framework
+- Includes feynman agent for autonomous doc generation
+- Focus: Make complex concepts simple and scannable
+
+**curator-1337**: Evolutionary skill curator
+- Monitors for deprecations and new best-in-class options
+- Includes curator agent for validating recommendations
+- Auto-runs monthly via GHA + user-invocable
+- Focus: Keep skills actually best-in-class
 
 ### Content Philosophy
 
@@ -308,10 +345,11 @@ Skills are auto-updated via **curator-1337**, an Agent SDK app invoked by GitHub
 
 ### How It Works
 
-1. **Agent Analysis**: Claude analyzes each skill using structured prompts
+1. **Agent Analysis**: Claude uses curator agent (`plugins/curator-1337/agents/curator.md`)
 2. **Evidence Collection**: Requires production usage, maintainer announcements, or security advisories
-3. **PR Creation**: Generates PR with findings and citations
+3. **PR Creation**: GHA wrapper generates PR with findings and citations
 4. **Human Review**: All updates require maintainer approval - never auto-merge
+5. **User-Invocable**: Users can invoke curator agent directly for their own skills
 
 ### Update Philosophy
 
@@ -320,11 +358,11 @@ Skills are auto-updated via **curator-1337**, an Agent SDK app invoked by GitHub
 - **Conservative** - Only suggest changes with clear justification
 - **Transparent** - All findings include citations
 
-See `scripts/curator-1337/` for implementation details.
+See `plugins/curator-1337/` for implementation details. Curator is a plugin, not a standalone script.
 
 ## Maintainer Notes
 
-**Owner**: yzavyas (yza.vyas@example.com)
+**Owner**: yzavyas (yza.vyas@gmail.com) ← NOTE: gmail.com, not example.com!
 **License**: MIT
 **Repository**: https://github.com/yzavyas/claude-1337
 
@@ -334,3 +372,4 @@ When working on this project:
 3. Update documentation when adding features
 4. Follow the established patterns and conventions
 5. Keep the structure clean and organized
+6. **EVERYTHING is a plugin** - no standalone scripts outside plugins/

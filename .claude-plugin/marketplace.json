@@ -2,7 +2,7 @@
   "name": "claude-1337",
   "owner": {
     "name": "yzavyas",
-    "email": "yza.vyas@example.com"
+    "email": "yza.vyas@gmail.com"
   },
   "metadata": {
     "description": "Best-in-class tooling and workflows. 1337 skills in your 1337 coding agent so you can 1337 while Claude Code 1337s.",
@@ -16,7 +16,7 @@
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
-        "email": "yza.vyas@example.com"
+        "email": "yza.vyas@gmail.com"
       },
       "homepage": "https://github.com/yzavyas/claude-1337",
       "repository": "https://github.com/yzavyas/claude-1337",
@@ -37,7 +37,7 @@
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
-        "email": "yza.vyas@example.com"
+        "email": "yza.vyas@gmail.com"
       },
       "homepage": "https://github.com/yzavyas/claude-1337",
       "repository": "https://github.com/yzavyas/claude-1337",
@@ -62,7 +62,7 @@
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
-        "email": "yza.vyas@example.com"
+        "email": "yza.vyas@gmail.com"
       },
       "homepage": "https://github.com/yzavyas/claude-1337",
       "repository": "https://github.com/yzavyas/claude-1337",
@@ -90,7 +90,7 @@
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
-        "email": "yza.vyas@example.com"
+        "email": "yza.vyas@gmail.com"
       },
       "homepage": "https://github.com/yzavyas/claude-1337",
       "repository": "https://github.com/yzavyas/claude-1337",
@@ -114,7 +114,7 @@
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
-        "email": "yza.vyas@example.com"
+        "email": "yza.vyas@gmail.com"
       },
       "homepage": "https://github.com/yzavyas/claude-1337",
       "repository": "https://github.com/yzavyas/claude-1337",
@@ -132,6 +132,28 @@
       "skills": [
         "./"
       ]
+    },
+    {
+      "name": "curator-1337",
+      "source": "./plugins/curator-1337",
+      "description": "Evolutionary curator that monitors skills for deprecations and new best-in-class options. Includes curator agent for validating skill recommendations.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "curator",
+        "automation",
+        "maintenance",
+        "validation",
+        "evidence-based"
+      ],
+      "category": "development",
+      "strict": false
     }
   ]
 }

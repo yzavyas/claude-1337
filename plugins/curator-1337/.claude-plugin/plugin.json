@@ -1,0 +1,9 @@
+{
+  "name": "curator-1337",
+  "description": "Evolutionary curator that monitors skills for deprecations and new best-in-class options. Use when: updating skills, checking for outdated recommendations, validating crate choices.",
+  "version": "0.1.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@gmail.com"
+  }
+}
