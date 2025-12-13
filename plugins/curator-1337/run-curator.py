@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# /// script
+# dependencies = ["anthropic>=0.40.0"]
+# ///
 """
 GHA wrapper for curator-1337 agent
 
