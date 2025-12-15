@@ -151,7 +151,7 @@ Uses knowledge to respond</code></pre>
   <h3>agent anatomy</h3>
 
   <pre><code>// agent definition
-{
+{'{'}
   name: "code-reviewer",
   description: "reviews code for issues",
   tools: [Read, Grep, Bash],
@@ -160,7 +160,7 @@ Uses knowledge to respond</code></pre>
     check for: security, performance, style.
     output: markdown report.
   `
-}</code></pre>
+{'}'}</code></pre>
 
   <p>when invoked via Task tool, the agent spawns, does its work, and returns findings.</p>
 

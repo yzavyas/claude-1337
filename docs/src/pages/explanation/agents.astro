@@ -159,12 +159,12 @@ import Base from '../../layouts/Base.astro';
   <p>you can build custom agents using the claude agent sdk. an agent is basically:</p>
 
   <pre><code># pseudo-code
-agent = {
+agent = {'{'}
   name: "my-agent",
   description: "what it does",
   tools: [tool1, tool2, tool3],
   system_prompt: "instructions for the agent",
-}</code></pre>
+{'}'}</code></pre>
 
   <p>see <a href="/claude-1337/explanation/extensibility/">extensibility</a> for how to build and integrate custom agents.</p>
 

@@ -355,7 +355,7 @@ const sidebarSection = currentPath.includes('/reference') ? 'reference' : curren
   </style>
 </head>
 <body>
-  {showSidebar && sidebarSection && <Sidebar section={sidebarSection} />}
+  {showSidebar && sidebarSection ? <Sidebar section={sidebarSection} /> : null}
   <div class:list={['container', { 'with-sidebar': showSidebar }]}>
     <header>
       <h1><strong>claude-1337</strong> — 1337 plugins for claude code</h1>
