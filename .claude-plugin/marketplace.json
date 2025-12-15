@@ -24,9 +24,12 @@
       "keywords": [
         "core",
         "activation",
+        "skill-activation",
         "hooks",
-        "foundation"
+        "foundation",
+        "session-hooks"
       ],
+      "components": ["hooks"],
       "category": "development",
       "strict": false
     },
@@ -45,10 +48,13 @@
       "keywords": [
         "terminal",
         "cli",
-        "rust-tools",
-        "developer-tools",
-        "productivity"
+        "search",
+        "find",
+        "file-management",
+        "text-processing",
+        "modern-cli"
       ],
+      "components": ["skills", "hooks"],
       "category": "development",
       "strict": false,
       "skills": [
@@ -75,8 +81,11 @@
         "embedded",
         "wasm",
         "ffi",
-        "production"
+        "production",
+        "crates",
+        "patterns"
       ],
+      "components": ["skills"],
       "category": "development",
       "strict": false,
       "skills": [
@@ -98,9 +107,12 @@
       "keywords": [
         "skills",
         "meta",
-        "documentation",
+        "authoring",
+        "skill-writing",
+        "marketplace",
         "best-practices"
       ],
+      "components": ["skills"],
       "category": "development",
       "strict": false,
       "skills": [
@@ -125,8 +137,11 @@
         "feynman",
         "diataxis",
         "tutorials",
-        "explanations"
+        "explanations",
+        "writing",
+        "learning"
       ],
+      "components": ["skills", "agents"],
       "category": "development",
       "strict": false,
       "skills": [

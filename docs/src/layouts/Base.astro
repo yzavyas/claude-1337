@@ -1,5 +1,6 @@
 ---
 import marketplace from '../data/marketplace.json';
+import Sidebar from '../components/Sidebar.astro';
 
 interface Props {
   title: string;
@@ -9,6 +10,10 @@ interface Props {
 const { title, description = 'best-in-class skills - THE answer, not catalogs' } = Astro.props;
 const currentPath = Astro.url.pathname;
 const plugins = marketplace.plugins;
+
+// Determine if we should show sidebar
+const showSidebar = currentPath.includes('/reference') || currentPath.includes('/explanation');
+const sidebarSection = currentPath.includes('/reference') ? 'reference' : currentPath.includes('/explanation') ? 'explanation' : null;
 ---
 
 <html lang="en">
@@ -164,6 +169,17 @@ const plugins = marketplace.plugins;
       padding: 2rem;
     }
 
+    .container.with-sidebar {
+      margin-left: 260px;
+      margin-right: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .container.with-sidebar {
+        margin-left: auto;
+      }
+    }
+
     /* Navigation */
     nav {
       border-bottom: 1px solid var(--fg-dim);
@@ -300,6 +316,11 @@ const plugins = marketplace.plugins;
       margin-bottom: 1.5rem;
     }
 
+    /* Dimmed intro text */
+    .dimmed-intro {
+      color: var(--fg-dim);
+    }
+
     /* Plugin list */
     .plugin-list {
       list-style: none;
@@ -334,7 +355,8 @@ const plugins = marketplace.plugins;
   </style>
 </head>
 <body>
-  <div class="container">
+  {showSidebar && sidebarSection && <Sidebar section={sidebarSection} />}
+  <div class:list={['container', { 'with-sidebar': showSidebar }]}>
     <header>
       <h1><strong>claude-1337</strong> — 1337 plugins for claude code</h1>
     </header>
@@ -344,14 +366,7 @@ const plugins = marketplace.plugins;
         <li><a href="/claude-1337/" class={currentPath === '/claude-1337/' ? 'active' : ''}>start</a></li>
         <li><a href="/claude-1337/concepts/" class={currentPath.includes('/concepts') ? 'active' : ''}>concepts</a></li>
         <li><a href="/claude-1337/how-to/" class={currentPath.includes('/how-to') ? 'active' : ''}>how-to</a></li>
-        <li class="has-sub">
-          <a href="/claude-1337/reference/" class={currentPath.includes('/reference') ? 'active' : ''}>reference</a>
-          <ul class="subnav">
-            {plugins.map((plugin) => (
-              <li><a href={`/claude-1337/reference/${plugin.name}/`}>{plugin.name}</a></li>
-            ))}
-          </ul>
-        </li>
+        <li><a href="/claude-1337/reference/" class={currentPath.includes('/reference') ? 'active' : ''}>reference</a></li>
         <li><a href="/claude-1337/explanation/" class={currentPath.includes('/explanation') ? 'active' : ''}>explanation</a></li>
       </ul>
     </nav>

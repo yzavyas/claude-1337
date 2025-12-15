@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="explanation" description="why skills don't activate and how we fixed it">
-  <p style="color: var(--fg-dim);">understanding the skill activation problem</p>
+  <p class="dimmed-intro">understanding the skill activation problem</p>
 
   <h2>the problem</h2>
 
@@ -115,12 +115,12 @@ result = query(
 
   <p>the latency and token cost are negligible compared to missed skill activations.</p>
 
-  <h2>open questions</h2>
+  <h2>deeper explanations</h2>
 
   <ul>
-    <li>does anthropic plan to improve default activation?</li>
-    <li>can skills self-trigger based on keywords?</li>
-    <li>what's the optimal number of skills before truncation?</li>
+    <li><a href="/claude-1337/explanation/models/">models</a> — how opus, sonnet, haiku work and when to use each</li>
+    <li><a href="/claude-1337/explanation/agents/">agents</a> — how autonomous task execution works</li>
+    <li><a href="/claude-1337/explanation/extensibility/">extensibility</a> — how to extend claude code with skills, hooks, agents, mcp</li>
   </ul>
 
   <h2>sources</h2>

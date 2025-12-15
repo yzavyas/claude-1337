@@ -1,0 +1,151 @@
+---
+// Sidebar.astro - Section navigation sidebar
+const { section } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+// Define navigation items for each section
+const navItems = {
+  reference: [
+    { href: '/claude-1337/reference/catalog/', label: 'catalog' },
+    { href: '/claude-1337/reference/research/', label: 'research' },
+    { href: '/claude-1337/reference/core-1337/', label: 'core-1337' },
+    { href: '/claude-1337/reference/terminal-1337/', label: 'terminal-1337' },
+    { href: '/claude-1337/reference/rust-1337/', label: 'rust-1337' },
+    { href: '/claude-1337/reference/1337-skill-creator/', label: '1337-skill-creator' },
+    { href: '/claude-1337/reference/sensei-1337/', label: 'sensei-1337' },
+  ],
+  explanation: [
+    { href: '/claude-1337/explanation/', label: 'skill activation' },
+    { href: '/claude-1337/explanation/models/', label: 'models' },
+    { href: '/claude-1337/explanation/agents/', label: 'agents' },
+    { href: '/claude-1337/explanation/extensibility/', label: 'extensibility' },
+  ],
+};
+
+const items = navItems[section] || [];
+---
+
+<aside class="sidebar">
+  <nav class="sidebar-nav">
+    <div class="section-title">{section}</div>
+    <ul>
+      {items.map(item => (
+        <li>
+          <a
+            href={item.href}
+            class:list={['nav-link', { active: currentPath === item.href || currentPath === item.href.replace(/\/$/, '') }]}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: var(--bg);
+    border-right: 1px solid var(--fg-dim);
+    padding: 6rem 0 2rem 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-nav {
+    padding: 0 1.5rem;
+  }
+
+  .section-title {
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fg-dim);
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+
+  .sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-nav li {
+    margin: 0;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.625rem 1rem;
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+    font-size: 0.9rem;
+    color: var(--fg-dim);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 0;
+    background: var(--green);
+    transition: height 0.2s ease;
+  }
+
+  .nav-link:hover {
+    background: rgba(158, 206, 106, 0.05);
+    color: var(--green);
+    padding-left: 1.25rem;
+  }
+
+  .nav-link:hover::before {
+    height: 70%;
+  }
+
+  .nav-link.active {
+    background: rgba(158, 206, 106, 0.1);
+    color: var(--green);
+    padding-left: 1.25rem;
+    text-shadow: 0 0 8px rgba(158, 206, 106, 0.4);
+  }
+
+  .nav-link.active::before {
+    height: 70%;
+  }
+
+  /* Scrollbar styling */
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background: var(--fg-dim);
+    border-radius: 3px;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--green);
+  }
+
+  @media (max-width: 1024px) {
+    .sidebar {
+      display: none;
+    }
+  }
+</style>

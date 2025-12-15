@@ -1,71 +1,67 @@
 ---
 import Base from '../layouts/Base.astro';
+import marketplace from '../data/marketplace.json';
+
+const plugins = marketplace.plugins;
 ---
 
 <Base title="start">
-  <p class="opener"><strong>yo dawg</strong>, i heard you like 1337 skills, so we put 1337 skills in your 1337 coding agent so you can 1337 while claude code 1337s.</p>
+  <p class="opener"><strong>yo dawg</strong>, i heard you like claude code, so we put 1337 skills in your claude code so you can 1337 while you code.</p>
 
-  <p>best-in-class tooling, practices, and learnings from industry leaders and master craftsmen.</p>
+  <p>best-in-class tooling, practices, and learnings from industry leaders and master craftsmen. not catalogs of options — THE answer for each use case.</p>
+
+  <h2>get started</h2>
 
   <pre><code>/plugin marketplace add yzavyas/claude-1337
 /plugin install core-1337@claude-1337</code></pre>
 
-  <h2>plugins</h2>
+  <p><em>install core-1337 first — it activates 1337 mode (forced skill checking, decisions over catalogs)</em></p>
 
-  <ul class="plugin-list">
-    <li><a href="/claude-1337/reference/terminal-1337/">terminal-1337</a> — rg, fd, bat, eza, xh, jq</li>
-    <li><a href="/claude-1337/reference/rust-1337/">rust-1337</a> — crate decisions from production</li>
-    <li><a href="/claude-1337/reference/1337-skill-creator/">1337-skill-creator</a> — build skills with best-in-class answers</li>
-  </ul>
-
-  <h2>the problem</h2>
-
-  <p>claude code skills activate ~20% of the time. you install them, ask a relevant question, and claude ignores them.</p>
+  <h2>why claude-1337</h2>
 
   <div class="stats">
     <div>
       <div class="stat-value bad">20%</div>
-      <div class="stat-label">baseline</div>
+      <div class="stat-label">baseline skill activation</div>
     </div>
     <div>
       <div class="stat-value good">84%</div>
-      <div class="stat-label">with fix</div>
+      <div class="stat-label">with core-1337 hooks</div>
     </div>
   </div>
 
-  <p>we researched why and built a fix. <a href="/claude-1337/explanation/">read more</a></p>
-
-  <h2>philosophy</h2>
-
   <ul>
-    <li><strong>learn from masters</strong> — domain experts, maintainers, reputable blogs</li>
-    <li><strong>best-in-class only</strong> — "use tokio" not "options include tokio, async-std, smol"</li>
-    <li><strong>evidence over stars</strong> — what ripgrep, servo, cloudflare actually use</li>
-    <li><strong>skip training knowledge</strong> — only add what claude doesn't know</li>
+    <li><strong>forced activation</strong> — explicit skill evaluation before every response. no more ignored skills.</li>
+    <li><strong>production-proven</strong> — what ripgrep, servo, cloudflare actually use. not github stars.</li>
+    <li><strong>decision frameworks</strong> — "use tokio" not "options include tokio, async-std, smol"</li>
   </ul>
 
-  <h2>what's in a plugin</h2>
+  <h2>plugins</h2>
 
-  <table>
-    <tr>
-      <th>component</th>
-      <th>what it does</th>
-    </tr>
-    <tr>
-      <td>skill</td>
-      <td>knowledge loaded on context match</td>
-    </tr>
-    <tr>
-      <td>command</td>
-      <td>slash command (<code>/command</code>)</td>
-    </tr>
-    <tr>
-      <td>agent</td>
-      <td>specialized subagent</td>
-    </tr>
-    <tr>
-      <td>hook</td>
-      <td>event trigger</td>
-    </tr>
-  </table>
+  <p>carefully curated plugins with production-proven knowledge — modern CLI tools, rust development decisions, skill authoring methodology, teaching frameworks.</p>
+
+  <p><a href="/claude-1337/reference/catalog/">browse the interactive catalog</a> to filter by component type (skills, hooks, agents, commands, mcp) and search by keywords.</p>
+
+  <h2>methodology</h2>
+
+  <ol>
+    <li><strong>learn</strong> from domain experts, core maintainers, reputable technical blogs</li>
+    <li><strong>validate</strong> against production codebases — what actually ships</li>
+    <li><strong>distill</strong> — cut training knowledge, keep non-obvious decisions</li>
+    <li><strong>format</strong> as decision tables, not prose</li>
+  </ol>
+
+  <p>full methodology in <a href="/claude-1337/reference/1337-skill-creator/">1337-skill-creator</a>.</p>
+
+  <h2>the research</h2>
+
+  <p>skills fail 80% of the time due to three problems:</p>
+
+  <ol>
+    <li><strong>activation crisis</strong> — skills activate ~20% of the time by default</li>
+    <li><strong>decision paralysis</strong> — catalogs of options instead of THE answer</li>
+    <li><strong>knowledge gap</strong> — generic training data instead of production evidence</li>
+  </ol>
+
+  <p><a href="/claude-1337/explanation/">read why skills fail and how we fixed it</a> — research from scott spence's 200+ test study and the claude-1337 validation framework.</p>
 </Base>
