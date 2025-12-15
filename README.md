@@ -4,10 +4,9 @@
 
 Best-in-class tooling, practices, and learnings from industry leaders and master craftsmen.
 
-## Install
-
 ```
 /plugin marketplace add yzavyas/claude-1337
+/plugin install core-1337@claude-1337
 ```
 
 ## Plugins
