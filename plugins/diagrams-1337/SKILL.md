@@ -50,6 +50,37 @@ When explaining these concepts, **offer diagrams automatically**:
 - **Structural** (relationships) → `classDiagram` or `erDiagram`
 - **Process** (algorithm, decisions) → `flowchart` (only then!)
 
+## Cognitive Principles (When Diagrams Work)
+
+**Grounded in cognitive science**: Cognitive Load Theory (Sweller), Dual Coding (Paivio), Cognitive Fit (Vessey)
+
+### Use Diagrams When
+
+| Condition | Why | Research |
+|-----------|-----|----------|
+| **Spatial/relational information** | Architecture, dependencies, hierarchies | Cognitive Fit Theory - spatial tasks → diagrams |
+| **Pattern recognition > precision** | Relationships matter more than exact values | Vessey (1991) - graphs for spatial tasks |
+| **Reader has prior knowledge** | Can interpret domain notation (UML, C4) | Diagrams ineffective without prerequisites |
+| **Complexity manageable (5-10 elements)** | Avoids "hairball" visualizations | Cognitive Load research |
+
+### Use Tables/Text When
+
+| Condition | Why |
+|-----------|-----|
+| **Precision > patterns** | Exact values, configuration specs |
+| **Sequential processing** | Step-by-step procedures, algorithms |
+| **Abstract concepts** | No spatial/visual properties |
+| **Reader lacks background** | Diagrams increase confusion |
+
+### Design Principles
+
+**Spatial Contiguity** (Mayer): Embed labels in diagrams, not in separate legends
+**Coherence** (Mayer): Remove decorative elements. Instructive > pretty.
+**Dual Coding** (Paivio): Provide diagram + text description (visual + verbal channels)
+**Complexity Limit**: 5-10 elements per diagram. Split complex systems into multiple views.
+
+**Research**: UML diagrams reduce maintenance time 22-60% (Sharif & Maletic). Effect size 0.82 when constructing diagrams (Nesbit & Adesope, 2006).
+
 ## Production Gotchas
 
 | Trap | Fix |

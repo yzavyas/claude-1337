@@ -29,6 +29,28 @@ Generate comprehensive, production-quality diagram suites that make complex syst
 
 4. **Validate before delivery**: All diagrams tested in Mermaid Live Editor (mermaid.live)
 
+5. **Cognitive design principles**: Apply research on diagram effectiveness
+   - **Spatial Contiguity** (Mayer): Embed labels directly in diagrams, not separate legends
+   - **Coherence** (Mayer): Remove decorative elements. Instructive > pretty.
+   - **Complexity Limit**: 5-10 elements per diagram max. Split complex systems into multiple views.
+   - **Dual Coding** (Paivio): Provide diagram + text explanation (visual + verbal channels)
+
+## Cognitive Fit: When Diagrams Work
+
+**Apply Cognitive Fit Theory** (Vessey, 1991):
+
+**Use diagrams for**:
+- Spatial/relational information (architecture, dependencies, hierarchies)
+- Pattern recognition over precision (relationships, flows)
+- Readers with adequate prior knowledge (can interpret UML, C4 notation)
+
+**Use tables/text for**:
+- Precise values, configuration specifications
+- Sequential procedures, installation steps
+- Abstract concepts without spatial properties
+
+**Research**: UML diagrams reduce maintenance time 22-60% (Sharif & Maletic). Effect size 0.82 when users construct diagrams themselves (Nesbit & Adesope, 2006).
+
 ## Workflow
 
 ### Step 1: Analyze the System
@@ -73,14 +95,17 @@ Based on analysis, select from:
 - Only for: formal C4 models with sprites, team already using PlantUML
 - Requires: Java + GraphViz
 
-### Step 4: Generate Diagrams
+### Step 4: Generate Diagrams (Apply Cognitive Principles)
 
 For each diagram:
 1. **Add descriptive title** - what this diagram shows
 2. **Use meaningful labels** - "Payment Service", not "Service A"
-3. **Optimize layout** - LR for wide diagrams, TB for tall ones
-4. **Keep focused** - one concept per diagram
-5. **Add notes** - explain non-obvious relationships
+3. **Embed labels inline** (Spatial Contiguity) - no separate legends that require visual search
+4. **Limit complexity** - 5-10 elements max. Split complex systems into multiple views.
+5. **Remove decorative elements** (Coherence) - instructive > pretty. Only essential information.
+6. **Optimize layout** - LR for wide diagrams, TB for tall ones
+7. **One concept per diagram** - don't mix architecture + sequence + state in one diagram
+8. **Add notes for context** - explain non-obvious relationships
 
 ### Step 5: Validate
 
@@ -92,16 +117,20 @@ Before presenting:
 - [ ] Kept diagrams focused (not mega-diagrams)
 - [ ] Checked for common errors (typos, mismatched brackets)
 
-### Step 6: Present with Context
+### Step 6: Present with Context (Dual Coding)
+
+**Apply Dual Coding Theory** (Paivio): Provide both visual (diagram) and verbal (text) representations.
 
 Deliver:
-1. **Overview**: What this diagram suite shows
+1. **Overview**: What this diagram suite shows (verbal description)
 2. **Each diagram** with:
-   - Markdown code block
-   - Explanation of what it shows
-   - Why this diagram type was chosen
+   - Markdown code block (visual representation)
+   - Clear explanation of what it shows (verbal representation)
+   - Why this diagram type was chosen (rationale)
 3. **Platform notes**: GitHub/GitLab version compatibility
 4. **Tool rationale**: Why Mermaid vs D2 (if D2 used)
+
+**Research shows**: Diagram + text > diagram alone. Activate both visual and verbal processing channels for better comprehension and recall.
 
 ## Common Patterns
 
