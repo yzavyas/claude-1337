@@ -132,6 +132,33 @@
       "skills": [
         "./"
       ]
+    },
+    {
+      "name": "diagrams-1337",
+      "source": "./plugins/diagrams-1337",
+      "description": "Elite diagram-as-code for documentation and architecture. Proactive diagram generation with Mermaid (sequenceDiagram, stateDiagram, erDiagram, gitGraph, flowchart, C4, timeline), D2 for complex architecture, decision frameworks. Includes davinci agent for comprehensive architecture diagramming.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "diagrams",
+        "mermaid",
+        "d2",
+        "architecture",
+        "visualization",
+        "documentation",
+        "c4-model"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
     }
   ]
 }
