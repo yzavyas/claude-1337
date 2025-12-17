@@ -19,6 +19,7 @@ Best-in-class tooling, practices, and learnings from industry leaders and master
 | rust-1337 | Rust decisions | skill |
 | 1337-skill-creator | Skill authoring | skill |
 | sensei-1337 | Teaching methodology | skill, agent |
+| diagrams-1337 | Diagram-as-code | skill, agent |
 
 **Install core-1337 first** - it activates 1337 mode (skill checking, decisions over catalogs, production mindset).
 
