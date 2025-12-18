@@ -2,6 +2,9 @@
 
 Runs prompts through Claude Code and detects if skills are activated
 by monitoring for Skill() tool calls in the response stream.
+
+This version supports labeled test cases with ground truth expectations,
+enabling precision/recall metrics rather than just raw activation rate.
 """
 
 import asyncio
@@ -12,14 +15,22 @@ from pathlib import Path
 from claude_agent_sdk import ClaudeAgentOptions, query
 from claude_agent_sdk.types import AssistantMessage, TextBlock, ToolUseBlock
 
-from .models import ActivationReport, ActivationRun, RunStatus, TestSuite
+from .models import (
+    ActivationReport,
+    ActivationRun,
+    Expectation,
+    RunStatus,
+    TestCase,
+    TestSuite,
+    compute_outcome,
+)
 
 # Default plugin paths - each plugin must be loaded individually
 # Goes from src/claude_1337_evals/runner.py -> evals -> claude-1337 -> plugins
 DEFAULT_PLUGINS_PATH = Path(__file__).resolve().parent.parent.parent.parent / "plugins"
 
 # System prompt that forces skill evaluation before responding
-# Note: "any user request" is costly — this is for testing only
+# WARNING: This artificially inflates activation rates - use only for testing hooks
 FORCED_EVAL_SYSTEM_PROMPT = """Before responding to any user request, you MUST:
 
 1. EVALUATE each skill in <available_skills>:
@@ -40,10 +51,13 @@ SMART_EVAL_SYSTEM_PROMPT = """When you receive a request that might benefit from
 
 This is a one-time check per topic, not per message."""
 
+# No system prompt - true baseline
+BASELINE_SYSTEM_PROMPT = None
+
 
 def get_default_options(
     plugin_paths: list[Path] | None = None,
-    force_eval: bool = False,
+    mode: str = "baseline",
 ) -> ClaudeAgentOptions:
     """Create default options with marketplace plugins loaded.
 
@@ -52,7 +66,7 @@ def get_default_options(
 
     Args:
         plugin_paths: List of plugin directories to load
-        force_eval: If True, add system prompt that forces skill evaluation
+        mode: One of "baseline", "smart", or "forced"
     """
     if plugin_paths is None:
         plugins_root = Path(
@@ -64,30 +78,37 @@ def get_default_options(
             if p.is_dir() and (p / ".claude-plugin").exists()
         ]
 
+    system_prompt = {
+        "baseline": BASELINE_SYSTEM_PROMPT,
+        "smart": SMART_EVAL_SYSTEM_PROMPT,
+        "forced": FORCED_EVAL_SYSTEM_PROMPT,
+    }.get(mode, BASELINE_SYSTEM_PROMPT)
+
     return ClaudeAgentOptions(
         allowed_tools=["Read", "Glob", "Grep", "Skill", "WebSearch"],
         plugins=[{"type": "local", "path": str(p)} for p in plugin_paths],
-        system_prompt=FORCED_EVAL_SYSTEM_PROMPT if force_eval else None,
+        system_prompt=system_prompt,
     )
 
 
 async def run_single_test(
     skill_name: str,
-    prompt: str,
+    test_case: TestCase,
     options: ClaudeAgentOptions | None = None,
 ) -> ActivationRun:
     """Run a single test and detect skill activation.
 
     Args:
-        skill_name: Name of the skill we expect to be activated
-        prompt: The prompt to send to Claude
+        skill_name: Name of the skill we're testing
+        test_case: The test case with prompt and expectation
         options: Optional ClaudeAgentOptions for customization
 
     Returns:
-        ActivationRun with results including whether Skill() was called
+        ActivationRun with results including outcome (TP/FP/TN/FN)
     """
     start_time = time.monotonic()
     tool_calls: list[str] = []
+    skills_activated: list[str] = []
     skill_called = False
     response_text = ""
     error: str | None = None
@@ -96,7 +117,7 @@ async def run_single_test(
         options = get_default_options()
 
     try:
-        async for message in query(prompt=prompt, options=options):
+        async for message in query(prompt=test_case.prompt, options=options):
             if isinstance(message, AssistantMessage):
                 for block in message.content:
                     if isinstance(block, TextBlock):
@@ -104,7 +125,16 @@ async def run_single_test(
                     elif isinstance(block, ToolUseBlock):
                         tool_calls.append(block.name)
                         if block.name == "Skill":
-                            skill_called = True
+                            # Extract which skill was activated
+                            skill_input = block.input
+                            if isinstance(skill_input, dict) and "skill" in skill_input:
+                                activated_skill = skill_input["skill"]
+                                skills_activated.append(activated_skill)
+                                if activated_skill == skill_name:
+                                    skill_called = True
+                            else:
+                                # Skill was called but couldn't parse which one
+                                skill_called = True
 
     except Exception as e:
         error = str(e)
@@ -113,16 +143,22 @@ async def run_single_test(
 
     if error:
         status = RunStatus.ERROR
+        outcome = compute_outcome(test_case.expectation, False)
     elif skill_called:
         status = RunStatus.ACTIVATED
+        outcome = compute_outcome(test_case.expectation, True)
     else:
         status = RunStatus.NOT_ACTIVATED
+        outcome = compute_outcome(test_case.expectation, False)
 
     return ActivationRun(
         skill_name=skill_name,
-        prompt=prompt,
+        prompt=test_case.prompt,
+        expectation=test_case.expectation,
         status=status,
+        outcome=outcome,
         skill_called=skill_called,
+        skills_activated=skills_activated,
         tool_calls=tool_calls,
         response_preview=response_text[:200],
         duration_ms=duration_ms,
@@ -133,51 +169,85 @@ async def run_single_test(
 async def run_test_suite(
     suite: TestSuite,
     options: ClaudeAgentOptions | None = None,
+    config_description: str = "",
 ) -> ActivationReport:
-    """Run a complete test suite.
+    """Run a complete test suite with labeled expectations.
 
     Args:
         suite: The test suite configuration
         options: Optional ClaudeAgentOptions
+        config_description: Description of the config (e.g., "baseline", "with_hooks")
 
     Returns:
-        ActivationReport with all results
+        ActivationReport with precision/recall metrics
     """
-    report = ActivationReport(suite_name=suite.name)
+    report = ActivationReport(
+        suite_name=suite.name,
+        config_description=config_description,
+    )
 
-    for skill in suite.skills:
-        for prompt in skill.expected_triggers:
-            for _ in range(suite.runs_per_prompt):
+    # Run skill-specific test cases
+    for skill_spec in suite.skills:
+        for test_case in skill_spec.test_cases:
+            for _ in range(suite.runs_per_case):
                 run = await run_single_test(
-                    skill_name=skill.name,
-                    prompt=prompt,
+                    skill_name=skill_spec.name,
+                    test_case=test_case,
                     options=options,
                 )
                 report.runs.append(run)
                 await asyncio.sleep(0.5)
 
+    # Run negative test cases (should not trigger any skill)
+    for test_case in suite.negative_cases:
+        for _ in range(suite.runs_per_case):
+            run = await run_single_test(
+                skill_name="__none__",  # Special marker for "no skill expected"
+                test_case=test_case,
+                options=options,
+            )
+            report.runs.append(run)
+            await asyncio.sleep(0.5)
+
     return report
 
 
+async def run_comparison(
+    suite: TestSuite,
+    modes: list[str] | None = None,
+) -> dict[str, ActivationReport]:
+    """Run suite across multiple configurations for comparison.
+
+    Args:
+        suite: The test suite
+        modes: List of modes to test (default: ["baseline", "smart", "forced"])
+
+    Returns:
+        Dict mapping mode name to ActivationReport
+    """
+    if modes is None:
+        modes = ["baseline", "smart", "forced"]
+
+    results = {}
+    for mode in modes:
+        options = get_default_options(mode=mode)
+        report = await run_test_suite(
+            suite,
+            options,
+            config_description=mode,
+        )
+        results[mode] = report
+
+    return results
+
+
+# Legacy function for backwards compatibility
 async def run_baseline_comparison(
     suite: TestSuite,
 ) -> tuple[ActivationReport, ActivationReport]:
     """Run suite with and without forced eval for comparison.
 
-    Args:
-        suite: The test suite
-
-    Returns:
-        Tuple of (baseline_report, forced_eval_report)
+    DEPRECATED: Use run_comparison() instead.
     """
-    # Baseline: no system prompt
-    baseline_options = get_default_options(force_eval=False)
-    baseline_report = await run_test_suite(suite, baseline_options)
-    baseline_report.suite_name = f"{suite.name}_baseline"
-
-    # With forced eval: system prompt forces skill evaluation
-    forced_options = get_default_options(force_eval=True)
-    forced_report = await run_test_suite(suite, forced_options)
-    forced_report.suite_name = f"{suite.name}_forced_eval"
-
-    return baseline_report, forced_report
+    results = await run_comparison(suite, modes=["baseline", "forced"])
+    return results["baseline"], results["forced"]

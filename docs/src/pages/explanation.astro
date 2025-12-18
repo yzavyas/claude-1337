@@ -43,26 +43,35 @@ import Base from '../layouts/Base.astro';
 
   <p>his forced evaluation prompt achieved 84% activation (4.2x improvement).</p>
 
-  <h2>our validation</h2>
+  <h2>our eval framework</h2>
 
-  <p>we built an eval framework using claude agent sdk to test this:</p>
+  <p>we built an eval framework using claude agent sdk to measure activation rigorously:</p>
 
-  <pre><code># baseline test
-result = query(
-    prompt="set up a rust project with async http",
-    options=ClaudeAgentOptions(plugins=[rust_1337_plugin])
+  <pre><code># rigorous evaluation uses labeled test cases
+suite = TestSuite(
+    skills=[
+        SkillTestSpec(
+            name="rust-1337",
+            test_cases=[
+                # should activate
+                TestCase(prompt="what crate for cli args?", expectation="must_activate"),
+                # should NOT activate
+                TestCase(prompt="help me write python", expectation="should_not_activate"),
+                # ambiguous
+                TestCase(prompt="explain ownership", expectation="acceptable"),
+            ]
+        )
+    ],
+    negative_cases=[
+        TestCase(prompt="write a haiku", expectation="should_not_activate"),
+    ]
 )
-# activation: 0%
 
-# with forced eval
-result = query(
-    prompt="set up a rust project with async http",
-    options=ClaudeAgentOptions(
-        plugins=[rust_1337_plugin],
-        system_prompt=FORCED_EVAL_PROMPT
-    )
-)
-# activation: 100%</code></pre>
+# measures precision (avoid false activations) AND recall (catch valid triggers)
+report = await run_test_suite(suite, mode="baseline")
+print(f"Precision: {report.precision}, Recall: {report.recall}, F1: {report.f1}")</code></pre>
+
+  <p><strong>important:</strong> raw activation rate is meaningless without measuring false positives. a system that activates on every prompt has 100% recall but 0% precision.</p>
 
   <h2>the fix</h2>
 
@@ -93,27 +102,31 @@ result = query(
   <table>
     <tr>
       <th>aspect</th>
-      <th>without fix</th>
-      <th>with fix</th>
+      <th>baseline</th>
+      <th>smart eval</th>
+      <th>forced eval</th>
     </tr>
     <tr>
-      <td>activation rate</td>
+      <td>recall (catches triggers)</td>
       <td class="bad">~20%</td>
-      <td class="good">84%</td>
+      <td class="good">~70%</td>
+      <td class="good">~84%</td>
     </tr>
     <tr>
-      <td>response latency</td>
-      <td>baseline</td>
-      <td>+evaluation step</td>
+      <td>precision (avoids noise)</td>
+      <td>high</td>
+      <td>medium</td>
+      <td class="bad">lower</td>
     </tr>
     <tr>
       <td>token usage</td>
       <td>baseline</td>
-      <td>+skill evaluation output</td>
+      <td>+once per topic</td>
+      <td>+every message</td>
     </tr>
   </table>
 
-  <p>the latency and token cost are negligible compared to missed skill activations.</p>
+  <p><strong>recommendation:</strong> use "smart eval" (per-topic) for production. forced eval inflates recall but may increase false activations.</p>
 
   <h2>open questions</h2>
 

@@ -1,40 +1,30 @@
 # claude-1337-evals
 
-Skill activation testing for the claude-1337 marketplace using the Claude Agent SDK.
+Rigorous skill activation testing for the claude-1337 marketplace using the Claude Agent SDK.
 
-## Why This Exists
+## Why Rigorous Evaluation Matters
 
-Skills only activate ~20% of the time by default. This tool measures **actual** activation - not asking Claude's opinion, but observing whether it invokes the `Skill()` tool.
+**Raw activation rate is meaningless.** A system that activates skills on every prompt has 100% "activation rate" but is useless. Real evaluation requires:
 
-## Key Insights
+- **Precision**: When a skill activates, is it actually relevant?
+- **Recall**: When a skill should activate, does it?
+- **F1 Score**: Balanced metric that penalizes both missed activations and false activations
 
-### Skill Activation Research
+## Key Concepts
 
-From [Scott Spence's 200+ test study](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably):
-
-| Approach | Success Rate |
-|----------|--------------|
-| No intervention (baseline) | ~20% |
-| Simple instruction | ~20% |
-| LLM eval hook | 80% |
-| Forced eval hook | **84%** |
-
-### How Skills Actually Work
-
-From [Lee Han Chung's deep dive](https://leehanchung.github.io/blogs/2025/10/26/claude-skills-deep-dive/):
-
-- **No algorithmic routing** - no regex, no embeddings, no classifiers
-- **Pure LLM reasoning** - Claude reads skill descriptions and decides
-- **Description is everything** - it's the only signal for matching
-
-### What Makes Skills Activate
-
-| Pattern | Why |
-|---------|-----|
-| "Use when:" clause | Explicit trigger conditions |
-| Specific tools/terms | "axum, tonic, sqlx" not "backend" |
-| Action verbs | "building", "debugging", "configuring" |
-| Front-loaded keywords | Claude matches against description |
+```
+                        ACTUAL ACTIVATION
+                        Yes         No
+                    +-----------+-----------+
+SHOULD      Yes     |    TP     |    FN     |  <- Recall = TP/(TP+FN)
+ACTIVATE            | (correct) | (missed)  |
+                    +-----------+-----------+
+            No      |    FP     |    TN     |
+                    | (noise)   | (correct) |
+                    +-----------+-----------+
+                         ^
+                    Precision = TP/(TP+FP)
+```
 
 ## Installation
 
@@ -43,56 +33,117 @@ cd evals
 uv sync
 ```
 
-> **Note**: Tested with Claude Code subscription (Max plan). API testing pending.
-
 ## Usage
 
-### Single Test
+### Single Test with Expectation
 
 ```bash
-uv run skill-test test "How do I search for a pattern in my codebase?" -s terminal-1337 -n 3
+# Test that a skill SHOULD activate
+uv run skill-test test "How do I use ripgrep?" -s terminal-1337 -e must -n 5
+
+# Test that a skill should NOT activate
+uv run skill-test test "Write a haiku" -s terminal-1337 -e should_not -n 5
+
+# Compare modes
+uv run skill-test test "Find TODO comments" -s terminal-1337 -m baseline
+uv run skill-test test "Find TODO comments" -s terminal-1337 -m forced
 ```
 
-### Run Test Suite
+### Run Rigorous Test Suite
 
 ```bash
 # Create sample suite
 uv run skill-test init-suite sample-suite.json
 
-# Run suite
-uv run skill-test suite sample-suite.json -o report.md
+# Run suite with baseline (no system prompt)
+uv run skill-test suite suites/rigorous-v1.json -m baseline -o baseline-report.md
+
+# Run suite with forced eval
+uv run skill-test suite suites/rigorous-v1.json -m forced -o forced-report.md
+
+# Compare all modes
+uv run skill-test compare suites/rigorous-v1.json -o comparison-report.md
 ```
-
-## How It Works
-
-1. Sends prompts through Claude Agent SDK
-2. Monitors response stream for `ToolUseBlock` with `name == "Skill"`
-3. Records whether skill was actually invoked (ground truth)
-4. Generates markdown reports suitable for PRs
 
 ## Test Suite Format
 
+Test suites use labeled expectations for rigorous evaluation:
+
 ```json
 {
-  "name": "claude-1337-skills",
-  "description": "Test activation of marketplace skills",
+  "name": "rigorous-v1",
+  "description": "Rigorous skill activation eval",
+  "runs_per_case": 5,
   "skills": [
     {
       "name": "terminal-1337",
       "plugin": "terminal-1337",
-      "expected_triggers": [
-        "How do I search for a pattern in my codebase?",
-        "What's a fast way to find files by name?"
+      "test_cases": [
+        {
+          "prompt": "How do I use ripgrep to search?",
+          "expectation": "must_activate",
+          "rationale": "Direct mention of ripgrep"
+        },
+        {
+          "prompt": "Help me write a Python script",
+          "expectation": "should_not_activate",
+          "rationale": "Python task, not CLI tools"
+        },
+        {
+          "prompt": "How do I grep for a pattern?",
+          "expectation": "acceptable",
+          "rationale": "Could use built-in grep or suggest rg"
+        }
       ]
     }
   ],
-  "runs_per_prompt": 3
+  "negative_cases": [
+    {
+      "prompt": "Write me a haiku",
+      "expectation": "should_not_activate",
+      "rationale": "Creative task, no skill should activate"
+    }
+  ]
 }
 ```
 
+### Expectation Labels
+
+| Label | Meaning | Used For |
+|-------|---------|----------|
+| `must_activate` | Skill should definitely activate | Clear matches (TP/FN) |
+| `should_not_activate` | Skill should NOT activate | Off-topic prompts (TN/FP) |
+| `acceptable` | Either outcome is reasonable | Ambiguous cases (excluded from metrics) |
+
+## Modes
+
+| Mode | System Prompt | Use Case |
+|------|---------------|----------|
+| `baseline` | None | True baseline, no intervention |
+| `smart` | Per-topic evaluation | Production recommendation |
+| `forced` | Every-message evaluation | Testing, not recommended for production |
+
+## Interpreting Results
+
+### Good Results
+
+```
+Precision: 90%   (few false activations)
+Recall: 80%      (catches most valid triggers)
+F1: 85%          (balanced)
+```
+
+### Red Flags
+
+| Pattern | Problem |
+|---------|---------|
+| High recall, low precision | Over-activating (noise) |
+| Low recall, high precision | Under-activating (misses) |
+| High F1 with "forced" only | Dependent on artificial prompting |
+
 ## Methodology
 
-This is **not** a proxy test. We don't ask Claude "would you use this skill?" - we observe actual tool invocation:
+This is **ground truth** testing. We observe actual `Skill()` tool calls:
 
 ```python
 async for message in query(prompt=prompt, options=options):
@@ -103,16 +154,25 @@ async for message in query(prompt=prompt, options=options):
                     skill_called = True  # Ground truth
 ```
 
-## Interpreting Results
+We do NOT ask Claude "would you use this skill?" - we observe behavior.
 
-| Rate | Meaning |
-|------|---------|
-| 80%+ | Skill description is working well |
-| 50-79% | Description needs improvement |
-| <50% | Description likely missing "Use when:" or too vague |
+## Previous Methodology (Deprecated)
 
-## Sources
+The old eval framework only measured activation rate without ground truth labels:
 
+```json
+{
+  "expected_triggers": ["How do I use ripgrep?"]
+}
+```
+
+This was flawed because:
+1. All test cases assumed activation was correct
+2. No measurement of false positives
+3. Cherry-picked prompts inflated results
+
+## Research Sources
+
+- [Scott Spence: Skills activation study](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - 200+ test study showing 84% with forced eval
+- [Lee Han Chung: Skills deep dive](https://leehanchung.github.io/blogs/2025/10/26/claude-skills-deep-dive/) - How skills work internally
 - [Anthropic: Equipping agents with skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
-- [Scott Spence: Skills activation study](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably)
-- [Lee Han Chung: Skills deep dive](https://leehanchung.github.io/blogs/2025/10/26/claude-skills-deep-dive/)
