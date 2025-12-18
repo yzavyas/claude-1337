@@ -5,8 +5,8 @@ Key concepts:
 - Outcome: Classification result (TP/FP/TN/FN) based on expectation vs actual
 - Metrics: Precision, recall, F1 computed from outcomes
 
-See docs/WHY_EVALS_MATTER.md for the philosophy behind this framework.
-See docs/REFERENCE.md for technical specifications.
+See docs/why-evals-matter.md for the philosophy behind this framework.
+See docs/reference.md for technical specifications.
 """
 
 from datetime import datetime
