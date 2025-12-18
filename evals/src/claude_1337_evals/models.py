@@ -266,23 +266,33 @@ class ActivationReport(BaseModel):
         return len(self.runs)
 
     def compute_metrics(self) -> EvalMetrics:
-        """Compute precision/recall metrics from runs."""
-        metrics = EvalMetrics()
+        """Compute precision/recall metrics from runs.
+
+        Note: EvalMetrics is frozen, so we collect counts first then construct.
+        """
+        tp = fp = tn = fn = acceptable = errors = 0
         for run in self.runs:
             match run.outcome:
                 case Outcome.TRUE_POSITIVE:
-                    metrics.true_positives += 1
+                    tp += 1
                 case Outcome.FALSE_POSITIVE:
-                    metrics.false_positives += 1
+                    fp += 1
                 case Outcome.TRUE_NEGATIVE:
-                    metrics.true_negatives += 1
+                    tn += 1
                 case Outcome.FALSE_NEGATIVE:
-                    metrics.false_negatives += 1
+                    fn += 1
                 case Outcome.ACCEPTABLE:
-                    metrics.acceptable += 1
+                    acceptable += 1
                 case Outcome.ERROR:
-                    metrics.errors += 1
-        return metrics
+                    errors += 1
+        return EvalMetrics(
+            true_positives=tp,
+            false_positives=fp,
+            true_negatives=tn,
+            false_negatives=fn,
+            acceptable=acceptable,
+            errors=errors,
+        )
 
     def skill_metrics(self) -> dict[str, EvalMetrics]:
         """Get metrics broken down by skill."""

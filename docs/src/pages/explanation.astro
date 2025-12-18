@@ -49,9 +49,11 @@ import Base from '../layouts/Base.astro';
 
   <pre><code># rigorous evaluation uses labeled test cases
 suite = TestSuite(
+    name="rust-eval",
     skills=[
         SkillTestSpec(
             name="rust-1337",
+            plugin="rust-1337",
             test_cases=[
                 # should activate
                 TestCase(prompt="what crate for cli args?", expectation="must_activate"),
@@ -69,7 +71,8 @@ suite = TestSuite(
 
 # measures precision (avoid false activations) AND recall (catch valid triggers)
 report = await run_test_suite(suite, mode="baseline")
-print(f"Precision: {report.precision}, Recall: {report.recall}, F1: {report.f1}")</code></pre>
+metrics = report.compute_metrics()
+print(f"Precision: {metrics.precision}, Recall: {metrics.recall}, F1: {metrics.f1_score}")</code></pre>
 
   <p><strong>important:</strong> raw activation rate is meaningless without measuring false positives. a system that activates on every prompt has 100% recall but 0% precision.</p>
 
@@ -139,7 +142,7 @@ print(f"Precision: {report.precision}, Recall: {report.recall}, F1: {report.f1}"
   <h2>sources</h2>
 
   <ul>
-    <li><a href="https://scottspence.com/posts/claude-code-skills">scott spence - claude code skills research</a></li>
+    <li><a href="https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably">scott spence - claude code skills research</a></li>
     <li><a href="https://www.reddit.com/r/ClaudeAI/comments/1pha74t/deep_dive_anatomy_of_a_skill_its_tokenomics_why/">reddit - anatomy of a skill, tokenomics, truncation</a></li>
     <li><a href="https://www.reddit.com/r/ClaudeAI/comments/1pe37e3/claudemd_and_skills_experiment_whats_the_best_way/">reddit - CLAUDE.md and skills experiment</a></li>
     <li>our eval framework: <code>/evals</code> in the repo</li>

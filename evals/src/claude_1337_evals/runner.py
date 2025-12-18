@@ -19,6 +19,7 @@ from .models import (
     ActivationReport,
     ActivationRun,
     Expectation,
+    Outcome,
     RunStatus,
     TestCase,
     TestSuite,
@@ -143,7 +144,7 @@ async def run_single_test(
 
     if error:
         status = RunStatus.ERROR
-        outcome = compute_outcome(test_case.expectation, False)
+        outcome = Outcome.ERROR  # Error cases are excluded from metrics
     elif skill_called:
         status = RunStatus.ACTIVATED
         outcome = compute_outcome(test_case.expectation, True)
