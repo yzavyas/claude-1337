@@ -2,6 +2,10 @@
 
 Rigorous skill activation testing for the claude-1337 marketplace using the Claude Agent SDK.
 
+**Deep Dives**:
+- [docs/WHY_EVALS_MATTER.md](docs/WHY_EVALS_MATTER.md) - philosophy, connection to TDD and scientific method
+- [docs/REFERENCE.md](docs/REFERENCE.md) - metrics definitions, schemas, CLI reference
+
 ## Why Rigorous Evaluation Matters
 
 **Raw activation rate is meaningless.** A system that activates skills on every prompt has 100% "activation rate" but is useless. Real evaluation requires:

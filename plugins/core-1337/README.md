@@ -20,9 +20,11 @@ Sets session-wide behavior at startup:
 
 ## Why this exists
 
-Without core-1337, skills activate ~20% of the time. With it, ~84%.
+Without intervention, skills activate ~20% of the time. With core-1337's evaluation hook, recall improves to ~84%.
 
-More importantly, it establishes the philosophy: elite developer standards throughout the session.
+**Note**: Higher recall may mean lower precision (more false activations). The smart eval approach balances both. See [/evals](../../evals/) for rigorous testing methodology.
+
+More importantly, core-1337 establishes the philosophy: elite developer standards throughout the session.
 
 ## Technical
 

@@ -36,6 +36,17 @@ See [docs/](docs/) for details.
 
 The methodology is documented in `1337-skill-creator`.
 
+## Testing with Evals
+
+Skills are validated using rigorous evaluation methodology:
+
+```bash
+cd evals && uv sync
+uv run skill-test suite suites/rigorous-v1.json -m baseline
+```
+
+Measures **precision** (avoid false activations) and **recall** (catch valid triggers), not just raw activation rate. See [evals/](evals/) for the framework and [evals/docs/WHY_EVALS_MATTER.md](evals/docs/WHY_EVALS_MATTER.md) for the philosophy.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
