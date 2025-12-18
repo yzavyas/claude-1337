@@ -4,13 +4,16 @@ Key concepts:
 - Expectation: Ground truth label for whether a skill SHOULD activate
 - Outcome: Classification result (TP/FP/TN/FN) based on expectation vs actual
 - Metrics: Precision, recall, F1 computed from outcomes
+
+See docs/WHY_EVALS_MATTER.md for the philosophy behind this framework.
+See docs/REFERENCE.md for technical specifications.
 """
 
 from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class RunStatus(str, Enum):
@@ -60,17 +63,37 @@ class TestCase(BaseModel):
     this explicitly labels what SHOULD happen.
     """
 
-    prompt: str = Field(description="The prompt to send to Claude")
+    model_config = ConfigDict(frozen=True)
+
+    prompt: str = Field(description="The prompt to send to Claude", min_length=1)
     expectation: Expectation = Field(description="Ground truth: should skill activate?")
     rationale: str = Field(default="", description="Why this expectation is correct")
+
+    @field_validator("prompt")
+    @classmethod
+    def prompt_not_whitespace(cls, v: str) -> str:
+        """Ensure prompt is not just whitespace."""
+        if not v.strip():
+            raise ValueError("Prompt cannot be empty or whitespace only")
+        return v.strip()
 
 
 class SkillTestSpec(BaseModel):
     """Test specification for a skill with labeled test cases."""
 
-    name: str = Field(description="Skill name as it appears in available_skills")
-    plugin: str = Field(description="Plugin containing the skill")
-    test_cases: list[TestCase] = Field(description="Labeled test cases")
+    model_config = ConfigDict(frozen=True)
+
+    name: str = Field(description="Skill name as it appears in available_skills", min_length=1)
+    plugin: str = Field(description="Plugin containing the skill", min_length=1)
+    test_cases: list[TestCase] = Field(description="Labeled test cases", min_length=1)
+
+    @field_validator("name", "plugin")
+    @classmethod
+    def no_whitespace_only(cls, v: str) -> str:
+        """Ensure name and plugin are not just whitespace."""
+        if not v.strip():
+            raise ValueError("Cannot be empty or whitespace only")
+        return v.strip()
 
 
 class ActivationRun(BaseModel):
@@ -103,19 +126,32 @@ def compute_outcome(expectation: Expectation, activated: bool) -> Outcome:
 
 
 class EvalMetrics(BaseModel):
-    """Precision/recall metrics for rigorous evaluation."""
+    """Precision/recall metrics for rigorous evaluation.
 
-    true_positives: int = 0
-    false_positives: int = 0
-    true_negatives: int = 0
-    false_negatives: int = 0
-    acceptable: int = 0
-    errors: int = 0
+    Implements standard information retrieval metrics:
+    - Precision: TP / (TP + FP)
+    - Recall: TP / (TP + FN)
+    - F1: Harmonic mean of precision and recall
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    true_positives: int = Field(default=0, ge=0)
+    false_positives: int = Field(default=0, ge=0)
+    true_negatives: int = Field(default=0, ge=0)
+    false_negatives: int = Field(default=0, ge=0)
+    acceptable: int = Field(default=0, ge=0)
+    errors: int = Field(default=0, ge=0)
 
     @property
     def total_classified(self) -> int:
         """Total runs that count toward precision/recall (excludes acceptable/errors)."""
         return self.true_positives + self.false_positives + self.true_negatives + self.false_negatives
+
+    @property
+    def total_runs(self) -> int:
+        """Total runs including acceptable and errors."""
+        return self.total_classified + self.acceptable + self.errors
 
     @property
     def precision(self) -> float:
@@ -149,25 +185,81 @@ class EvalMetrics(BaseModel):
         total = self.total_classified
         return activated / total if total > 0 else 0.0
 
+    def summary(self) -> dict:
+        """Return a dictionary summary suitable for JSON serialization."""
+        return {
+            "precision": round(self.precision, 4),
+            "recall": round(self.recall, 4),
+            "f1_score": round(self.f1_score, 4),
+            "accuracy": round(self.accuracy, 4),
+            "confusion_matrix": {
+                "tp": self.true_positives,
+                "fp": self.false_positives,
+                "tn": self.true_negatives,
+                "fn": self.false_negatives,
+            },
+            "excluded": {
+                "acceptable": self.acceptable,
+                "errors": self.errors,
+            },
+            "total_classified": self.total_classified,
+            "total_runs": self.total_runs,
+        }
+
+    def is_passing(self, min_f1: float = 0.6, min_precision: float = 0.5) -> bool:
+        """Check if metrics meet minimum thresholds."""
+        return self.f1_score >= min_f1 and self.precision >= min_precision
+
 
 class TestSuite(BaseModel):
-    """Configuration for a rigorous test suite."""
+    """Configuration for a rigorous test suite.
 
-    name: str
-    description: str = ""
-    skills: list[SkillTestSpec]
-    runs_per_case: int = Field(default=5, ge=1, le=20)
-    # Negative test cases that should NOT trigger any skill
-    negative_cases: list[TestCase] = Field(default_factory=list)
+    A test suite contains:
+    - Skill-specific test cases (both positive and negative per skill)
+    - Global negative cases (prompts that should not trigger ANY skill)
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    name: str = Field(min_length=1, description="Suite name for reports")
+    description: str = Field(default="", description="Suite description")
+    skills: list[SkillTestSpec] = Field(min_length=1, description="Skills to test")
+    runs_per_case: int = Field(default=5, ge=1, le=20, description="Runs per test case")
+    negative_cases: list[TestCase] = Field(
+        default_factory=list,
+        description="Prompts that should NOT trigger any skill",
+    )
+
+    @field_validator("name")
+    @classmethod
+    def name_not_whitespace(cls, v: str) -> str:
+        """Ensure name is not just whitespace."""
+        if not v.strip():
+            raise ValueError("Name cannot be empty or whitespace only")
+        return v.strip()
+
+    @property
+    def total_test_cases(self) -> int:
+        """Total number of test cases across all skills plus negative cases."""
+        skill_cases = sum(len(s.test_cases) for s in self.skills)
+        return skill_cases + len(self.negative_cases)
+
+    @property
+    def total_runs(self) -> int:
+        """Total runs (test cases * runs_per_case)."""
+        return self.total_test_cases * self.runs_per_case
 
 
 class ActivationReport(BaseModel):
-    """Complete activation test report with rigorous metrics."""
+    """Complete activation test report with rigorous metrics.
 
-    suite_name: str
+    Contains all runs from a test suite and computes aggregate metrics.
+    """
+
+    suite_name: str = Field(min_length=1)
     timestamp: datetime = Field(default_factory=datetime.now)
     runs: list[ActivationRun] = Field(default_factory=list)
-    config_description: str = ""  # e.g., "baseline" or "with_forced_eval"
+    config_description: str = Field(default="", description="e.g., 'baseline' or 'with_forced_eval'")
 
     @property
     def total_runs(self) -> int:
@@ -235,6 +327,25 @@ class ActivationReport(BaseModel):
                 "f1": metrics.f1_score,
             }
         return result
+
+    def summary(self) -> dict:
+        """Return a summary suitable for JSON serialization."""
+        metrics = self.compute_metrics()
+        return {
+            "suite_name": self.suite_name,
+            "config": self.config_description,
+            "timestamp": self.timestamp.isoformat(),
+            "total_runs": self.total_runs,
+            "metrics": metrics.summary(),
+            "by_skill": {
+                name: m.summary()
+                for name, m in self.skill_metrics().items()
+            },
+        }
+
+    def is_passing(self, min_f1: float = 0.6, min_precision: float = 0.5) -> bool:
+        """Check if overall metrics meet minimum thresholds."""
+        return self.compute_metrics().is_passing(min_f1, min_precision)
 
 
 # Backwards compatibility alias
