@@ -6,6 +6,22 @@ interface Props {
 
 const { title, description = 'best-in-class skills - THE answer, not catalogs' } = Astro.props;
 const currentPath = Astro.url.pathname;
+
+// Dynamically get all reference pages (excluding index)
+const referencePages = await Astro.glob('../pages/reference/*.astro');
+const referenceLinks = referencePages
+  .filter(page => !page.url?.endsWith('/reference/') && !page.url?.endsWith('/reference'))
+  .map(page => {
+    const url = page.url || '';
+    const name = url.split('/').filter(Boolean).pop() || '';
+    return { url: url.endsWith('/') ? url : url + '/', name };
+  })
+  .sort((a, b) => {
+    // Sort core-1337 first, then alphabetically
+    if (a.name === 'core-1337') return -1;
+    if (b.name === 'core-1337') return 1;
+    return a.name.localeCompare(b.name);
+  });
 ---
 
 <html lang="en">
@@ -344,11 +360,9 @@ const currentPath = Astro.url.pathname;
         <li class="has-sub">
           <a href="/claude-1337/reference/" class={currentPath.includes('/reference') ? 'active' : ''}>reference</a>
           <ul class="subnav">
-            <li><a href="/claude-1337/reference/core-1337/">core-1337</a></li>
-            <li><a href="/claude-1337/reference/terminal-1337/">terminal-1337</a></li>
-            <li><a href="/claude-1337/reference/rust-1337/">rust-1337</a></li>
-            <li><a href="/claude-1337/reference/1337-skill-creator/">1337-skill-creator</a></li>
-            <li><a href="/claude-1337/reference/sensei-1337/">sensei-1337</a></li>
+            {referenceLinks.map(({ url, name }) => (
+              <li><a href={url}>{name}</a></li>
+            ))}
           </ul>
         </li>
         <li><a href="/claude-1337/explanation/" class={currentPath.includes('/explanation') ? 'active' : ''}>explanation</a></li>
