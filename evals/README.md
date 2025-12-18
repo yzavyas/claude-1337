@@ -3,8 +3,8 @@
 Rigorous skill activation testing for the claude-1337 marketplace using the Claude Agent SDK.
 
 **Deep Dives**:
-- [docs/WHY_EVALS_MATTER.md](docs/WHY_EVALS_MATTER.md) - philosophy, connection to TDD and scientific method
-- [docs/REFERENCE.md](docs/REFERENCE.md) - metrics definitions, schemas, CLI reference
+- [docs/why-evals-matter.md](docs/why-evals-matter.md) - philosophy, connection to TDD and scientific method
+- [docs/reference.md](docs/reference.md) - metrics definitions, schemas, CLI reference
 
 ## Why Rigorous Evaluation Matters
 

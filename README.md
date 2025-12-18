@@ -45,7 +45,7 @@ cd evals && uv sync
 uv run skill-test suite suites/rigorous-v1.json -m baseline
 ```
 
-Measures **precision** (avoid false activations) and **recall** (catch valid triggers), not just raw activation rate. See [evals/](evals/) for the framework and [evals/docs/WHY_EVALS_MATTER.md](evals/docs/WHY_EVALS_MATTER.md) for the philosophy.
+Measures **precision** (avoid false activations) and **recall** (catch valid triggers), not just raw activation rate. See [evals/](evals/) for the framework and [evals/docs/why-evals-matter.md](evals/docs/why-evals-matter.md) for the philosophy.
 
 ## Contributing
 
