@@ -1,24 +1,38 @@
 # Eval Fundamentals
 
-Your skill activates 84% of the time. Is that good?
+Your agent solved 72% of tasks. Is that good?
 
 You don't know. And that's the problem.
+
+---
+
+## The Problem: LLMs Are Probabilistic
+
+LLMs and their extension mechanisms (skills, agents, MCP servers, tools) are:
+
+| Property | Implication |
+|----------|-------------|
+| **Stochastic** | Same input, different outputs. One test means nothing. |
+| **Multi-layered** | Model + harness + tools = many failure points. |
+| **Binary decisions** | "Use this tool or not" is classification. |
+
+Without rigorous measurement, you're guessing.
 
 ---
 
 ## The Trap: Vanity Metrics
 
 ```python
-# A skill that activates on EVERY prompt
-if any_prompt:
-    activate()  # 100% activation rate!
+# An agent that claims success on EVERY task
+def evaluate(task):
+    return "completed"  # 100% completion rate!
 ```
 
-100% activation. Completely useless.
+100% completion. Completely meaningless.
 
-**Activation rate alone tells you nothing.** You need to know:
-- When it activates, is it actually relevant?
-- When it should activate, does it?
+**Single metrics tell you nothing.** You need to ask:
+- When it claims success, is it actually correct?
+- When it should succeed, does it?
 
 ---
 
@@ -26,8 +40,8 @@ if any_prompt:
 
 | Metric | Question | Failure Mode |
 |--------|----------|--------------|
-| **Precision** | When it fires, is it right? | Noise (false alarms) |
-| **Recall** | When it should fire, does it? | Misses (silent failures) |
+| **Precision** | When it fires, is it right? | Noise (false positives) |
+| **Recall** | When it should fire, does it? | Misses (false negatives) |
 
 Both matter. Optimizing one destroys the other.
 
@@ -37,8 +51,8 @@ Both matter. Optimizing one destroys the other.
 
 | Strategy | Precision | Recall | Problem |
 |----------|-----------|--------|---------|
-| Never activate | 100% | 0% | Useless |
-| Always activate | ~10% | 100% | All noise |
+| Never trigger | 100% | 0% | Useless - misses everything |
+| Always trigger | Low | 100% | All noise |
 | **Balanced** | 85% | 80% | **This is the goal** |
 
 ---
@@ -68,25 +82,25 @@ You can't game F1 by going extreme.
 Every test result lands in one box:
 
 ```
-                      ACTUALLY ACTIVATED
-                        Yes         No
+                      ACTUAL OUTCOME
+                      Positive      Negative
                     +-----------+-----------+
-SHOULD        Yes   |    TP     |    FN     |
-ACTIVATE            |  Correct  |  Missed   |
+EXPECTED   Positive |    TP     |    FN     |
+                    |  Correct  |  Missed   |
                     +-----------+-----------+
-              No    |    FP     |    TN     |
+           Negative |    FP     |    TN     |
                     |   Noise   |  Correct  |
                     +-----------+-----------+
 ```
 
-- **TP** (True Positive): Should activate, did. Good.
-- **TN** (True Negative): Shouldn't activate, didn't. Good.
-- **FP** (False Positive): Shouldn't activate, but did. Noise.
-- **FN** (False Negative): Should activate, but didn't. Missed.
+- **TP** (True Positive): Expected positive, got positive. Good.
+- **TN** (True Negative): Expected negative, got negative. Good.
+- **FP** (False Positive): Expected negative, got positive. Noise.
+- **FN** (False Negative): Expected positive, got negative. Missed.
 
 Then:
 ```
-Precision = TP / (TP + FP)    "Of my activations, how many were right?"
+Precision = TP / (TP + FP)    "Of my positives, how many were right?"
 Recall    = TP / (TP + FN)    "Of the cases I should catch, how many did I?"
 ```
 
@@ -94,7 +108,7 @@ Recall    = TP / (TP + FN)    "Of the cases I should catch, how many did I?"
 
 ## Where This Framework Comes From
 
-F1 isn't new. It's battle-tested across domains:
+Precision/recall isn't new. It's battle-tested across domains:
 
 | Domain | Precision = | Recall = |
 |--------|-------------|----------|
@@ -102,37 +116,31 @@ F1 isn't new. It's battle-tested across domains:
 | Spam filters | Actual spam / flagged as spam | Spam caught / all spam |
 | Medical tests | True disease / positive tests | Detected / all cases |
 | Fraud detection | Actual fraud / flagged fraud | Fraud caught / all fraud |
-| **Skill activation** | Relevant / activated | Caught / should activate |
+| **LLM evals** | Correct / claimed correct | Correct / should be correct |
 
 Same math. Different domain.
 
 ---
 
-## Why LLMs Need This
-
-LLMs are:
-
-| Property | Implication |
-|----------|-------------|
-| **Stochastic** | Same input, different outputs. One test means nothing. |
-| **Binary decisions** | "Use skill or not" is classification. |
-| **Asymmetric costs** | Missing knowledge ≠ false activation. |
-
-This is why we run 5+ tests per prompt. Probabilistic systems need statistical rigor.
-
----
-
 ## What to Benchmark
 
-| Target | What You Measure | Why It Matters |
-|--------|------------------|----------------|
-| **Skills** | Activation precision/recall | Right knowledge at right time? |
-| **Agents** | Task completion rate | Does it solve the problem? |
-| **MCP Servers** | Tool call success rate | Reliable integration? |
-| **Prompts** | Response quality (LLM-as-judge) | Good outputs? |
-| **Code Gen** | Lint pass, test pass | Correct code? |
+LLMs have multiple extension points. Each needs different evaluation:
 
-Each has different metrics, but the same principle: **measure both false positives and false negatives**.
+| Target | What You Measure | Metric Type |
+|--------|------------------|-------------|
+| **Skills** | Activation precision/recall | Classification (F1) |
+| **Agents** | Task completion rate | Accuracy |
+| **MCP Servers** | Tool call success rate | Accuracy |
+| **Prompts** | Response quality | LLM-as-judge score |
+| **Code Gen** | Lint pass, test pass | Accuracy |
+
+### Classification vs Accuracy
+
+| Benchmark Type | When to Use | Metric |
+|----------------|-------------|--------|
+| **Classification** | Binary yes/no with both failure modes | Precision/Recall/F1 |
+| **Task Completion** | Did it solve the problem? | Accuracy |
+| **Quality Scoring** | How good is the output? | LLM-as-judge (1-5) |
 
 ---
 
@@ -142,17 +150,17 @@ Good evals need labeled expectations:
 
 ```json
 {
-  "prompt": "What crate for CLI args in Rust?",
-  "expectation": "must_activate",
+  "input": "What crate for CLI args in Rust?",
+  "expectation": "must_trigger",
   "rationale": "Direct Rust tooling question"
 }
 ```
 
 ```json
 {
-  "prompt": "Write me a haiku",
-  "expectation": "should_not_activate",
-  "rationale": "Creative task, no skill needed"
+  "input": "Write me a haiku",
+  "expectation": "should_not_trigger",
+  "rationale": "Creative task, no tool needed"
 }
 ```
 
@@ -164,8 +172,8 @@ Without labels, you can't compute precision or recall. You're just guessing.
 
 | Label | Meaning | Used For |
 |-------|---------|----------|
-| `must_activate` | Should definitely fire | Clear matches (measures recall) |
-| `should_not_activate` | Must not fire | Off-topic (measures precision) |
+| `must_trigger` | Should definitely fire | Clear matches (measures recall) |
+| `should_not_trigger` | Must not fire | Off-topic (measures precision) |
 | `acceptable` | Either is fine | Edge cases (excluded from metrics) |
 
 ---
@@ -174,25 +182,25 @@ Without labels, you can't compute precision or recall. You're just guessing.
 
 ```
 1. HYPOTHESIS
-   "This skill triggers on Rust CLI questions"
+   "This agent solves file search tasks"
         ↓
 2. TEST CASES
-   Write prompts with labeled expectations
+   Write inputs with labeled expectations
         ↓
 3. RUN
    Execute 5+ times per case (stochastic!)
         ↓
 4. MEASURE
-   Compute precision, recall, F1
+   Compute precision, recall, F1 (or accuracy)
         ↓
 5. ITERATE
-   Fix description, re-run, compare
+   Improve prompts/tools, re-run, compare
         ↓
 6. SHIP
-   Only when F1 meets threshold
+   Only when metrics meet threshold
 ```
 
-This is TDD for agent behavior. Same loop: red → green → refactor.
+This is TDD for LLM behavior. Same loop: red → green → refactor.
 
 ---
 
@@ -200,10 +208,10 @@ This is TDD for agent behavior. Same loop: red → green → refactor.
 
 | Pattern | Problem | Fix |
 |---------|---------|-----|
-| High recall, low precision | Over-activating (noise) | Tighten description |
-| Low recall, high precision | Under-activating (misses) | Broaden triggers |
-| High variance across runs | Unstable behavior | More runs, check prompt |
-| Great with "forced", bad without | Artificial inflation | Use "smart" mode |
+| High recall, low precision | Over-triggering (noise) | Tighten conditions |
+| Low recall, high precision | Under-triggering (misses) | Broaden triggers |
+| High variance across runs | Unstable behavior | More runs, check prompts |
+| Great with scaffolding, bad without | Artificial inflation | Test realistic conditions |
 
 ---
 
@@ -214,7 +222,7 @@ This is TDD for agent behavior. Same loop: red → green → refactor.
 | Evidence over opinion | Metrics, not vibes |
 | Ground truth | Labeled expectations |
 | Statistical rigor | 5+ runs per case |
-| Balanced metrics | F1, not just recall |
+| Balanced metrics | F1, not just recall or accuracy |
 | Reproducibility | Same suite, comparable results |
 
 ---
