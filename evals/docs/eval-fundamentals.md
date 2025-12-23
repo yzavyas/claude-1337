@@ -6,80 +6,207 @@ You don't know. And that's the problem.
 
 ---
 
-## The Problem: LLMs Are Probabilistic
+## The Five Evaluation Objectives
 
-LLMs and their extension mechanisms (skills, agents, MCP servers, tools) are:
+What you measure depends on what you're evaluating:
 
-| Property | Implication |
-|----------|-------------|
-| **Stochastic** | Same input, different outputs. One test means nothing. |
-| **Multi-layered** | Model + harness + tools = many failure points. |
-| **Binary decisions** | "Use this tool or not" is classification. |
-
-Without rigorous measurement, you're guessing.
+| Objective | Question | How to Measure |
+|-----------|----------|----------------|
+| **Task Completion** | Did it achieve the goal? | Success rate, pass/fail |
+| **Tool Correctness** | Did it use tools correctly? | Correct tools called, valid inputs |
+| **Output Quality** | Is the output good? | LLM-as-judge, rubrics, rules |
+| **Reliability** | Is it consistent? | Variance across runs |
+| **Robustness** | Does it handle variations? | Stress testing, perturbations |
 
 ---
 
-## The Trap: Vanity Metrics
+## Matching Objectives to Targets
+
+### Agents
+
+| What to Measure | Metric | Example |
+|-----------------|--------|---------|
+| Task completion | Success rate | 84% of GitHub issues resolved |
+| Tool correctness | Tool accuracy | Called right tools with valid inputs |
+| Output quality | LLM-as-judge | Code passes review criteria |
+| Reliability | Consistency | Similar results across 5 runs |
+
+### Skills
+
+| What to Measure | Metric | Example |
+|-----------------|--------|---------|
+| Activation | Precision/Recall/F1 | Triggers on right prompts, ignores wrong ones |
+| Content quality | LLM-as-judge | Loaded content is useful |
+
+### MCP Servers
+
+| What to Measure | Metric | Example |
+|-----------------|--------|---------|
+| Tool correctness | Success rate | 95% of calls return valid response |
+| Schema compliance | Validation rate | Inputs/outputs match schema |
+| Reliability | Error rate | Low failure rate over time |
+
+### Prompts
+
+| What to Measure | Metric | Example |
+|-----------------|--------|---------|
+| Output quality | LLM-as-judge (1-5) | Responses score 4.2/5 on rubric |
+| Rule compliance | Pass rate | Output follows format requirements |
+| Reliability | Variance | Consistent quality across runs |
+
+---
+
+## The Three Metric Types
+
+### 1. Accuracy (Task Completion)
+
+Binary pass/fail. Did it work?
+
+```
+Accuracy = Correct / Total
+```
+
+**Use for:** SWE-bench, code execution, test pass rates
+
+### 2. Classification (Precision/Recall/F1)
+
+When you have both false positives AND false negatives.
+
+```
+Precision = TP / (TP + FP)    "when it fires, is it right?"
+Recall    = TP / (TP + FN)    "when it should fire, does it?"
+F1        = 2×(P×R)/(P+R)     "balanced score"
+```
+
+**Use for:** Skill activation, trigger detection, classification tasks
+
+### 3. Quality Scoring (LLM-as-Judge)
+
+Subjective quality on a scale.
+
+```
+Score = LLM rates output against rubric (1-5 or 1-10)
+```
+
+**Use for:** Prompt quality, response evaluation, code review
+
+---
+
+## Task Completion
+
+The simplest metric: did it work?
+
+```
+Success Rate = (Tasks Completed Successfully) / (Total Tasks)
+```
+
+| Benchmark | Task | Success Criteria |
+|-----------|------|------------------|
+| SWE-bench | Fix GitHub issue | Tests pass |
+| HumanEval | Write function from docstring | Tests pass |
+| Custom agent | Complete user request | Defined success state reached |
+
+**Limitations:**
+- Doesn't measure HOW it succeeded (quality, efficiency)
+- Binary - no partial credit
+- Depends on test quality
+
+---
+
+## Tool Correctness
+
+Did the agent use the right tools with correct inputs?
+
+| Level | What's Checked |
+|-------|----------------|
+| Basic | Correct tool name called |
+| Strict | + Correct input parameters |
+| Full | + Correct output handling |
 
 ```python
-# An agent that claims success on EVERY task
-def evaluate(task):
-    return "completed"  # 100% completion rate!
+# expected: search_web("latest rust async patterns")
+# actual: search_web("rust async")
+
+# basic: PASS (correct tool)
+# strict: FAIL (wrong query)
 ```
 
-100% completion. Completely meaningless.
-
-**Single metrics tell you nothing.** You need to ask:
-- When it claims success, is it actually correct?
-- When it should succeed, does it?
-
 ---
 
-## The Two Questions
+## Output Quality
 
-| Metric | Question | Failure Mode |
-|--------|----------|--------------|
-| **Precision** | When it fires, is it right? | Noise (false positives) |
-| **Recall** | When it should fire, does it? | Misses (false negatives) |
+Is the output good? Three approaches:
 
-Both matter. Optimizing one destroys the other.
+### LLM-as-Judge
 
----
+```python
+prompt = f"""
+Rate this code review on a scale of 1-5:
 
-## The Extremes Don't Work
+{output}
 
-| Strategy | Precision | Recall | Problem |
-|----------|-----------|--------|---------|
-| Never trigger | 100% | 0% | Useless - misses everything |
-| Always trigger | Low | 100% | All noise |
-| **Balanced** | 85% | 80% | **This is the goal** |
-
----
-
-## F1: The Balancing Metric
-
-F1 is the harmonic mean of precision and recall:
-
-```
-F1 = 2 × (Precision × Recall) / (Precision + Recall)
+Criteria:
+- Identifies real issues
+- Provides actionable feedback
+- Appropriate tone
+"""
 ```
 
-Why harmonic mean? It punishes imbalance.
+### Rubric-Based
 
-| Precision | Recall | Regular Avg | F1 |
-|-----------|--------|-------------|-----|
-| 100% | 0% | 50% | **0%** |
-| 100% | 50% | 75% | **67%** |
-| 80% | 80% | 80% | **80%** |
+| Score | Criteria |
+|-------|----------|
+| 5 | Exceeds requirements, no issues |
+| 4 | Meets requirements, minor issues |
+| 3 | Partially meets requirements |
+| 2 | Significant gaps |
+| 1 | Fails requirements |
 
-You can't game F1 by going extreme.
+### Rules-Based
+
+Deterministic checks:
+- Output contains required fields
+- Code passes linter
+- Response under token limit
+- No forbidden content
 
 ---
 
-## The Confusion Matrix
+## Reliability
 
-Every test result lands in one box:
+Is it consistent across runs?
+
+LLMs are stochastic. Run the same task 5 times:
+
+```
+Run 1: SUCCESS
+Run 2: SUCCESS
+Run 3: FAIL
+Run 4: SUCCESS
+Run 5: SUCCESS
+
+Reliability = 4/5 = 80%
+```
+
+**Why it matters:**
+- Production systems need predictability
+- High variance = unreliable
+- Enterprise contexts require deterministic behavior
+
+**Measuring it:**
+- Run 5+ times per test case
+- Compute variance/standard deviation
+- Report confidence intervals
+
+---
+
+## Classification (Precision/Recall/F1)
+
+Use when you have TWO failure modes:
+- **False positive**: Triggered when it shouldn't (noise)
+- **False negative**: Didn't trigger when it should (miss)
+
+### The Confusion Matrix
 
 ```
                       ACTUAL OUTCOME
@@ -93,125 +220,74 @@ EXPECTED   Positive |    TP     |    FN     |
                     +-----------+-----------+
 ```
 
-- **TP** (True Positive): Expected positive, got positive. Good.
-- **TN** (True Negative): Expected negative, got negative. Good.
-- **FP** (False Positive): Expected negative, got positive. Noise.
-- **FN** (False Negative): Expected positive, got negative. Missed.
+### Why F1?
 
-Then:
-```
-Precision = TP / (TP + FP)    "Of my positives, how many were right?"
-Recall    = TP / (TP + FN)    "Of the cases I should catch, how many did I?"
-```
+| Precision | Recall | Regular Avg | F1 |
+|-----------|--------|-------------|-----|
+| 100% | 0% | 50% | **0%** |
+| 100% | 50% | 75% | **67%** |
+| 80% | 80% | 80% | **80%** |
 
----
+You can't game F1 by going extreme.
 
-## Where This Framework Comes From
-
-Precision/recall isn't new. It's battle-tested across domains:
-
-| Domain | Precision = | Recall = |
-|--------|-------------|----------|
-| Search engines | Relevant results / shown results | Relevant found / all relevant |
-| Spam filters | Actual spam / flagged as spam | Spam caught / all spam |
-| Medical tests | True disease / positive tests | Detected / all cases |
-| Fraud detection | Actual fraud / flagged fraud | Fraud caught / all fraud |
-| **LLM evals** | Correct / claimed correct | Correct / should be correct |
-
-Same math. Different domain.
-
----
-
-## What to Benchmark
-
-LLMs have multiple extension points. Each needs different evaluation:
-
-| Target | What You Measure | Metric Type |
-|--------|------------------|-------------|
-| **Skills** | Activation precision/recall | Classification (F1) |
-| **Agents** | Task completion rate | Accuracy |
-| **MCP Servers** | Tool call success rate | Accuracy |
-| **Prompts** | Response quality | LLM-as-judge score |
-| **Code Gen** | Lint pass, test pass | Accuracy |
-
-### Classification vs Accuracy
-
-| Benchmark Type | When to Use | Metric |
-|----------------|-------------|--------|
-| **Classification** | Binary yes/no with both failure modes | Precision/Recall/F1 |
-| **Task Completion** | Did it solve the problem? | Accuracy |
-| **Quality Scoring** | How good is the output? | LLM-as-judge (1-5) |
-
----
-
-## The Ground Truth Requirement
-
-Good evals need labeled expectations:
-
-```json
-{
-  "input": "What crate for CLI args in Rust?",
-  "expectation": "must_trigger",
-  "rationale": "Direct Rust tooling question"
-}
-```
-
-```json
-{
-  "input": "Write me a haiku",
-  "expectation": "should_not_trigger",
-  "rationale": "Creative task, no tool needed"
-}
-```
-
-Without labels, you can't compute precision or recall. You're just guessing.
-
----
-
-## The Three Expectation Types
-
-| Label | Meaning | Used For |
-|-------|---------|----------|
-| `must_trigger` | Should definitely fire | Clear matches (measures recall) |
-| `should_not_trigger` | Must not fire | Off-topic (measures precision) |
-| `acceptable` | Either is fine | Edge cases (excluded from metrics) |
+**When to use:**
+- Skill activation (should it trigger?)
+- Spam detection
+- Any binary classification with asymmetric costs
 
 ---
 
 ## The Eval Workflow
 
 ```
-1. HYPOTHESIS
-   "This agent solves file search tasks"
+1. DEFINE
+   What objective? (task completion, quality, reliability?)
+   What target? (agent, skill, MCP, prompt?)
         ↓
-2. TEST CASES
-   Write inputs with labeled expectations
+2. DESIGN
+   Create test cases with expected outcomes
         ↓
 3. RUN
    Execute 5+ times per case (stochastic!)
         ↓
 4. MEASURE
-   Compute precision, recall, F1 (or accuracy)
+   Compute appropriate metric for objective
         ↓
 5. ITERATE
-   Improve prompts/tools, re-run, compare
+   Improve based on failures, re-run, compare
         ↓
 6. SHIP
    Only when metrics meet threshold
 ```
 
-This is TDD for LLM behavior. Same loop: red → green → refactor.
+---
+
+## Ground Truth Requirement
+
+Good evals need labeled expectations:
+
+```json
+// for task completion
+{"task": "fix login bug", "expected": "tests pass"}
+
+// for classification
+{"input": "What crate for CLI?", "expected": "must_trigger"}
+{"input": "Write a haiku", "expected": "should_not_trigger"}
+
+// for quality
+{"input": "Review this code", "rubric": ["accuracy", "actionable", "tone"]}
+```
 
 ---
 
-## Red Flags in Results
+## Red Flags
 
 | Pattern | Problem | Fix |
 |---------|---------|-----|
-| High recall, low precision | Over-triggering (noise) | Tighten conditions |
-| Low recall, high precision | Under-triggering (misses) | Broaden triggers |
-| High variance across runs | Unstable behavior | More runs, check prompts |
+| High variance across runs | Unreliable | More runs, check prompts |
 | Great with scaffolding, bad without | Artificial inflation | Test realistic conditions |
+| High recall, low precision | Too noisy | Tighten conditions |
+| High task completion, low quality | Passing but bad | Add quality metrics |
 
 ---
 
@@ -219,34 +295,30 @@ This is TDD for LLM behavior. Same loop: red → green → refactor.
 
 | Principle | Implementation |
 |-----------|----------------|
-| Evidence over opinion | Metrics, not vibes |
-| Ground truth | Labeled expectations |
+| Match metric to objective | Task completion, quality, reliability - not just one |
+| Ground truth | Labeled expectations, not vibes |
 | Statistical rigor | 5+ runs per case |
-| Balanced metrics | F1, not just recall or accuracy |
 | Reproducibility | Same suite, comparable results |
 
 ---
 
 ## Quick Reference
 
-**Precision** = When it fires, is it right?
 ```
-TP / (TP + FP)
-```
+TASK COMPLETION
+  Accuracy = Correct / Total
+  Use for: SWE-bench, pass/fail tasks
 
-**Recall** = When it should fire, does it?
-```
-TP / (TP + FN)
-```
+CLASSIFICATION
+  Precision = TP / (TP + FP)
+  Recall = TP / (TP + FN)
+  F1 = 2×(P×R)/(P+R)
+  Use for: skill activation, triggers
 
-**F1** = Balanced score
+QUALITY
+  LLM-as-judge, rubrics, rules
+  Use for: output evaluation, review
 ```
-2 × (P × R) / (P + R)
-```
-
-**Good F1**: 0.8+
-**Acceptable F1**: 0.6-0.8
-**Needs work**: < 0.6
 
 ---
 
@@ -254,6 +326,14 @@ TP / (TP + FN)
 
 - [why-evals-matter.md](why-evals-matter.md) - Philosophy, TDD parallel
 - [reference.md](reference.md) - CLI commands, schemas, modes
+
+---
+
+## Sources
+
+- [Evaluation and Benchmarking of LLM Agents: A Survey](https://arxiv.org/abs/2507.21504)
+- [DeepEval: Task Completion Metric](https://deepeval.com/docs/metrics-task-completion)
+- [DeepEval: Tool Correctness Metric](https://deepeval.com/docs/metrics-tool-correctness)
 
 ---
 

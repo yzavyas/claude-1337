@@ -1,0 +1,264 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="benchmarks" description="SWE-bench, task completion, and what the scores actually mean">
+  <p style="color: var(--fg-dim);">understanding agent benchmark scores</p>
+
+  <h2>the headline</h2>
+
+  <p>"Opus scored 84% on SWE-bench"</p>
+
+  <p>what does that actually mean?</p>
+
+  <h2>SWE-bench explained</h2>
+
+  <p>SWE-bench tests whether an agent can fix real GitHub issues.</p>
+
+  <h3>the task</h3>
+
+  <ol>
+    <li>give the model a real GitHub repo + issue description</li>
+    <li>model must generate a patch to fix the issue</li>
+    <li>run the repo's unit tests against the patch</li>
+    <li>pass/fail</li>
+  </ol>
+
+  <h3>the score</h3>
+
+  <pre><code>84% = (Issues where patch passes tests) / (Total issues attempted)</code></pre>
+
+  <p>that's it. binary pass/fail per issue.</p>
+
+  <h3>what it measures</h3>
+
+  <table>
+    <tr>
+      <th>measured</th>
+      <th>not measured</th>
+    </tr>
+    <tr>
+      <td>can generate working patch</td>
+      <td>code quality</td>
+    </tr>
+    <tr>
+      <td>tests pass</td>
+      <td>efficiency of solution</td>
+    </tr>
+    <tr>
+      <td>issue resolved</td>
+      <td>tokens used</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>time taken</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>human readability</td>
+    </tr>
+  </table>
+
+  <h2>the variants</h2>
+
+  <p>when someone says "84%", ask: which variant?</p>
+
+  <table>
+    <tr>
+      <th>variant</th>
+      <th>size</th>
+      <th>notes</th>
+    </tr>
+    <tr>
+      <td>SWE-bench Full</td>
+      <td>2,294</td>
+      <td>original, noisy</td>
+    </tr>
+    <tr>
+      <td>SWE-bench Lite</td>
+      <td>300</td>
+      <td>subset, easier</td>
+    </tr>
+    <tr>
+      <td>SWE-bench Verified</td>
+      <td>500</td>
+      <td>human-validated, OpenAI curated</td>
+    </tr>
+    <tr>
+      <td>SWE-bench Pro</td>
+      <td>1,865</td>
+      <td>Scale AI, anti-contamination</td>
+    </tr>
+  </table>
+
+  <h2>the caveats</h2>
+
+  <table>
+    <tr>
+      <th>issue</th>
+      <th>detail</th>
+    </tr>
+    <tr>
+      <td>test coverage varies</td>
+      <td>some issues have weak tests - bad patch might pass</td>
+    </tr>
+    <tr>
+      <td>harness matters</td>
+      <td>same model, different harness = different scores</td>
+    </tr>
+    <tr>
+      <td>subset selection</td>
+      <td>Verified (500) vs Full (2294) vs Lite</td>
+    </tr>
+    <tr>
+      <td>data contamination</td>
+      <td>model may have seen issues during training</td>
+    </tr>
+    <tr>
+      <td>resource limits</td>
+      <td>1M token cap, timeout constraints</td>
+    </tr>
+  </table>
+
+  <h2>why it's accuracy, not F1</h2>
+
+  <p>SWE-bench uses <strong>accuracy</strong>, not F1:</p>
+
+  <pre><code>Accuracy = Correct / Total</code></pre>
+
+  <p>there's no precision/recall because:</p>
+
+  <ul>
+    <li>no false positives (either patch works or doesn't)</li>
+    <li>no false negatives (every issue is attempted)</li>
+  </ul>
+
+  <p>it's a <strong>task completion benchmark</strong>, not a classification benchmark.</p>
+
+  <h2>benchmark types compared</h2>
+
+  <table>
+    <tr>
+      <th>type</th>
+      <th>metric</th>
+      <th>example</th>
+    </tr>
+    <tr>
+      <td>task completion</td>
+      <td>accuracy</td>
+      <td>SWE-bench (84% issues resolved)</td>
+    </tr>
+    <tr>
+      <td>classification</td>
+      <td>precision/recall/F1</td>
+      <td>skill activation (85% F1)</td>
+    </tr>
+    <tr>
+      <td>quality scoring</td>
+      <td>LLM-as-judge</td>
+      <td>prompt eval (4.2/5)</td>
+    </tr>
+  </table>
+
+  <h2>what scores actually tell you</h2>
+
+  <h3>"84% on SWE-bench" means:</h3>
+
+  <blockquote>
+    <p>"given a GitHub issue, this model produces a working patch 84% of the time"</p>
+  </blockquote>
+
+  <h3>it does NOT tell you:</h3>
+
+  <ul>
+    <li>how good the patch is</li>
+    <li>how much scaffolding was needed</li>
+    <li>how many tokens/dollars it cost</li>
+    <li>how it performs on YOUR codebase</li>
+  </ul>
+
+  <h2>other benchmarks</h2>
+
+  <table>
+    <tr>
+      <th>benchmark</th>
+      <th>tests</th>
+      <th>metric</th>
+    </tr>
+    <tr>
+      <td>SWE-bench</td>
+      <td>GitHub issue resolution</td>
+      <td>accuracy (% resolved)</td>
+    </tr>
+    <tr>
+      <td>HumanEval</td>
+      <td>code generation from docstrings</td>
+      <td>pass@k</td>
+    </tr>
+    <tr>
+      <td>MBPP</td>
+      <td>Python programming problems</td>
+      <td>accuracy</td>
+    </tr>
+    <tr>
+      <td>MMLU</td>
+      <td>multi-task knowledge</td>
+      <td>accuracy</td>
+    </tr>
+    <tr>
+      <td>GSM8K</td>
+      <td>grade school math</td>
+      <td>accuracy</td>
+    </tr>
+  </table>
+
+  <h2>the real question</h2>
+
+  <p>benchmarks measure capability in controlled conditions.</p>
+
+  <p>your questions should be:</p>
+
+  <ul>
+    <li>does it work on MY codebase?</li>
+    <li>does it work with MY tools?</li>
+    <li>what's the cost/latency for MY use case?</li>
+  </ul>
+
+  <p>benchmark scores are starting points, not guarantees.</p>
+
+  <h2>building your own evals</h2>
+
+  <p>for skills, agents, and tools in your environment:</p>
+
+  <ol>
+    <li>define success criteria (pass/fail or score)</li>
+    <li>create labeled test cases</li>
+    <li>run 5+ times per case (stochastic!)</li>
+    <li>measure the right metric:
+      <ul>
+        <li>classification → F1</li>
+        <li>task completion → accuracy</li>
+        <li>quality → LLM-as-judge</li>
+      </ul>
+    </li>
+    <li>iterate based on failures</li>
+  </ol>
+
+  <p>see <code>/evals</code> in the repo for our implementation.</p>
+
+  <h2>sources</h2>
+
+  <ul>
+    <li><a href="https://github.com/SWE-bench/SWE-bench">SWE-bench GitHub</a></li>
+    <li><a href="https://openai.com/index/introducing-swe-bench-verified/">SWE-bench Verified - OpenAI</a></li>
+    <li><a href="https://scale.com/leaderboard/swe_bench_pro_public">SWE-bench Pro - Scale AI</a></li>
+    <li><a href="https://www.swebench.com/SWE-bench/">SWE-bench Overview</a></li>
+  </ul>
+
+  <h2>next</h2>
+
+  <ul>
+    <li><a href="/claude-1337/eval-fundamentals/">eval fundamentals</a> - precision, recall, F1</li>
+    <li><a href="/claude-1337/explanation/">explanation</a> - skill activation problem</li>
+  </ul>
+</Base>

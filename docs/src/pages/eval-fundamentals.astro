@@ -1,0 +1,533 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="eval fundamentals" description="how to evaluate LLMs, agents, skills, and tools">
+  <p style="color: var(--fg-dim);">rigorous measurement for AI systems</p>
+
+  <h2>the problem</h2>
+
+  <p>your agent solved 72% of tasks. is that good?</p>
+
+  <p>you don't know. and that's the problem.</p>
+
+  <p>LLMs are stochastic. same input, different outputs. one test means nothing. without rigorous measurement, you're guessing.</p>
+
+  <h2>the five evaluation objectives</h2>
+
+  <p>what you measure depends on what you're evaluating:</p>
+
+  <table>
+    <tr>
+      <th>objective</th>
+      <th>question</th>
+      <th>how to measure</th>
+    </tr>
+    <tr>
+      <td><strong>task completion</strong></td>
+      <td>did it achieve the goal?</td>
+      <td>success rate, pass/fail</td>
+    </tr>
+    <tr>
+      <td><strong>tool correctness</strong></td>
+      <td>did it use tools correctly?</td>
+      <td>correct tools called, valid inputs</td>
+    </tr>
+    <tr>
+      <td><strong>output quality</strong></td>
+      <td>is the output good?</td>
+      <td>LLM-as-judge, rubrics, rules</td>
+    </tr>
+    <tr>
+      <td><strong>reliability</strong></td>
+      <td>is it consistent?</td>
+      <td>variance across runs</td>
+    </tr>
+    <tr>
+      <td><strong>robustness</strong></td>
+      <td>does it handle variations?</td>
+      <td>stress testing, perturbations</td>
+    </tr>
+  </table>
+
+  <h2>matching objectives to targets</h2>
+
+  <p>different targets need different evaluation strategies:</p>
+
+  <h3>agents</h3>
+
+  <table>
+    <tr>
+      <th>what to measure</th>
+      <th>metric</th>
+      <th>example</th>
+    </tr>
+    <tr>
+      <td>task completion</td>
+      <td>success rate</td>
+      <td>84% of GitHub issues resolved</td>
+    </tr>
+    <tr>
+      <td>tool correctness</td>
+      <td>tool accuracy</td>
+      <td>called right tools with valid inputs</td>
+    </tr>
+    <tr>
+      <td>output quality</td>
+      <td>LLM-as-judge</td>
+      <td>code passes review criteria</td>
+    </tr>
+    <tr>
+      <td>reliability</td>
+      <td>consistency</td>
+      <td>similar results across 5 runs</td>
+    </tr>
+  </table>
+
+  <h3>skills</h3>
+
+  <table>
+    <tr>
+      <th>what to measure</th>
+      <th>metric</th>
+      <th>example</th>
+    </tr>
+    <tr>
+      <td>activation</td>
+      <td>precision/recall/F1</td>
+      <td>triggers on right prompts, ignores wrong ones</td>
+    </tr>
+    <tr>
+      <td>content quality</td>
+      <td>LLM-as-judge</td>
+      <td>loaded content is useful</td>
+    </tr>
+  </table>
+
+  <h3>MCP servers</h3>
+
+  <table>
+    <tr>
+      <th>what to measure</th>
+      <th>metric</th>
+      <th>example</th>
+    </tr>
+    <tr>
+      <td>tool correctness</td>
+      <td>success rate</td>
+      <td>95% of calls return valid response</td>
+    </tr>
+    <tr>
+      <td>schema compliance</td>
+      <td>validation rate</td>
+      <td>inputs/outputs match schema</td>
+    </tr>
+    <tr>
+      <td>reliability</td>
+      <td>error rate</td>
+      <td>low failure rate over time</td>
+    </tr>
+  </table>
+
+  <h3>prompts</h3>
+
+  <table>
+    <tr>
+      <th>what to measure</th>
+      <th>metric</th>
+      <th>example</th>
+    </tr>
+    <tr>
+      <td>output quality</td>
+      <td>LLM-as-judge (1-5)</td>
+      <td>responses score 4.2/5 on rubric</td>
+    </tr>
+    <tr>
+      <td>rule compliance</td>
+      <td>pass rate</td>
+      <td>output follows format requirements</td>
+    </tr>
+    <tr>
+      <td>reliability</td>
+      <td>variance</td>
+      <td>consistent quality across runs</td>
+    </tr>
+  </table>
+
+  <h2>the three metric types</h2>
+
+  <h3>1. accuracy (task completion)</h3>
+
+  <p>binary pass/fail. did it work?</p>
+
+  <pre><code>Accuracy = Correct / Total</code></pre>
+
+  <p><strong>use for:</strong> SWE-bench, code execution, test pass rates</p>
+
+  <h3>2. classification (precision/recall/F1)</h3>
+
+  <p>when you have both false positives AND false negatives.</p>
+
+  <pre><code>Precision = TP / (TP + FP)    "when it fires, is it right?"
+Recall    = TP / (TP + FN)    "when it should fire, does it?"
+F1        = 2×(P×R)/(P+R)     "balanced score"</code></pre>
+
+  <p><strong>use for:</strong> skill activation, trigger detection, classification tasks</p>
+
+  <h3>3. quality scoring (LLM-as-judge)</h3>
+
+  <p>subjective quality on a scale.</p>
+
+  <pre><code>Score = LLM rates output against rubric (1-5 or 1-10)</code></pre>
+
+  <p><strong>use for:</strong> prompt quality, response evaluation, code review</p>
+
+  <h2>task completion in detail</h2>
+
+  <p>the simplest metric: did it work?</p>
+
+  <pre><code>Success Rate = (Tasks Completed Successfully) / (Total Tasks)</code></pre>
+
+  <h3>examples</h3>
+
+  <table>
+    <tr>
+      <th>benchmark</th>
+      <th>task</th>
+      <th>success criteria</th>
+    </tr>
+    <tr>
+      <td>SWE-bench</td>
+      <td>fix GitHub issue</td>
+      <td>tests pass</td>
+    </tr>
+    <tr>
+      <td>HumanEval</td>
+      <td>write function from docstring</td>
+      <td>tests pass</td>
+    </tr>
+    <tr>
+      <td>custom agent</td>
+      <td>complete user request</td>
+      <td>defined success state reached</td>
+    </tr>
+  </table>
+
+  <h3>limitations</h3>
+
+  <ul>
+    <li>doesn't measure HOW it succeeded (quality, efficiency)</li>
+    <li>binary - no partial credit</li>
+    <li>depends on test quality</li>
+  </ul>
+
+  <h2>tool correctness in detail</h2>
+
+  <p>did the agent use the right tools with correct inputs?</p>
+
+  <table>
+    <tr>
+      <th>level</th>
+      <th>what's checked</th>
+    </tr>
+    <tr>
+      <td>basic</td>
+      <td>correct tool name called</td>
+    </tr>
+    <tr>
+      <td>strict</td>
+      <td>+ correct input parameters</td>
+    </tr>
+    <tr>
+      <td>full</td>
+      <td>+ correct output handling</td>
+    </tr>
+  </table>
+
+  <h3>example</h3>
+
+  <pre><code># expected: search_web("latest rust async patterns")
+# actual: search_web("rust async")
+
+# basic: PASS (correct tool)
+# strict: FAIL (wrong query)</code></pre>
+
+  <h2>output quality in detail</h2>
+
+  <p>is the output good? three approaches:</p>
+
+  <h3>LLM-as-judge</h3>
+
+  <p>use an LLM to rate output quality:</p>
+
+  <pre><code>prompt = f"""
+Rate this code review on a scale of 1-5:
+
+{output}
+
+Criteria:
+- Identifies real issues
+- Provides actionable feedback
+- Appropriate tone
+"""</code></pre>
+
+  <h3>rubric-based</h3>
+
+  <p>define explicit criteria:</p>
+
+  <table>
+    <tr>
+      <th>score</th>
+      <th>criteria</th>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>exceeds requirements, no issues</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>meets requirements, minor issues</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>partially meets requirements</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>significant gaps</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>fails requirements</td>
+    </tr>
+  </table>
+
+  <h3>rules-based</h3>
+
+  <p>deterministic checks:</p>
+
+  <ul>
+    <li>output contains required fields</li>
+    <li>code passes linter</li>
+    <li>response under token limit</li>
+    <li>no forbidden content</li>
+  </ul>
+
+  <h2>reliability in detail</h2>
+
+  <p>is it consistent across runs?</p>
+
+  <p>LLMs are stochastic. run the same task 5 times:</p>
+
+  <pre><code>Run 1: SUCCESS
+Run 2: SUCCESS
+Run 3: FAIL
+Run 4: SUCCESS
+Run 5: SUCCESS
+
+Reliability = 4/5 = 80%</code></pre>
+
+  <h3>why it matters</h3>
+
+  <ul>
+    <li>production systems need predictability</li>
+    <li>high variance = unreliable</li>
+    <li>enterprise contexts require deterministic behavior</li>
+  </ul>
+
+  <h3>measuring it</h3>
+
+  <ul>
+    <li>run 5+ times per test case</li>
+    <li>compute variance/standard deviation</li>
+    <li>report confidence intervals</li>
+  </ul>
+
+  <h2>classification (precision/recall) in detail</h2>
+
+  <p>use when you have TWO failure modes:</p>
+
+  <ul>
+    <li><strong>false positive</strong>: triggered when it shouldn't (noise)</li>
+    <li><strong>false negative</strong>: didn't trigger when it should (miss)</li>
+  </ul>
+
+  <h3>the confusion matrix</h3>
+
+  <pre><code>                      ACTUAL OUTCOME
+                      Positive      Negative
+                    +-----------+-----------+
+EXPECTED   Positive |    TP     |    FN     |
+                    |  Correct  |  Missed   |
+                    +-----------+-----------+
+           Negative |    FP     |    TN     |
+                    |   Noise   |  Correct  |
+                    +-----------+-----------+</code></pre>
+
+  <h3>the metrics</h3>
+
+  <pre><code>Precision = TP / (TP + FP)    "of my positives, how many were right?"
+Recall    = TP / (TP + FN)    "of cases I should catch, how many did I?"
+F1        = 2×(P×R)/(P+R)     "harmonic mean - punishes imbalance"</code></pre>
+
+  <h3>why F1?</h3>
+
+  <table>
+    <tr>
+      <th>precision</th>
+      <th>recall</th>
+      <th>regular avg</th>
+      <th>F1</th>
+    </tr>
+    <tr>
+      <td>100%</td>
+      <td>0%</td>
+      <td>50%</td>
+      <td class="bad"><strong>0%</strong></td>
+    </tr>
+    <tr>
+      <td>100%</td>
+      <td>50%</td>
+      <td>75%</td>
+      <td><strong>67%</strong></td>
+    </tr>
+    <tr>
+      <td>80%</td>
+      <td>80%</td>
+      <td>80%</td>
+      <td class="good"><strong>80%</strong></td>
+    </tr>
+  </table>
+
+  <p>you can't game F1 by going extreme.</p>
+
+  <h3>when to use</h3>
+
+  <ul>
+    <li>skill activation (should it trigger?)</li>
+    <li>spam detection</li>
+    <li>any binary classification with asymmetric costs</li>
+  </ul>
+
+  <h2>the eval workflow</h2>
+
+  <pre><code>1. DEFINE
+   What objective? (task completion, quality, reliability?)
+   What target? (agent, skill, MCP, prompt?)
+        ↓
+2. DESIGN
+   Create test cases with expected outcomes
+        ↓
+3. RUN
+   Execute 5+ times per case (stochastic!)
+        ↓
+4. MEASURE
+   Compute appropriate metric for objective
+        ↓
+5. ITERATE
+   Improve based on failures, re-run, compare
+        ↓
+6. SHIP
+   Only when metrics meet threshold</code></pre>
+
+  <h2>ground truth requirement</h2>
+
+  <p>good evals need labeled expectations:</p>
+
+  <pre><code># for task completion
+{"task": "fix login bug", "expected": "tests pass"}
+
+# for classification
+{"input": "What crate for CLI?", "expected": "must_trigger"}
+{"input": "Write a haiku", "expected": "should_not_trigger"}
+
+# for quality
+{"input": "Review this code", "rubric": ["accuracy", "actionable", "tone"]}</code></pre>
+
+  <h2>red flags</h2>
+
+  <table>
+    <tr>
+      <th>pattern</th>
+      <th>problem</th>
+      <th>fix</th>
+    </tr>
+    <tr>
+      <td>high variance across runs</td>
+      <td>unreliable</td>
+      <td>more runs, check prompts</td>
+    </tr>
+    <tr>
+      <td>great with scaffolding, bad without</td>
+      <td>artificial inflation</td>
+      <td>test realistic conditions</td>
+    </tr>
+    <tr>
+      <td>high recall, low precision</td>
+      <td>too noisy</td>
+      <td>tighten conditions</td>
+    </tr>
+    <tr>
+      <td>high task completion, low quality</td>
+      <td>passing but bad</td>
+      <td>add quality metrics</td>
+    </tr>
+  </table>
+
+  <h2>the 1337 standard</h2>
+
+  <table>
+    <tr>
+      <th>principle</th>
+      <th>implementation</th>
+    </tr>
+    <tr>
+      <td>match metric to objective</td>
+      <td>task completion, quality, reliability - not just one</td>
+    </tr>
+    <tr>
+      <td>ground truth</td>
+      <td>labeled expectations, not vibes</td>
+    </tr>
+    <tr>
+      <td>statistical rigor</td>
+      <td>5+ runs per case</td>
+    </tr>
+    <tr>
+      <td>reproducibility</td>
+      <td>same suite, comparable results</td>
+    </tr>
+  </table>
+
+  <h2>quick reference</h2>
+
+  <pre><code>TASK COMPLETION
+  Accuracy = Correct / Total
+  Use for: SWE-bench, pass/fail tasks
+
+CLASSIFICATION
+  Precision = TP / (TP + FP)
+  Recall = TP / (TP + FN)
+  F1 = 2×(P×R)/(P+R)
+  Use for: skill activation, triggers
+
+QUALITY
+  LLM-as-judge, rubrics, rules
+  Use for: output evaluation, review</code></pre>
+
+  <h2>sources</h2>
+
+  <ul>
+    <li><a href="https://arxiv.org/abs/2507.21504">Evaluation and Benchmarking of LLM Agents: A Survey</a></li>
+    <li><a href="https://deepeval.com/docs/metrics-task-completion">DeepEval: Task Completion Metric</a></li>
+    <li><a href="https://deepeval.com/docs/metrics-tool-correctness">DeepEval: Tool Correctness Metric</a></li>
+  </ul>
+
+  <h2>next</h2>
+
+  <ul>
+    <li><a href="/claude-1337/benchmarks/">benchmarks</a> - SWE-bench, what scores mean</li>
+    <li><a href="/claude-1337/explanation/">explanation</a> - skill activation problem</li>
+    <li><code>/evals</code> in the repo - our eval framework</li>
+  </ul>
+</Base>
