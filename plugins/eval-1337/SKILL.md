@@ -1,0 +1,144 @@
+---
+name: eval-1337
+description: "Write rigorous evals for LLM agents, skills, MCP servers, and prompts. Use when: building test suites, measuring agent effectiveness, evaluating tool reliability, or choosing eval frameworks. Covers: DeepEval, Braintrust, RAGAS, precision/recall, F1, task completion."
+---
+
+# Eval-1337
+
+Write evals that measure what matters. Not vanity metrics.
+
+## The Core Problem
+
+```python
+# This tells you NOTHING
+activation_rate = 100%  # Activates on every prompt = useless
+```
+
+Single metrics lie. You need to measure BOTH failure modes.
+
+## Match Metric to Target
+
+| Target | What to Measure | Metric | Framework |
+|--------|-----------------|--------|-----------|
+| **Agents** | Task completion | Accuracy (pass/fail) | DeepEval |
+| **Agents** | Tool usage | ToolCorrectnessMetric | DeepEval |
+| **Skills** | Activation | Precision/Recall/F1 | Custom |
+| **MCP Servers** | Tool calls | ToolCallAccuracy | RAGAS |
+| **Prompts** | Output quality | LLM-as-judge | Braintrust |
+
+## Three Metric Types
+
+| Type | Formula | Use When |
+|------|---------|----------|
+| **Accuracy** | Correct / Total | Task completion (did it work?) |
+| **F1** | 2×(P×R)/(P+R) | Classification (triggers, detection) |
+| **LLM-as-judge** | Score 1-5 | Quality (subjective output eval) |
+
+## Framework Decision
+
+| Situation | Use | Why |
+|-----------|-----|-----|
+| Python agent evals | **DeepEval** | TaskCompletionMetric, ToolCorrectness, full trace |
+| TypeScript/Node | **Braintrust** | Identical Python/TS API, Factuality scorer |
+| RAG pipelines | **RAGAS** | ToolCallF1, context metrics |
+| Skill activation | **Custom** | Precision/recall with labeled expectations |
+
+## Production Gotchas
+
+| Trap | Fix |
+|------|-----|
+| Single test run | **5+ runs per case** - LLMs are stochastic |
+| Measuring recall only | **Add precision** - high recall + low precision = noise |
+| "Forced eval" inflation | **Test realistic conditions** - forced mode inflates scores |
+| No ground truth | **Label expectations** - must_trigger, should_not_trigger |
+| Wrong metric for target | **Match to objective** - accuracy ≠ F1 ≠ quality |
+
+## Classification Metrics (F1)
+
+Use when you have TWO failure modes:
+
+```
+                      ACTUAL
+                      Yes         No
+                  +-----------+-----------+
+EXPECTED    Yes   |    TP     |    FN     |
+                  |  Correct  |  Missed   |
+                  +-----------+-----------+
+            No    |    FP     |    TN     |
+                  |   Noise   |  Correct  |
+                  +-----------+-----------+
+
+Precision = TP / (TP + FP)   "when it fires, is it right?"
+Recall    = TP / (TP + FN)   "when it should fire, does it?"
+F1        = 2×(P×R)/(P+R)    "balanced score"
+```
+
+**Why F1?** Can't game by going extreme:
+
+| P | R | Avg | F1 |
+|---|---|-----|-----|
+| 100% | 0% | 50% | **0%** |
+| 80% | 80% | 80% | **80%** |
+
+## Labeled Test Cases
+
+```json
+{"input": "What crate for CLI args?", "expectation": "must_trigger"}
+{"input": "Write a haiku", "expectation": "should_not_trigger"}
+{"input": "Explain ownership", "expectation": "acceptable"}
+```
+
+| Label | Meaning | Measures |
+|-------|---------|----------|
+| must_trigger | Should definitely fire | Recall (misses) |
+| should_not_trigger | Must not fire | Precision (noise) |
+| acceptable | Either outcome fine | Excluded from metrics |
+
+## The Eval Workflow
+
+```
+1. DEFINE   → What objective? What target?
+2. DESIGN   → Create labeled test cases
+3. RUN      → Execute 5+ times per case
+4. MEASURE  → Compute appropriate metric
+5. ITERATE  → Improve based on failures
+6. SHIP     → Only when metrics meet threshold
+```
+
+## Domain Routing
+
+| Detected | Load |
+|----------|------|
+| agent, task completion | [agents.md](references/agents.md) |
+| skill, activation, trigger | [skills.md](references/skills.md) |
+| MCP, tool call, server | [mcp.md](references/mcp.md) |
+| prompt, quality, judge | [prompts.md](references/prompts.md) |
+| DeepEval, Braintrust, RAGAS | [frameworks.md](references/frameworks.md) |
+
+## Quick Reference
+
+```
+AGENTS
+  DeepEval: TaskCompletionMetric(threshold=0.7)
+  Measures: Did it complete the task?
+
+SKILLS
+  Custom F1 with labeled expectations
+  Measures: Activation precision/recall
+
+MCP
+  RAGAS: ToolCallAccuracy, ToolCallF1
+  Measures: Tool call success rate
+
+PROMPTS
+  Braintrust: Factuality, custom scorers
+  Measures: Output quality (1-5 scale)
+```
+
+## Sources
+
+- [arxiv:2507.21504](https://arxiv.org/abs/2507.21504) - LLM Agent Evaluation Survey (KDD 2025)
+- [DeepEval](https://deepeval.com/docs/metrics-task-completion) - TaskCompletionMetric
+- [Braintrust](https://github.com/braintrustdata/autoevals) - AutoEvals
+- [RAGAS](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/) - Agent Metrics
+- [Scott Spence](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - Skills Activation Study
