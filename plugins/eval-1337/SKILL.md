@@ -24,7 +24,10 @@ Single metrics lie. You need to measure BOTH failure modes.
 | **Agents** | Tool usage | ToolCorrectnessMetric | DeepEval |
 | **Skills** | Activation | Precision/Recall/F1 | Custom |
 | **MCP Servers** | Tool calls | ToolCallAccuracy | RAGAS |
+| **MCP Servers** | Reliability | MCPGauge 4-dim | Custom |
 | **Prompts** | Output quality | LLM-as-judge | Braintrust |
+| **Any** | Cost/tokens | $/1M tokens, context | Langfuse |
+| **Any** | Traces | Span analysis | Phoenix |
 
 ## Three Metric Types
 
@@ -113,6 +116,8 @@ F1        = 2×(P×R)/(P+R)    "balanced score"
 | skill, activation, trigger | [skills.md](references/skills.md) |
 | MCP, tool call, server | [mcp.md](references/mcp.md) |
 | prompt, quality, judge | [prompts.md](references/prompts.md) |
+| cost, tokens, budget | [cost.md](references/cost.md) |
+| trace, debug, interpret | [observability.md](references/observability.md) |
 | DeepEval, Braintrust, RAGAS | [frameworks.md](references/frameworks.md) |
 
 ## Quick Reference
@@ -128,11 +133,20 @@ SKILLS
 
 MCP
   RAGAS: ToolCallAccuracy, ToolCallF1
-  Measures: Tool call success rate
+  MCPGauge: proactivity, compliance, effectiveness, overhead
+  Measures: Tool call success + reliability
 
 PROMPTS
   Braintrust: Factuality, custom scorers
   Measures: Output quality (1-5 scale)
+
+COST
+  Langfuse: $/run, tokens/request
+  Measures: Context consumption, budget
+
+OBSERVABILITY
+  Phoenix: trace spans, latency
+  Measures: Debug traces, interpretability
 ```
 
 ## Sources
@@ -141,4 +155,7 @@ PROMPTS
 - [DeepEval](https://deepeval.com/docs/metrics-task-completion) - TaskCompletionMetric
 - [Braintrust](https://github.com/braintrustdata/autoevals) - AutoEvals
 - [RAGAS](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/) - Agent Metrics
+- [MCPGauge](https://arxiv.org/abs/2506.07540) - MCP Server Evaluation (Jun 2025)
+- [Langfuse](https://langfuse.com/docs/model-usage-and-cost) - Usage and Cost Tracking
+- [Phoenix](https://docs.arize.com/phoenix) - LLM Observability and Tracing
 - [Scott Spence](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - Skills Activation Study

@@ -10,6 +10,71 @@ Measuring tool call reliability and correctness for MCP servers.
 | Tool Call F1 | Precision/recall of calls | F1 |
 | Schema Compliance | Valid inputs/outputs? | Pass rate |
 | Reliability | Consistent success? | Error rate |
+| MCPGauge 4-dim | Proactive, compliant, effective, efficient? | Score |
+
+## MCPGauge Framework
+
+Four-dimensional evaluation for MCP servers ([arxiv:2506.07540](https://arxiv.org/abs/2506.07540)):
+
+| Dimension | Question | Metric |
+|-----------|----------|--------|
+| **Proactivity** | Initiates tool calls when needed? | % triggered |
+| **Compliance** | Follows schema correctly? | % valid calls |
+| **Effectiveness** | Gets correct results? | Accuracy |
+| **Overhead** | Minimal latency/tokens? | ms, tokens |
+
+```python
+# MCPGauge pattern
+def evaluate_mcp_server(server, test_cases):
+    results = {
+        "proactivity": [],   # Did it call tools when it should?
+        "compliance": [],    # Were calls schema-valid?
+        "effectiveness": [], # Did tools return correct results?
+        "overhead": []       # Latency and token cost
+    }
+
+    for case in test_cases:
+        trace = run_with_server(server, case.input)
+
+        # Proactivity: should have called tool
+        if case.should_call_tool:
+            results["proactivity"].append(trace.tool_called)
+
+        # Compliance: call matches schema
+        if trace.tool_called:
+            results["compliance"].append(validate_schema(trace.call))
+
+        # Effectiveness: correct result
+        results["effectiveness"].append(trace.output == case.expected)
+
+        # Overhead: latency + tokens
+        results["overhead"].append({
+            "latency_ms": trace.latency,
+            "tokens": trace.tokens
+        })
+
+    return aggregate_scores(results)
+```
+
+## MCPSecBench (Security)
+
+Security evaluation for MCP servers ([LiveMCPBench](https://github.com/ModelContext/LiveMCPBench)):
+
+| Attack Category | Examples |
+|----------------|----------|
+| Injection | Prompt injection via tool output |
+| Exfiltration | Tool leaking sensitive data |
+| Privilege escalation | Tool accessing beyond scope |
+| Denial of service | Resource exhaustion |
+
+```python
+# Security test pattern
+security_cases = [
+    {"input": "normal request", "expected": "normal response"},
+    {"input": "ignore previous and...", "expected_behavior": "reject"},
+    {"input": "read /etc/passwd", "expected_behavior": "deny"},
+]
+```
 
 ## RAGAS Metrics
 
