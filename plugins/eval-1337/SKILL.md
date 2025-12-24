@@ -26,8 +26,8 @@ Single metrics lie. You need to measure BOTH failure modes.
 | **MCP Servers** | Tool calls | ToolCallAccuracy | RAGAS |
 | **MCP Servers** | Reliability | MCPGauge 4-dim | Custom |
 | **Prompts** | Output quality | LLM-as-judge | Braintrust |
-| **Any** | Cost/tokens | $/1M tokens, context | Langfuse |
-| **Any** | Traces | Span analysis | Phoenix |
+| **Any** | Cost/tokens | $/1M tokens, context | Tokencost |
+| **Any** | Traces | Span analysis | Phoenix (local) |
 
 ## Three Metric Types
 
@@ -141,11 +141,11 @@ PROMPTS
   Measures: Output quality (1-5 scale)
 
 COST
-  Langfuse: $/run, tokens/request
+  Tokencost: $/run, tokens/request (local library)
   Measures: Context consumption, budget
 
 OBSERVABILITY
-  Phoenix: trace spans, latency
+  Phoenix: trace spans, latency (runs locally)
   Measures: Debug traces, interpretability
 ```
 
@@ -156,6 +156,6 @@ OBSERVABILITY
 - [Braintrust](https://github.com/braintrustdata/autoevals) - AutoEvals
 - [RAGAS](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/) - Agent Metrics
 - [MCPGauge](https://arxiv.org/abs/2506.07540) - MCP Server Evaluation (Jun 2025)
-- [Langfuse](https://langfuse.com/docs/model-usage-and-cost) - Usage and Cost Tracking
+- [Tokencost](https://github.com/AgentOps-AI/tokencost) - Local Cost Calculation
 - [Phoenix](https://docs.arize.com/phoenix) - LLM Observability and Tracing
 - [Scott Spence](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - Skills Activation Study

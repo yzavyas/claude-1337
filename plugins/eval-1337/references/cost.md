@@ -1,6 +1,6 @@
 # Cost and Token Tracking
 
-Measuring context consumption and cost efficiency.
+Measuring context consumption and cost efficiency. All local, no cloud.
 
 ## What to Measure
 
@@ -11,90 +11,92 @@ Measuring context consumption and cost efficiency.
 | Context efficiency | How much context is consumed? | % of limit |
 | Cost per success | What's the cost of correct outputs? | $/success |
 
-## Langfuse Integration
+## Tokencost (Primary)
 
-[Langfuse](https://langfuse.com/docs/model-usage-and-cost) provides automatic cost tracking:
-
-```python
-from langfuse import Langfuse
-from langfuse.decorators import observe
-
-langfuse = Langfuse()
-
-@observe()
-def my_agent(input):
-    # Your agent logic
-    return result
-
-# After running
-trace = langfuse.get_trace(trace_id)
-print(f"Input tokens: {trace.input_tokens}")
-print(f"Output tokens: {trace.output_tokens}")
-print(f"Total cost: ${trace.total_cost}")
-```
-
-**TypeScript:**
-```typescript
-import { Langfuse } from "langfuse";
-
-const langfuse = new Langfuse();
-
-const trace = langfuse.trace({ name: "my-eval" });
-const generation = trace.generation({
-  name: "llm-call",
-  model: "claude-3-5-sonnet-20241022",
-  usage: { input: 1000, output: 500 }
-});
-
-// Langfuse calculates cost automatically from model pricing
-```
-
-## Tokencost Library
-
-[Tokencost](https://github.com/AgentOps-AI/tokencost) for programmatic cost calculation:
+[Tokencost](https://github.com/AgentOps-AI/tokencost) - local library, no cloud:
 
 ```python
 import tokencost
 
-# Calculate cost from tokens
+# Calculate cost from prompt text
 cost = tokencost.calculate_prompt_cost(
     prompt="Your prompt here",
     model="claude-3-5-sonnet-20241022"
 )
 print(f"Prompt cost: ${cost}")
 
-# Or from token counts
+# Or from token counts directly
 cost = tokencost.calculate_cost(
     input_tokens=1000,
     output_tokens=500,
     model="claude-3-5-sonnet-20241022"
 )
+print(f"Total cost: ${cost}")
+
+# Count tokens locally
+tokens = tokencost.count_tokens("Your text here", model="claude-3-5-sonnet-20241022")
+```
+
+**Install:**
+```bash
+pip install tokencost
+```
+
+## TypeScript: tiktoken
+
+For TypeScript/Bun, use tiktoken for token counting:
+
+```typescript
+import { encoding_for_model } from "tiktoken";
+
+const enc = encoding_for_model("gpt-4o");
+const tokens = enc.encode("Your text here");
+console.log(`Token count: ${tokens.length}`);
+enc.free();
+
+// Manual cost calculation
+const PRICING = {
+  "claude-3-5-sonnet-20241022": { input: 3.0, output: 15.0 }, // per 1M
+  "gpt-4o": { input: 2.5, output: 10.0 },
+};
+
+function calculateCost(model: string, inputTokens: number, outputTokens: number) {
+  const pricing = PRICING[model];
+  return (inputTokens * pricing.input + outputTokens * pricing.output) / 1_000_000;
+}
+```
+
+**Install:**
+```bash
+bun add tiktoken
 ```
 
 ## Cost Tracking in Evals
 
 ```python
-def run_eval_with_cost(test_cases):
+import tokencost
+
+def run_eval_with_cost(test_cases, model="claude-3-5-sonnet-20241022"):
     results = []
 
     for case in test_cases:
-        start_tokens = get_usage()
+        # Track input cost
+        input_cost = tokencost.calculate_prompt_cost(case.input, model)
 
         output = agent(case.input)
 
-        end_tokens = get_usage()
-        tokens_used = end_tokens - start_tokens
-        cost = calculate_cost(tokens_used)
+        # Track output cost
+        output_cost = tokencost.calculate_completion_cost(output, model)
+        total_cost = input_cost + output_cost
 
         results.append({
             "input": case.input,
             "output": output,
             "correct": output == case.expected,
-            "tokens": tokens_used,
-            "cost": cost
+            "cost": total_cost
         })
 
-    # Aggregate metrics
+    # Aggregate
     total_cost = sum(r["cost"] for r in results)
     correct_count = sum(r["correct"] for r in results)
     cost_per_success = total_cost / correct_count if correct_count else float('inf')
@@ -102,7 +104,7 @@ def run_eval_with_cost(test_cases):
     return {
         "total_cost": total_cost,
         "cost_per_success": cost_per_success,
-        "avg_tokens": sum(r["tokens"] for r in results) / len(results)
+        "accuracy": correct_count / len(results)
     }
 ```
 
@@ -111,22 +113,27 @@ def run_eval_with_cost(test_cases):
 Track how much context you're consuming:
 
 ```python
-def context_efficiency(trace):
-    model_limits = {
-        "claude-3-5-sonnet-20241022": 200_000,
-        "gpt-4o": 128_000,
-        "claude-3-opus-20240229": 200_000,
-    }
+MODEL_LIMITS = {
+    "claude-3-5-sonnet-20241022": 200_000,
+    "claude-3-opus-20240229": 200_000,
+    "gpt-4o": 128_000,
+    "gpt-4o-mini": 128_000,
+}
 
-    limit = model_limits.get(trace.model, 100_000)
-    used = trace.input_tokens + trace.output_tokens
+def context_efficiency(model, input_tokens, output_tokens):
+    limit = MODEL_LIMITS.get(model, 100_000)
+    used = input_tokens + output_tokens
 
     return {
         "tokens_used": used,
         "context_limit": limit,
-        "efficiency": used / limit,
+        "utilization": used / limit,
         "headroom": limit - used
     }
+
+# Example
+eff = context_efficiency("claude-3-5-sonnet-20241022", 50_000, 10_000)
+# {'tokens_used': 60000, 'context_limit': 200000, 'utilization': 0.3, 'headroom': 140000}
 ```
 
 ## Budget Guardrails
@@ -141,14 +148,14 @@ running_cost = 0.0
 
 for case in test_cases:
     if running_cost >= MAX_TOTAL_BUDGET:
-        print(f"Budget exceeded at ${running_cost}")
+        print(f"Budget exceeded at ${running_cost:.2f}")
         break
 
     cost = run_single_eval(case)
     running_cost += cost
 
     if cost > MAX_COST_PER_RUN:
-        print(f"Warning: case cost ${cost} > limit ${MAX_COST_PER_RUN}")
+        print(f"Warning: case cost ${cost:.4f} > limit ${MAX_COST_PER_RUN}")
 ```
 
 ## Gotchas
@@ -158,7 +165,7 @@ for case in test_cases:
 | Ignoring retries | Count ALL API calls, including retries |
 | Missing embeddings | Embedding calls have costs too |
 | Dev vs prod pricing | Some providers have different pricing tiers |
-| Caching not tracked | Don't count cached responses as "free" |
+| Stale pricing | Update tokencost regularly for latest prices |
 
 ## Cost Comparison
 

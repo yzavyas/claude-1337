@@ -1,48 +1,64 @@
 # Observability and Interpretability
 
-Tracing, debugging, and understanding agent behavior.
+Tracing, debugging, and understanding agent behavior. All local, no cloud.
 
 ## What to Measure
 
 | Metric | Question | Tool |
 |--------|----------|------|
-| Trace spans | What steps did the agent take? | Phoenix |
+| Trace spans | What steps did the agent take? | Phoenix (local) |
 | Latency breakdown | Where is time spent? | Phoenix |
-| Token flow | How do tokens flow through? | Langfuse |
-| Decision points | Why did it make this choice? | Manual |
+| Token flow | How do tokens flow through? | OpenTelemetry |
+| Decision points | Why did it make this choice? | Manual logging |
 
-## Phoenix (Arize)
+## Phoenix (Local)
 
-[Phoenix](https://docs.arize.com/phoenix) provides LLM observability:
+[Phoenix](https://docs.arize.com/phoenix) runs entirely on your machine:
 
 ```python
 import phoenix as px
-from phoenix.trace import SpanEvaluator
 
-# Launch Phoenix
+# Launch local Phoenix UI (opens browser at localhost:6006)
 session = px.launch_app()
 
 # Instrument your agent
 from openinference.instrumentation import instrument
 instrument()
 
-# Now run your agent - traces appear automatically
+# Run your agent - traces appear in local UI
 result = my_agent("input")
 
-# Query traces
+# Query traces programmatically
 traces = px.Client().get_traces()
 ```
 
+**Install:**
+```bash
+pip install arize-phoenix openinference-instrumentation
+```
+
 **Key Features:**
+- Runs locally on localhost:6006
 - Automatic trace collection
 - Span visualization
 - Latency breakdown
 - Token usage per span
+- No data leaves your machine
 
-## Tracing Pattern
+## OpenTelemetry (Standard)
+
+Framework-agnostic tracing with OpenTelemetry:
 
 ```python
 from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor, ConsoleSpanExporter
+
+# Setup local exporter (console or file)
+provider = TracerProvider()
+processor = SimpleSpanProcessor(ConsoleSpanExporter())
+provider.add_span_processor(processor)
+trace.set_tracer_provider(provider)
 
 tracer = trace.get_tracer("agent-eval")
 
@@ -62,44 +78,95 @@ def my_agent(input):
         return output
 ```
 
-## Langfuse Tracing
-
-```python
-from langfuse.decorators import observe, langfuse_context
-
-@observe()
-def my_agent(input):
-    docs = retrieve(input)
-    langfuse_context.update_current_trace(
-        metadata={"doc_count": len(docs)}
-    )
-
-    output = generate(input, docs)
-    return output
-
-# View in Langfuse dashboard
-# https://cloud.langfuse.com
+**Install:**
+```bash
+pip install opentelemetry-sdk opentelemetry-exporter-otlp
 ```
 
-**TypeScript:**
-```typescript
-import { Langfuse } from "langfuse";
+## TypeScript: OpenTelemetry
 
-const langfuse = new Langfuse();
+```typescript
+import { trace } from "@opentelemetry/api";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { SimpleSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
+
+const provider = new NodeTracerProvider();
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.register();
+
+const tracer = trace.getTracer("agent-eval");
 
 async function myAgent(input: string) {
-  const trace = langfuse.trace({ name: "my-agent" });
+  return tracer.startActiveSpan("agent", async (span) => {
+    span.setAttribute("input", input);
 
-  const retrieveSpan = trace.span({ name: "retrieve" });
-  const docs = await retrieve(input);
-  retrieveSpan.end({ output: { docCount: docs.length } });
+    const docs = await tracer.startActiveSpan("retrieve", async (retrieveSpan) => {
+      const result = await retrieve(input);
+      retrieveSpan.setAttribute("doc_count", result.length);
+      retrieveSpan.end();
+      return result;
+    });
 
-  const generateSpan = trace.span({ name: "generate" });
-  const output = await generate(input, docs);
-  generateSpan.end({ output: { length: output.length } });
+    const output = await tracer.startActiveSpan("generate", async (genSpan) => {
+      const result = await generate(input, docs);
+      genSpan.setAttribute("output_length", result.length);
+      genSpan.end();
+      return result;
+    });
 
-  return output;
+    span.setAttribute("output", output);
+    span.end();
+    return output;
+  });
 }
+```
+
+**Install:**
+```bash
+bun add @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base
+```
+
+## File-Based Tracing (Minimal)
+
+Simplest local tracing - JSON to file:
+
+```python
+import json
+import time
+from pathlib import Path
+
+TRACE_DIR = Path("./traces")
+TRACE_DIR.mkdir(exist_ok=True)
+
+def trace_agent(func):
+    def wrapper(input):
+        trace = {
+            "input": input,
+            "start_time": time.time(),
+            "spans": []
+        }
+
+        result = func(input, trace)
+
+        trace["end_time"] = time.time()
+        trace["output"] = result
+        trace["duration_ms"] = (trace["end_time"] - trace["start_time"]) * 1000
+
+        # Save to local file
+        trace_file = TRACE_DIR / f"trace_{int(time.time())}.json"
+        trace_file.write_text(json.dumps(trace, indent=2))
+
+        return result
+    return wrapper
+
+@trace_agent
+def my_agent(input, trace):
+    # Add spans manually
+    trace["spans"].append({"name": "retrieve", "start": time.time()})
+    docs = retrieve(input)
+    trace["spans"][-1]["end"] = time.time()
+
+    return generate(input, docs)
 ```
 
 ## Debugging Failed Evals
@@ -109,37 +176,39 @@ When an eval fails, trace analysis helps understand why:
 ```python
 def analyze_failure(trace):
     # 1. Find the failing step
-    for span in trace.spans:
-        if span.status == "error":
-            print(f"Failed at: {span.name}")
-            print(f"Error: {span.error}")
+    for span in trace["spans"]:
+        if span.get("status") == "error":
+            print(f"Failed at: {span['name']}")
+            print(f"Error: {span.get('error')}")
 
     # 2. Check token usage
-    for span in trace.spans:
-        if span.tokens > 10000:
-            print(f"High token usage at: {span.name} ({span.tokens})")
+    for span in trace["spans"]:
+        tokens = span.get("tokens", 0)
+        if tokens > 10000:
+            print(f"High token usage at: {span['name']} ({tokens})")
 
     # 3. Check latency
-    for span in trace.spans:
-        if span.latency_ms > 5000:
-            print(f"Slow step: {span.name} ({span.latency_ms}ms)")
+    for span in trace["spans"]:
+        latency = span.get("end", 0) - span.get("start", 0)
+        if latency > 5:
+            print(f"Slow step: {span['name']} ({latency*1000:.0f}ms)")
 
     # 4. Inspect decision points
-    for span in trace.spans:
-        if "tool_call" in span.name:
-            print(f"Tool: {span.attributes.get('tool_name')}")
-            print(f"Args: {span.attributes.get('tool_args')}")
+    for span in trace["spans"]:
+        if "tool_call" in span.get("name", ""):
+            print(f"Tool: {span.get('tool_name')}")
+            print(f"Args: {span.get('tool_args')}")
 ```
 
 ## Interpretability Techniques
 
-### Attention Analysis
+### Attention Analysis (Local Models)
 
 For understanding what the model focuses on:
 
 ```python
-# Requires model that exposes attention weights
-# Most API models don't - local models only
+# Requires local model that exposes attention weights
+# API models don't expose this
 from transformers import AutoModel
 
 model = AutoModel.from_pretrained("model", output_attentions=True)
@@ -153,7 +222,7 @@ Understanding which input tokens influenced output:
 
 ```python
 # SHAP-style attribution (approximate for LLMs)
-def token_attribution(input_tokens, output):
+def token_attribution(input_tokens, output, model):
     attributions = []
     for i, token in enumerate(input_tokens):
         # Mask token and measure output change
@@ -176,7 +245,7 @@ trace = {
     "spans": [
         {
             "span_id": "uuid",
-            "parent_span_id": null,
+            "parent_span_id": None,
             "name": "agent",
             "start_time": "...",
             "end_time": "...",
@@ -210,9 +279,9 @@ trace = {
 
 ## Tool Comparison
 
-| Tool | Strengths | Weaknesses |
-|------|-----------|------------|
-| Phoenix | Visualization, spans | Requires instrumentation |
-| Langfuse | SaaS, easy setup | Less customizable |
-| OpenTelemetry | Standard, portable | More setup work |
-| LangSmith | LangChain native | Vendor lock-in |
+| Tool | Local | Strengths |
+|------|-------|-----------|
+| **Phoenix** | Yes | UI, visualization, LLM-native |
+| **OpenTelemetry** | Yes | Standard, portable, any backend |
+| **File logging** | Yes | Zero deps, full control |
+| Jaeger | Yes | Mature, battle-tested |
