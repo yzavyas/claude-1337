@@ -29,6 +29,8 @@ Single metrics lie. You need to measure BOTH failure modes.
 | **Any** | Cost/tokens | $/1M tokens, context | Tokencost |
 | **Any** | Traces | Span analysis | Phoenix (local) |
 | **Any** | Drift | Behavioral change | Custom baseline |
+| **Any** | Security | Attack resistance | Promptfoo, garak |
+| **Any** | Benchmarks | Standardized | SWE-bench, ToolBench |
 
 ## Three Metric Types
 
@@ -120,6 +122,9 @@ F1        = 2×(P×R)/(P+R)    "balanced score"
 | cost, tokens, budget | [cost.md](references/cost.md) |
 | trace, debug, interpret | [observability.md](references/observability.md) |
 | OTel, instrument, plugin | [otel.md](references/otel.md) |
+| security, red team, adversarial | [security.md](references/security.md) |
+| benchmark, SWE-bench, ToolBench | [benchmarks.md](references/benchmarks.md) |
+| dataset, labeling, augmentation | [datasets.md](references/datasets.md) |
 | DeepEval, Braintrust, RAGAS | [frameworks.md](references/frameworks.md) |
 
 ## Quick Reference
@@ -160,6 +165,19 @@ OTEL (ALL PLUGIN TYPES)
 DRIFT
   Baseline z-score comparison
   Measures: Behavioral change over time
+
+SECURITY
+  Promptfoo redteam, garak, PyRIT
+  Measures: Attack resistance, injection defense
+
+BENCHMARKS
+  SWE-bench: Code agents (500 verified)
+  ToolBench: Tool calling (16k+ APIs)
+  WebArena: Web agents (812 tasks)
+
+DATASETS
+  Labeled expectations, augmentation
+  Measures: Coverage, balance
 ```
 
 ## Sources
@@ -175,3 +193,7 @@ DRIFT
 - [Claude Agent SDK](https://code.claude.com/docs/en/monitoring-usage) - Native OTel
 - [Google ADK](https://google.github.io/adk-docs/observability/cloud-trace/) - Native OTel
 - [Scott Spence](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - Skills Activation Study
+- [SWE-bench](https://www.swebench.com/) - Code Agent Benchmark
+- [Promptfoo](https://promptfoo.dev/docs/red-team/) - Red Teaming
+- [garak](https://github.com/leondz/garak) - LLM Vulnerability Scanner
+- [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - Security Risks
