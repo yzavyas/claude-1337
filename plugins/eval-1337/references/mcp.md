@@ -185,3 +185,27 @@ reliability = sum(results) / len(results)
   ]
 }
 ```
+
+## OTel Instrumentation
+
+Trace MCP calls for debugging (see [otel.md](otel.md)):
+
+```python
+with tracer.start_as_current_span("mcp_call") as span:
+    span.set_attribute("server_name", server)
+    span.set_attribute("tool_name", tool)
+    span.set_attribute("args", str(args)[:500])
+
+    result = call_mcp_tool(server, tool, args)
+
+    span.set_attribute("success", not result.error)
+    span.set_attribute("result_size", len(str(result)))
+```
+
+## Sources
+
+- [MCPGauge](https://arxiv.org/abs/2506.07540) - Four-dimensional MCP evaluation (Jun 2025)
+- [LiveMCPBench](https://github.com/ModelContext/LiveMCPBench) - Live evaluation benchmark
+- [RAGAS Agent Metrics](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/) - ToolCallAccuracy, ToolCallF1
+- [MCP Specification](https://modelcontextprotocol.io/) - Official protocol spec
+- [DeepEval MCP](https://deepeval.com/docs/metrics-mcp) - MCP-specific metrics

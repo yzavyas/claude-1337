@@ -122,3 +122,26 @@ Don't ask Claude "would you use this skill?" - observe behavior.
 | 0.70-0.85 | Good |
 | 0.50-0.70 | Needs work |
 | < 0.50 | Poor |
+
+## OTel Instrumentation
+
+Trace skill activation for debugging (see [otel.md](otel.md)):
+
+```python
+with tracer.start_as_current_span("skill_check") as span:
+    span.set_attribute("prompt", prompt[:200])
+    span.set_attribute("available_skills", len(skills))
+
+    for skill in skills:
+        with tracer.start_as_current_span("skill_match") as skill_span:
+            skill_span.set_attribute("skill_name", skill.name)
+            matches = skill.matches(prompt)
+            skill_span.set_attribute("activated", matches)
+```
+
+## Sources
+
+- [Scott Spence](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - 84% recall study, testing methodology
+- [Skills Tokenomics](https://www.reddit.com/r/ClaudeAI/comments/1pha74t/deep_dive_anatomy_of_a_skill_its_tokenomics_why/) - Budget limits, truncation behavior
+- [CLAUDE.md Experiment](https://www.reddit.com/r/ClaudeAI/comments/1pe37e3/claudemd_and_skills_experiment_whats_the_best_way/) - Hybrid approach validation
+- [Claude Code Skills Docs](https://code.claude.com/docs/en/skills) - Official specification

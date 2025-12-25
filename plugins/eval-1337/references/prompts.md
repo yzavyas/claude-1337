@@ -167,3 +167,60 @@ Eval("QualityEval", {
   scores: [Factuality],
 });
 ```
+
+## Phoenix LLM-as-Judge (Local)
+
+No cloud dependency:
+
+```python
+from phoenix.evals import llm_classify, OpenAIModel
+import pandas as pd
+
+eval_model = OpenAIModel(model="gpt-4o-mini")
+
+# Custom quality rubric
+results = llm_classify(
+    dataframe=pd.DataFrame({"response": responses}),
+    template="""Rate this response:
+
+{response}
+
+Is it helpful, accurate, and well-formatted?""",
+    model=eval_model,
+    rails=["excellent", "good", "poor"],
+)
+```
+
+## Anthropic-Specific Patterns
+
+For Claude-generated outputs:
+
+```python
+# Use Claude as judge for Claude outputs
+from anthropic import Anthropic
+
+client = Anthropic()
+
+def claude_judge(output: str, criteria: str) -> int:
+    response = client.messages.create(
+        model="claude-3-5-haiku-20241022",  # Fast, cheap judge
+        max_tokens=10,
+        messages=[{
+            "role": "user",
+            "content": f"""Rate this output 1-5 based on: {criteria}
+
+Output: {output}
+
+Score (just the number):"""
+        }]
+    )
+    return int(response.content[0].text.strip())
+```
+
+## Sources
+
+- [Braintrust AutoEvals](https://github.com/braintrustdata/autoevals) - Factuality, custom scorers
+- [DeepEval G-Eval](https://deepeval.com/docs/metrics-g-eval) - Rubric-based evaluation
+- [Phoenix Evals](https://github.com/Arize-ai/phoenix) - Local LLM-as-judge
+- [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook) - Claude evaluation patterns
+- [LLM-as-Judge Survey](https://arxiv.org/abs/2310.05470) - Judging LLM-as-a-Judge (NeurIPS 2023)

@@ -177,3 +177,10 @@ for case in test_cases:
 | gpt-4o-mini | $0.15 | $0.60 |
 
 *Prices as of Dec 2024. Check provider docs for current rates.*
+
+## Sources
+
+- [Tokencost](https://github.com/AgentOps-AI/tokencost) - Local token counting and cost calculation
+- [tiktoken](https://github.com/openai/tiktoken) - OpenAI's tokenizer (works for estimation)
+- [Anthropic Pricing](https://www.anthropic.com/pricing) - Official Claude pricing
+- [OpenAI Pricing](https://openai.com/api/pricing/) - Official GPT pricing

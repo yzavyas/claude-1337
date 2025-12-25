@@ -456,3 +456,14 @@ trace = {
 | Not ending spans | Use context managers or try/finally |
 | Missing errors | Always record_exception() on failures |
 | No session correlation | Pass session_id through all spans |
+
+## Sources
+
+- [OpenTelemetry](https://opentelemetry.io/) - Official specification and SDKs
+- [OpenTelemetry Python](https://opentelemetry.io/docs/languages/python/) - Python SDK docs
+- [OpenTelemetry JS](https://opentelemetry.io/docs/languages/js/) - Node/Bun SDK docs
+- [OpenInference](https://github.com/Arize-ai/openinference) - LLM-specific instrumentation
+- [Phoenix](https://docs.arize.com/phoenix) - Local LLM observability UI
+- [Claude Code Monitoring](https://code.claude.com/docs/en/monitoring-usage) - Native OTel support
+- [Google ADK Tracing](https://google.github.io/adk-docs/observability/cloud-trace/) - Native OTel support
+- [AI Agent Observability](https://opentelemetry.io/blog/2025/ai-agent-observability/) - OTel semantic conventions

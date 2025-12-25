@@ -193,4 +193,64 @@ Use multiple frameworks:
 2. Braintrust    → Output quality scoring (LLM-as-judge)
 3. RAGAS         → RAG-specific metrics (if applicable)
 4. Promptfoo     → Security/red-teaming (before production)
+5. Phoenix Evals → Local LLM-as-judge, drift detection
 ```
+
+---
+
+## Phoenix Evals (Local)
+
+**Best for:** Local LLM-as-judge, no cloud dependency
+
+**Key Features:**
+- Runs entirely local (localhost:6006)
+- LLM-as-judge classification
+- RAG relevance scoring
+- Drift detection
+
+**Install:**
+```bash
+pip install arize-phoenix-evals
+```
+
+**Usage:**
+```python
+from phoenix.evals import llm_classify, OpenAIModel
+import pandas as pd
+
+eval_model = OpenAIModel(model="gpt-4o-mini")
+
+# Classify responses
+results = llm_classify(
+    dataframe=pd.DataFrame(responses),
+    template="Is this response helpful? {response}",
+    model=eval_model,
+    rails=["helpful", "unhelpful"],
+)
+
+# RAG relevance
+from phoenix.evals import run_relevance_eval
+
+relevance = run_relevance_eval(
+    dataframe=df,
+    model=eval_model,
+    query_column="query",
+    document_column="retrieved_doc",
+)
+```
+
+**Strengths:**
+- No cloud dependency
+- Integrates with Phoenix tracing
+- Supports custom eval templates
+
+---
+
+## Sources
+
+- [DeepEval Docs](https://deepeval.com/docs) - Metrics reference, tracing API
+- [Braintrust AutoEvals](https://github.com/braintrustdata/autoevals) - Scorer implementations
+- [RAGAS Docs](https://docs.ragas.io/en/stable/) - Agent and RAG metrics
+- [Promptfoo Docs](https://promptfoo.dev/docs/intro) - YAML config, red teaming
+- [Phoenix Evals](https://github.com/Arize-ai/phoenix) - Local evaluation library
+- [LLM Agent Evaluation Survey](https://arxiv.org/abs/2507.21504) - KDD 2025, comprehensive taxonomy

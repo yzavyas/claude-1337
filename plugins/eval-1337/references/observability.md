@@ -285,3 +285,11 @@ trace = {
 | **OpenTelemetry** | Yes | Standard, portable, any backend |
 | **File logging** | Yes | Zero deps, full control |
 | Jaeger | Yes | Mature, battle-tested |
+
+## Sources
+
+- [Phoenix Docs](https://docs.arize.com/phoenix) - Local LLM observability
+- [OpenTelemetry Python](https://opentelemetry.io/docs/languages/python/) - Official SDK docs
+- [OpenTelemetry JS](https://opentelemetry.io/docs/languages/js/) - Node/Bun SDK docs
+- [OpenInference](https://github.com/Arize-ai/openinference) - LLM-specific OTel instrumentation
+- [Jaeger](https://www.jaegertracing.io/) - Distributed tracing backend
