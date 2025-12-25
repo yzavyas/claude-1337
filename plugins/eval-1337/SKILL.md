@@ -28,6 +28,7 @@ Single metrics lie. You need to measure BOTH failure modes.
 | **Prompts** | Output quality | LLM-as-judge | Braintrust |
 | **Any** | Cost/tokens | $/1M tokens, context | Tokencost |
 | **Any** | Traces | Span analysis | Phoenix (local) |
+| **Any** | Drift | Behavioral change | Custom baseline |
 
 ## Three Metric Types
 
@@ -118,6 +119,7 @@ F1        = 2×(P×R)/(P+R)    "balanced score"
 | prompt, quality, judge | [prompts.md](references/prompts.md) |
 | cost, tokens, budget | [cost.md](references/cost.md) |
 | trace, debug, interpret | [observability.md](references/observability.md) |
+| OTel, instrument, plugin | [otel.md](references/otel.md) |
 | DeepEval, Braintrust, RAGAS | [frameworks.md](references/frameworks.md) |
 
 ## Quick Reference
@@ -147,6 +149,17 @@ COST
 OBSERVABILITY
   Phoenix: trace spans, latency (runs locally)
   Measures: Debug traces, interpretability
+
+OTEL (ALL PLUGIN TYPES)
+  Skills: skill_check, skill_match spans
+  Agents: agent_run, llm_call, tool_call spans
+  Commands: command, command_execute spans
+  Hooks: hook_trigger, hook_handler spans
+  MCP: mcp_server, mcp_call spans
+
+DRIFT
+  Baseline z-score comparison
+  Measures: Behavioral change over time
 ```
 
 ## Sources
@@ -158,4 +171,7 @@ OBSERVABILITY
 - [MCPGauge](https://arxiv.org/abs/2506.07540) - MCP Server Evaluation (Jun 2025)
 - [Tokencost](https://github.com/AgentOps-AI/tokencost) - Local Cost Calculation
 - [Phoenix](https://docs.arize.com/phoenix) - LLM Observability and Tracing
+- [Phoenix Evals](https://github.com/Arize-ai/phoenix) - Local LLM Evaluation
+- [Claude Agent SDK](https://code.claude.com/docs/en/monitoring-usage) - Native OTel
+- [Google ADK](https://google.github.io/adk-docs/observability/cloud-trace/) - Native OTel
 - [Scott Spence](https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably) - Skills Activation Study
