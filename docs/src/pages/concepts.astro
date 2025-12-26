@@ -341,52 +341,68 @@ You are an elite documentation agent.
 
   <h2>evals</h2>
 
-  <p>evals (evaluations) test whether skills activate when they should. they measure activation rate: how often claude loads a skill for relevant prompts.</p>
+  <p>evals (evaluations) test skill quality using <strong>precision</strong> and <strong>recall</strong>, not just activation rate.</p>
+
+  <h3>why raw activation rate is meaningless</h3>
+
+  <p>a skill that activates on every prompt has 100% "activation rate" but is useless. real evaluation requires:</p>
+
+  <ul>
+    <li><strong>precision</strong>: when skill activates, is it actually relevant?</li>
+    <li><strong>recall</strong>: when skill should activate, does it?</li>
+  </ul>
+
+  <h3>the confusion matrix</h3>
+
+  <pre><code>                    ACTUAL ACTIVATION
+                    Yes         No
+                +-----------+-----------+
+SHOULD    Yes   |    TP     |    FN     |
+ACTIVATE        | (correct) | (missed)  |
+                +-----------+-----------+
+          No    |    FP     |    TN     |
+                | (noise)   | (correct) |
+                +-----------+-----------+</code></pre>
 
   <h3>how testing works</h3>
 
-  <pre><code># send a prompt that should trigger rust-1337
-result = query(
-    prompt="How do I handle errors in async Rust?",
-    options=ClaudeAgentOptions(plugins=[rust_1337])
-)
+  <p>test cases have labeled expectations:</p>
 
-# did claude invoke the Skill() tool?
-skill_activated = check_tool_use(result, tool="Skill")
-# activation: true/false (ground truth)</code></pre>
+  <pre><code>TestCase(prompt="what crate for cli args?", expectation="must_activate")
+TestCase(prompt="help me write python", expectation="should_not_activate")</code></pre>
 
-  <p>this isn't asking claude's opinion. it's observing actual behavior - did the skill load or not?</p>
+  <p>this observes actual tool invocation and compares to ground truth. not asking claude's opinion.</p>
 
   <h3>interpreting results</h3>
 
   <table>
     <tr>
-      <th>activation rate</th>
-      <th>meaning</th>
-      <th>action</th>
+      <th>metric</th>
+      <th>good</th>
+      <th>problem</th>
     </tr>
     <tr>
-      <td>80%+</td>
-      <td>description working well</td>
-      <td>ship it</td>
+      <td>precision</td>
+      <td>90%+ (few false activations)</td>
+      <td>&lt;50% (mostly noise)</td>
     </tr>
     <tr>
-      <td>50-79%</td>
-      <td>description needs work</td>
-      <td>add "Use when:" clause, front-load keywords</td>
+      <td>recall</td>
+      <td>80%+ (catches triggers)</td>
+      <td>&lt;50% (misses too many)</td>
     </tr>
     <tr>
-      <td>&lt;50%</td>
-      <td>description too vague</td>
-      <td>rewrite with specific triggers and terms</td>
+      <td>F1</td>
+      <td>85%+ (balanced)</td>
+      <td>&lt;60% (needs work)</td>
     </tr>
   </table>
 
   <h3>why evals matter</h3>
 
-  <p>without testing, you don't know if your skill actually works. a skill with a poor description is invisible - installed but never activated.</p>
+  <p>evals are TDD for agent behavior - the scientific method applied to plugin development. without rigorous testing, you don't know if your skill works.</p>
 
-  <p>the claude-1337 evals framework uses the Claude Agent SDK to run prompts and observe tool invocation. see <code>/evals</code> in the repo.</p>
+  <p>see <code>/evals</code> in the repo and <a href="/claude-1337/explanation/">explanation</a> for full methodology.</p>
 
   <h2>putting it together</h2>
 

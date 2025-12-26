@@ -1,0 +1,283 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="diagrams-1337" description="elite diagram-as-code for documentation">
+  <p style="color: var(--fg-dim);">proactive diagram generation with evidence-based tool selection</p>
+
+  <h2>what this is</h2>
+
+  <p>diagrams-1337 makes claude diagram-aware. it answers: what diagram type should i use? when should i use mermaid vs d2?</p>
+
+  <p>two components:</p>
+
+  <table>
+    <tr>
+      <th>component</th>
+      <th>what it does</th>
+    </tr>
+    <tr>
+      <td><strong>skill</strong></td>
+      <td>decision frameworks - diagram type selection, tool choice, platform gotchas</td>
+    </tr>
+    <tr>
+      <td><strong>agent: davinci</strong></td>
+      <td>deep architecture diagramming - generates comprehensive diagram suites</td>
+    </tr>
+  </table>
+
+  <h2>the answer</h2>
+
+  <p><strong>default to mermaid</strong> (95% of cases). zero build step, native github/gitlab rendering.</p>
+
+  <table>
+    <tr>
+      <th>scenario</th>
+      <th>tool</th>
+      <th>why</th>
+    </tr>
+    <tr>
+      <td>documentation in github/gitlab</td>
+      <td>mermaid</td>
+      <td>native rendering, instant sync with code</td>
+    </tr>
+    <tr>
+      <td>complex cloud architecture (50+ nodes)</td>
+      <td>d2</td>
+      <td>superior layouts, precise control</td>
+    </tr>
+    <tr>
+      <td>c4 model with sprites</td>
+      <td>c4-plantuml</td>
+      <td>production-proven, standardized (rare, &lt;1%)</td>
+    </tr>
+  </table>
+
+  <h2>diagram type selection</h2>
+
+  <p>stop defaulting to flowcharts. choose by context:</p>
+
+  <table>
+    <tr>
+      <th>context</th>
+      <th>diagram type</th>
+    </tr>
+    <tr>
+      <td>api interactions, service calls</td>
+      <td><code>sequenceDiagram</code></td>
+    </tr>
+    <tr>
+      <td>database schema, data model</td>
+      <td><code>erDiagram</code></td>
+    </tr>
+    <tr>
+      <td>state-based behavior</td>
+      <td><code>stateDiagram-v2</code></td>
+    </tr>
+    <tr>
+      <td>git workflow, branching</td>
+      <td><code>gitGraph</code></td>
+    </tr>
+    <tr>
+      <td>cloud/service architecture</td>
+      <td><code>architecture-beta</code> or d2</td>
+    </tr>
+    <tr>
+      <td>process with decisions</td>
+      <td><code>flowchart</code> (only then!)</td>
+    </tr>
+    <tr>
+      <td>priority matrix</td>
+      <td><code>quadrantChart</code></td>
+    </tr>
+    <tr>
+      <td>hierarchical concepts</td>
+      <td><code>mindmap</code></td>
+    </tr>
+  </table>
+
+  <h2>production gotchas</h2>
+
+  <table>
+    <tr>
+      <th>trap</th>
+      <th>fix</th>
+    </tr>
+    <tr>
+      <td>using newest mermaid features</td>
+      <td>github uses ~10.0.2, gitlab 10.6.0. test on target platform.</td>
+    </tr>
+    <tr>
+      <td>flowcharts for everything</td>
+      <td>sequence for api calls, state for lifecycles, er for data</td>
+    </tr>
+    <tr>
+      <td>assuming github pages works</td>
+      <td>jekyll blocks mermaid. need plugin config or pre-render.</td>
+    </tr>
+    <tr>
+      <td>ignoring mobile</td>
+      <td>ios github app shows raw code. test if mobile matters.</td>
+    </tr>
+    <tr>
+      <td>silent syntax failures</td>
+      <td>validate with mermaid live editor (mermaid.live)</td>
+    </tr>
+  </table>
+
+  <h2>the davinci agent</h2>
+
+  <p>invoke for deep architecture work:</p>
+
+  <pre><code>Task(
+  subagent_type="diagrams-1337:davinci",
+  prompt="Generate architecture diagrams for the e-commerce platform"
+)</code></pre>
+
+  <p>the agent generates comprehensive diagram suites:</p>
+
+  <ul>
+    <li><strong>context</strong> - system boundary, external dependencies</li>
+    <li><strong>container</strong> - services, databases, communication</li>
+    <li><strong>sequence</strong> - critical api flows</li>
+    <li><strong>state</strong> - entity lifecycles</li>
+    <li><strong>data model</strong> - entity relationships (if applicable)</li>
+  </ul>
+
+  <h2>decision framework</h2>
+
+  <p>choose by information type:</p>
+
+  <table>
+    <tr>
+      <th>type</th>
+      <th>diagram</th>
+    </tr>
+    <tr>
+      <td>temporal/sequential</td>
+      <td>sequence, timeline, gantt, gitgraph</td>
+    </tr>
+    <tr>
+      <td>structural/static</td>
+      <td>class, er, architecture</td>
+    </tr>
+    <tr>
+      <td>behavioral/dynamic</td>
+      <td>state, flowchart, journey</td>
+    </tr>
+    <tr>
+      <td>analytical/comparative</td>
+      <td>quadrant, pie, sankey</td>
+    </tr>
+  </table>
+
+  <h2>when to upgrade to d2</h2>
+
+  <p>only when all of these are true:</p>
+
+  <ul>
+    <li>diagram has 50+ nodes or complex architecture</li>
+    <li>mermaid's auto-layout produces poor results</li>
+    <li>team can accept build step in workflow</li>
+    <li>native github/gitlab rendering not required</li>
+  </ul>
+
+  <p>otherwise, use mermaid.</p>
+
+  <h2>rationale: why diagrams work</h2>
+
+  <p>this plugin is grounded in cognitive science research on diagram effectiveness:</p>
+
+  <h3>cognitive load theory (sweller, 1988)</h3>
+  <p>properly designed diagrams reduce extraneous cognitive load by integrating information that would otherwise require split attention. embedding labels within diagrams (spatial contiguity) reduces mental integration effort.</p>
+
+  <h3>dual coding theory (paivio, 1971)</h3>
+  <p>the mind processes information through two channels: verbal and visual. presenting information through both channels enhances encoding and recall. diagrams + text > diagrams alone or text alone.</p>
+
+  <h3>cognitive fit theory (vessey, 1991)</h3>
+  <p>performance is superior when representation format matches task type:</p>
+
+  <table>
+    <tr>
+      <th>task type</th>
+      <th>best representation</th>
+      <th>why</th>
+    </tr>
+    <tr>
+      <td>spatial tasks (relationships, patterns)</td>
+      <td>diagrams</td>
+      <td>facilitate viewing without analytical attention</td>
+    </tr>
+    <tr>
+      <td>symbolic tasks (precise values, sequential)</td>
+      <td>tables, text</td>
+      <td>facilitate analytical processing</td>
+    </tr>
+  </table>
+
+  <h3>research findings</h3>
+
+  <ul>
+    <li><strong>uml effectiveness</strong>: reduces maintenance time by 22-60% (sharif & maletic)</li>
+    <li><strong>comprehension boost</strong>: moderate positive effect (hedges's g = 0.39) on comprehension (guo et al., 2020)</li>
+    <li><strong>active construction</strong>: effect size 0.82 when learners construct diagrams vs just studying them (nesbit & adesope, 2006)</li>
+    <li><strong>split-attention effect</strong>: integrated diagrams > separate text and images (chandler & sweller, 1992)</li>
+  </ul>
+
+  <h3>when diagrams help</h3>
+  <ul>
+    <li>showing spatial/relational information (architecture, dependencies)</li>
+    <li>reader has adequate prior knowledge</li>
+    <li>pattern recognition matters more than precision</li>
+    <li>complexity is manageable (5-10 elements per diagram)</li>
+  </ul>
+
+  <h3>when diagrams hurt</h3>
+  <ul>
+    <li>visual complexity creates "hairball" visualizations</li>
+    <li>precision matters more than patterns (use tables)</li>
+    <li>decorative only, not instructive (sung & mayer, 2012)</li>
+    <li>reader lacks prerequisite knowledge</li>
+  </ul>
+
+  <h2>production evidence</h2>
+
+  <p>built from production patterns with verified sources:</p>
+
+  <ul>
+    <li><strong>kubernetes</strong> - <a href="https://kubernetes.io/docs/contribute/style/diagram-guide/">official diagram guide</a> mandates mermaid for all contributor documentation</li>
+    <li><strong>gitlab</strong> - <a href="https://handbook.gitlab.com/handbook/tools-and-tips/mermaid/">internal handbook</a> uses mermaid extensively for workflows and architecture</li>
+    <li><strong>azure devops</strong> - <a href="https://azuredevops.tips/wikimermaid-diagrams/">native mermaid rendering</a> in wikis and documentation</li>
+    <li><strong>terraform</strong> - <a href="https://github.com/RoseSecurity/Terramaid">terramaid</a> generates mermaid diagrams from terraform configs, 1.2k+ stars</li>
+  </ul>
+
+  <h3>tool selection rationale</h3>
+  <ul>
+    <li><strong>mermaid default</strong>: zero friction (instant github/gitlab rendering) trumps polish 95% of the time</li>
+    <li><strong>d2 for complexity</strong>: superior layout engines justified only when mermaid produces poor results (50+ nodes)</li>
+    <li><strong>c4-plantuml rare</strong>: only for formal c4 models requiring standardized sprites (&lt;1% of cases)</li>
+  </ul>
+
+  <h2>structure</h2>
+
+  <pre><code>plugins/diagrams-1337/
+├── .claude-plugin/plugin.json
+├── SKILL.md              # decision frameworks
+├── agents/
+│   └── davinci.md        # architecture specialist
+└── references/
+    ├── mermaid-types.md  # complete catalog
+    ├── d2.md             # when to use d2
+    ├── c4-architecture.md # c4 model patterns
+    └── gotchas.md        # debugging, platforms</code></pre>
+
+  <h2>sources</h2>
+
+  <ul>
+    <li><a href="https://mermaid.js.org">mermaid official docs</a> - comprehensive syntax reference</li>
+    <li><a href="https://d2lang.com">d2 official docs</a> - declarative diagramming</li>
+    <li><a href="https://kubernetes.io/docs/contribute/style/diagram-guide/">kubernetes diagram guide</a> - production usage</li>
+    <li><a href="https://c4model.com">c4 model</a> - architecture documentation standard</li>
+    <li><a href="https://handbook.gitlab.com/handbook/tools-and-tips/mermaid/">gitlab mermaid guide</a> - production patterns</li>
+  </ul>
+</Base>

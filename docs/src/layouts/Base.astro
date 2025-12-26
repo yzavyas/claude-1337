@@ -1,7 +1,4 @@
 ---
-import marketplace from '../data/marketplace.json';
-import Sidebar from '../components/Sidebar.astro';
-
 interface Props {
   title: string;
   description?: string;
@@ -9,11 +6,22 @@ interface Props {
 
 const { title, description = 'best-in-class skills - THE answer, not catalogs' } = Astro.props;
 const currentPath = Astro.url.pathname;
-const plugins = marketplace.plugins;
 
-// Determine if we should show sidebar
-const showSidebar = currentPath.includes('/reference') || currentPath.includes('/explanation');
-const sidebarSection = currentPath.includes('/reference') ? 'reference' : currentPath.includes('/explanation') ? 'explanation' : null;
+// Dynamically get all reference pages (excluding index)
+const referencePages = await Astro.glob('../pages/reference/*.astro');
+const referenceLinks = referencePages
+  .filter(page => !page.url?.endsWith('/reference/') && !page.url?.endsWith('/reference'))
+  .map(page => {
+    const url = page.url || '';
+    const name = url.split('/').filter(Boolean).pop() || '';
+    return { url: url.endsWith('/') ? url : url + '/', name };
+  })
+  .sort((a, b) => {
+    // Sort core-1337 first, then alphabetically
+    if (a.name === 'core-1337') return -1;
+    if (b.name === 'core-1337') return 1;
+    return a.name.localeCompare(b.name);
+  });
 ---
 
 <html lang="en">
@@ -169,18 +177,6 @@ const sidebarSection = currentPath.includes('/reference') ? 'reference' : curren
       padding: 2rem;
     }
 
-    body.has-sidebar .container {
-      margin-left: 280px;
-      margin-right: 2rem;
-    }
-
-    @media (max-width: 1024px) {
-      body.has-sidebar .container {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
-
     /* Navigation */
     nav {
       border-bottom: 1px solid var(--fg-dim);
@@ -317,11 +313,6 @@ const sidebarSection = currentPath.includes('/reference') ? 'reference' : curren
       margin-bottom: 1.5rem;
     }
 
-    /* Dimmed intro text */
-    .dimmed-intro {
-      color: var(--fg-dim);
-    }
-
     /* Plugin list */
     .plugin-list {
       list-style: none;
@@ -355,8 +346,7 @@ const sidebarSection = currentPath.includes('/reference') ? 'reference' : curren
     }
   </style>
 </head>
-<body class:list={[{ 'has-sidebar': showSidebar }]}>
-  {showSidebar && sidebarSection ? <Sidebar section={sidebarSection} /> : null}
+<body>
   <div class="container">
     <header>
       <h1><strong>claude-1337</strong> — 1337 plugins for claude code</h1>
@@ -367,7 +357,14 @@ const sidebarSection = currentPath.includes('/reference') ? 'reference' : curren
         <li><a href="/claude-1337/" class={currentPath === '/claude-1337/' ? 'active' : ''}>start</a></li>
         <li><a href="/claude-1337/concepts/" class={currentPath.includes('/concepts') ? 'active' : ''}>concepts</a></li>
         <li><a href="/claude-1337/how-to/" class={currentPath.includes('/how-to') ? 'active' : ''}>how-to</a></li>
-        <li><a href="/claude-1337/reference/" class={currentPath.includes('/reference') ? 'active' : ''}>reference</a></li>
+        <li class="has-sub">
+          <a href="/claude-1337/reference/" class={currentPath.includes('/reference') ? 'active' : ''}>reference</a>
+          <ul class="subnav">
+            {referenceLinks.map(({ url, name }) => (
+              <li><a href={url}>{name}</a></li>
+            ))}
+          </ul>
+        </li>
         <li><a href="/claude-1337/explanation/" class={currentPath.includes('/explanation') ? 'active' : ''}>explanation</a></li>
       </ul>
     </nav>

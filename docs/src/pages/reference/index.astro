@@ -1,34 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
-import marketplace from '../../data/marketplace.json';
-
-const plugins = marketplace.plugins;
 ---
 
-<Base title="reference" description="plugin documentation and external resources">
-  <h2>plugin catalog</h2>
-  <ul>
-    <li><a href="/claude-1337/reference/catalog/">interactive catalog</a> — filter by component type, search by keywords</li>
-  </ul>
+<Base title="reference" description="plugin documentation">
+  <p style="color: var(--fg-dim);">technical specs for each plugin</p>
 
-  <h2>research</h2>
-  <ul>
-    <li><a href="/claude-1337/reference/research/">skill activation research</a> — validation framework, 20% → 84% study, eval tools</li>
-  </ul>
-
-  <h2>claude code documentation</h2>
-  <ul>
-    <li><a href="https://code.claude.com/docs/en/skills">skills</a> — official skills documentation</li>
-    <li><a href="https://code.claude.com/docs/en/plugins">plugins</a> — official plugins documentation</li>
-    <li><a href="https://code.claude.com/docs/en/plugin-marketplaces">plugin marketplaces</a> — official marketplace documentation</li>
-    <li><a href="https://code.claude.com/docs/en/hooks">hooks</a> — official hooks documentation</li>
-    <li><a href="https://code.claude.com/docs/en/agents">agents</a> — official agents documentation</li>
-  </ul>
-
-  <h2>plugin specs</h2>
   <ul class="plugin-list">
-    {plugins.map((plugin) => (
-      <li><a href={`/claude-1337/reference/${plugin.name}/`}>{plugin.name}</a> — {plugin.description}</li>
-    ))}
+    <li><a href="/claude-1337/reference/core-1337/">core-1337</a> — the foundation (install first)</li>
+    <li><a href="/claude-1337/reference/terminal-1337/">terminal-1337</a> — modern cli tools</li>
+    <li><a href="/claude-1337/reference/rust-1337/">rust-1337</a> — rust development decisions</li>
+    <li><a href="/claude-1337/reference/1337-skill-creator/">1337-skill-creator</a> — skill authoring methodology</li>
+    <li><a href="/claude-1337/reference/sensei-1337/">sensei-1337</a> — teaching methodology</li>
+    <li><a href="/claude-1337/reference/diagrams-1337/">diagrams-1337</a> — diagram-as-code</li>
   </ul>
 </Base>

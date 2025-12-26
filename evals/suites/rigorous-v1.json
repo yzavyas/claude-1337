@@ -1,0 +1,201 @@
+{
+  "name": "rigorous-v1",
+  "description": "Rigorous skill activation eval with labeled expectations. Tests precision (avoiding false activations) and recall (catching valid triggers).",
+  "runs_per_case": 5,
+  "skills": [
+    {
+      "name": "terminal-1337",
+      "plugin": "terminal-1337",
+      "test_cases": [
+        {
+          "prompt": "How do I use ripgrep to search for a pattern?",
+          "expectation": "must_activate",
+          "rationale": "Direct mention of ripgrep, which is documented in the skill"
+        },
+        {
+          "prompt": "What's a fast way to find files by name in my project?",
+          "expectation": "must_activate",
+          "rationale": "fd is the answer, skill should activate"
+        },
+        {
+          "prompt": "I need to search my codebase for all TODO comments",
+          "expectation": "must_activate",
+          "rationale": "Natural language for grep/rg use case"
+        },
+        {
+          "prompt": "How can I pretty-print this JSON response from an API?",
+          "expectation": "must_activate",
+          "rationale": "jq is the answer, covered in terminal-1337"
+        },
+        {
+          "prompt": "Show me a better way to list directory contents with git status",
+          "expectation": "must_activate",
+          "rationale": "eza with git integration is the answer"
+        },
+        {
+          "prompt": "I want to make HTTP requests from the command line",
+          "expectation": "must_activate",
+          "rationale": "xh/httpie is documented in the skill"
+        },
+        {
+          "prompt": "What shell history tool should I use?",
+          "expectation": "must_activate",
+          "rationale": "atuin is the answer"
+        },
+        {
+          "prompt": "Find all Python files that import pandas",
+          "expectation": "must_activate",
+          "rationale": "This is a grep + glob task, terminal-1337 applies"
+        },
+        {
+          "prompt": "Help me write a Python script to parse CSV files",
+          "expectation": "should_not_activate",
+          "rationale": "Python scripting, not CLI tools"
+        },
+        {
+          "prompt": "What's the best React state management library?",
+          "expectation": "should_not_activate",
+          "rationale": "Frontend JS, unrelated to CLI tools"
+        },
+        {
+          "prompt": "Debug this TypeScript type error",
+          "expectation": "should_not_activate",
+          "rationale": "TypeScript help, not CLI tools"
+        },
+        {
+          "prompt": "Explain how async/await works in JavaScript",
+          "expectation": "should_not_activate",
+          "rationale": "JS concepts, not CLI tools"
+        },
+        {
+          "prompt": "I need better terminal tools",
+          "expectation": "acceptable",
+          "rationale": "Vague - could mean terminal-1337, could mean something else"
+        },
+        {
+          "prompt": "How do I grep for a pattern?",
+          "expectation": "acceptable",
+          "rationale": "Could use built-in grep or rg - either is valid"
+        }
+      ]
+    },
+    {
+      "name": "rust-1337",
+      "plugin": "rust-1337",
+      "test_cases": [
+        {
+          "prompt": "What crate should I use for CLI argument parsing in Rust?",
+          "expectation": "must_activate",
+          "rationale": "Direct Rust tooling question, clap is the answer"
+        },
+        {
+          "prompt": "How do I structure a Rust backend with axum?",
+          "expectation": "must_activate",
+          "rationale": "Direct mention of axum, Rust backend architecture"
+        },
+        {
+          "prompt": "What's the best error handling approach for a Rust library?",
+          "expectation": "must_activate",
+          "rationale": "Rust error handling patterns are core to the skill"
+        },
+        {
+          "prompt": "Set up a Rust project with async HTTP server",
+          "expectation": "must_activate",
+          "rationale": "Rust async backend, tokio/axum territory"
+        },
+        {
+          "prompt": "What serialization library should I use in Rust?",
+          "expectation": "must_activate",
+          "rationale": "serde is the answer, covered in ecosystem"
+        },
+        {
+          "prompt": "Build a Rust CLI that processes files concurrently",
+          "expectation": "must_activate",
+          "rationale": "Rust CLI + async, multiple skill domains"
+        },
+        {
+          "prompt": "How do I write procedural macros in Rust?",
+          "expectation": "must_activate",
+          "rationale": "proc-macros is explicitly a skill domain"
+        },
+        {
+          "prompt": "What's the Rust equivalent of Python's requests library?",
+          "expectation": "must_activate",
+          "rationale": "reqwest is the answer, networking domain"
+        },
+        {
+          "prompt": "Explain Rust ownership and borrowing",
+          "expectation": "acceptable",
+          "rationale": "Core Rust concept, but skill is about tooling choices not language teaching"
+        },
+        {
+          "prompt": "What's the difference between String and &str?",
+          "expectation": "acceptable",
+          "rationale": "Language fundamentals, not tooling decisions"
+        },
+        {
+          "prompt": "Help me write a Python web scraper",
+          "expectation": "should_not_activate",
+          "rationale": "Python, not Rust"
+        },
+        {
+          "prompt": "What's the best Node.js framework for APIs?",
+          "expectation": "should_not_activate",
+          "rationale": "Node.js, not Rust"
+        },
+        {
+          "prompt": "Debug this Go concurrency issue",
+          "expectation": "should_not_activate",
+          "rationale": "Go, not Rust"
+        },
+        {
+          "prompt": "How do I deploy a Docker container?",
+          "expectation": "should_not_activate",
+          "rationale": "DevOps, not Rust development"
+        }
+      ]
+    }
+  ],
+  "negative_cases": [
+    {
+      "prompt": "Write me a haiku about programming",
+      "expectation": "should_not_activate",
+      "rationale": "Creative writing, no skill should activate"
+    },
+    {
+      "prompt": "What's the weather like today?",
+      "expectation": "should_not_activate",
+      "rationale": "General knowledge, no skill should activate"
+    },
+    {
+      "prompt": "Explain the theory of relativity",
+      "expectation": "should_not_activate",
+      "rationale": "Physics, no skill should activate"
+    },
+    {
+      "prompt": "Help me plan a vacation to Japan",
+      "expectation": "should_not_activate",
+      "rationale": "Travel planning, no skill should activate"
+    },
+    {
+      "prompt": "What's 2 + 2?",
+      "expectation": "should_not_activate",
+      "rationale": "Basic math, no skill should activate"
+    },
+    {
+      "prompt": "Summarize this article for me",
+      "expectation": "should_not_activate",
+      "rationale": "General summarization, no skill should activate"
+    },
+    {
+      "prompt": "What are some good books on leadership?",
+      "expectation": "should_not_activate",
+      "rationale": "Book recommendations, no skill should activate"
+    },
+    {
+      "prompt": "Help me write an email to my boss",
+      "expectation": "should_not_activate",
+      "rationale": "Business writing, no skill should activate"
+    }
+  ]
+}
