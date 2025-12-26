@@ -1,0 +1,9 @@
+{
+  "name": "eval-1337",
+  "description": "Write rigorous evals for LLM agents, skills, MCP servers, and prompts",
+  "version": "0.1.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@gmail.com"
+  }
+}

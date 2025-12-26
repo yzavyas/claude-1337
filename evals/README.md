@@ -3,6 +3,7 @@
 Rigorous skill activation testing for the claude-1337 marketplace using the Claude Agent SDK.
 
 **Deep Dives**:
+- [docs/eval-fundamentals.md](docs/eval-fundamentals.md) - precision, recall, F1, confusion matrix (start here)
 - [docs/why-evals-matter.md](docs/why-evals-matter.md) - philosophy, connection to TDD and scientific method
 - [docs/reference.md](docs/reference.md) - metrics definitions, schemas, CLI reference
 

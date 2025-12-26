@@ -174,6 +174,38 @@
       "skills": [
         "./"
       ]
+    },
+    {
+      "name": "eval-1337",
+      "source": "./plugins/eval-1337",
+      "description": "Write rigorous evals for LLM agents, skills, MCP servers, and prompts. Use when: building test suites, measuring effectiveness, choosing frameworks. Covers: DeepEval, Braintrust, RAGAS, precision/recall, F1.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "evals",
+        "evaluation",
+        "testing",
+        "agents",
+        "skills",
+        "mcp",
+        "precision",
+        "recall",
+        "f1",
+        "deepeval",
+        "braintrust",
+        "ragas"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
     }
   ]
 }
