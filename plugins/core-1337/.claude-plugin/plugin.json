@@ -1,7 +1,7 @@
 {
   "name": "core-1337",
-  "description": "Core infrastructure for claude-1337. Provides skill activation hook that improves recall from ~20% to ~84% (precision may vary). Install this first.",
-  "version": "0.1.0",
+  "description": "Problem-solving methodology and skill activation. Provides structured approach for coding, design, and technical decisions. Install first.",
+  "version": "0.2.0",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"

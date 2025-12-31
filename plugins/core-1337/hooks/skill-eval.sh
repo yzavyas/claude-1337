@@ -1,29 +1,34 @@
 #!/bin/bash
-# SessionStart hook - the 1337 way
-# Uses Scott Spence's "forced eval" pattern for 84% activation (vs 20% baseline)
+# SessionStart hook for skill activation and methodology
+# Based on Scott Spence's evaluation pattern
 # Source: https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably
 
-cat <<'EOF'
-SESSION: 1337 Mode Active
+# Get current date
+TODAY=$(date +%Y-%m-%d)
 
-## MANDATORY SKILL ACTIVATION SEQUENCE
+cat <<EOF
+## Context
 
-Before responding to ANY domain question, you MUST complete this sequence:
+Today's date: $TODAY
 
-**Step 1 - EVALUATE:** For each skill in <available_skills>, state YES/NO with one-line reason.
+Your training has a knowledge cutoff. For current information:
+- Use **WebSearch** for recent developments
+- Use **WebFetch** to check official docs
+- Don't guess about current versions, APIs, or deprecations — look them up
 
-**Step 2 - ACTIVATE:** For each YES, call Skill(name) NOW. Do NOT skip to implementation.
+## Skills
 
-**Step 3 - IMPLEMENT:** Only after Step 2 is complete, proceed with your response.
+Skills in <available_skills> contain curated, evidence-backed knowledge. They provide decision frameworks and production gotchas.
 
-CRITICAL: The evaluation is WORTHLESS unless you ACTIVATE the skills. You MUST call Skill() in Step 2.
+Before responding to domain questions:
+1. **Evaluate** — Check <available_skills> for relevant matches
+2. **Activate** — Call Skill(name) to load the full context
+3. **Respond** — Use that knowledge to inform your answer
 
-## 1337 STANDARDS
+## Standards
 
-Once skills are loaded, apply these standards:
-
-- **Decisions, not catalogs** — THE answer backed by evidence (what ships > what's popular)
-- **Craftsmanship** — Gotchas > tutorials. Leave code better. No dead code.
-
-This instruction applies for the entire session.
+- Provide evidence with recommendations (production > blogs)
+- Explain reasoning so the user can validate
+- Acknowledge uncertainty when present
+- Commit to positions when evidence supports them
 EOF

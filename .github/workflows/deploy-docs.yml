@@ -1,10 +1,11 @@
-name: Deploy Docs to GitHub Pages
+name: Deploy Experience to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
-      - 'docs/**'
+      - 'experience/**'
+      - '.claude-plugin/marketplace.json'
   workflow_dispatch:
 
 permissions:
@@ -31,16 +32,18 @@ jobs:
 
       - name: Install dependencies
         run: bun install
-        working-directory: docs
+        working-directory: experience/app
 
       - name: Build
+        env:
+          NODE_ENV: production
         run: bun run build
-        working-directory: docs
+        working-directory: experience/app
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/dist
+          path: experience/app/build
 
   deploy:
     environment:

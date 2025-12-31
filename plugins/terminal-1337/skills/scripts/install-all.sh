@@ -1,104 +1,51 @@
 #!/bin/bash
 # claude-1337: Terminal Tools Installation Script
-# Installs elite terminal tools for terminal-1337 skill
+# Installs elite terminal tools via cargo (cross-platform)
 
 set -e
 
 echo "🚀 claude-1337: Installing elite terminal tools"
 echo ""
 
-# Detect OS
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    OS="macos"
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    OS="linux"
-else
-    echo "❌ Unsupported OS: $OSTYPE"
-    exit 1
+# Ensure cargo is available
+if ! command -v cargo &> /dev/null; then
+    echo "📦 Installing Rust toolchain..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source "$HOME/.cargo/env"
 fi
 
-echo "📦 Detected OS: $OS"
+echo "✅ Using cargo $(cargo --version)"
 echo ""
 
-# Check if Homebrew is available (works on both macOS and Linux)
+# Install all tools
+echo "📦 Installing tools..."
+cargo install ripgrep fd-find bat eza xh atuin
+
+# fzf and jq are not Rust - handle separately
+echo ""
+echo "📦 Installing fzf..."
 if command -v brew &> /dev/null; then
-    PACKAGE_MANAGER="brew"
-    echo "✅ Using Homebrew"
+    brew install fzf jq
 elif command -v apt &> /dev/null; then
-    PACKAGE_MANAGER="apt"
-    echo "✅ Using apt"
+    sudo apt install -y fzf jq
 elif command -v dnf &> /dev/null; then
-    PACKAGE_MANAGER="dnf"
-    echo "✅ Using dnf"
+    sudo dnf install -y fzf jq
+elif command -v scoop &> /dev/null; then
+    scoop install fzf jq
+elif command -v choco &> /dev/null; then
+    choco install fzf jq -y
 else
-    echo "❌ No supported package manager found (brew, apt, dnf)"
-    exit 1
+    echo "⚠️  Install fzf manually: https://github.com/junegunn/fzf#installation"
+    echo "⚠️  Install jq manually: https://jqlang.github.io/jq/download/"
 fi
-
-echo ""
-echo "Installing tools..."
-echo ""
-
-# Install based on package manager
-case $PACKAGE_MANAGER in
-    brew)
-        echo "📦 Installing via Homebrew..."
-        brew install ripgrep fd bat eza fzf jq xh atuin
-        ;;
-    apt)
-        echo "📦 Installing via apt..."
-        sudo apt update
-        sudo apt install -y ripgrep fd-find bat fzf jq
-
-        # eza, xh, atuin not in apt repos - install via cargo
-        if ! command -v cargo &> /dev/null; then
-            echo "⚠️  cargo not found. Installing rustup..."
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            source "$HOME/.cargo/env"
-        fi
-
-        echo "📦 Installing eza, xh via cargo..."
-        cargo install eza xh
-
-        echo "📦 Installing atuin via script..."
-        bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
-        ;;
-    dnf)
-        echo "📦 Installing via dnf..."
-        sudo dnf install -y ripgrep fd-find bat fzf jq
-
-        # eza, xh, atuin not in dnf repos - install via cargo
-        if ! command -v cargo &> /dev/null; then
-            echo "⚠️  cargo not found. Installing rustup..."
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            source "$HOME/.cargo/env"
-        fi
-
-        echo "📦 Installing eza, xh via cargo..."
-        cargo install eza xh
-
-        echo "📦 Installing atuin via script..."
-        bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
-        ;;
-esac
 
 echo ""
 echo "✅ Installation complete!"
 echo ""
-echo "🔧 Post-installation steps:"
+echo "🔧 Add atuin to your shell:"
+echo "   eval \"\$(atuin init zsh)\"   # zsh"
+echo "   eval \"\$(atuin init bash)\"  # bash"
 echo ""
-echo "1. Add atuin to your shell config (~/.zshrc or ~/.bashrc):"
-echo "   eval \"\$(atuin init zsh)\"  # for zsh"
-echo "   eval \"\$(atuin init bash)\" # for bash"
+echo "   Then: atuin import auto"
 echo ""
-echo "2. Reload your shell:"
-echo "   source ~/.zshrc  # or source ~/.bashrc"
-echo ""
-echo "3. Import existing history:"
-echo "   atuin import auto"
-echo ""
-echo "4. Verify installations:"
-echo "   rg --version && fd --version && bat --version && eza --version"
-echo "   fzf --version && jq --version && xh --version && atuin --version"
-echo ""
-echo "🎉 You're now ready to use terminal-1337 with Claude Code!"
+echo "🎉 Ready for terminal-1337!"

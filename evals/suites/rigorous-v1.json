@@ -4,6 +4,82 @@
   "runs_per_case": 5,
   "skills": [
     {
+      "name": "core-1337",
+      "plugin": "core-1337",
+      "test_cases": [
+        {
+          "prompt": "Help me design a user authentication system",
+          "expectation": "must_activate",
+          "rationale": "System design requires structured problem-solving methodology"
+        },
+        {
+          "prompt": "Debug why this function returns null unexpectedly",
+          "expectation": "must_activate",
+          "rationale": "Debugging requires scientific method - hypothesize, test, observe"
+        },
+        {
+          "prompt": "What's the best architecture for a real-time chat app?",
+          "expectation": "must_activate",
+          "rationale": "Architecture decision requires evidence-based reasoning"
+        },
+        {
+          "prompt": "Refactor this code to be more maintainable",
+          "expectation": "must_activate",
+          "rationale": "Refactoring is complex problem-solving"
+        },
+        {
+          "prompt": "Choose between PostgreSQL and MongoDB for this use case",
+          "expectation": "must_activate",
+          "rationale": "Technical decision requiring evidence and tradeoff analysis"
+        },
+        {
+          "prompt": "Fix this race condition in the payment processing",
+          "expectation": "must_activate",
+          "rationale": "Complex debugging requires structured approach"
+        },
+        {
+          "prompt": "Design the API for a file upload service",
+          "expectation": "must_activate",
+          "rationale": "API design is system design"
+        },
+        {
+          "prompt": "Why is my build failing with this error?",
+          "expectation": "must_activate",
+          "rationale": "Troubleshooting requires hypothesis-driven investigation"
+        },
+        {
+          "prompt": "Write a haiku about programming",
+          "expectation": "should_not_activate",
+          "rationale": "Creative writing, not problem-solving"
+        },
+        {
+          "prompt": "What's the capital of France?",
+          "expectation": "should_not_activate",
+          "rationale": "Simple factual question, no methodology needed"
+        },
+        {
+          "prompt": "Translate this text to Spanish",
+          "expectation": "should_not_activate",
+          "rationale": "Translation task, not technical problem-solving"
+        },
+        {
+          "prompt": "Summarize this article for me",
+          "expectation": "should_not_activate",
+          "rationale": "Summarization, not problem-solving"
+        },
+        {
+          "prompt": "Add a console.log to debug this",
+          "expectation": "acceptable",
+          "rationale": "Trivial task - methodology optional"
+        },
+        {
+          "prompt": "What does this code do?",
+          "expectation": "acceptable",
+          "rationale": "Code explanation - may or may not need structured approach"
+        }
+      ]
+    },
+    {
       "name": "terminal-1337",
       "plugin": "terminal-1337",
       "test_cases": [

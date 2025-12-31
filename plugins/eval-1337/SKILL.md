@@ -22,7 +22,8 @@ Single metrics lie. You need to measure BOTH failure modes.
 |--------|-----------------|--------|-----------|
 | **Agents** | Task completion | Accuracy (pass/fail) | DeepEval |
 | **Agents** | Tool usage | ToolCorrectnessMetric | DeepEval |
-| **Skills** | Activation | Precision/Recall/F1 | Custom |
+| **Skills** | Activation (L1) | Precision/Recall/F1 | Custom |
+| **Skills** | Methodology (L2) | LLM-as-judge rubric | DeepEval GEval |
 | **MCP Servers** | Tool calls | ToolCallAccuracy | RAGAS |
 | **MCP Servers** | Reliability | MCPGauge 4-dim | Custom |
 | **Prompts** | Output quality | LLM-as-judge | Braintrust |
@@ -117,6 +118,7 @@ F1        = 2×(P×R)/(P+R)    "balanced score"
 |----------|------|
 | agent, task completion | [agents.md](references/agents.md) |
 | skill, activation, trigger | [skills.md](references/skills.md) |
+| methodology, behavioral, adherence | [methodology.md](references/methodology.md) |
 | MCP, tool call, server | [mcp.md](references/mcp.md) |
 | prompt, quality, judge | [prompts.md](references/prompts.md) |
 | cost, tokens, budget | [cost.md](references/cost.md) |
@@ -134,9 +136,13 @@ AGENTS
   DeepEval: TaskCompletionMetric(threshold=0.7)
   Measures: Did it complete the task?
 
-SKILLS
+SKILLS (Level 1 - Activation)
   Custom F1 with labeled expectations
   Measures: Activation precision/recall
+
+SKILLS (Level 2 - Behavioral)
+  DeepEval GEval with rubric
+  Measures: Methodology adherence (evidence, WHY, verification, honesty)
 
 MCP
   RAGAS: ToolCallAccuracy, ToolCallF1

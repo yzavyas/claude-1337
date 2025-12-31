@@ -50,7 +50,7 @@ Filter research content into skills. Apply to every piece of content.
 | Quantified | "10-100μs between await points" |
 
 ## Content Routing
-
+//TODO: Scripts? Command references, etc. ? This needs review. 
 | Type | Destination |
 |------|-------------|
 | Decision frameworks | SKILL.md |

@@ -4,9 +4,11 @@ description: "Create elite Claude skills with opinionated, best-in-class content
 ---
 
 # 1337 Skill Creator
+// TODO: Update to reference methodology - evidence based, based on production usage, expert opinions and analyses, and ensuring quality through research and validation through corresponding evals 
 
 **Composes with**: `example-skills:skill-creator` - load that first for skill anatomy, progressive disclosure, and packaging. This skill adds the "1337 layer": opinionated, best-in-class answers.
 
+//TODO: Sustainable Excellence and Standing on the Shoulders of Giants Philosophy is what we reference here. 
 ## The 1337 Difference
 
 Standard skills teach. 1337 skills deliver THE answer.
@@ -18,6 +20,7 @@ Standard skills teach. 1337 skills deliver THE answer.
 | Comprehensive coverage | Production gotchas only |
 | Tutorial-style | Tables and trees |
 
+//TODO: this needs review. 
 ## Core Principles
 
 1. **Best-in-class only** - THE answer, not catalogs

@@ -2,6 +2,8 @@
 
 Modern CLI tools that replace legacy Unix utilities.
 
+**Cross-platform:** All Rust tools, installed via cargo.
+
 ## Tools
 
 | Legacy | Elite | Why |

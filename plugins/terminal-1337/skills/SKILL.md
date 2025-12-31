@@ -115,15 +115,18 @@ atuin stats               # Usage statistics
 
 ## Installation
 
-All scripts in `scripts/install-{tool}.sh`. Detect OS, use appropriate package manager.
+All Rust tools. One command, any platform:
 
 ```bash
-# Check if installed
-command -v rg >/dev/null 2>&1 && echo "available"
-
-# Install (example)
-bash scripts/install-ripgrep.sh
+bash scripts/install-all.sh
 ```
+
+Or manually:
+```bash
+cargo install ripgrep fd-find bat eza xh atuin
+```
+
+Installs rustup automatically if needed. fzf/jq handled via system package manager.
 
 ## Rules
 
