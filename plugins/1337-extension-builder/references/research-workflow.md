@@ -152,7 +152,7 @@ description: "[What it does]. Use when: [trigger 1], [trigger 2]. Covers: [keywo
 | gate | principle |
 |------|-----------|
 | sources | Multiple independent sources — if limited, acknowledge explicitly |
-| evidence | Use highest quality available — production > maintainer > blog |
+| evidence | Highest quality for the claim (see core-1337 source hierarchy) |
 | claims | Each claim traceable to source (author, year, context) |
 
 ### Chain of Verification (CoVe)

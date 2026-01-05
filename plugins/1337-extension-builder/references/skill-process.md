@@ -93,7 +93,7 @@ See [content-triage.md](content-triage.md) for the full filter.
 | gate | principle |
 |------|-----------|
 | sources | Multiple independent sources — if limited, acknowledge explicitly |
-| evidence | Use highest quality available — production > maintainer > blog |
+| evidence | Highest quality for the claim (see core-1337 source hierarchy) |
 | claims | Each claim traceable to source (author, year, context) |
 
 See [research-workflow.md#step-6](research-workflow.md#step-6-validate) for full process.

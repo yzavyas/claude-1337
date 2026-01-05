@@ -9,7 +9,7 @@ Before triaging content, verify research quality:
 | gate | principle |
 |------|-----------|
 | sources | Multiple independent sources — if limited, acknowledge explicitly |
-| evidence | Use highest quality available — production > maintainer > blog |
+| evidence | Highest quality for the claim (see core-1337 source hierarchy) |
 | claims | Each claim traceable to source (author, year, context) |
 
 **If research lacks quality → STOP.** Return to [research-workflow.md](research-workflow.md) Step 2.

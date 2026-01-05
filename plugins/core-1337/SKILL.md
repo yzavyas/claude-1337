@@ -31,17 +31,39 @@ Every recommendation needs three components:
 
 ### Source Hierarchy
 
-When seeking evidence, prioritize:
+**Principle:** Use highest quality available for the claim being made.
 
-| Priority | Source | Why This Order |
-|----------|--------|----------------|
-| 1 | Production codebases | What actually ships beats theory |
-| 2 | Core maintainers | Primary knowledge holders, understand tradeoffs |
-| 3 | Conference talks | War stories reveal real-world gotchas |
-| 4 | Proven adoption | Social proof indicates real usage |
-| 5 | Technical blogs | Secondary sources, may be outdated or wrong |
+```
+What type of claim?
+├── "What works?" (tooling, implementation)
+│   └── Production > Maintainers > Docs > Talks > Blogs
+└── "Why does it work?" (methodology, causation)
+    └── Research > Thought leaders > Talks > Case studies > Blogs
+```
 
-**Why this matters:** Popular ≠ correct. GitHub stars ≠ production-ready. What experts actually use in production is the ground truth.
+**For tooling/implementation claims:**
+
+| Priority | Source | Example |
+|----------|--------|---------|
+| 1 | Production codebases | ripgrep uses X, tokio does Y |
+| 2 | Core maintainers | BurntSushi says, Tokio team recommends |
+| 3 | Official documentation | Rust book, library docs |
+| 4 | Conference talks | RustConf war story, gotchas |
+| 5 | Technical blogs | Variable quality, verify first |
+
+**For methodology/learning claims:**
+
+| Priority | Source | Example |
+|----------|--------|---------|
+| 1 | Peer-reviewed research | Vaccaro et al. (2024), Sweller (2011) |
+| 2 | Thought leaders with evidence | Nielsen Norman Group studies |
+| 3 | Conference talks | CHI presentations, applied examples |
+| 4 | Production case studies | Company X tried Y, measured Z |
+| 5 | Technical blogs | Variable quality, verify first |
+
+**Why this split:** Tooling claims need proof it works at scale — what actually ships matters. Methodology claims need rigorous validation of cause and effect — correlation isn't causation.
+
+**Always bottom tier:** GitHub stars, popularity metrics. Social signal only, not evidence. Popular ≠ correct.
 
 ---
 

@@ -23,7 +23,7 @@ Build cognitive extensions for Claude Code — skills, hooks, agents, commands, 
 
 Use **core-1337** methodology when building extensions:
 - Evidence + WHY pattern (traceable sources, explain reasoning)
-- Source hierarchy (production codebases > maintainers > blogs)
+- Source hierarchy (highest quality for the claim — tooling vs methodology)
 - Scientific method (hypothesize → test → observe → refine)
 - First principles (reason from fundamentals, question assumptions)
 
@@ -31,8 +31,8 @@ Use **core-1337** methodology when building extensions:
 
 | for extensions | apply as |
 |----------------|----------|
-| source hierarchy | what production codebases actually use, not GitHub stars |
-| scientific method | build → run evals → measure activation → refine |
+| source hierarchy | tooling claims → production codebases; methodology claims → research |
+| scientific method | build → test in session → observe activation → refine |
 | first principles | does this make the next enhancement easier or harder? |
 
 ## Content Guidance
@@ -223,7 +223,7 @@ Before publishing any extension:
 | gate | principle |
 |------|-----------|
 | sources | Multiple independent sources — if limited, acknowledge explicitly |
-| evidence | Use highest quality available — production > maintainer > blog |
+| evidence | Highest quality for the claim (see core-1337 source hierarchy) |
 | claims | Each claim traceable to source (author, year, context) |
 
 **When evidence is sparse:** Acknowledge limitations explicitly. "Based on limited evidence from X" is honest. Confident claims from weak evidence is not.
