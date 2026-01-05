@@ -12,7 +12,7 @@ Understand skill activation by watching it happen in real-time.
 - claude-1337 marketplace added
 - core-1337 and terminal-1337 installed
 
-(If not, run [quick start](../../start/) first)
+(If not, run [quick start](/start/) first)
 
 ## step 1: fresh session
 
@@ -66,7 +66,7 @@ Expected: Claude responds from base knowledge, doesn't mention terminal-1337.
 - **Skill descriptions are activation triggers** - "search files", "grep patterns" matched terminal-1337
 - **Skills load on-demand** - SKILL.md only loaded when activated
 - **Activation is selective** - irrelevant questions don't activate
-- **Core-1337 matters** - without it, activation rate drops to ~20%
+- **Core-1337 matters** - without it, extensions activate unreliably
 
 ## troubleshooting
 
@@ -77,7 +77,7 @@ Check if it's loaded:
 "List all skills in your <available_skills> block with their descriptions."
 ```
 
-If terminal-1337 is missing → truncation problem. See [explanation/activation](../../explanation/activation/).
+If terminal-1337 is missing → truncation problem. See [explanation/activation](../../explanation/ecosystem/activation/).
 
 If present but didn't activate → description needs work or core-1337 not installed.
 
@@ -87,6 +87,6 @@ See [how-to: test skill activation](../../how-to/#test-skill-activation) for eva
 
 ## next steps
 
-- [Understand why skills don't activate by default](../../explanation/activation/) - the 84% study
+- [Understand activation](../../explanation/ecosystem/activation/) - research on extension activation
 - [Browse other plugins](../../reference/catalog/) - rust-1337, sensei-1337, etc
 - [Build your own plugin](../custom-plugin/) - step-by-step guide

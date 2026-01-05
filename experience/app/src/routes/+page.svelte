@@ -1,9 +1,2 @@
-<script>
-	import { base } from '$app/paths';
-</script>
-
-<svelte:head>
-	<meta http-equiv="refresh" content="0; url={base}/start/" />
-</svelte:head>
-
-<p>Redirecting to <a href="{base}/start/">start</a>...</p>
+<h1>Welcome to SvelteKit</h1>
+<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>

@@ -10,7 +10,7 @@ Replaced "pick winners" terminology with "best-in-class" and "THE answer" throug
 - README.md: Yo dawg tagline, best-in-class philosophy
 - marketplace.json: Updated metadata description
 - CLAUDE.md: Consistent terminology
-- 1337-skill-creator SKILL.md: "THE answer not catalogs"
+- 1337-extension-builder SKILL.md: "THE answer not catalogs"
 - docs/: All pages updated (index, how-to, preview pages, Base layout)
 
 ### 2. Curator-1337: Evolutionary Skill Updater
@@ -114,7 +114,7 @@ This is the natural evolution of the 1337 philosophy: not just opinionated conte
 - CLAUDE.md (documented curator architecture)
 - README.md (yo dawg tagline)
 - marketplace.json (updated description)
-- plugins/1337-skill-creator/SKILL.md (terminology updates)
+- plugins/1337-extension-builder/SKILL.md (terminology updates)
 - docs/ (5 files: index, how-to, preview pages, Base layout)
 
 **Added**:

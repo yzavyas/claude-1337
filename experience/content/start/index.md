@@ -1,12 +1,61 @@
-# start
+# cognitive extensions for claude code
 
-**yo dawg**, i heard you like claude code, so we put 1337 skills in your claude code so you can 1337 while you code.
+claude-1337 is a marketplace of cognitive extensions — skills, hooks, and agents that change how Claude reasons.
 
-## what is this?
+*Plugins are the mechanism. Extensions are what they provide.*
 
-claude-1337 is a marketplace of **cognitive extensions** for Claude Code — skills, hooks, agents, and commands that extend what Claude knows, how it reasons, and what it can do. best-in-class tooling from production codebases, not training data.
+---
 
-think of it as packages for Claude's brain.
+## the problem
+
+Human-AI collaboration fails by default.
+
+[Vaccaro et al. (2024)](https://www.nature.com/articles/s41562-024-02024-1) meta-analyzed 106 studies. Human-AI combos perform **worse** than the best performer alone (g = -0.23). Content creation is the exception; decision-making reliably gets worse.
+
+[METR (2025)](https://arxiv.org/abs/2507.09089) ran an RCT with 16 experienced developers. They were **19% slower** with AI tools. They perceived themselves **20% faster**.
+
+[Gerlich (2025)](https://www.mdpi.com/2075-4698/15/1/6) found r = -0.68 between AI use and critical thinking. The correlation is strong and negative.
+
+**The mechanism:**
+
+| what happens | why it's bad |
+|--------------|--------------|
+| opaque abstractions | you consume output without understanding |
+| cognitive offloading | you stop thinking through problems |
+| capability atrophy | skills you don't use decline |
+| miscalibrated confidence | you can't tell it's happening |
+
+The default trajectory: offload more, think less, can't tell the difference.
+
+---
+
+## the method
+
+Enhanced collaborative intelligence requires **bidirectional learning** — both human and AI develop capability through the collaboration.
+
+| participant | what they learn | how |
+|-------------|-----------------|-----|
+| **human** | reasoning, evidence, tradeoffs | transparent abstractions, visible rationale |
+| **claude** | corrections, context, domain specifics | feedback during session |
+| **system** | crystallized knowledge | extensions persist, ratchet turns forward |
+
+The principles and ethos that go into extensions built for this marketplace are documented in [ethos](/ethos) and [methodology](/explore/explanation/methodology/).
+
+---
+
+## the ratchet
+
+```
+collaboration → breakthrough → crystallization → new baseline
+```
+
+When you figure something out with Claude, write it down. The file persists. Next session starts from that baseline.
+
+The codebase gets smarter. Whether you do depends on whether you **engage** with the knowledge or just consume the output.
+
+This is the design choice: extensions are readable. You can see how they work, learn from them, fork them, validate claims before trusting them.
+
+---
 
 ## get started
 
@@ -15,55 +64,14 @@ think of it as packages for Claude's brain.
 /plugin install core-1337@claude-1337
 ```
 
-*install core-1337 first — it activates 1337 mode (forced skill checking, decisions over catalogs)*
-
-## why claude-1337
-
-| baseline | with core-1337 |
-|----------|----------------|
-| 20% skill activation | 84% skill activation |
-
-- **forced activation** — explicit skill evaluation before every response. no more ignored skills.
-- **production-proven** — what ripgrep, servo, cloudflare actually use. not github stars.
-- **decision frameworks** — "use tokio" not "options include tokio, async-std, smol"
-
-## plugins
-
-carefully curated plugins with production-proven knowledge — modern CLI tools, rust development decisions, skill authoring methodology, teaching frameworks.
-
-[browse the interactive catalog](../explore/reference/catalog.md) to filter by component type (skills, hooks, agents, commands, mcp) and search by keywords.
-
-## more plugins
-
-```
-/plugin install terminal-1337@claude-1337     # modern CLI tools
-/plugin install rust-1337@claude-1337         # rust production patterns
-/plugin install sensei-1337@claude-1337       # teaching methodology
-/plugin install diagrams-1337@claude-1337     # diagram-as-code
-/plugin install eval-1337@claude-1337         # rigorous evals
-```
-
-## methodology
-
-1. **learn** from domain experts, core maintainers, reputable technical blogs
-2. **validate** against production codebases — what actually ships
-3. **distill** — cut training knowledge, keep non-obvious decisions
-4. **format** as decision tables, not prose
-
-full methodology in [1337-skill-creator](../explore/reference/1337-skill-creator.md).
-
-## the research
-
-skills fail 80% of the time due to three problems:
-
-1. **activation crisis** — skills activate ~20% of the time by default
-2. **decision paralysis** — catalogs of options instead of THE answer
-3. **knowledge gap** — generic training data instead of production evidence
-
-[read why skills fail and how we fixed it](../explore/explanation/) — research from scott spence's 200+ test study and the claude-1337 validation framework.
+[browse the catalog](/explore/reference/catalog)
 
 ---
 
-## trouble?
+## go deeper
 
-[how-to](../explore/how-to/) — includes skill debugging tips
+- [ethos](/ethos) — the philosophical foundation
+- [explanation](/explore/explanation) — extended mind thesis, collaborative intelligence
+- [reference](/explore/reference) — plugin docs, research citations
+
+trouble? see [how-to](/explore/how-to).

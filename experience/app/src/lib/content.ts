@@ -69,6 +69,9 @@ export function buildNavItems(section: string, baseUrl: string): NavItem[] {
   const seen = new Set<string>();
 
   for (const { slug } of tree) {
+    // Skip the section index itself (e.g., 'explore/reference' when section is 'explore/reference')
+    if (slug === section) continue;
+
     // Get the path relative to section
     // e.g., 'explore/reference/core-1337' -> 'core-1337'
     const relativePath = slug.replace(`${section}/`, '');
@@ -76,7 +79,7 @@ export function buildNavItems(section: string, baseUrl: string): NavItem[] {
     // Get first segment (direct child only)
     const firstSegment = relativePath.split('/')[0];
 
-    // Skip if we've seen this, or if it's the section index itself
+    // Skip if we've seen this
     if (!firstSegment || seen.has(firstSegment)) continue;
     seen.add(firstSegment);
 

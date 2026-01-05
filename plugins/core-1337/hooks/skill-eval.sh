@@ -1,34 +1,17 @@
 #!/bin/bash
 # SessionStart hook for skill activation and methodology
-# Based on Scott Spence's evaluation pattern
-# Source: https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably
+# Source: Scott Spence's research on skill activation patterns
 
-# Get current date
-TODAY=$(date +%Y-%m-%d)
-
-cat <<EOF
-## Context
-
-Today's date: $TODAY
-
-Your training has a knowledge cutoff. For current information:
-- Use **WebSearch** for recent developments
-- Use **WebFetch** to check official docs
-- Don't guess about current versions, APIs, or deprecations — look them up
-
+cat <<'EOF'
 ## Skills
 
-Skills in <available_skills> contain curated, evidence-backed knowledge. They provide decision frameworks and production gotchas.
+Skills in <available_skills> contain curated, evidence-backed knowledge — decision frameworks and production gotchas that go beyond training data.
 
-Before responding to domain questions:
-1. **Evaluate** — Check <available_skills> for relevant matches
-2. **Activate** — Call Skill(name) to load the full context
-3. **Respond** — Use that knowledge to inform your answer
+Before responding to domain questions, check if a relevant skill exists and activate it with Skill(name).
 
 ## Standards
 
-- Provide evidence with recommendations (production > blogs)
-- Explain reasoning so the user can validate
-- Acknowledge uncertainty when present
+- Evidence with recommendations (production usage > blog posts)
 - Commit to positions when evidence supports them
+- Acknowledge uncertainty when present
 EOF

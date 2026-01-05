@@ -10,7 +10,7 @@ Build **python-1337** - a skill with production Python patterns.
 
 - Claude Code with claude-1337 marketplace
 - Text editor
-- Basic familiarity with [architecture](../../explanation/architecture/)
+- Basic familiarity with [architecture](../../explanation/ecosystem/architecture/)
 
 ## step 1: create plugin structure
 
@@ -157,8 +157,8 @@ Target: 80%+ activation rate
 ## next steps
 
 - [Test systematically](../../how-to/#test-skill-activation) - run eval suites
-- [Study 1337-skill-creator](../../reference/1337-skill-creator/) - full methodology
-- [Understand activation](../../explanation/activation/) - why 84% vs 20%
+- [Study 1337-extension-builder](../../reference/1337-extension-builder/) - full methodology
+- [Understand activation](../../explanation/ecosystem/activation/) - how extensions activate
 - [Contribute](../../reference/catalog/) - submit to claude-1337 marketplace
 
 ## advanced topics
@@ -181,4 +181,4 @@ mkdir python-1337/agents
 # Create specialized agent for refactoring to type hints
 ```
 
-See [extensibility](../../explanation/extensibility/) for details.
+See [extensibility](../../explanation/ecosystem/extensibility/) for details.

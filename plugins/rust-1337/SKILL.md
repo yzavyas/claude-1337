@@ -1,9 +1,9 @@
 ---
 name: rust-1337
-description: "Elite Rust development. Use when: building Rust CLI, backend, frontend, or native apps. Covers axum, tonic, sqlx, Leptos, Dioxus, Tauri, clap, tokio. Production gotchas (blocking, cancellation, mutex), ownership decisions, crate selection. Routes to specialized domains: embedded, FFI, proc-macros, proxies/data-plane."
+description: "Rust production patterns. Use when: building Rust CLI, backend, frontend, or native apps. Covers axum, tonic, sqlx, Leptos, Dioxus, Tauri, clap, tokio. Production gotchas (blocking, cancellation, mutex), ownership decisions, crate selection. Routes to specialized domains: embedded, FFI, proc-macros, proxies/data-plane."
 ---
 
-# Elite Rust Development
+# Rust Production Patterns
 
 Production-grade patterns that separate competent from exceptional Rust developers.
 
@@ -256,7 +256,7 @@ fn process() -> Result<()> {
 - Never `.unwrap()` in library code
 - Never `.expect()` without useful message
 
-## Elite Patterns
+## Production Patterns
 
 ### Defensive Slice Matching
 
@@ -264,7 +264,7 @@ fn process() -> Result<()> {
 // Anti-pattern: decoupled check
 if !users.is_empty() { let user = users[0]; }
 
-// Elite: coupled via match
+// Better: coupled via match
 match users.as_slice() {
     [] => handle_empty(),
     [single] => handle_one(single),

@@ -1,18 +1,18 @@
 # Contributing
 
-Elite skills for Claude Code. Best-in-class only.
+Curated skills for Claude Code. Production patterns, decision frameworks.
 
 ## Before You Start
 
-1. Read **CLAUDE.md** - architecture, conventions, skill authoring rules
-2. Load **1337-skill-creator** skill - methodology for creating skills
-3. Check if there's an existing skill that should be updated instead
+1. Read **CLAUDE.md** — architecture, conventions, skill authoring rules
+2. Load the extension builder skill — methodology for creating extensions
+3. Check the [catalog](experience/content/explore/reference/catalog/) for existing plugins to update
 
 ## Adding a Skill
 
 ```
 plugins/your-skill/
-├── SKILL.md           # Required: decisions + gotchas (100-200 lines)
+├── SKILL.md           # Required: decisions + gotchas (< 500 lines)
 └── references/        # Optional: domain-specific deep dives
 ```
 
@@ -39,9 +39,9 @@ Update `marketplace.json`:
 ## Checklist
 
 - [ ] Description < 600 chars with "Use when:" triggers
-- [ ] SKILL.md is decisions, not tutorial (100-200 lines)
+- [ ] SKILL.md is decisions, not tutorial (< 500 lines)
 - [ ] Each recommendation has evidence
-- [ ] No catalogs - clear winners picked
+- [ ] Best-in-class picks with evidence
 - [ ] References linked, not embedded
 
 ## Commit Format

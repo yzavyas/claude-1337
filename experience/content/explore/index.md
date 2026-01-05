@@ -1,6 +1,6 @@
 # explore
 
-Standing on the shoulders of giants. What master craftsmen actually use in production — not catalogs of options, but THE answer for each use case. Evidence over opinion.
+Standing on the shoulders of giants. Battle-tested components and practices from master craftsmen. Evidence over opinion.
 
 ## sections
 

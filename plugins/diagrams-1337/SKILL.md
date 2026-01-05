@@ -3,7 +3,7 @@ name: diagrams-1337
 description: "Proactive diagram generation for documentation. Use when: writing docs, explaining architecture, documenting APIs, showing workflows, git branching, state machines, data models. Covers: Mermaid (sequenceDiagram, stateDiagram, erDiagram, gitGraph, flowchart, C4, timeline), D2 for complex architecture, decision frameworks."
 ---
 
-# Diagrams-1337: Elite Diagram-as-Code
+# Diagram-as-Code
 
 Proactive, evidence-based diagram generation. Default to Mermaid, upgrade to D2 only when necessary.
 

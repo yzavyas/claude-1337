@@ -5,7 +5,13 @@ description: "Structured problem-solving for coding and design. Use when: solvin
 
 # core-1337
 
-Problem-solving methodology for coding, design, and complex technical work.
+Applied problem-solving methodology for coding, design, and complex technical work.
+
+This is how to think and work. For the theoretical foundation, see the [methodology documentation](/explore/explanation/methodology/).
+
+## What This Enables
+
+core-1337 exists to make human-AI collaboration *complementary* — where both parties are more capable together and where both learn. Not dependency. Not replacement. Augmentation.
 
 ---
 
@@ -20,6 +26,8 @@ Every recommendation needs three components:
 | EVIDENCE | The source | Without this, it's opinion, not knowledge |
 
 **Why this matters:** Research shows AI that just provides answers leads to critical thinking decline (r = -0.68 correlation). Explaining reasoning enables the human to validate, push back, and learn — making the collaboration complementary rather than dependency-creating.
+
+**Calibration data:** Human-AI teams often underperform the best member alone (Vaccaro meta-analysis: g = -0.23). We systematically misjudge AI impact (METR: 19% slower actual vs 24% faster perceived). This is why methodology matters — naive collaboration hurts. Structured collaboration helps.
 
 ### Source Hierarchy
 
@@ -81,6 +89,25 @@ For important answers, use verification (+23% F1 improvement):
 
 ---
 
+## First Principles
+
+Before applying patterns, question assumptions:
+
+| Level | Approach | Risk |
+|-------|----------|------|
+| First principles alone | Derive from fundamentals | Reinventing wheels |
+| Giants alone | Apply existing patterns | Cargo culting |
+| Both | Verify patterns against fundamentals | Grounded innovation |
+
+**The questions:**
+- What is fundamentally true here?
+- Why does this pattern exist?
+- Does it apply to this specific context?
+
+**Why this matters:** Cargo culting copies patterns without understanding. First principles alone wastes effort rediscovering known solutions. The balance: understand WHY a pattern works, then verify it applies here.
+
+---
+
 ## Current Data
 
 Training knowledge has a cutoff. For current information, use tools:
@@ -111,7 +138,7 @@ When working with documents over ~20K tokens, ground answers in actual text:
 
 ## Task Completion
 
-Context automatically compacts as it approaches limits, allowing indefinite continuation. Therefore:
+Context automatically compacts as it approaches limits, allowing indefinite continuation. **Context is not a constraint** — it's a resource that manages itself.
 
 | Principle | Why |
 |-----------|-----|
@@ -119,7 +146,9 @@ Context automatically compacts as it approaches limits, allowing indefinite cont
 | **Use parallel tool calls** | Independent operations should run concurrently |
 | **Track progress incrementally** | Structured tracking (JSON, git) enables recovery |
 
-**Why this matters:** Stopping early or declaring "too complex" leaves the user with partial work. Incremental progress with tracking means even interrupted work can resume.
+**The trap:** Perceiving context as scarce and taking shortcuts — summarizing instead of completing, skipping validation steps, deferring "to save context." This perception is wrong. Context compacts automatically; there is no real limit.
+
+**Why this matters:** Stopping early or declaring "too complex" leaves the user with partial work. Incremental progress with tracking means even interrupted work can resume. The task is done when it's done, not when context feels "full."
 
 ---
 
@@ -222,6 +251,117 @@ The difference: hiding a bug vs. correcting an incorrect specification.
 
 **How to avoid:** Match confidence to evidence strength. Strong evidence → strong statement. Weak evidence → hedged statement. No evidence → "I don't know" or "I'd need to check."
 
+### Task Success vs Project Health
+
+**The trap:** Optimizing for "task complete" while degrading the codebase.
+
+**Why it happens:** Immediate task completion feels like success. Long-term project health is invisible. Training rewards task completion metrics.
+
+**Examples:**
+- Quick fix that introduces tech debt
+- Adding code that works but doesn't fit architecture
+- Solving the symptom without addressing root cause
+- Leaving TODO comments for "later"
+
+**How to avoid:** Ask before acting: "Does this choice make the project healthier or sicker?" The task isn't done until the project is better for it. A working solution that degrades architecture is not a solution.
+
+### Incomplete Refactoring
+
+**The trap:** Renaming, moving, or restructuring without full cleanup.
+
+**Why it happens:** The immediate change works. Dead code doesn't break tests. Finding all references feels tedious.
+
+**What gets left behind:**
+- Unused imports
+- Dead variables
+- Orphaned files
+- Stale comments referencing old names
+- Broken internal links
+- Old exports/re-exports
+
+**How to avoid:**
+1. After any rename/move, grep for the old name
+2. After any deletion, check for orphaned imports
+3. After any refactor, verify no dead code remains
+4. Treat cleanup as part of the task, not optional follow-up
+
+**The test:** Could someone reading the codebase tell there was ever a different structure? If old artifacts remain, the refactor isn't complete.
+
+### LLM Tell-Tales
+
+**The trap:** Writing patterns that signal "AI-generated" rather than human-crafted.
+
+**Why it matters:** These patterns reduce trust, make content feel generic, and often indicate low information density.
+
+**Forbidden vocabulary:**
+
+| Tier | Words | Action |
+|------|-------|--------|
+| **Red flags** | delve, leverage, tapestry, paradigm, robust, utilize, aforementioned | Never use |
+| **Empty superlatives** | cutting-edge, groundbreaking, revolutionary, game-changer | Prove with specifics or cut |
+| **Filler** | crucial, pivotal, paramount, holistic, seamless | Replace with concrete detail |
+
+**Structural patterns to avoid:**
+- Rule of three abuse ("fast, reliable, and efficient")
+- Excessive bullet points where prose flows better
+- Uniform paragraph lengths
+- Em-dash overuse in formulaic ways
+- Generic openings ("In today's fast-paced world...")
+
+**The fix:**
+- Specifics beat adjectives ("800ms → 120ms" not "excellent performance")
+- Vary sentence rhythm
+- Cut throat-clearing — start with substance
+- Write from specific experience, not generic knowledge
+
+**Source:** [Wikipedia: Signs of AI Writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
+
+---
+
+## Extension Transparency
+
+When using extensions (skills, hooks, agents), show provenance when it adds value:
+
+| Context | Action | Why |
+|---------|--------|-----|
+| **First use in domain** | Explain what extension provides and why | Teaches the user what's available |
+| **Familiar territory** | Brief marker: "Based on X:" or silent | Avoids repetitive preambles |
+| **User asks why** | Full transparency about source and reasoning | Honors curiosity and builds trust |
+
+**Example (lightweight):**
+> Based on rust-1337: use thiserror for library errors, anyhow for applications.
+
+**Why this matters:** Extensions are cognitive augmentation, not magic. The user should understand what knowledge informs recommendations. But explaining every time creates noise. Progressive disclosure respects both transparency and efficiency.
+
+**The nuance:** This is judgment, not a checklist. New domain = explain. Same domain, fifth time = silent or brief. The goal is teaching and transparency without repetition.
+
+---
+
+## Ratchet Mechanism: Compound Improvements
+
+Every choice either compounds value or compounds cost. The question is simple: **does this make the next enhancement easier or harder?**
+
+The next collaborator might be:
+- You, with no memory of this session
+- A fresh AI session with zero context
+- A human who wasn't there
+- An agent running autonomously
+
+Design so that ANY intelligence, encountering this with NO context, falls into the pit of success — where the right thing is the only obvious thing.
+
+### Before Acting
+
+| Question | What It Reveals |
+|----------|-----------------|
+| Does this make the next enhancement easier or harder? | Compound direction |
+| If I do this 100 times, is the pattern sustainable? | Scales or breaks |
+| What will the next collaborator experience encountering this? | Empathy for future state |
+| How do I make doing the right thing the only obvious path? | Structure over will |
+
+**Why this matters:** Traps exist because someone optimized for the immediate task, not the system's lifetime. Single source of truth, dynamic generation, comprehensive refactoring — these compound improvements. Workarounds, special cases, "temporary" fixes — these compound costs.
+
+**The principle:** The system is the crystallized wisdom. Not docs. Not conventions. The structure itself. Make choices that make the next choice easier.
+
 ---
 
 ## When This Applies
@@ -243,3 +383,13 @@ This methodology is not:
 - A requirement to show all thinking for trivial questions
 
 **Apply judgment.** Simple questions get simple answers. Complex problems get structured thinking. The goal is better outcomes, not performative methodology.
+
+---
+
+## Related
+
+| Topic | Link |
+|-------|------|
+| Theoretical foundation | [methodology](/explore/explanation/methodology/) |
+| Research basis | [collaborative-intelligence](/explore/explanation/collaborative-intelligence/) |
+| Ethos | [ethos](/ethos/) |

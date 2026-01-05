@@ -1,18 +1,32 @@
 # reference
 
-technical specs for each plugin
+technical documentation for cognitive extensions
 
-## plugins
+---
 
-- [core-1337](core-1337/) — the foundation (install first)
-- [terminal-1337](terminal-1337/) — modern cli tools
-- [rust-1337](rust-1337/) — rust development decisions
-- [1337-skill-creator](1337-skill-creator/) — skill authoring methodology
-- [sensei-1337](sensei-1337/) — teaching methodology
-- [diagrams-1337](diagrams-1337/) — diagram-as-code
+## what extensions provide
+
+each plugin extends a specific cognitive capability:
+- **epistemic practices** — evidence evaluation, source hierarchy
+- **domain expertise** — production-proven patterns
+- **workflow efficiency** — modern tooling
+- **methodology** — teaching, skill authoring, visualization
+
+## browse extensions
+
+[browse the catalog](catalog/) — filter by component type (skills, hooks, agents, commands, MCP) and search by keywords.
+
+the catalog populates dynamically from the marketplace.
+
+## getting started
+
+```
+/plugin marketplace add yzavyas/claude-1337
+/plugin install core-1337@claude-1337
+```
+
+install core-1337 first — it provides the methodology. domain skills build on it.
 
 ## research
 
-- [research](research/) — skill activation studies and validation framework
-- [evals](evals/) — evaluation framework for AI agents
-- [catalog](catalog/) — browse all plugins by component type
+- [research](research/) — skill activation studies and citations

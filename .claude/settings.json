@@ -2,9 +2,10 @@
   "hooks": {
     "UserPromptSubmit": [
       {
+        "matcher": "",
         "hooks": [
           {
-            "type": "prompt",
+            "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/skill-eval.sh"
           }
         ]

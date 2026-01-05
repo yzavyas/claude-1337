@@ -1,5 +1,5 @@
 {
-  "description": "1337 mode: skill activation, decisions over catalogs, production mindset",
+  "description": "Session context: skill awareness, evidence-based recommendations",
   "hooks": {
     "SessionStart": [
       {

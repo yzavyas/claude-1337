@@ -13,7 +13,7 @@ When building, compose with the relevant skill:
 
 | Building... | Compose with | Fallback (if not installed) |
 |-------------|--------------|------------------------------|
-| Skills | `1337-skill-creator` | Read `plugins/1337-skill-creator/SKILL.md` |
+| Skills | `1337-extension-builder` | Read `plugins/1337-extension-builder/SKILL.md` |
 | Documentation | `sensei-1337` | Read `plugins/sensei-1337/SKILL.md` |
 | Diagrams | `diagrams-1337` | Read `plugins/diagrams-1337/SKILL.md` |
 
@@ -47,7 +47,7 @@ claude-1337/
 
 ### Skills
 Knowledge and decision frameworks activated by description matching.
-→ Compose with `1337-skill-creator` for methodology
+→ Compose with `1337-extension-builder` for methodology
 
 ### Hooks
 Respond to Claude Code events. Structure:

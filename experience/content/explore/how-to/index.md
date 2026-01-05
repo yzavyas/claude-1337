@@ -70,7 +70,7 @@ truncated skills don't trigger - claude can't see them.
 install the skill creator:
 
 ```
-/plugin install 1337-skill-creator@claude-1337
+/plugin install 1337-extension-builder@claude-1337
 ```
 
 **don't read process docs. run prompts.**
@@ -84,12 +84,12 @@ install the skill creator:
 
 key rules:
 
-- best-in-class only, not catalogs
+- battle-tested, best-in-class picks
 - cite evidence (production codebases > stars)
 - cut anything claude knows from training
 - use tables, not prose
 
-see [1337-skill-creator reference](../reference/1337-skill-creator.md) for executable prompts.
+see [1337-extension-builder reference](../reference/1337-extension-builder/) for executable prompts.
 
 ## test skill activation
 

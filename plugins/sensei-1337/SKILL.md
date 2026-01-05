@@ -1,11 +1,11 @@
 ---
 name: sensei-1337
-description: "Teaching methodology for elite documentation. Feynman technique, Diataxis framework, anti-patterns. Use when: writing docs, tutorials, explanations, READMEs, learning materials."
+description: "Documentation methodology. Feynman technique, Diataxis framework, anti-patterns. Use when: writing docs, tutorials, explanations, READMEs, learning materials."
 ---
 
-# Sensei-1337
+# Documentation Methodology
 
-Elite documentation methodology. Make the complex simple.
+Make the complex simple.
 
 ## Core Principle
 

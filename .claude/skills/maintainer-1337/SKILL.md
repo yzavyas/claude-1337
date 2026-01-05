@@ -34,7 +34,7 @@ Skills activate based on description matching. Test: ask a related question with
 
 | File | Target | Why |
 |------|--------|-----|
-| SKILL.md | 100-200 lines | Context efficiency |
+| SKILL.md | < 500 lines | Anthropic best practices |
 | Description | ~400 chars | Leave room in budget |
 
 ### Tokenomics
@@ -43,11 +43,22 @@ Skills activate based on description matching. Test: ask a related question with
 
 **Truncated skills don't activate.** Test: "How many skills in your `<available_skills>` block?"
 
+### Quality Gates (Primary)
+
+| gate | target | principle |
+|------|--------|-----------|
+| sources | 3+ codebases | Independent? Limitations noted if <3? |
+| evidence | production-tier | Highest quality used? |
+| CoVe | 100% claims | Each traceable? |
+| activation | F1 ≥0.8, FPR ≤20% | Run `uv run skill-test` |
+
+**Targets are specific. Principles allow judgment.**
+
 ### Content Quality (1337 Standards)
 
 | Check | Why |
 |-------|-----|
-| Picks winners, not catalogs | Decision > options |
+| Battle-tested, best-in-class picks | Stand on giants' shoulders |
 | Evidence cited | Production usage > GitHub stars |
 | Decision frameworks | Actionable > educational |
 | Gotchas are non-obvious | Value-add over common knowledge |
@@ -93,7 +104,7 @@ Before a plugin ships:
 
 1. **Structure**: Has required files (plugin.json, SKILL.md if skill)
 2. **Triggers**: Description activates on relevant queries
-3. **Content**: Follows 1337 standards (decisions, not catalogs)
+3. **Content**: Follows 1337 standards (battle-tested, best-in-class)
 4. **Integration**: Registered in marketplace.json
 
 ## Update Checks

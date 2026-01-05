@@ -1,10 +1,10 @@
 #!/bin/bash
 # claude-1337: Terminal Tools Installation Script
-# Installs elite terminal tools via cargo (cross-platform)
+# Installs modern terminal tools via cargo (cross-platform)
 
 set -e
 
-echo "🚀 claude-1337: Installing elite terminal tools"
+echo "🚀 claude-1337: Installing modern terminal tools"
 echo ""
 
 # Ensure cargo is available

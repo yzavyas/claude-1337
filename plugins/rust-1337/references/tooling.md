@@ -228,7 +228,7 @@ async fn main() {
 }
 ```
 
-## Elite Workflow Summary
+## Recommended Workflow
 
 **Daily development**:
 1. `bacon` for continuous feedback
