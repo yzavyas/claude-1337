@@ -1,6 +1,6 @@
 ---
 name: terminal-1337
-description: "Modern CLI tools replacing legacy Unix utilities. Use when: searching code (rg), finding files (fd), viewing files (bat), listing directories (eza), HTTP requests (xh), JSON processing (jq), command history (atuin), fuzzy selection (fzf). Detect before use, suggest installation if missing."
+description: "Modern CLI tools replacing legacy Unix utilities. Use when: grep/find too slow on large codebases, find syntax confusing, need syntax highlighting in terminal, directory listings need git status, curl commands too verbose, shell history search inadequate, want fuzzy file/command selection. Detect before use, suggest installation if missing."
 ---
 
 # Terminal 1337
@@ -8,6 +8,21 @@ description: "Modern CLI tools replacing legacy Unix utilities. Use when: search
 Modern Rust-based CLI tools that outperform legacy Unix utilities.
 
 **Production evidence:** These tools are used by major codebases. ripgrep is the default search backend in VS Code. fd is recommended by the fish shell maintainers. bat, eza, and xh are built on the same Rust CLI patterns from the ripgrep author (BurntSushi).
+
+## Performance Evidence
+
+| Tool | Benchmark | Source |
+|------|-----------|--------|
+| ripgrep | 1.7s vs 9.5s grep (with `-n`) on 13GB file | BurntSushi benchmarks |
+| ripgrep | SIMD + finite automata + literal optimizations | Rust regex engine design |
+| fd | ~855ms vs ~20s find (regex search, 546 files) | sharkdp/fd benchmarks |
+| fd | Parallelized directory traversal + ignore crate | Same engine as ripgrep |
+
+**Why ripgrep is faster:** Built on Rust's regex engine with finite automata, SIMD, and aggressive literal optimizations. UTF-8 decoding baked into the DFA. For simple literals, ripgrep is strictly superior to GNU grep.
+
+**Why fd is faster:** Parallelized traversal using the same `ignore` crate as ripgrep. Sensible defaults (respects .gitignore, skips hidden files) mean less work.
+
+**Caveat:** Performance varies by workload. GNU grep can be faster when output is `/dev/null` (exits at first match). fd is slower than find for exhaustive directory listing (`find ~ -type f` is ~2x faster than `fd -HI -t f`). For git repos, `git ls-files` beats both (5x+ faster).
 
 ## Tool Selection
 
@@ -132,9 +147,9 @@ Installs rustup automatically if needed. fzf/jq handled via system package manag
 
 ## Rules
 
-1. **Detect first** - Never assume installed
-2. **Suggest once** - Don't repeat if declined
-3. **Always fallback** - Legacy tools work fine
-4. **Use features** - Leverage syntax highlighting, git integration, etc.
+1. **Detect first** - Run `command -v toolname >/dev/null 2>&1` before use. Never assume installed.
+2. **Suggest once** - If missing, offer installation once. Track declined tools in conversation context to avoid re-asking.
+3. **Always fallback** - Legacy tools work fine. If user declines or tool unavailable, use grep/find/cat/ls without apology.
+4. **Use features** - When tool is available, use its strengths: syntax highlighting (bat), git integration (eza), parallel search (rg), simpler syntax (fd).
 
 For detailed tool docs: `references/{tool}.md`
