@@ -6,13 +6,11 @@ understanding the foundations of cognitive extension
 
 ## the ideas
 
+**collaborative intelligence** — human-AI cognitive partnership. why motivation beats mandate. the extended mind thesis. knowledge crystallization.
+
 **craftsmanship** — software development as a literal craft. the guild path. standing on giants' shoulders.
 
-**collaborative intelligence** — human-AI cognitive partnership. why motivation beats mandate. the extended mind thesis. enhancement levels.
-
 **ecosystem** — the technical architecture. five extension modalities. activation, architecture, extensibility.
-
-**methodology** — how we build. evidence hierarchy. scientific method. first principles.
 
 ---
 

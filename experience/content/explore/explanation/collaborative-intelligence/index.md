@@ -114,6 +114,27 @@ non-activation isn't failure — it can represent appropriate judgment about rel
 
 ---
 
+## knowledge crystallization
+
+human-AI collaboration produces a specific pattern:
+
+```
+collaboration → breakthrough → crystallization → new baseline
+```
+
+| step | what happens |
+|------|--------------|
+| collaboration | human + AI work on a problem |
+| breakthrough | insight emerges (neither would reach alone) |
+| crystallization | **human** recognizes value, directs encoding into persistent form |
+| new baseline | next session starts from higher ground |
+
+**the human role is essential.** claude can't unilaterally decide "this should become a skill." the human recognizes breakthroughs worth preserving and directs the crystallization.
+
+this is **progressive augmentation**, not dependency. each cycle leaves permanent gains. the system gets smarter. whether the human does depends on engagement — reading the extensions, understanding the patterns, not just consuming output.
+
+---
+
 ## sources
 
 - vaccaro, m., almaatouq, a., & malone, t. w. (2024). when combinations of humans and AI are useful. *nature human behaviour*.

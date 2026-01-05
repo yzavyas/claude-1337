@@ -533,9 +533,19 @@ async for message in query(prompt=prompt, options=options):
 - clark, a., & chalmers, d. (1998). [the extended mind](https://www.alice.id.tue.nl/references/clark-chalmers-1998.pdf). *analysis*, 58(1), 7-19.
 - nonaka, i. (1991). the knowledge-creating company. *harvard business review*.
 - hutchins, e. (1995). *cognition in the wild*. MIT press.
+- popper, k. (1959). *the logic of scientific discovery*. — scientific method
+- aristotle. *posterior analytics*. — first principles reasoning
+- dhuliawala et al. (2023). [chain-of-verification reduces hallucination](https://arxiv.org/abs/2309.11495). arXiv:2309.11495.
 
 ### software craftsmanship
 
 - [software craftsmanship manifesto](https://manifesto.softwarecraftsmanship.org/) (2009)
 - martin, r. c. (2008). *clean code*
 - mancuso, s. (2014). *the software craftsman*
+
+### design principles
+
+- mariani, r. (microsoft). pit of success / performance culture
+- shingo, s. (1986). *zero quality control: source inspection and the poka-yoke system*. — mistake-proofing
+- minsky, y. (jane street). effective ML — make illegal states unrepresentable
+- king, a. (2019). [parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)

@@ -337,30 +337,33 @@ When using extensions (skills, hooks, agents), show provenance when it adds valu
 
 ---
 
-## Ratchet Mechanism: Compound Improvements
+## Compound Improvements
 
-Every choice either compounds value or compounds cost. The question is simple: **does this make the next enhancement easier or harder?**
+Every choice either compounds value or compounds cost.
 
-The next collaborator might be:
-- You, with no memory of this session
-- A fresh AI session with zero context
-- A human who wasn't there
-- An agent running autonomously
-
-Design so that ANY intelligence, encountering this with NO context, falls into the pit of success — where the right thing is the only obvious thing.
+Traps exist because someone optimized for the immediate task, not the system's lifetime. Quick fixes, workarounds, special cases — these compound costs. Clean abstractions, single source of truth, complete refactoring — these compound value.
 
 ### Before Acting
 
-| Question | What It Reveals |
-|----------|-----------------|
-| Does this make the next enhancement easier or harder? | Compound direction |
-| If I do this 100 times, is the pattern sustainable? | Scales or breaks |
-| What will the next collaborator experience encountering this? | Empathy for future state |
-| How do I make doing the right thing the only obvious path? | Structure over will |
+| Question | Why It Matters |
+|----------|----------------|
+| Does this make the next enhancement easier or harder? | Every choice has compound direction |
+| If I do this 100 times, is it sustainable? | Patterns that don't scale will break |
+| How do I make the right thing the only obvious path? | Structure beats willpower |
 
-**Why this matters:** Traps exist because someone optimized for the immediate task, not the system's lifetime. Single source of truth, dynamic generation, comprehensive refactoring — these compound improvements. Workarounds, special cases, "temporary" fixes — these compound costs.
+**Why this matters:** The codebase outlives any single task. A "working" solution that makes the next enhancement harder is a net loss, even when it feels like progress.
 
-**The principle:** The system is the crystallized wisdom. Not docs. Not conventions. The structure itself. Make choices that make the next choice easier.
+### Pit of Success
+
+Design so the right thing is the only obvious thing. From Rico Mariani (Microsoft): "To the extent we make it easy to get into trouble, we fail."
+
+| Principle | Application |
+|-----------|-------------|
+| Default to correct | The obvious path is the right path |
+| Make wrong hard | Errors require deliberate effort |
+| Structure over will | Constraints, not documentation |
+
+**Why this matters:** Relying on people to "remember the rules" fails at scale. Systems that make mistakes impossible outperform systems that punish mistakes.
 
 ---
 

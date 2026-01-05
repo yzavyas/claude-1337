@@ -21,56 +21,19 @@ Build cognitive extensions for Claude Code — skills, hooks, agents, commands, 
 
 ## Methodology
 
-### Standing on Giants' Shoulders
+Use **core-1337** methodology when building extensions:
+- Evidence + WHY pattern (traceable sources, explain reasoning)
+- Source hierarchy (production codebases > maintainers > blogs)
+- Scientific method (hypothesize → test → observe → refine)
+- First principles (reason from fundamentals, question assumptions)
 
-Knowledge accumulates. Languages build on languages. Patterns build on patterns. We inherit tools forged by masters.
+**Domain-specific application:**
 
-The filter: **which giants?** Not all popular things are best-in-class. Choose by evidence quality, not trends.
-
-| priority | source | why trust it |
-|----------|--------|--------------|
-| 1 | production codebases | what actually ships at scale |
-| 2 | core maintainers | primary knowledge holders, understand tradeoffs |
-| 3 | conference talks | war stories reveal real-world gotchas |
-| 4 | proven adoption | social proof + sustained real usage |
-| 5 | technical blogs | secondary, may be outdated — always verify |
-
-**Data quality matters.** GitHub stars ≠ production-ready. Popular ≠ correct. What experts actually use in production is the ground truth.
-
-### Scientific Method
-
-1. **hypothesize** — what gap exists? what would fix it?
-2. **test** — build extension, measure activation/quality
-3. **observe** — where does it fail? false positives/negatives?
-4. **refine** — improve based on evidence, not assumption
-
-Don't guess. Measure. Run evals. Check if it actually activates. Verify claims.
-
-### First Principles
-
-Reason from fundamentals, not by analogy.
-
-Before building, ask:
-- what will the next collaborator experience encountering this?
-- will the next enhancement be easier or harder because of this choice?
-- if I do this 100 times, is the pattern sustainable?
-- how do I make doing the right thing the only obvious path?
-
-The balance: first principles without giants = reinventing wheels. Giants without first principles = cargo culting.
-
-### The Trinity
-
-The three methodology pillars work together:
-
-```
-First Principles: "What is fundamentally true here?"
-         ↓
-Giants' Shoulders: "What have masters learned about this?"
-         ↓
-Scientific Method: "Does this actually work in this context?"
-```
-
-For the full theoretical foundation, see [methodology documentation](/explore/explanation/methodology/).
+| for extensions | apply as |
+|----------------|----------|
+| source hierarchy | what production codebases actually use, not GitHub stars |
+| scientific method | build → run evals → measure activation → refine |
+| first principles | does this make the next enhancement easier or harder? |
 
 ## Principles
 
@@ -84,7 +47,7 @@ For the full theoretical foundation, see [methodology documentation](/explore/ex
 | principle | meaning |
 |-----------|---------|
 | **rigor** | verify claims before asserting (Chain of Verification) |
-| **ratchet** | each collaboration crystallizes into permanent gain |
+| **compound value** | each choice makes the next enhancement easier or harder |
 | **pit of success** | make the right thing the only obvious path |
 
 ## Design Philosophy
