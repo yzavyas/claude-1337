@@ -149,12 +149,11 @@ description: "[What it does]. Use when: [trigger 1], [trigger 2]. Covers: [keywo
 
 ### Quality Gates
 
-| gate | target | principle |
-|------|--------|-----------|
-| sources | 3+ codebases | Independent? If <3, limitation noted? |
-| evidence | production-tier | Highest quality available? |
-| CoVe | 100% claims | Each traceable to source? |
-| first principles | all decisions | "What's fundamentally true here?" answered? |
+| gate | principle |
+|------|-----------|
+| sources | Multiple independent sources — if limited, acknowledge explicitly |
+| evidence | Use highest quality available — production > maintainer > blog |
+| claims | Each claim traceable to source (author, year, context) |
 
 ### Chain of Verification (CoVe)
 
@@ -173,7 +172,7 @@ For each claim:
 ### Activation Test
 
 - [ ] What question would activate this skill?
-- [ ] Target: F1 ≥0.8, FPR ≤20%
+- [ ] Test in real session: does it trigger correctly?
 
 ## Evidence Tracker Template
 

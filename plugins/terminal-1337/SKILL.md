@@ -7,18 +7,20 @@ description: "Modern CLI tools replacing legacy Unix utilities. Use when: search
 
 Modern Rust-based CLI tools that outperform legacy Unix utilities.
 
+**Production evidence:** These tools are used by major codebases. ripgrep is the default search backend in VS Code. fd is recommended by the fish shell maintainers. bat, eza, and xh are built on the same Rust CLI patterns from the ripgrep author (BurntSushi).
+
 ## Tool Selection
 
 | Task | Use | Not | Why |
 |------|-----|-----|-----|
-| Search code | `rg` (ripgrep) | `grep -r` | 10x faster, respects .gitignore |
-| Find files | `fd` | `find` | Simpler syntax, faster |
-| View files | `bat` | `cat` | Syntax highlighting, line numbers |
-| List dirs | `eza` | `ls` | Git status, icons |
-| HTTP requests | `xh` | `curl` | Cleaner syntax, auto-formatting |
-| JSON | `jq` | manual | Query language, pretty-print |
-| History | `atuin` | `history` | Searchable, synced |
-| Selection | `fzf` | manual | Fuzzy find anything |
+| Search code | `rg` (ripgrep) | `grep -r` | Parallel search, respects .gitignore — VS Code search backend |
+| Find files | `fd` | `find` | Simpler syntax, sensible defaults — fish shell recommended |
+| View files | `bat` | `cat` | Syntax highlighting via syntect — same library as Sublime Text |
+| List dirs | `eza` | `ls` | Git integration built-in — successor to exa |
+| HTTP requests | `xh` | `curl` | HTTPie-compatible with Rust performance |
+| JSON | `jq` | manual | Industry standard — used by GitHub Actions, AWS CLI |
+| History | `atuin` | `history` | SQLite-backed with sync — Ellie Huxtable (maintainer) |
+| Selection | `fzf` | manual | Go-based fuzzy finder — powers many TUI tools |
 
 ## Usage Pattern
 

@@ -338,40 +338,37 @@ from the 2024-2025 research, principles emerge in priority order:
 
 ---
 
-## how claude-1337 applies this
+## design philosophy
 
-### the observability advantage
+the research informs design choices, but doesn't prescribe them. these are our interpretations:
 
-the research identifies a critical gap: traditional plugin systems (compiled bundles, deep dependencies, opaque behavior) prevent the validation that makes AI collaboration safe.
+### why plaintext markdown?
 
-| research finding | traditional plugins | claude-1337 approach |
-|------------------|--------------------|-----------------------|
-| validation enables appropriate trust (CHI 2021) | black box, can't validate | plaintext markdown, fully readable |
-| metacognitive skills determine benefit (ICER 2025) | "just install and use" | read, understand, learn patterns |
-| cognitive offloading harms critical thinking (r = -0.75) | pure execution | engagement through comprehension |
-| autonomy → motivation (SDT 2025) | dependency lock-in | self-contained, forkable |
-| trust calibration requires understanding | reputation-based trust | inspection-based trust |
+the CHI 2021 study found that explanations increase trust — but not accuracy. people trusted AI more after seeing explanations, even when the AI was wrong. the problem: explanations enabled *acceptance* without enabling *validation*.
 
-### self-contained design
+if you can't verify a claim, you can only trust or distrust. if you CAN verify it, you can evaluate it.
 
-instead of enforced dependencies:
-```json
-// NOT this
-{ "dependencies": { "core-1337": "^1.0.0" } }
-```
+compiled bundles, minified code, complex dependency trees — these prevent verification. you accept or reject based on reputation. plaintext markdown enables verification. you can read the SKILL.md, understand what it claims, check the sources, decide if you agree.
 
-we use documented relationships:
-```markdown
-<!-- This -->
-Works best with core-1337 installed.
-Everything you need is in this file.
-```
+the design choice: everything in readable files. no hidden behavior. verify before trusting.
 
-this enables:
-- complete transparency (no hidden behavior)
-- immediate comprehensibility (no dependency trees)
-- full user control (fork and modify freely)
-- appropriate trust (verify before relying)
+### why self-contained?
+
+self-determination theory (SDT 2025) found that autonomy drives intrinsic motivation. when people feel controlled, motivation drops. when they feel in control, motivation increases.
+
+dependency lock-in undermines autonomy. if an extension requires five other packages, you can't easily fork it, modify it, or understand what it does without understanding all of them. you're locked in.
+
+self-contained extensions give you control. each one works standalone. relationships are documented ("works best with X") but not enforced. you can use it, modify it, or throw it away.
+
+the design choice: documented relationships instead of enforced dependencies.
+
+### why engagement over execution?
+
+the ICER 2025 study found that metacognitive skills determine who benefits from AI assistance. students who could evaluate AI output, catch errors, and maintain critical thinking improved. students who couldn't were *harmed* by AI assistance.
+
+passive consumption — install plugin, use output, don't think — is the path to cognitive offloading. the r = -0.75 correlation between AI use and critical thinking decline (Gerlich 2025) shows what happens when people stop engaging.
+
+the design choice: extensions are meant to be read and understood, not just installed. patterns to learn, not magic to consume. if you just want the output without understanding, you're using them wrong.
 
 ### skill design
 

@@ -31,7 +31,7 @@ Update `marketplace.json`:
 
 | Do | Don't |
 |----|-------|
-| Pick THE answer | List catalogs of options |
+| Fill gaps (what Claude doesn't know) | Teach basics |
 | Cite evidence (production usage) | State opinions |
 | Decision frameworks + gotchas | Complete tutorials |
 | Tables and trees | Verbose prose |
@@ -41,7 +41,7 @@ Update `marketplace.json`:
 - [ ] Description < 600 chars with "Use when:" triggers
 - [ ] SKILL.md is decisions, not tutorial (< 500 lines)
 - [ ] Each recommendation has evidence
-- [ ] Best-in-class picks with evidence
+- [ ] Claims traceable to source
 - [ ] References linked, not embedded
 
 ## Commit Format

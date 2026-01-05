@@ -76,14 +76,11 @@ Should extensions detect user experience and adapt?
 
 ## the expertise divergence
 
-From 2025 research on AI-assisted work:
+[AI as Cognitive Amplifier (arXiv:2512.10961, 2025)](https://arxiv.org/abs/2512.10961) studied 580 professionals across five role categories. The finding: AI assistance benefits those with domain expertise more than those without.
 
-| user type | outcome |
-|-----------|---------|
-| **experts** | +45% improvement |
-| **novices** | minimal or negative effect |
+**The pattern:** Experts know what to ask for, can evaluate AI output, and catch errors. Novices lack the foundation to do this.
 
-AI assistance benefits experts more. Novices may struggle with:
+Novices may struggle with:
 - knowing when AI is wrong
 - maintaining critical thinking
 - building foundational skills

@@ -14,7 +14,7 @@ Human-AI collaboration fails by default.
 
 [METR (2025)](https://arxiv.org/abs/2507.09089) ran an RCT with 16 experienced developers. They were **19% slower** with AI tools. They perceived themselves **20% faster**.
 
-[Gerlich (2025)](https://www.mdpi.com/2075-4698/15/1/6) found r = -0.68 between AI use and critical thinking. The correlation is strong and negative.
+[Gerlich (2025)](https://www.mdpi.com/2075-4698/15/1/6) found r = -0.75 between AI use and critical thinking. The correlation is strong and negative.
 
 **The mechanism:**
 

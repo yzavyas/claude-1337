@@ -35,20 +35,13 @@ Use **core-1337** methodology when building extensions:
 | scientific method | build → run evals → measure activation → refine |
 | first principles | does this make the next enhancement easier or harder? |
 
-## Principles
+## Content Guidance
 
-1. **best-in-class only** — battle-tested components
-2. **evidence over opinion** — production usage > GitHub stars
-3. **concise** — decision frameworks + gotchas, not tutorials
-4. **Claude is smart** — only add what Claude doesn't already know
-
-### Additional Principles
-
-| principle | meaning |
-|-----------|---------|
-| **rigor** | verify claims before asserting (Chain of Verification) |
+| guidance | meaning |
+|----------|---------|
+| **fill gaps** | only add what Claude doesn't already know |
+| **decisions, not tutorials** | decision frameworks + gotchas, not step-by-step guides |
 | **compound value** | each choice makes the next enhancement easier or harder |
-| **pit of success** | make the right thing the only obvious path |
 
 ## Design Philosophy
 
@@ -83,7 +76,7 @@ See [research-workflow.md](references/research-workflow.md) for the full methodo
 | step | do |
 |------|----|
 | 1 | test Claude's knowledge, find gaps |
-| 2 | research 3 production codebases |
+| 2 | research multiple production codebases |
 | 3 | verify with maintainer quotes |
 | 4 | collect production gotchas |
 | 5 | fill in SKILL.md template |
@@ -216,7 +209,7 @@ Does Claude already know this well? → YES → Does it add decision framework o
 
 After building any extension:
 
-- [ ] battle-tested, best-in-class picks
+- [ ] fills gaps (what Claude doesn't already know)
 - [ ] each recommendation has evidence
 - [ ] content is decisions, not tutorials
 - [ ] would an expert find this useful?
@@ -227,12 +220,11 @@ After building any extension:
 
 Before publishing any extension:
 
-| gate | target | principle |
-|------|--------|-----------|
-| sources | 3+ codebases | Independent? If <3, limitation noted? |
-| evidence | production-tier | Highest quality available used? |
-| CoVe | 100% claims | Each claim traceable to source? |
-| activation (skills) | F1 ≥0.8, FPR ≤20% | Triggers correctly, doesn't over-trigger? |
+| gate | principle |
+|------|-----------|
+| sources | Multiple independent sources — if limited, acknowledge explicitly |
+| evidence | Use highest quality available — production > maintainer > blog |
+| claims | Each claim traceable to source (author, year, context) |
 
 **When evidence is sparse:** Acknowledge limitations explicitly. "Based on limited evidence from X" is honest. Confident claims from weak evidence is not.
 

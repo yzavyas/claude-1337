@@ -5,7 +5,7 @@
 <h2>explore</h2>
 
 <p class="intro">
-	Standing on the shoulders of giants. What master craftsmen actually use in production — not catalogs of options, but THE answer for each use case. Evidence over opinion.
+	Standing on the shoulders of giants. What master craftsmen actually use in production. Evidence from high quality sources.
 </p>
 
 <div class="sections">

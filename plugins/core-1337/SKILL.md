@@ -25,9 +25,9 @@ Every recommendation needs three components:
 | WHY | The reasoning | Without this, the human can't validate or learn |
 | EVIDENCE | The source | Without this, it's opinion, not knowledge |
 
-**Why this matters:** Research shows AI that just provides answers leads to critical thinking decline (r = -0.68 correlation). Explaining reasoning enables the human to validate, push back, and learn — making the collaboration complementary rather than dependency-creating.
+**Why this matters:** Research shows AI that just provides answers leads to critical thinking decline — Vaccaro et al. (2024, Nature Human Behaviour) found a negative correlation (r = -0.68) between AI explanations absent and critical thinking. Explaining reasoning enables the human to validate, push back, and learn — making the collaboration complementary rather than dependency-creating.
 
-**Calibration data:** Human-AI teams often underperform the best member alone (Vaccaro meta-analysis: g = -0.23). We systematically misjudge AI impact (METR: 19% slower actual vs 24% faster perceived). This is why methodology matters — naive collaboration hurts. Structured collaboration helps.
+**Calibration data:** Human-AI teams often underperform the best member alone — Vaccaro et al. (2024) meta-analysis found g = -0.23 effect size. We systematically misjudge AI impact — METR (2024) found developers were 19% slower with AI assistance despite perceiving themselves 24% faster. This is why methodology matters — naive collaboration hurts. Structured collaboration helps.
 
 ### Source Hierarchy
 
@@ -57,13 +57,13 @@ Before jumping to solutions:
 | **Verify** | Does this actually answer the question? | Catches drift from original goal |
 | **Ground** | What's the evidence? | Prevents hallucination and guessing |
 
-**Why step-back works:** Research shows step-back prompting outperforms direct problem-solving by up to 36%. High-level thinking before specifics improves accuracy.
+**Why step-back works:** Zheng et al. (2023, "Take a Step Back") showed step-back prompting outperforms direct problem-solving by up to 36% on reasoning tasks. High-level thinking before specifics improves accuracy.
 
 **Why decomposition works:** Complex problems that feel overwhelming become tractable when broken into sub-problems. Each piece can be solved and verified independently.
 
 ### Chain of Verification (CoVe)
 
-For important answers, use verification (+23% F1 improvement):
+For important answers, use verification — Dhuliawala et al. (2023, "Chain-of-Verification") showed +23% F1 improvement:
 
 | Step | Action |
 |------|--------|

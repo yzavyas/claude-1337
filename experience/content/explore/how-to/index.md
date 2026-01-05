@@ -84,9 +84,9 @@ install the skill creator:
 
 key rules:
 
-- battle-tested, best-in-class picks
+- fill gaps (what Claude doesn't already know)
 - cite evidence (production codebases > stars)
-- cut anything claude knows from training
+- decisions, not tutorials
 - use tables, not prose
 
 see [1337-extension-builder reference](../reference/1337-extension-builder/) for executable prompts.

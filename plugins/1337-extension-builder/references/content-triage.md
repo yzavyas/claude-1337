@@ -4,13 +4,13 @@ Filter research content into skills. Apply to every piece of content.
 
 ## Pre-Filter: Evidence Quality
 
-Before triaging content, verify research meets targets:
+Before triaging content, verify research quality:
 
-| gate | target | check |
-|------|--------|-------|
-| sources | 3+ codebases | Independent? Limitations noted if <3? |
-| evidence | production-tier | Highest quality used? |
-| CoVe | 100% claims | Each traceable? |
+| gate | principle |
+|------|-----------|
+| sources | Multiple independent sources — if limited, acknowledge explicitly |
+| evidence | Use highest quality available — production > maintainer > blog |
+| claims | Each claim traceable to source (author, year, context) |
 
 **If research lacks quality → STOP.** Return to [research-workflow.md](research-workflow.md) Step 2.
 

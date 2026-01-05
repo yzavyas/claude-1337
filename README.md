@@ -25,7 +25,7 @@ Browse all plugins in the [catalog](experience/content/explore/reference/catalog
 3. **Distill** — cut what Claude already knows, keep non-obvious decisions and gotchas
 4. **Format** as decision tables, not prose explanations
 
-**Philosophy**: Battle-tested, best-in-class. Standing on the shoulders of giants.
+**Philosophy**: Standing on the shoulders of giants. Evidence from high quality sources.
 
 The methodology is documented in the [extension builder](experience/content/explore/reference/catalog/).
 

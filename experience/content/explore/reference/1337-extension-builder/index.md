@@ -36,12 +36,11 @@ The extension-builder skill activates and guides you through:
 
 ## quality gates
 
-| gate | target | principle |
-|------|--------|-----------|
-| sources | 3+ codebases | Independent? Limitations noted if <3? |
-| evidence | production-tier | Highest quality available used? |
-| CoVe | 100% claims | Each claim traceable to source? |
-| activation | F1 >=0.8 | Triggers correctly, doesn't over-trigger? |
+| gate | principle |
+|------|-----------|
+| sources | Multiple independent sources — if limited, acknowledge explicitly |
+| evidence | Use highest quality available — production > maintainer > blog |
+| claims | Each claim traceable to source (author, year, context) |
 
 ## reference docs
 

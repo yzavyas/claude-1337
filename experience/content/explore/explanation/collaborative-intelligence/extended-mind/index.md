@@ -77,7 +77,7 @@ cognitive offloading has risks. research from gerlich (2025):
 | correlation | finding |
 |-------------|---------|
 | r = +0.72 | AI use → cognitive offloading |
-| r = -0.68 | AI use → critical thinking decline |
+| r = -0.75 | AI use → critical thinking decline |
 
 the mitigation: skills that **augment** rather than **replace**:
 - decision frameworks, not decisions

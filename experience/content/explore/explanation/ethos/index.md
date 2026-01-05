@@ -44,7 +44,7 @@ Both human and AI develop capability through collaboration.
 **The risk**: Human offloads → AI produces → human consumes → capability atrophies.
 
 **Evidence**:
-- [Gerlich (2025)](https://www.mdpi.com/2075-4698/15/1/6): r = -0.68 correlation between AI use and critical thinking
+- [Gerlich (2025)](https://www.mdpi.com/2075-4698/15/1/6): r = -0.75 correlation between AI use and critical thinking
 - [Lee et al. (2025)](https://dl.acm.org/doi/10.1145/3613904.3642902): confidence in AI → reduced critical thinking (β = -0.69)
 
 ---

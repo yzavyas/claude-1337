@@ -78,7 +78,7 @@ See [content-triage.md](content-triage.md) for the full filter.
 
 | Don't | Do Instead |
 |-------|------------|
-| "There are many options..." | Pick THE answer |
+| "There are many options..." | Make a recommendation with evidence |
 | "You could use X or Y" | "Use X. Y is deprecated." |
 | Teaching basics | Assume Claude knows syntax |
 | Complete tutorials | Decision points only |
@@ -88,14 +88,13 @@ See [content-triage.md](content-triage.md) for the full filter.
 
 **Goal**: Ensure skill meets methodology and triggers correctly.
 
-### Quality Gates (Primary)
+### Quality Gates
 
-| gate | target | principle |
-|------|--------|-----------|
-| sources | 3+ codebases | Independent? Limitations noted if <3? |
-| evidence | production-tier | Highest quality used? |
-| CoVe | 100% claims | Each traceable to source? |
-| activation | F1 ≥0.8, FPR ≤20% | Triggers correctly? |
+| gate | principle |
+|------|-----------|
+| sources | Multiple independent sources — if limited, acknowledge explicitly |
+| evidence | Use highest quality available — production > maintainer > blog |
+| claims | Each claim traceable to source (author, year, context) |
 
 See [research-workflow.md#step-6](research-workflow.md#step-6-validate) for full process.
 
@@ -108,7 +107,7 @@ See [research-workflow.md#step-6](research-workflow.md#step-6-validate) for full
 [ ] SKILL.md < 500 lines
 [ ] All linked files exist
 [ ] Evidence cited for recommendations
-[ ] Battle-tested, best-in-class picks
+[ ] Fills gaps (what Claude doesn't already know)
 ```
 
 ### Trigger Testing
