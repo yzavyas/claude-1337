@@ -30,7 +30,7 @@ Modern Rust-based CLI tools that outperform legacy Unix utilities.
 |------|-----|-----|-----|
 | Search code | `rg` (ripgrep) | `grep -r` | Parallel search, respects .gitignore — VS Code search backend |
 | Find files | `fd` | `find` | Simpler syntax, sensible defaults — fish shell recommended |
-| View files | `bat` | `cat` | Syntax highlighting via syntect — same library as Sublime Text |
+| View files | `bat` | `cat` | Syntax highlighting via syntect — uses Sublime Text syntax definitions |
 | List dirs | `eza` | `ls` | Git integration built-in — successor to exa |
 | HTTP requests | `xh` | `curl` | HTTPie-compatible with Rust performance |
 | JSON | `jq` | manual | Industry standard — used by GitHub Actions, AWS CLI |

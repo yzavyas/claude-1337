@@ -79,7 +79,7 @@ When explaining these concepts, **offer diagrams automatically**:
 **Dual Coding** (Paivio): Provide diagram + text description (visual + verbal channels)
 **Complexity Limit**: 5-10 elements per diagram. Split complex systems into multiple views.
 
-**Research**: UML diagrams reduce maintenance time 22-60% (Sharif & Maletic). Effect size 0.82 when constructing diagrams (Nesbit & Adesope, 2006).
+**Research**: UML diagrams reduce maintenance time 22-60% (Sharif & Maletic, 2009). Effect size 0.82 when constructing diagrams (Nesbit & Adesope, 2006).
 
 ## Production Gotchas
 

@@ -21,11 +21,13 @@ Build cognitive extensions for Claude Code — skills, hooks, agents, commands, 
 
 ## Methodology
 
-Use **core-1337** methodology when building extensions:
+Building extensions well:
 - Evidence + WHY pattern (traceable sources, explain reasoning)
 - Source hierarchy (highest quality for the claim — tooling vs methodology)
 - Scientific method (hypothesize → test → observe → refine)
 - First principles (reason from fundamentals, question assumptions)
+
+*For deeper methodology, see core-1337.*
 
 **Domain-specific application:**
 
@@ -47,7 +49,7 @@ Use **core-1337** methodology when building extensions:
 
 ### Pit of Success
 
-Make the right thing the only obvious path. Don't rely on documentation — rely on structure.
+Make the right thing the only obvious path. Don't rely on documentation — rely on structure. (Rico Mariani, Microsoft)
 
 | extension type | pit of success means |
 |----------------|---------------------|
@@ -58,7 +60,7 @@ Make the right thing the only obvious path. Don't rely on documentation — rely
 
 ### Mistake-Proofing (Poka-yoke)
 
-Catch errors where they originate, not downstream.
+Catch errors where they originate, not downstream. (Shigeo Shingo, Toyota Production System)
 
 | common mistake | how to prevent |
 |----------------|----------------|
@@ -223,7 +225,7 @@ Before publishing any extension:
 | gate | principle |
 |------|-----------|
 | sources | Multiple independent sources — if limited, acknowledge explicitly |
-| evidence | Highest quality for the claim (see core-1337 source hierarchy) |
+| evidence | Highest quality for the claim type (tooling → production; methodology → research) |
 | claims | Each claim traceable to source (author, year, context) |
 
 **When evidence is sparse:** Acknowledge limitations explicitly. "Based on limited evidence from X" is honest. Confident claims from weak evidence is not.

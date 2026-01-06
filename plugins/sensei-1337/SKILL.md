@@ -150,5 +150,5 @@ Works for:
 - Sweller, J. [Cognitive Load Theory](https://www.emrahakman.com/wp-content/uploads/2024/10/Cognitive-Load-Sweller-2011.pdf). 2011.
 - Procida, D. [Diataxis Framework](https://diataxis.fr). Django documentation exemplar.
 - Google. [Developer Documentation Style Guide](https://developers.google.com/style).
-- Feynman, R. Teaching methodology from Feynman Lectures on Physics.
+- Feynman Method. Teaching methodology commonly attributed to Richard Feynman.
 - Wikipedia. [Signs of AI Writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). AI tell-tales guide.
