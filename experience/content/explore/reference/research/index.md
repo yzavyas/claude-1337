@@ -510,6 +510,7 @@ async for message in query(prompt=prompt, options=options):
 ### human-AI collaboration (tier 1 — highest quality)
 
 - vaccaro, m., almaatouq, a., & malone, t. w. (2024). [when combinations of humans and AI are useful: a systematic review and meta-analysis](https://www.nature.com/articles/s41562-024-02024-1). *nature human behaviour*, 8(12), 2293-2303.
+- blaurock, m., büttgen, m., & schepers, j. (2024). [designing collaborative intelligence systems for employee-AI service co-production](https://journals.sagepub.com/doi/full/10.1177/10946705241238751). *journal of service research*. — identifies five key design features (transparency, process control, outcome control, engagement, reciprocity); finds transparency/control features strongly affect perceived responsibility and service improvement, while engagement shows weaker effects.
 - [generative AI enhances individual creativity but reduces the collective diversity of novel content](https://www.science.org/doi/10.1126/sciadv.adn5290). *science advances*, 2024.
 - [when and how artificial intelligence augments employee creativity](https://journals.aom.org/doi/10.5465/amj.2022.0426). *academy of management journal*, 2024.
 - choudhary, v., et al. (2025). [human-AI ensembles: when can they work?](https://journals.sagepub.com/doi/10.1177/01492063231194968). *journal of management*.

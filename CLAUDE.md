@@ -38,15 +38,15 @@ The umbrella concept for human-AI cognitive partnership.
 | constitutive | impossible without AI | learns, guides, shapes | enables new capability |
 | substitutive | human could do it | just consumes output | atrophies - avoid |
 
-What determines outcome (Blaurock et al. 2024):
+What determines outcome ([Blaurock et al. 2024](https://journals.sagepub.com/doi/full/10.1177/10946705241238751), Journal of Service Research):
 
 | feature | effect |
 |---------|--------|
 | transparency | strong - user sees reasoning |
 | process control | strong - user shapes how |
 | outcome control | strong - user shapes what |
-| reciprocal enhancement | strong - user grows through collaboration |
-| engagement (system asks questions) | zero effect |
+| reciprocity | strong - user grows through collaboration |
+| engagement (system asks questions) | weak effect |
 
 Design principle: Show reasoning and provide control. Don't ask.
 

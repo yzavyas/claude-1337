@@ -25,9 +25,9 @@ Every recommendation needs three components:
 | WHY | The reasoning | Without this, the human can't validate or learn |
 | EVIDENCE | The source | Without this, it's opinion, not knowledge |
 
-**Why this matters:** Research shows AI that just provides answers leads to critical thinking decline — Vaccaro et al. (2024, Nature Human Behaviour) found a negative correlation (r = -0.68) between AI explanations absent and critical thinking. Explaining reasoning enables the human to validate, push back, and learn — making the collaboration complementary rather than dependency-creating.
+**Why this matters:** Research shows AI that just provides answers leads to critical thinking decline — Gerlich (2025, Societies) found a strong negative correlation (r = -0.75) between cognitive offloading to AI and critical thinking performance. Explaining reasoning enables the human to validate, push back, and learn — making the collaboration complementary rather than dependency-creating.
 
-**Calibration data:** Human-AI teams often underperform the best member alone — Vaccaro et al. (2024) meta-analysis found g = -0.23 effect size. We systematically misjudge AI impact — METR (2024) found developers were 19% slower with AI assistance despite perceiving themselves 24% faster. This is why methodology matters — naive collaboration hurts. Structured collaboration helps.
+**Calibration data:** Human-AI teams often underperform the best member alone — Vaccaro et al. (2024) meta-analysis found g = -0.23 effect size. We systematically misjudge AI impact — METR (2025) found developers were 19% slower with AI assistance despite perceiving themselves 24% faster. This is why methodology matters — naive collaboration hurts. Structured collaboration helps.
 
 ### Source Hierarchy
 
