@@ -232,6 +232,41 @@ scratch/archive/→ Older valuable context (don't load by default)
 
 ---
 
+## Available Skills
+
+All certified against 1337 methodology:
+
+| skill | purpose |
+|-------|---------|
+| **core-1337** | Epistemic methodology - Evidence + WHY, source hierarchy, CoVe |
+| **1337-extension-builder** | Build skills, hooks, agents, commands, MCP servers |
+| **eval-1337** | Write evals for agents, skills, prompts |
+| **rust-1337** | Rust production patterns - axum, tokio, ownership decisions |
+| **sensei-1337** | Documentation and teaching - Diataxis, Feynman, cognitive load |
+| **terminal-1337** | Modern CLI tools - ripgrep, fd, bat, fzf |
+| **diagrams-1337** | Diagram generation - Mermaid, D2, C4 |
+
+---
+
+## Tooling
+
+Use `bun` not `npm`:
+
+```bash
+bun install
+bun run dev      # experience/ site
+bun run build
+```
+
+Evals:
+```bash
+cd evals
+uv sync
+uv run skill-test test "query" -s skill-name -n 3
+```
+
+---
+
 ## For New Claude Instances
 
 When joining this project:
