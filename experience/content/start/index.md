@@ -1,8 +1,6 @@
-# cognitive extensions for effective collaborative intelligence
+# claude-1337
 
-claude-1337 is a marketplace of cognitive extensions — skills, hooks, agents, commands, and MCP servers that make collaboration actually work. Not just smarter AI. Smarter *together*.
-
-*Plugins are the mechanism. Extensions are what they provide.*
+A marketplace of cognitive extensions that make collaboration actually work.
 
 ---
 
@@ -10,36 +8,25 @@ claude-1337 is a marketplace of cognitive extensions — skills, hooks, agents, 
 
 Human-AI collaboration fails by default.
 
-[Vaccaro et al. (2024)](https://www.nature.com/articles/s41562-024-02024-1) meta-analyzed 106 studies. Human-AI combos perform **worse** than the best performer alone (g = -0.23). Content creation is the exception; decision-making reliably gets worse.
+[Vaccaro et al. (2024)](https://www.nature.com/articles/s41562-024-02024-1) meta-analyzed 106 studies: human-AI combos perform **worse** than the best performer alone. [METR (2025)](https://arxiv.org/abs/2507.09089) found developers **19% slower** with AI tools — but perceiving themselves 20% faster.
 
-[METR (2025)](https://arxiv.org/abs/2507.09089) ran an RCT with 16 experienced developers. They were **19% slower** with AI tools. They perceived themselves **20% faster**.
+The mechanism: opaque abstractions → cognitive offloading → capability atrophy → miscalibrated confidence.
 
-[Gerlich (2025)](https://www.mdpi.com/2075-4698/15/1/6) found r = -0.75 between AI use and critical thinking. The correlation is strong and negative.
-
-**The mechanism:**
-
-| what happens | why it's bad |
-|--------------|--------------|
-| opaque abstractions | you consume output without understanding |
-| cognitive offloading | you stop thinking through problems |
-| capability atrophy | skills you don't use decline |
-| miscalibrated confidence | you can't tell it's happening |
-
-The default trajectory: offload more, think less, can't tell the difference.
+The default trajectory compounds. Offload more, think less, can't tell the difference.
 
 ---
 
-## the method
+## the approach
 
-Enhanced collaborative intelligence requires **bidirectional learning** — both human and AI develop capability through the collaboration.
+Effective collaboration requires **bidirectional learning** — both parties develop capability through the work.
 
-| participant | what they learn | how |
-|-------------|-----------------|-----|
-| **human** | reasoning, evidence, tradeoffs | transparent abstractions, visible rationale |
-| **claude** | corrections, context, domain specifics | feedback during session |
-| **system** | crystallized knowledge | extensions persist, baseline improves |
+| who | learns | how |
+|-----|--------|-----|
+| human | reasoning, patterns, tradeoffs | transparent abstractions, visible rationale |
+| claude | corrections, context, specifics | feedback during session |
+| system | crystallized knowledge | extensions persist |
 
-The principles and ethos that go into extensions built for this marketplace are documented in [ethos](/ethos) and [craftsmanship](/explore/explanation/craftsmanship/).
+Extensions are readable. You can see how they work, learn from them, fork them, verify claims. If you can't see it, you can't learn from it.
 
 ---
 
@@ -49,11 +36,7 @@ The principles and ethos that go into extensions built for this marketplace are 
 collaboration → breakthrough → crystallization → improved baseline
 ```
 
-When you figure something out with Claude, write it down. The file persists. Next session starts from that baseline. Corrections flow through too — the system gets more accurate, not just bigger.
-
-The system gets smarter. Both collaborators benefit when they **engage** with the knowledge rather than just consume output.
-
-This is the design choice: extensions are readable. You can see how they work, learn from them, fork them, validate claims before trusting them. Kaizen — continuous improvement through small, iterative cycles.
+When you figure something out together, write it down. The file persists. Next session starts from that baseline. Corrections compound too — the system gets more accurate, not just bigger.
 
 ---
 
@@ -70,5 +53,5 @@ This is the design choice: extensions are readable. You can see how they work, l
 
 ## learn more
 
-- [ethos](/ethos) — why this approach
-- [explore](/explore/) — documentation, tutorials, reference
+- [ethos](/ethos) — the stakes and principles
+- [explore](/explore/) — documentation and reference
