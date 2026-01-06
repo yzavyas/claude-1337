@@ -1,6 +1,6 @@
-# cognitive extensions for claude code
+# cognitive extensions for effective collaborative intelligence
 
-claude-1337 is a marketplace of cognitive extensions — skills, hooks, and agents that change how Claude reasons.
+claude-1337 is a marketplace of cognitive extensions — skills, hooks, agents, commands, and MCP servers that make collaboration actually work. Not just smarter AI. Smarter *together*.
 
 *Plugins are the mechanism. Extensions are what they provide.*
 
@@ -37,23 +37,23 @@ Enhanced collaborative intelligence requires **bidirectional learning** — both
 |-------------|-----------------|-----|
 | **human** | reasoning, evidence, tradeoffs | transparent abstractions, visible rationale |
 | **claude** | corrections, context, domain specifics | feedback during session |
-| **system** | crystallized knowledge | extensions persist, ratchet turns forward |
+| **system** | crystallized knowledge | extensions persist, baseline improves |
 
 The principles and ethos that go into extensions built for this marketplace are documented in [ethos](/ethos) and [methodology](/explore/explanation/methodology/).
 
 ---
 
-## the ratchet
+## kaizen
 
 ```
-collaboration → breakthrough → crystallization → new baseline
+collaboration → breakthrough → crystallization → improved baseline
 ```
 
-When you figure something out with Claude, write it down. The file persists. Next session starts from that baseline.
+When you figure something out with Claude, write it down. The file persists. Next session starts from that baseline. Corrections flow through too — the system gets more accurate, not just bigger.
 
 The codebase gets smarter. Whether you do depends on whether you **engage** with the knowledge or just consume the output.
 
-This is the design choice: extensions are readable. You can see how they work, learn from them, fork them, validate claims before trusting them.
+This is the design choice: extensions are readable. You can see how they work, learn from them, fork them, validate claims before trusting them. Kaizen — continuous improvement through small, iterative cycles.
 
 ---
 

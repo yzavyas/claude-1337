@@ -72,12 +72,7 @@ claude-1337 plugins meet these criteria when properly designed:
 
 ## the hollowing risk
 
-cognitive offloading has risks. research from gerlich (2025):
-
-| correlation | finding |
-|-------------|---------|
-| r = +0.72 | AI use → cognitive offloading |
-| r = -0.75 | AI use → critical thinking decline |
+cognitive offloading has documented risks — [strong negative correlations with critical thinking](../../../reference/research/#cognitive-offloading-correlation).
 
 the mitigation: skills that **augment** rather than **replace**:
 - decision frameworks, not decisions

@@ -37,6 +37,100 @@ Building extensions well:
 | scientific method | build → test in session → observe activation → refine |
 | first principles | does this make the next enhancement easier or harder? |
 
+## Why Methodology Enables Learning
+
+The methodology isn't just for quality — it's how extensions enable builder learning.
+
+| methodology element | quality purpose | learning purpose |
+|---------------------|-----------------|------------------|
+| **Evidence + WHY** | Claims are grounded | Builder can verify, understand reasoning, form own judgment |
+| **Decisions not tutorials** | Content is actionable | Builder learns HOW to decide, can apply independently |
+| **Source hierarchy** | Recommendations are trustworthy | Builder can go deeper, verify, build on |
+| **Fill gaps only** | No bloat | Concentrated insight, learnable in one session |
+| **Scientific method** | Recommendations work | Builder gets tested patterns, not theory |
+
+**If you follow the methodology correctly, you cannot produce an extension that doesn't enable learning.**
+
+### What Happens When You Skip
+
+| if you skip... | extension becomes... | builder outcome |
+|----------------|----------------------|-----------------|
+| Evidence + WHY | Unverifiable assertions | Blind trust → no growth → dependency |
+| Decisions not tutorials | Step-by-step instructions | Can follow → can't apply → dependency |
+| Source hierarchy | Weakly grounded claims | Can't verify → can't trust → hesitation |
+| Fill gaps | Bloated with basics | Noise drowns signal → confusion |
+| Scientific method | Untested theory | Applies wrong things → failure → distrust |
+
+The methodology IS the anti-hollowing mechanism. Skip it and you create dependency. Follow it and learning is automatic.
+
+## How Extensions Compound
+
+"Compound value" isn't abstract — here's how it works:
+
+| mechanism | how it compounds | example |
+|-----------|------------------|---------|
+| **Shared vocabulary** | Define term once → use everywhere | "transparent abstraction" defined in ethos → used in all extensions |
+| **Composability** | Extension A references B → B's knowledge available | extension-builder composes with skill-creator → no duplication |
+| **Pattern crystallization** | Framework in domain X → adapt to Y | Decision table pattern → reuse across all extensions |
+| **Infrastructure accumulation** | Each hook/command/agent → available for next | New command can use existing hooks |
+| **Methodology inheritance** | core-1337 foundation → all extensions built on it | Evidence + WHY propagates automatically |
+
+### Building for Composability
+
+When creating an extension, ask:
+
+| question | if NO | action |
+|----------|-------|--------|
+| Can another extension reference this? | Isolated, can't compose | Extract reusable concepts |
+| Does this use shared vocabulary? | Reinvents terms | Use existing definitions, link to sources |
+| Could this pattern apply elsewhere? | Context-locked | Generalize the framework |
+| Does this build on existing extensions? | Starts from zero | Compose with relevant extensions |
+
+### The Kaizen Effect
+
+```
+Extension 1: defines "transparent abstraction"
+     ↓
+Extension 2: uses term, adds "decision framework" pattern
+     ↓
+Extension 3: composes both, adds domain-specific application
+     ↓
+Each extension starts from higher baseline (corrections flow through too)
+```
+
+**This is how the system gets smarter.** Each extension crystallizes knowledge that the next can build on. Corrections are first-class — the baseline improves, not just grows.
+
+## Transparent Abstractions
+
+Extensions must be transparent so builders can learn from them.
+
+| property | what it means | how to produce it |
+|----------|---------------|-------------------|
+| **readable** | Builder can understand without external context | Plain language. Clear headers. Decision tables over prose. No jargon without definition. |
+| **forkable** | Builder can copy, modify, make their own | Self-contained. Modular sections. Clear separation of concerns. |
+| **verifiable** | Builder can check any claim | Every recommendation has source. Sources are specific (author, year, context). |
+| **observable** | Builder can see how it works | Reasoning visible. Decision points explicit. WHY exposed, not just WHAT. |
+
+### Producing Transparent Extensions
+
+**Do:**
+- Use plain language
+- Structure with clear headers (##, ###)
+- Decision tables for choices
+- One concept per section
+- Define terms on first use
+- Source every recommendation with specific citations
+- Show the decision tree, not just the conclusion
+- Expose uncertainty: "based on limited evidence from X"
+
+**Don't:**
+- Wall of prose
+- Jargon without explanation
+- "Best practice is..." (unsourced)
+- Just state the answer without WHY
+- Hide the reasoning
+- Appear certain when uncertain
+
 ## Content Guidance
 
 | guidance | meaning |
@@ -211,12 +305,29 @@ Does Claude already know this well? → YES → Does it add decision framework o
 
 After building any extension:
 
+**Standard:**
 - [ ] fills gaps (what Claude doesn't already know)
 - [ ] each recommendation has evidence
 - [ ] content is decisions, not tutorials
 - [ ] would an expert find this useful?
 - [ ] description has "Use when:" clause
 - [ ] tested in real session
+
+**Learning-Focused:**
+- [ ] Can a builder verify any claim by following the source?
+- [ ] Are sources specific enough to actually find? (not "according to experts")
+- [ ] Can a builder apply this knowledge without the extension loaded?
+- [ ] Are decision frameworks provided, not just answers?
+- [ ] Could a builder teach this to someone else after reading?
+- [ ] Is the reasoning visible, not just the conclusion?
+- [ ] Is uncertainty acknowledged where appropriate?
+
+**Anti-Hollowing Check:**
+- [ ] Does this create capability or dependency?
+- [ ] Would a builder be MORE capable after engaging with this?
+- [ ] Is there something to learn, or just something to consume?
+
+If any answer is NO, the extension may create dependency rather than capability. Revise before shipping.
 
 ## Quality Gates
 

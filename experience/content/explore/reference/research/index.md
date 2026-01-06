@@ -4,6 +4,25 @@ empirical foundations for cognitive extension design
 
 ---
 
+## contents
+
+- [key findings at a glance](#key-findings-at-a-glance)
+- [human-AI collaboration](#human-ai-collaboration-what-the-research-says)
+- [motivation and autonomy](#motivation-and-autonomy)
+- [trust and appropriate reliance](#trust-and-appropriate-reliance)
+- [creativity and diversity](#creativity-and-diversity)
+- [software engineering research](#software-engineering-research)
+- [distributed cognition](#distributed-cognition)
+- [cognitive vs operational extensions](#cognitive-vs-operational-extensions)
+- [implications for design](#implications-for-cognitive-extension-design)
+- [design principles hierarchy](#design-principles-hierarchy)
+- [design philosophy](#design-philosophy)
+- [skill activation research](#skill-activation-research)
+- [validation framework](#validation-framework)
+- [sources](#sources)
+
+---
+
 ## key findings at a glance
 
 | finding | source | implication |

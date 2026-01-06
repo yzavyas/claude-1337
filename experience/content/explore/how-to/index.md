@@ -130,4 +130,4 @@ uv run skill-test suite my-tests.json -o report.md
 | 50-79% | improve description, add "use when:" clause |
 | <50% | description too vague, front-load keywords |
 
-see [research reference](../reference/research.md) for validation methodology and detailed docs.
+see [research reference](../reference/research/) for validation methodology and detailed docs.

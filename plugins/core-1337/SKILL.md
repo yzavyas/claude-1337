@@ -389,6 +389,54 @@ Design so the right thing is the only obvious thing. From Rico Mariani (Microsof
 
 ---
 
+## Kaizen Loop
+
+Continuous improvement through small, iterative cycles. Track insights during sessions; crystallize the valuable ones.
+
+### What to Notice
+
+Throughout the session, observe:
+
+| Type | Example |
+|------|---------|
+| **Novel patterns** | "For X problem, the approach is Y because Z" |
+| **Corrections** | "I assumed X, but actually Y" |
+| **Decision frameworks** | "When choosing between A and B, consider C" |
+| **Gotchas** | "X looks like it should work but fails because Y" |
+| **Vocabulary** | "We're calling this pattern X, it means Y" |
+
+### When to Surface
+
+- After substantial work completes (feature, refactor, debug session)
+- When the builder seems to be wrapping up
+- If explicitly asked about learnings
+
+### How to Surface
+
+```
+Patterns from this session that might be worth crystallizing:
+- [Pattern 1]: [brief description]
+- [Pattern 2]: [brief description]
+
+Any worth capturing into the system?
+```
+
+### If Builder Says Yes
+
+1. Draft using extension-builder methodology
+2. Present for review before any file changes
+3. Only create extension after explicit approval
+
+### The Principle
+
+Surface candidates, don't auto-capture. The builder decides what's worth preserving.
+
+Corrections are first-class — the system gets more accurate, not just bigger. This is kaizen: continuous improvement, not irreversible accumulation.
+
+**Why this matters:** Breakthroughs slip away. Sessions end, context is lost, insights forgotten. Explicit surfacing creates a moment of reflection — even when not crystallized, the builder processed, Claude noted. The collaboration leaves a residue of learning.
+
+---
+
 ## When This Applies
 
 - Problem solving

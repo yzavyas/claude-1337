@@ -6,6 +6,21 @@ understanding how cognitive extensions become part of thinking
 
 ---
 
+## contents
+
+- [why this architecture?](#why-this-architecture)
+- [marketplace](#marketplace)
+- [plugins](#plugins)
+- [skills](#skills)
+- [hooks](#hooks)
+- [commands](#commands)
+- [agents](#agents)
+- [mcp](#mcp)
+- [evals](#evals)
+- [putting it together](#putting-it-together)
+
+---
+
 ## why this architecture?
 
 Extensions need to feel like part of cognition, not tools you pick up. This requires:
