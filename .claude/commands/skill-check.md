@@ -16,7 +16,7 @@ For each SKILL.md in `plugins/*/`:
    - Using quoted strings (not `>-` or `|`)?
 
 2. **Size check**:
-   - SKILL.md line count (ideal: 100-200)
+   - SKILL.md line count (max: 500)
    - Description char count (must be <600)
 
 3. **Reference check**:

@@ -1,5 +1,6 @@
-# Scratch directory for temporary work
+# Scratch directories for temporary work
 scratch/
+experience/lab/
 
 # macOS
 .DS_Store
@@ -28,6 +29,7 @@ Temporary Items
 # Editor directories and files
 .vscode/
 .idea/
+.obsidian/
 *.swp
 *.swo
 *~

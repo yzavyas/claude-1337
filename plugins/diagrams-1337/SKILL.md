@@ -3,7 +3,7 @@ name: diagrams-1337
 description: "Proactive diagram generation for documentation. Use when: writing docs, explaining architecture, documenting APIs, showing workflows, git branching, state machines, data models. Covers: Mermaid (sequenceDiagram, stateDiagram, erDiagram, gitGraph, flowchart, C4, timeline), D2 for complex architecture, decision frameworks."
 ---
 
-# Diagrams-1337: Elite Diagram-as-Code
+# Diagram-as-Code
 
 Proactive, evidence-based diagram generation. Default to Mermaid, upgrade to D2 only when necessary.
 
@@ -79,7 +79,7 @@ When explaining these concepts, **offer diagrams automatically**:
 **Dual Coding** (Paivio): Provide diagram + text description (visual + verbal channels)
 **Complexity Limit**: 5-10 elements per diagram. Split complex systems into multiple views.
 
-**Research**: UML diagrams reduce maintenance time 22-60% (Sharif & Maletic). Effect size 0.82 when constructing diagrams (Nesbit & Adesope, 2006).
+**Research**: UML diagrams reduce maintenance time 22-60% (Sharif & Maletic, 2009). Effect size 0.82 when constructing diagrams (Nesbit & Adesope, 2006).
 
 ## Production Gotchas
 

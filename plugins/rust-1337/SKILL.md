@@ -1,25 +1,27 @@
 ---
 name: rust-1337
-description: "Elite Rust development. Use when: building Rust CLI, backend, frontend, or native apps. Covers axum, tonic, sqlx, Leptos, Dioxus, Tauri, clap, tokio. Production gotchas (blocking, cancellation, mutex), ownership decisions, crate selection. Routes to specialized domains: embedded, FFI, proc-macros, proxies/data-plane."
+description: "Rust production patterns. Use when: building Rust CLI, backend, frontend, or native apps. Covers axum, tonic, sqlx, Leptos, Dioxus, Tauri, clap, tokio. Production gotchas (blocking, cancellation, mutex), ownership decisions, crate selection. Routes to specialized domains: embedded, FFI, proc-macros, proxies/data-plane."
 ---
 
-# Elite Rust Development
+# Rust Production Patterns
 
 Production-grade patterns that separate competent from exceptional Rust developers.
 
 ## Philosophy
 
-1. **Make illegal states unrepresentable** — use types to eliminate bugs
-2. **Parse, don't validate** — transform unstructured data into typed structures
-3. **Zero-cost abstractions** — high-level code that compiles to optimal machine code
-4. **Explicit over implicit** — no hidden allocations, no surprise behavior
-5. **Design away lifetime complexity** — if fighting the borrow checker, reconsider data model
-6. **Clone consciously** — every `.clone()` is a decision about allocation
-7. **Trust but verify safety** — Rust prevents data races, not deadlocks
+1. **Make illegal states unrepresentable** — use types to eliminate bugs ([Yaron Minsky, 2010](https://blog.janestreet.com/effective-ml-video/))
+2. **Parse, don't validate** — transform unstructured data into typed structures ([Alexis King, 2019](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/))
+3. **Zero-cost abstractions** — high-level code that compiles to optimal machine code ([Stroustrup, 2012](https://www.stroustrup.com/abstraction-and-machine.pdf))
+4. **Explicit over implicit** — no hidden allocations, no surprise behavior (Rust design principle)
+5. **Design away lifetime complexity** — if fighting the borrow checker, reconsider data model (community convention)
+6. **Clone consciously** — every `.clone()` is a decision about allocation (community convention)
+7. **Trust but verify safety** — Rust prevents data races, not deadlocks (language guarantee)
 
 ## Decision Frameworks
 
-### String Ownership (95% Rule)
+### String Ownership
+
+Heuristic from [Steve Klabnik](https://steveklabnik.com/writing/when-should-i-use-string-vs-str/) (Rust core team, 12+ years experience): "Following this rule will get you through 95% of situations."
 
 | Context | Use | Why |
 |---------|-----|-----|
@@ -57,7 +59,7 @@ Writing a library?
 | High-concurrency I/O | Async | Scales to millions |
 | Simple concurrency | Threads | Avoid async complexity |
 
-**Critical: No more than 10-100µs between `.await` points.**
+**Guideline:** Keep work between `.await` points brief (microseconds to tens of milliseconds). Tokio uses [cooperative scheduling](https://tokio.rs/blog/2020-04-preemption) with budget-based yielding since v0.2.14 — tasks that exceed budget get nudged to yield, but long-running sync work still starves the runtime.
 
 ## Production Gotchas
 
@@ -127,16 +129,16 @@ async fn good(mutex: Arc<std::sync::Mutex<i32>>) {
 
 ## Obsolete Patterns
 
-| Obsolete | Replacement | Since |
-|----------|-------------|-------|
-| `lazy_static!` | `std::sync::LazyLock` | Rust 1.80 |
-| `once_cell` (most uses) | `std::sync::OnceLock` | Rust 1.70 |
-| `async-std` | smol (or tokio) | March 2025 |
-| `structopt` | clap v4 derive | clap 3.0 |
-| `async-trait` (some cases) | Native async fn in traits | Rust 1.75 |
-| async closure workarounds | Native `async \|\| {}` closures | Rust 1.85 |
-| `ansi_term` | `nu-ansi-term` | Unmaintained |
-| `wee_alloc` | Default allocator or Talc | Memory leak #106 |
+| Obsolete | Replacement | Reference |
+|----------|-------------|-----------|
+| `lazy_static!` | `std::sync::LazyLock` | [Rust 1.80](https://blog.rust-lang.org/2024/07/25/Rust-1.80.0/) |
+| `once_cell` (most uses) | `std::sync::OnceLock` | [Rust 1.70](https://blog.rust-lang.org/2023/06/01/Rust-1.70.0/) |
+| `async-std` | smol (or tokio) | [Deprecated March 2025](https://github.com/async-rs/async-std/issues/1072) |
+| `structopt` | clap v4 derive | [clap 3.0 release](https://github.com/clap-rs/clap/releases/tag/v3.0.0) |
+| `async-trait` (some cases) | Native async fn in traits | [Rust 1.75](https://blog.rust-lang.org/2023/12/21/async-fn-rpit-in-traits/) |
+| async closure workarounds | Native `async \|\| {}` closures | [Rust 1.85](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/) |
+| `ansi_term` | `nu-ansi-term` | [RUSTSEC-2021-0139](https://rustsec.org/advisories/RUSTSEC-2021-0139) |
+| `wee_alloc` | Default allocator or Talc | [RUSTSEC-2022-0054](https://rustsec.org/advisories/RUSTSEC-2022-0054), [Issue #106](https://github.com/rustwasm/wee_alloc/issues/106) |
 
 Note: `async-trait` still needed for `dyn Trait` with async methods.
 
@@ -256,7 +258,7 @@ fn process() -> Result<()> {
 - Never `.unwrap()` in library code
 - Never `.expect()` without useful message
 
-## Elite Patterns
+## Production Patterns
 
 ### Defensive Slice Matching
 
@@ -264,7 +266,7 @@ fn process() -> Result<()> {
 // Anti-pattern: decoupled check
 if !users.is_empty() { let user = users[0]; }
 
-// Elite: coupled via match
+// Better: coupled via match
 match users.as_slice() {
     [] => handle_empty(),
     [single] => handle_one(single),

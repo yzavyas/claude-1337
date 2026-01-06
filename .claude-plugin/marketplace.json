@@ -5,14 +5,14 @@
     "email": "yza.vyas@gmail.com"
   },
   "metadata": {
-    "description": "Best-in-class tooling and workflows. 1337 skills in your 1337 coding agent so you can 1337 while Claude Code 1337s.",
+    "description": "Curated skills and workflows for Claude Code. Production patterns, decision frameworks, evidence-based recommendations.",
     "version": "0.1.0"
   },
   "plugins": [
     {
       "name": "core-1337",
       "source": "./plugins/core-1337",
-      "description": "The foundation. Activates 1337 mode: skill checking, decisions over catalogs, production mindset. Install first.",
+      "description": "Foundation plugin. Encourages skill activation, evidence-based recommendations, battle-tested practices. Install first.",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
@@ -28,12 +28,13 @@
         "foundation"
       ],
       "category": "development",
-      "strict": false
+      "strict": false,
+      "components": ["hooks"]
     },
     {
       "name": "terminal-1337",
       "source": "./plugins/terminal-1337",
-      "description": "Master elite terminal tools for 10x productivity - ripgrep, fd, bat, eza, fzf, xh, jq, atuin",
+      "description": "Modern terminal tools: ripgrep, fd, bat, eza, fzf, xh, jq, atuin. Use when: searching files, grepping patterns, viewing code.",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
@@ -53,12 +54,13 @@
       "strict": false,
       "skills": [
         "./skills"
-      ]
+      ],
+      "components": ["skills"]
     },
     {
       "name": "rust-1337",
       "source": "./plugins/rust-1337",
-      "description": "Elite Rust development patterns for production systems - ownership decisions, async gotchas, error handling, type design, crate selection, and domain-specific knowledge (networking, embedded, WASM, FFI, proc-macros)",
+      "description": "Rust production patterns. Use when: building Rust systems. Covers ownership decisions, async gotchas, crate selection, domain knowledge (networking, embedded, WASM, FFI, proc-macros).",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
@@ -78,15 +80,16 @@
         "production"
       ],
       "category": "development",
-      "strict": false,
+      "strict": true,
       "skills": [
         "./"
-      ]
+      ],
+      "components": ["skills"]
     },
     {
-      "name": "1337-skill-creator",
-      "source": "./plugins/1337-skill-creator",
-      "description": "Create elite skills for Claude - opinionated, best-in-class, evidence-based",
+      "name": "1337-extension-builder",
+      "source": "./plugins/1337-extension-builder",
+      "description": "Build Claude extensions — skills, hooks, agents, commands, MCP servers. Use when: creating extensions. Evidence-based methodology.",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
@@ -105,12 +108,13 @@
       "strict": false,
       "skills": [
         "./"
-      ]
+      ],
+      "components": ["skills"]
     },
     {
       "name": "sensei-1337",
       "source": "./plugins/sensei-1337",
-      "description": "Teaching methodology for elite documentation. Feynman technique meets Diataxis. Use when: writing docs, tutorials, explanations, READMEs. Includes feynman agent for autonomous doc generation.",
+      "description": "Documentation methodology. Feynman technique meets Diataxis. Use when: writing docs, tutorials, explanations, READMEs. Includes feynman agent.",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
@@ -131,12 +135,13 @@
       "strict": false,
       "skills": [
         "./"
-      ]
+      ],
+      "components": ["skills", "agents"]
     },
     {
       "name": "diagrams-1337",
       "source": "./plugins/diagrams-1337",
-      "description": "Elite diagram-as-code for documentation and architecture. Proactive diagram generation with Mermaid (sequenceDiagram, stateDiagram, erDiagram, gitGraph, flowchart, C4, timeline), D2 for complex architecture, decision frameworks. Includes davinci agent for comprehensive architecture diagramming.",
+      "description": "Diagram-as-code for documentation and architecture. Use when: creating diagrams. Mermaid, D2, C4. Includes davinci agent for architecture diagramming.",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
@@ -158,7 +163,41 @@
       "strict": false,
       "skills": [
         "./"
-      ]
+      ],
+      "components": ["skills", "agents"]
+    },
+    {
+      "name": "eval-1337",
+      "source": "./plugins/eval-1337",
+      "description": "Write rigorous evals for LLM agents, skills, MCP servers, and prompts. Use when: building test suites, measuring effectiveness, choosing frameworks. Covers: DeepEval, Braintrust, RAGAS, precision/recall, F1.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "evals",
+        "evaluation",
+        "testing",
+        "agents",
+        "skills",
+        "mcp",
+        "precision",
+        "recall",
+        "f1",
+        "deepeval",
+        "braintrust",
+        "ragas"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ],
+      "components": ["skills"]
     }
   ]
 }

@@ -1,8 +1,6 @@
 # claude-1337
 
-**Yo dawg, I heard you like 1337 skills, so we put 1337 skills in your 1337 coding agent so you can 1337 while Claude Code 1337s.**
-
-Best-in-class tooling, practices, and learnings from industry leaders and master craftsmen.
+Curated skills and workflows for Claude Code. Production patterns, decision frameworks, evidence-based recommendations.
 
 ## Install
 
@@ -12,18 +10,13 @@ Best-in-class tooling, practices, and learnings from industry leaders and master
 
 ## Plugins
 
-| Plugin | What | Contains |
-|--------|------|----------|
-| core-1337 | The foundation | hook |
-| terminal-1337 | Modern CLI tools | skill, hook |
-| rust-1337 | Rust decisions | skill |
-| 1337-skill-creator | Skill authoring | skill |
-| sensei-1337 | Teaching methodology | skill, agent |
-| diagrams-1337 | Diagram-as-code | skill, agent |
+**Install core-1337 first** — sets session context for skill activation and evidence-based recommendations.
 
-**Install core-1337 first** - it activates 1337 mode (skill checking, decisions over catalogs, production mindset).
+```
+/plugin install core-1337@claude-1337
+```
 
-See [docs/](docs/) for details.
+Browse all plugins in the [catalog](experience/content/explore/reference/catalog/) — filter by component type (skills, hooks, agents) and search by keywords.
 
 ## How these were built
 
@@ -32,9 +25,9 @@ See [docs/](docs/) for details.
 3. **Distill** — cut what Claude already knows, keep non-obvious decisions and gotchas
 4. **Format** as decision tables, not prose explanations
 
-**Philosophy**: Best-in-class only. Not catalogs of options — THE answer for each use case.
+**Philosophy**: Standing on the shoulders of giants. Evidence from high quality sources.
 
-The methodology is documented in `1337-skill-creator`.
+The methodology is documented in the [extension builder](experience/content/explore/reference/catalog/).
 
 ## Testing with Evals
 

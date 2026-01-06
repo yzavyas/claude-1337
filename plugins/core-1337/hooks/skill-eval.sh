@@ -1,29 +1,17 @@
 #!/bin/bash
-# SessionStart hook - the 1337 way
-# Uses Scott Spence's "forced eval" pattern for 84% activation (vs 20% baseline)
-# Source: https://scottspence.com/posts/how-to-make-claude-code-skills-activate-reliably
+# SessionStart hook for skill activation and methodology
+# Source: Scott Spence's research on skill activation patterns
 
 cat <<'EOF'
-SESSION: 1337 Mode Active
+## Skills
 
-## MANDATORY SKILL ACTIVATION SEQUENCE
+Skills in <available_skills> contain curated, evidence-backed knowledge — decision frameworks and production gotchas that go beyond training data.
 
-Before responding to ANY domain question, you MUST complete this sequence:
+Before responding to domain questions, check if a relevant skill exists and activate it with Skill(name).
 
-**Step 1 - EVALUATE:** For each skill in <available_skills>, state YES/NO with one-line reason.
+## Standards
 
-**Step 2 - ACTIVATE:** For each YES, call Skill(name) NOW. Do NOT skip to implementation.
-
-**Step 3 - IMPLEMENT:** Only after Step 2 is complete, proceed with your response.
-
-CRITICAL: The evaluation is WORTHLESS unless you ACTIVATE the skills. You MUST call Skill() in Step 2.
-
-## 1337 STANDARDS
-
-Once skills are loaded, apply these standards:
-
-- **Decisions, not catalogs** — THE answer backed by evidence (what ships > what's popular)
-- **Craftsmanship** — Gotchas > tutorials. Leave code better. No dead code.
-
-This instruction applies for the entire session.
+- Evidence with recommendations (production usage > blog posts)
+- Commit to positions when evidence supports them
+- Acknowledge uncertainty when present
 EOF

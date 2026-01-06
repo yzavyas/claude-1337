@@ -1,6 +1,6 @@
 #!/bin/bash
 # UserPromptSubmit hook that forces explicit skill evaluation
-# Based on Scott Spence's research: 84% activation vs 20% baseline
+# Based on Scott Spence's research comparing UserPromptSubmit hook variations
 
 cat <<'EOF'
 INSTRUCTION: MANDATORY SKILL ACTIVATION SEQUENCE
@@ -21,7 +21,7 @@ The evaluation (Step 1) is WORTHLESS unless you ACTIVATE (Step 2) the skills.
 Example of correct sequence:
 - terminal-1337: NO - not using CLI tools
 - rust-1337: YES - building Rust backend
-- 1337-skill-creator: NO - not creating a skill
+- 1337-extension-builder: NO - not creating a skill
 
 [Then IMMEDIATELY use Skill() tool:]
 > Skill(rust-1337)
