@@ -1,6 +1,6 @@
 # claude-1337 Project Understanding
 
-Crystallized from collaborative session, 2026-01-05.
+Crystallized from collaborative sessions, 2026-01-05 through 2026-01-06.
 
 ---
 
@@ -59,12 +59,22 @@ What makes something substitutive: passive consumption without transparency or c
 
 ### The Hollowing Risk
 
-Research evidence (Gerlich 2025: r = -0.75 correlation between AI use and critical thinking decline).
+Research evidence for skill decay and cognitive offloading:
+
+| study | finding | timeframe |
+|-------|---------|-----------|
+| Gerlich 2025 | r = -0.75 AI use vs critical thinking | cross-sectional |
+| Budzyń Lancet 2025 | 20% skill degradation in endoscopists | 3 months |
+| Kosmyna MIT 2025 | 83% couldn't recall AI-assisted writing | immediate |
+| Lee CHI 2025 | higher AI confidence → less critical thinking (β = -0.69) | cross-sectional |
+
+These aren't plateau effects. They're slope indicators.
 
 **Mitigation**: Extensions must augment, not replace:
 - Decision frameworks, not decisions
 - Patterns to learn, not answers to copy
 - Metacognition support, not thinking bypass
+- Reasoning visible, not hidden
 
 ### Enhancement Levels
 
@@ -248,3 +258,9 @@ When joining this project:
 4. **Understand**: This is engineering discipline applied to extension building - evidence matters, sources matter, the "why" matters
 
 The goal is complementary extensions that make engineers better, not substitutive ones that create dependency.
+
+---
+
+## Research Bibliography
+
+Full citations available at `experience/content/explore/reference/bibliography/index.md`.

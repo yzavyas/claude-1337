@@ -28,6 +28,6 @@ Install core-1337 first - it provides the methodology. Domain skills build on it
 
 ## browse
 
-- [browse the catalog](catalog/) - filter by component type and search by keywords
-- [research](research/) - skill activation studies and empirical foundations
-- [1337-extension-builder](1337-extension-builder/) - build your own extensions
+- [catalog](catalog/) — filter by component type and search by keywords
+- [research](research/) — empirical foundations for cognitive extension design
+- [bibliography](bibliography/) — full citations for all research

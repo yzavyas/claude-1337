@@ -70,14 +70,61 @@ claude-1337 plugins meet these criteria when properly designed:
 
 ---
 
+## three extension types
+
+from 2024-2025 cognitive extension research:
+
+| type | effect on human | trajectory |
+|------|-----------------|------------|
+| **complementary** | better WITH and WITHOUT extension | capability accumulates |
+| **constitutive** | enables impossible tasks | new capability emerges |
+| **substitutive** | worse without extension | capability atrophies |
+
+**complementary**: the human learns through the collaboration. patterns transfer. they're more capable even when the extension isn't available.
+
+**constitutive**: AI enables things humans couldn't do alone — code generation at scale, pattern search across millions of files. the human maintains capability through transparency (seeing how it works) and control (guiding direction).
+
+**substitutive**: the human just consumes output without engagement. capability atrophies. the r = -0.75 correlation (Gerlich 2025) is this pattern at scale.
+
+the same extension can be complementary or substitutive depending on design and usage.
+
+---
+
+## what makes extensions complementary
+
+blaurock et al. (2024) identified five design features that determine outcome:
+
+| feature | effect | how to implement |
+|---------|--------|------------------|
+| **transparency** | strong positive | show reasoning, not just conclusions |
+| **process control** | strong positive | user shapes the approach |
+| **outcome control** | strong positive | user shapes the result |
+| **reciprocity** | strong positive | both human and AI improve |
+| **engagement** | weak/none | asking questions isn't enough |
+
+the critical finding: engagement alone (the system prompting the user) has minimal effect. what matters is transparency and control — the user seeing how it works and shaping the outcome.
+
+**design implication**: don't just ask questions. show reasoning. provide decision frameworks. let the user guide direction.
+
+---
+
 ## the hollowing risk
 
-cognitive offloading has documented risks — [strong negative correlations with critical thinking](../../../reference/research/#cognitive-offloading-correlation).
+cognitive offloading has documented consequences:
 
-the mitigation: skills that **augment** rather than **replace**:
+| study | finding | timeframe |
+|-------|---------|-----------|
+| **Lancet (2025)** | 20% skill degradation in endoscopists | 3 months |
+| **MIT (2025)** | 83% couldn't recall their own writing | immediate |
+| **CHI (2025)** | higher AI confidence → less critical thinking | cross-sectional |
+
+these aren't one-time effects. they're trajectories. the slope steepens with continued substitutive use.
+
+**the mitigation**: extensions that augment rather than replace:
 - decision frameworks, not decisions
 - patterns to learn, not answers to copy
 - metacognition support, not thinking bypass
+- reasoning visible, not hidden
 
 ---
 
@@ -101,7 +148,7 @@ knowledge creation spirals through four modes:
 
 | mode | conversion | in claude-1337 |
 |------|------------|----------------|
-| **socialization** | tacit → tacit | working with claude, developing tacit patterns |
+| **socialization** | tacit → tacit | working with claude, developing patterns |
 | **externalization** | tacit → explicit | writing SKILL.md, encoding what works |
 | **combination** | explicit → explicit | plugin system, composing extensions |
 | **internalization** | explicit → tacit | patterns become second nature |
@@ -113,24 +160,32 @@ when you write a SKILL.md, you're externalizing tacit knowledge into a form that
 
 ---
 
-## three extension types
+## the kaizen loop
 
-from 2025 cognitive extension research:
+```
+collaboration → breakthrough → crystallization → new baseline
+```
 
-| type | effect on user | design goal |
-|------|----------------|-------------|
-| **complementary** | better WITH and WITHOUT tool | skill building |
-| **constitutive** | enables impossible tasks | capability extension |
-| **substitutive** | worse without tool | **avoid** |
+| step | what happens |
+|------|--------------|
+| collaboration | human + AI work on a problem |
+| breakthrough | insight emerges (neither would reach alone) |
+| crystallization | **human** recognizes value, encodes it |
+| new baseline | next session starts from higher ground |
 
-extensions should be **complementary**. the user should be more capable even when the extension isn't available.
+**the human role is essential.** claude can't unilaterally decide "this should become a skill." the human recognizes breakthroughs worth preserving and directs the crystallization.
+
+this is **progressive augmentation**, not dependency. each cycle leaves permanent gains. the system gets smarter. whether the human does depends on engagement.
 
 ---
 
 ## sources
 
-- clark, a., & chalmers, d. (1998). the extended mind. *analysis*, 58(1), 7-19.
-- engelbart, d. (1962). augmenting human intellect: a conceptual framework
-- hutchins, e. (1995). *cognition in the wild*. MIT press.
-- nonaka, i., & takeuchi, h. (1995). *the knowledge-creating company*. oxford university press.
-- gerlich, m. (2025). AI tools in society: impacts on cognitive offloading and critical thinking. *societies*, 15(1), 6.
+key references (full citations in [bibliography](/explore/reference/bibliography/)):
+
+- clark & chalmers (1998) — the extended mind thesis
+- blaurock et al. (2024) — five design features for collaborative intelligence
+- budzyń et al. (2025) — clinical evidence of skill decay
+- kosmyna et al. (2025) — cognitive debt in AI-assisted writing
+- gerlich (2025) — cognitive offloading and critical thinking
+- nonaka & takeuchi (1995) — SECI model, ba concept

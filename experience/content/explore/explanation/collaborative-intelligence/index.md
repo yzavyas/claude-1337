@@ -133,9 +133,19 @@ this is **progressive augmentation**, not dependency. each cycle leaves permanen
 
 ---
 
+## deeper
+
+- [extended mind thesis](extended-mind/) — theoretical foundation, three extension types
+- [ethos](/ethos/) — why this approach, the stakes
+- [research](/explore/reference/research/) — empirical foundations
+
+---
+
 ## sources
 
-- vaccaro, m., almaatouq, a., & malone, t. w. (2024). when combinations of humans and AI are useful. *nature human behaviour*.
-- METR (2025). measuring the impact of early-2025 AI on developer productivity. arXiv:2507.09089.
-- scott spence (2024). how to make claude code skills activate reliably.
-- anthropic. constitutional AI: harmlessness from AI feedback.
+key references (full citations in [bibliography](/explore/reference/bibliography/)):
+
+- vaccaro et al. (2024) — meta-analysis of human-AI collaboration
+- METR (2025) — developer productivity RCT
+- spence (2024) — skill activation study
+- anthropic — constitutional AI architecture

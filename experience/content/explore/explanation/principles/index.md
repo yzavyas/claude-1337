@@ -103,5 +103,4 @@ Together: human + extensions + AI = emergent capability neither produces alone.
 ## related
 
 - [collaborative-intelligence](/explore/explanation/collaborative-intelligence/) — extended mind research
-- [methodology](/explore/explanation/methodology/) — evidence hierarchy, first principles
-- [craftsmanship](/explore/explanation/craftsmanship/) — the guild path
+- [craftsmanship](/explore/explanation/craftsmanship/) — evidence hierarchy, first principles, the guild path

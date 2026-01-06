@@ -21,6 +21,8 @@ empirical foundations for cognitive extension design
 - [validation framework](#validation-framework)
 - [sources](#sources)
 
+**full citations**: [bibliography](/explore/reference/bibliography/)
+
 ---
 
 ## key findings at a glance
@@ -30,6 +32,10 @@ empirical foundations for cognitive extension design
 | Human-AI combos often **worse** than best alone | Vaccaro 2024 | Design for augmentation, not replacement |
 | Content creation gains, decision-making losses | Vaccaro 2024 | Skills provide frameworks, not decisions |
 | r = -0.75 correlation: AI use vs critical thinking | Gerlich 2025 | Preserve user engagement and judgment |
+| Higher AI confidence → less critical thinking (β = -0.69) | Lee CHI 2025 | Trust without engagement hollows |
+| 20% skill degradation in 3 months | Budzyń Lancet 2025 | Skill decay is rapid and measurable |
+| 83% couldn't recall their own AI-assisted writing | Kosmyna MIT 2025 | Cognitive debt accumulates immediately |
+| Individual creativity ↑, collective diversity ↓ | Doshi Science Advances 2024 | Homogenization risk at scale |
 | 84% activation with forced eval (vs 20% baseline) | Spence 2024 | Explicit prompts improve skill matching |
 
 ---
@@ -124,15 +130,24 @@ the meta-analysis reframes what skills should do:
 | over-reliance persists even when **contradicting context** | judgment override |
 | third parties affected by over-reliance | broader harm |
 
-### cognitive offloading correlation
+### cognitive offloading and skill decay
 
-from multiple 2024-2025 studies:
+multiple 2024-2025 studies document measurable effects:
 
-| metric | correlation with critical thinking |
-|--------|-----------------------------------|
-| cognitive offloading to AI | **r = -0.75** (strong negative) |
-| younger participants | more dependent, lower critical thinking |
-| higher education | mitigates negative effects |
+**[gerlich (2025)](https://www.mdpi.com/2075-4698/15/1/6)**: r = -0.75 correlation between AI use and critical thinking decline. younger participants more affected; higher education provides some mitigation.
+
+**[budzyń et al. (2025)](https://www.thelancet.com/journals/langas/article/PIIS2468-1253(25)00133-5/abstract)**: first clinical evidence of AI-induced skill decay. experienced endoscopists showed adenoma detection rate drop from 28.4% to 22.4% after 3 months of AI exposure — a 20% relative skill reduction.
+
+**[kosmyna et al. (2025)](https://arxiv.org/abs/2506.08872)**: MIT study found 83.3% of LLM users couldn't provide correct quotes from essays they had just written. brain connectivity "systematically scaled down" with AI support across attention, working memory, and language regions.
+
+**[lee et al. (2025)](https://dl.acm.org/doi/10.1145/3706598.3713778)**: CHI survey of 319 knowledge workers found higher confidence in GenAI predicted less critical thinking (β = -0.69). critical thinking shifted from "task execution to task stewardship."
+
+| metric | finding | source |
+|--------|---------|--------|
+| cognitive offloading vs critical thinking | r = -0.75 (strong negative) | Gerlich 2025 |
+| skill degradation in 3 months | 20% relative decline | Budzyń Lancet 2025 |
+| immediate recall failure | 83% couldn't quote own work | Kosmyna MIT 2025 |
+| AI confidence vs critical thinking | β = -0.69 (negative) | Lee CHI 2025 |
 
 ### explainability paradox
 
@@ -153,6 +168,20 @@ from multiple 2024-2025 studies:
 
 **resolution:** explanations help when they enable **validation**, not when they just increase **acceptance**.
 
+### metacognition and self-calibration
+
+**[fernandes et al. (2025)](https://www.sciencedirect.com/science/article/pii/S0747563225002262)**: AI assistance improved logical reasoning (~3 points on LSAT tasks) but participants overestimated performance by 4 points. higher AI literacy correlated with *worse* metacognitive accuracy. published in *computers in human behavior*.
+
+**[ma et al. (2024)](https://dl.acm.org/doi/10.1145/3613904.3642671)**: CHI study tested calibration mechanisms. "calibration status feedback" and "think the opposite" both improved self-confidence calibration. effective calibration increases cognitive load — a tradeoff.
+
+**[fan et al. (2024)](https://bera-journals.onlinelibrary.wiley.com/doi/10.1111/bjet.13544)**: British Journal of Educational Technology study found ChatGPT improved task performance but reduced metacognitive activities (orientation, planning, monitoring, evaluation). termed this "metacognitive laziness."
+
+| finding | source | implication |
+|---------|--------|-------------|
+| AI literacy → worse calibration | Fernandes 2025 | literacy education alone insufficient |
+| calibration feedback helps | Ma CHI 2024 | but increases cognitive load |
+| metacognitive laziness | Fan BJET 2024 | AI use reduces planning/monitoring behaviors |
+
 ### implications for cognitive extensions
 
 | principle | implementation |
@@ -161,6 +190,7 @@ from multiple 2024-2025 studies:
 | validation-enabling | show reasoning, not just conclusions |
 | critical engagement | prompt evaluation, not blind acceptance |
 | appropriate reliance | clear "use when" boundaries |
+| metacognitive support | provide frameworks for self-evaluation |
 
 **design principle:** skills should enable validation, not demand trust.
 

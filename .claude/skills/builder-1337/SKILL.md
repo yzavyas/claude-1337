@@ -37,8 +37,8 @@ claude-1337/
 │       ├── agents/
 │       └── commands/
 ├── experience/               # HUMAN-FACING LAYER
-│   ├── content/              # Knowledge graph (stable)
-│   ├── app/                  # Current implementation
+│   ├── content/              # Markdown source (Diataxis structure)
+│   ├── app/                  # SvelteKit app that renders content
 │   └── lab/                  # Experiments (gitignored)
 └── evals/                    # Skill activation testing
 ```
@@ -92,6 +92,69 @@ See [references/commands.md](references/commands.md)
 1. Develop in `experience/content/ethos/`
 2. Experiment in `experience/lab/` (gitignored)
 3. Graduate to `experience/app/`
+
+## Experience Layer
+
+The human-facing documentation layer. Markdown content rendered by SvelteKit.
+
+### Structure
+
+```
+experience/
+├── content/                  # Markdown source files
+│   ├── start/               # Getting started
+│   ├── ethos/               # Project motivation/philosophy
+│   └── explore/             # Main docs (Diataxis)
+│       ├── tutorials/       # Learning-oriented
+│       ├── how-to/          # Task-oriented
+│       ├── explanation/     # Understanding-oriented
+│       │   ├── collaborative-intelligence/
+│       │   │   └── extended-mind/
+│       │   ├── ecosystem/
+│       │   ├── craftsmanship/
+│       │   └── ethos/
+│       └── reference/       # Information-oriented
+│           ├── research/    # Empirical foundations
+│           └── bibliography/# Canonical citations
+├── app/                     # SvelteKit app
+│   ├── src/routes/          # File-based routing
+│   └── build/               # Static output
+└── lab/                     # Experiments (gitignored)
+```
+
+### Content → Routes Mapping
+
+Most content paths map directly to URL routes:
+- `content/ethos/index.md` → `/ethos/`
+- `content/explore/reference/research/index.md` → `/explore/reference/research/`
+
+### Dynamic Routes
+
+Some routes are dynamically generated in the app, not from markdown:
+
+| Route | Source | Why |
+|-------|--------|-----|
+| `/explore/reference/catalog/` | `marketplace.json` | Plugins self-describe; single source of truth |
+
+The catalog reads from `.claude-plugin/marketplace.json` and renders a searchable, filterable plugin list. No static markdown - adding a plugin to the marketplace automatically adds it to the catalog.
+
+### Diataxis Framework
+
+| Type | Purpose | Example |
+|------|---------|---------|
+| **tutorials** | Learning by doing | first-skill, custom-plugin |
+| **how-to** | Accomplish specific goals | (planned) |
+| **explanation** | Understanding concepts | collaborative-intelligence, extended-mind |
+| **reference** | Technical information | research, bibliography, catalog (dynamic) |
+
+### Development
+
+```bash
+cd experience/app
+bun install
+bun run dev      # localhost:5173
+bun run build    # static output to build/
+```
 
 ## Tooling
 

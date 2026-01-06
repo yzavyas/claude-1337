@@ -39,7 +39,7 @@ Enhanced collaborative intelligence requires **bidirectional learning** — both
 | **claude** | corrections, context, domain specifics | feedback during session |
 | **system** | crystallized knowledge | extensions persist, baseline improves |
 
-The principles and ethos that go into extensions built for this marketplace are documented in [ethos](/ethos) and [methodology](/explore/explanation/methodology/).
+The principles and ethos that go into extensions built for this marketplace are documented in [ethos](/ethos) and [craftsmanship](/explore/explanation/craftsmanship/).
 
 ---
 

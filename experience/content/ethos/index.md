@@ -1,6 +1,6 @@
 # ethos
 
-What we're optimizing for and why it matters.
+What we're building toward and why it matters now.
 
 ---
 
@@ -8,19 +8,97 @@ What we're optimizing for and why it matters.
 
 Extensions that make you **more capable**, not more dependent.
 
-The difference: after using a tool, you're the same. After engaging with a cognitive extension, you understand something you didn't before.
+After using a tool, you're the same. After engaging with a cognitive extension, you understand something you didn't before.
 
 ---
 
-## the risk
+## the stakes
 
-Human-AI collaboration fails by default. The research is clear:
+The foundations we establish now will compound — in either direction.
 
-- **Vaccaro et al. (2024)**: Human-AI teams perform worse than best alone (g = -0.23)
-- **Gerlich (2025)**: r = -0.75 correlation between AI use and critical thinking decline
-- **METR (2025)**: Developers 19% slower with AI, but perceived themselves 20% faster
+### the divergence dynamic
+
+The gap isn't static. It accelerates from both sides:
+
+**AI trajectory**: Capability increasing rapidly. Each generation more capable than the last.
+
+**Human trajectories** (plural — they diverge):
+
+| pattern | trajectory | outcome |
+|---------|------------|---------|
+| **complementary** | engage, learn, improve | capability accumulates |
+| **substitutive** | offload, consume, depend | capability atrophies |
+
+The research shows the slope:
+- **Lancet (2025)**: 20% skill degradation in three months of AI exposure
+- **MIT (2025)**: 83% of LLM users couldn't recall what they just wrote
+- **Gerlich (2025)**: r = -0.75 correlation between AI use and critical thinking
+
+These aren't plateau effects. They're slope indicators. And the slope steepens as dependency deepens.
+
+### the compounding problem
+
+Bad foundations compound:
+```
+substitutive patterns → atrophy → more dependency → more atrophy
+```
+
+Miscalibrated confidence masks the decline. METR (2025) found developers 19% slower with AI but perceiving themselves 20% faster. By the time you notice, the capability delta is substantial.
+
+Good foundations compound:
+```
+complementary patterns → learning → more capability → better collaboration
+```
+
+Each cycle raises the baseline. The human and the system both improve.
+
+### the urgency
+
+AI capability is increasing faster than our frameworks for using it well. The window for establishing good defaults is now — while patterns are still forming, before they calcify into expectations.
+
+---
+
+## the research
+
+Human-AI collaboration fails by default:
+
+| study | finding | implication |
+|-------|---------|-------------|
+| **Vaccaro et al. (2024)** | Human-AI teams perform worse than best alone (g = -0.23) | synergy is rare |
+| **Lee et al. (2025)** | Higher AI confidence predicts less critical thinking (β = -0.69) | trust without engagement hollows |
+| **Doshi & Hauser (2024)** | Individual creativity up 8%, collective diversity down | homogenization risk at scale |
 
 The mechanism: offload thinking → consume output → capability atrophies → can't tell it's happening.
+
+---
+
+## what determines outcome
+
+From Blaurock et al. (2024), five design features matter:
+
+| feature | effect | implication |
+|---------|--------|-------------|
+| **transparency** | strong positive | show reasoning, not just conclusions |
+| **process control** | strong positive | user shapes how |
+| **outcome control** | strong positive | user shapes what |
+| **reciprocity** | strong positive | both improve through collaboration |
+| **engagement** | weak/none | asking questions isn't enough |
+
+The key insight: transparency and control enable enhancement. Mere engagement without them doesn't.
+
+---
+
+## three extension types
+
+| type | what happens | trajectory |
+|------|--------------|------------|
+| **complementary** | human learns through collaboration | better with and without |
+| **constitutive** | enables what was impossible | new capability emerges |
+| **substitutive** | human just consumes output | capability atrophies |
+
+Constitutive is valuable — AI enabling things humans couldn't do alone. The danger is substitutive: AI doing things humans *could* do, without the human learning anything.
+
+The same extension can be either, depending on how it's designed and used.
 
 ---
 
@@ -33,17 +111,26 @@ The mechanism: offload thinking → consume output → capability atrophies → 
 | **transparent abstractions** | readable, forkable, verifiable | if you can't see it, you can't learn from it |
 | **composable architecture** | extensions build on each other | compound improvements, not reinvention |
 
+These matter. Every extension that ships without transparency, control, and reciprocity built in is a small vote for the substitutive trajectory.
+
 ---
 
 ## for builders
 
 Design for enhancement, not replacement:
 
-- Show reasoning, not just conclusions
-- Provide decision frameworks, not decisions
-- Cite sources so claims can be verified
-- Make extensions readable — someone should learn by reading them
+- **Show reasoning** — conclusions without visible thinking don't transfer
+- **Provide frameworks** — decision frameworks, not decisions
+- **Cite sources** — claims can be verified, trust can be calibrated
+- **Make it readable** — someone should learn by reading the extension
+
+The goal: after using your extension, the human should be more capable of doing similar work without it.
 
 ---
 
-[full explanation →](/explore/explanation/ethos/)
+## deeper
+
+- [extended mind thesis](/explore/explanation/collaborative-intelligence/extended-mind/) — the theoretical foundation
+- [research](/explore/reference/research/) — the empirical evidence
+- [bibliography](/explore/reference/bibliography/) — full citations
+- [design principles](/explore/explanation/principles/) — full explanation

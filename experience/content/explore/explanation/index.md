@@ -20,7 +20,7 @@ Extensions that make you better — not just faster, but more capable even when 
 
 **[ecosystem](/explore/explanation/ecosystem/)** — technical architecture. five extension modalities. how activation works.
 
-**[ethos](/explore/explanation/ethos/)** — design principles. what makes an extension enhance rather than replace capability.
+**[principles](/explore/explanation/principles/)** — design principles. what makes an extension enhance rather than replace capability.
 
 ---
 
