@@ -1,8 +1,22 @@
 # concepts
 
-how claude code's plugin system actually works
+understanding how cognitive extensions become part of thinking
 
 *for the theoretical foundations (extended mind thesis, Ba, methodology), see [ethos](ethos/)*
+
+---
+
+## why this architecture?
+
+Extensions need to feel like part of cognition, not tools you pick up. This requires:
+
+- **Low friction** - descriptions load at startup, content loads on-demand
+- **Contextual activation** - Claude evaluates relevance, not regex matching
+- **Composability** - five modalities that extend different capabilities
+
+The architecture below implements these principles.
+
+---
 
 ## marketplace
 

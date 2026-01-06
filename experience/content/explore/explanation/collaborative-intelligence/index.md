@@ -6,8 +6,6 @@ the umbrella concept for human-AI cognitive partnership.
 
 ## why motivation beats mandate
 
-## the pattern
-
 after testing prompts, hooks, and extensions — and studying what anthropic recommends:
 
 | approach | result |

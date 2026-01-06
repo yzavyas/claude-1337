@@ -4,7 +4,7 @@
 
 ---
 
-## ⚡ TL;DR (30 seconds)
+## TL;DR (30 seconds)
 
 **The 3-layer model:**
 
@@ -26,7 +26,7 @@ User asks → Claude evaluates <available_skills> → Matches description → Ac
 ```
 
 <details>
-<summary><strong>📖 Expand for 5-minute explanation</strong></summary>
+<summary><strong>Expand for 5-minute explanation</strong></summary>
 
 ---
 
@@ -90,7 +90,7 @@ Skills use a two-tier structure:
 </details>
 
 <details>
-<summary><strong>📚 Expand for complete reference</strong></summary>
+<summary><strong>Expand for complete reference</strong></summary>
 
 ---
 

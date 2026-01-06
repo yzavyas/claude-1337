@@ -4,6 +4,14 @@ understanding the foundations of cognitive extension
 
 ---
 
+## goal
+
+Engineering excellence through effective collaborative intelligence.
+
+Extensions that make you better - not just faster, but more capable even when the extension isn't available.
+
+---
+
 ## the ideas
 
 **collaborative intelligence** — human-AI cognitive partnership. why motivation beats mandate. the extended mind thesis. knowledge crystallization.
@@ -12,6 +20,8 @@ understanding the foundations of cognitive extension
 
 **ecosystem** — the technical architecture. five extension modalities. activation, architecture, extensibility.
 
+**ethos** — design principles for cognitive extension. what makes extensions work.
+
 ---
 
 ## core insight
@@ -19,7 +29,7 @@ understanding the foundations of cognitive extension
 > if a process in the world functions as a cognitive process, it *is* a cognitive process — regardless of whether it happens inside or outside the skull.
 > — Clark & Chalmers, 1998
 
-claude-1337 plugins aren't tools you pick up and put down. they're extensions that become part of how the human-AI system thinks.
+These plugins aren't tools you pick up and put down. They're extensions that become part of how the human-AI system thinks.
 
 ---
 
@@ -30,4 +40,4 @@ claude-1337 plugins aren't tools you pick up and put down. they're extensions th
 | commands (MUST, MANDATORY) | compliance, brittleness |
 | motivation (here's why) | understanding, appropriate judgment |
 
-claude is constitutional AI — trained with values and principles, not rigid rules. the architecture is built for judgment, not compliance.
+Claude is constitutional AI — trained with values and principles, not rigid rules. The architecture is built for judgment, not compliance.

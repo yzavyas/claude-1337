@@ -4,6 +4,17 @@ empirical foundations for cognitive extension design
 
 ---
 
+## key findings at a glance
+
+| finding | source | implication |
+|---------|--------|-------------|
+| Human-AI combos often **worse** than best alone | Vaccaro 2024 | Design for augmentation, not replacement |
+| Content creation gains, decision-making losses | Vaccaro 2024 | Skills provide frameworks, not decisions |
+| r = -0.75 correlation: AI use vs critical thinking | Gerlich 2025 | Preserve user engagement and judgment |
+| 84% activation with forced eval (vs 20% baseline) | Spence 2024 | Explicit prompts improve skill matching |
+
+---
+
 ## human-AI collaboration: what the research says
 
 ### the meta-analysis (flagship study)
