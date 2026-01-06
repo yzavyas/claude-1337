@@ -81,6 +81,25 @@ The test: could a smart 12-year-old follow this?
 | "Obviously" / "Simply" | Alienates anyone who doesn't find it obvious |
 | Explaining everything | Buries the point — link for depth |
 
+## AI Writing Tell-Tales
+
+LLM text has statistical signatures. Readers pattern-match "AI slop" and disengage. If teaching requires trust, tell-tales undermine the goal before content is read.
+
+| pattern | why it fails |
+|---------|--------------|
+| delve, leverage, utilize, robust | overused 25x post-ChatGPT, signals AI |
+| excessive bold | emphasis should be rare and meaningful |
+| uniform paragraph length | human writing varies naturally |
+| rule-of-three abuse | "fast, reliable, and efficient" everywhere |
+| generic openings | "In today's fast-paced world..." |
+| excessive hedging | "It may be worth considering..." |
+
+The core problem is uniformity. Human writers show range. AI sounds like anyone—or no one.
+
+The fix: specifics over adjectives, direct statements, natural rhythm, your voice.
+
+Full checklist: [references/ai-writing-antipatterns.md](references/ai-writing-antipatterns.md)
+
 ## Simplicity Principles
 
 From Google's Developer Documentation Style Guide:
@@ -111,3 +130,4 @@ The agent applies: Understand → Simplify → Teach → Refine
 - Procida, D. [Diataxis Framework](https://diataxis.fr). Django documentation exemplar.
 - Google. [Developer Documentation Style Guide](https://developers.google.com/style).
 - Feynman, R. Teaching methodology from Feynman Lectures on Physics.
+- Wikipedia. [Signs of AI Writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). AI tell-tales guide.
