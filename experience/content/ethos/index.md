@@ -6,9 +6,9 @@ What we're building toward and why it matters now.
 
 ## the goal
 
-Extensions that make you **more capable**, not more dependent.
+Extensions that make the collaboration **more capable** — human, AI, and system together.
 
-After using a tool, you're the same. After engaging with a cognitive extension, you understand something you didn't before.
+After using a tool, nothing changes. After engaging with a cognitive extension, both collaborators understand something they didn't before. The human learns patterns and reasoning. Claude gains context and corrections. The system crystallizes knowledge for future sessions.
 
 ---
 
@@ -52,9 +52,9 @@ complementary patterns → learning → more capability → better collaboration
 
 Each cycle raises the baseline. The human and the system both improve.
 
-### the urgency
+### why now
 
-AI capability is increasing faster than our frameworks for using it well. The window for establishing good defaults is now — while patterns are still forming, before they calcify into expectations.
+AI capability is increasing faster than our frameworks for using it well. Patterns established now become defaults. Good patterns compound toward enhancement. Bad patterns compound toward dependency.
 
 ---
 
@@ -117,14 +117,14 @@ These matter. Every extension that ships without transparency, control, and reci
 
 ## for builders
 
-Design for enhancement, not replacement:
+Design for mutual enhancement:
 
-- **Show reasoning** — conclusions without visible thinking don't transfer
+- **Show reasoning** — visible thinking transfers to both collaborators
 - **Provide frameworks** — decision frameworks, not decisions
 - **Cite sources** — claims can be verified, trust can be calibrated
-- **Make it readable** — someone should learn by reading the extension
+- **Make it readable** — both human and Claude learn by reading the extension
 
-The goal: after using your extension, the human should be more capable of doing similar work without it.
+The goal: after using your extension, the collaboration is more capable. The human understands more. Claude has better context. The system has crystallized knowledge for next time.
 
 ---
 

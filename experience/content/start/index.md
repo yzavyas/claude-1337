@@ -51,7 +51,7 @@ collaboration → breakthrough → crystallization → improved baseline
 
 When you figure something out with Claude, write it down. The file persists. Next session starts from that baseline. Corrections flow through too — the system gets more accurate, not just bigger.
 
-The codebase gets smarter. Whether you do depends on whether you **engage** with the knowledge or just consume the output.
+The system gets smarter. Both collaborators benefit when they **engage** with the knowledge rather than just consume output.
 
 This is the design choice: extensions are readable. You can see how they work, learn from them, fork them, validate claims before trusting them. Kaizen — continuous improvement through small, iterative cycles.
 
