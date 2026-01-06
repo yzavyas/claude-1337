@@ -50,7 +50,7 @@ Good foundations compound:
 complementary patterns → learning → more capability → better collaboration
 ```
 
-Each cycle raises the baseline. The human and the system both improve.
+Each cycle raises the baseline. Both parties and the system improve.
 
 ### why now
 
@@ -106,7 +106,7 @@ The same extension can be either, depending on how it's designed and used.
 
 | principle | what it means | why it matters |
 |-----------|---------------|----------------|
-| **collaborative agency** | both human and AI retain judgment | compliance is brittle; understanding scales |
+| **collaborative agency** | both parties retain judgment | compliance is brittle; understanding scales |
 | **bidirectional learning** | both develop through collaboration | you grow, not just the system |
 | **transparent abstractions** | readable, forkable, verifiable | if you can't see it, you can't learn from it |
 | **composable architecture** | extensions build on each other | compound improvements, not reinvention |
@@ -122,9 +122,9 @@ Design for mutual enhancement:
 - **Show reasoning** — visible thinking transfers to both collaborators
 - **Provide frameworks** — decision frameworks, not decisions
 - **Cite sources** — claims can be verified, trust can be calibrated
-- **Make it readable** — both human and Claude learn by reading the extension
+- **Make it readable** — readable extensions make learning available to both parties
 
-The goal: after using your extension, the collaboration is more capable. The human understands more. Claude has better context. The system has crystallized knowledge for next time.
+The goal: after using your extension, the collaboration is more capable. One party gains context directly. The other can learn if they engage. The system crystallizes knowledge for next time.
 
 ---
 
