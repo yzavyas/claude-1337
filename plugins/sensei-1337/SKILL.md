@@ -7,6 +7,21 @@ description: "Documentation and teaching methodology. Diataxis, Feynman techniqu
 
 Make the complex simple. Teach, don't just inform.
 
+## Scope
+
+This skill is for human-facing documentation. Different audiences need different approaches:
+
+| content | audience | apply sensei? |
+|---------|----------|---------------|
+| `experience/content/explore/` | humans | yes - full methodology |
+| `README.md`, `CONTRIBUTING.md` | humans | yes |
+| `plugins/*/SKILL.md` | Claude | no - different concerns |
+| `agents/*.md` | Claude | no |
+
+For SKILL.md files (Claude-facing), consistent structure helps parsing. Repetition isn't a problem. AI tell-tales don't apply - Claude doesn't pattern-match "AI slop."
+
+For human docs, everything in this skill applies: F-pattern, cognitive load, Diataxis, AI tell-tales, Feynman test.
+
 ## How People Read
 
 People don't read — they scan. Nielsen Norman Group tracked 232 users across thousands of pages and found the F-pattern: eyes sweep left-to-right at the top, then down the left edge.
@@ -115,13 +130,36 @@ Source: [Google Developer Documentation Style Guide](https://developers.google.c
 
 ## Agent: feynman
 
-For autonomous documentation work:
+For autonomous documentation work on human-facing docs.
 
 ```
-Task(subagent_type="sensei-1337:feynman", prompt="Write docs for...")
+Task(subagent_type="sensei-1337:feynman", prompt="Evaluate/write docs for...")
 ```
 
-The agent applies: Understand → Simplify → Teach → Refine
+The agent should:
+
+1. **Understand project context first**
+   - Read `scratch/project-understanding-*.md` (most recent)
+   - Understand: engineering excellence through effective collaborative intelligence
+   - Know the audience distinction (human docs vs Claude-facing SKILL.md)
+
+2. **Focus on `experience/content/explore/`**
+   - This is the human documentation layer
+   - Apply full sensei methodology here
+   - Check AI tell-tales, Diataxis, cognitive load, F-pattern
+
+3. **Be thorough**
+   - Read files completely before evaluating
+   - Cite specific lines/sections
+   - Provide concrete fixes, not vague suggestions
+
+4. **Evaluation output format**
+   - Summary (2-3 sentences)
+   - Specific issues table: file | issue | location | fix
+   - Patterns (recurring problems)
+   - Prioritized recommendations
+
+Do NOT apply AI tell-tale checks to SKILL.md files - those are for Claude, not humans.
 
 ## Sources
 
