@@ -1,26 +1,26 @@
 # explanation
 
-understanding the foundations of cognitive extension
+Understanding why cognitive extensions work and how to build them well.
 
 ---
 
-## goal
+## what we're building toward
 
 Engineering excellence through effective collaborative intelligence.
 
-Extensions that make you better - not just faster, but more capable even when the extension isn't available.
+Extensions that make you better — not just faster, but more capable even when the extension isn't available.
 
 ---
 
-## the ideas
+## topics
 
-**collaborative intelligence** — human-AI cognitive partnership. why motivation beats mandate. the extended mind thesis. knowledge crystallization.
+**[collaborative intelligence](/explore/explanation/collaborative-intelligence/)** — the research. why motivation beats mandate. extended mind thesis. evidence for what works.
 
-**craftsmanship** — software development as a literal craft. the guild path. standing on giants' shoulders.
+**[craftsmanship](/explore/explanation/craftsmanship/)** — software development as craft. evidence hierarchies. first principles + giants' shoulders.
 
-**ecosystem** — the technical architecture. five extension modalities. activation, architecture, extensibility.
+**[ecosystem](/explore/explanation/ecosystem/)** — technical architecture. five extension modalities. how activation works.
 
-**ethos** — design principles for cognitive extension. what makes extensions work.
+**[ethos](/explore/explanation/ethos/)** — design principles. what makes an extension enhance rather than replace capability.
 
 ---
 

@@ -1,20 +1,20 @@
-# extend cognition
+# design principles
 
-principles for cognitive extensions
+What makes extensions enhance capability rather than create dependency.
 
 ---
 
-## why this matters
+## the distinction
 
 Most AI tools are just tools. You use them, put them down, and you're no different.
 
-Cognitive extensions are different. They become part of how you think. When done right, you're more capable even when the extension isn't available.
+Cognitive extensions are different. They become part of how you think. Done right, you're more capable even when the extension isn't available.
 
-This is the goal: engineering excellence through effective collaborative intelligence.
+The goal: engineering excellence through effective collaborative intelligence.
 
 ---
 
-## the thesis
+## extended mind thesis
 
 Extensions expand cognitive capability — they become part of how the human-AI system thinks together.
 

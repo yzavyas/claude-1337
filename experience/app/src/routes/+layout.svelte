@@ -125,61 +125,61 @@
 		--radius-lg: 8px;
 	}
 
-	/* Dark theme (default) */
+	/* Dark theme (default) — Midnight Terminal */
 	:global(:root),
 	:global([data-theme="dark"]) {
-		--bg-primary: #0a0a0b;
-		--bg-secondary: #111113;
-		--bg-surface: #161618;
-		--bg-elevated: #1c1c1f;
+		--bg-primary: #0a0c12;
+		--bg-secondary: #0f1218;
+		--bg-surface: #151921;
+		--bg-elevated: #1a1f2a;
 
-		--border-subtle: #232326;
-		--border-default: #2a2a2e;
-		--border-strong: #3a3a3f;
+		--border-subtle: #1e2430;
+		--border-default: #2a3242;
+		--border-strong: #3a4458;
 
-		--text-primary: #e8e8e6;
-		--text-secondary: #a0a0a0;
-		--text-muted: #6a6a6a;
+		--text-primary: #e4e8ef;
+		--text-secondary: #94a3b8;
+		--text-muted: #64748b;
 
-		--accent: #e5a034;
-		--accent-hover: #f0b050;
-		--accent-muted: rgba(229, 160, 52, 0.15);
+		--accent: #5eead4;
+		--accent-hover: #99f6e4;
+		--accent-muted: rgba(94, 234, 212, 0.12);
 
-		--link: #6cb6ff;
-		--link-hover: #8fc9ff;
+		--link: #5eead4;
+		--link-hover: #99f6e4;
 
-		--code-bg: #1a1a1c;
-		--code-text: #e0e0e0;
+		--code-bg: #111520;
+		--code-text: #c8d5e6;
 
 		--success: #4ade80;
 		--warning: #fbbf24;
 		--error: #f87171;
 	}
 
-	/* Light theme */
+	/* Light theme — Midnight Terminal (light mode) */
 	:global([data-theme="light"]) {
-		--bg-primary: #fafafa;
-		--bg-secondary: #f5f5f5;
+		--bg-primary: #f8fafc;
+		--bg-secondary: #f1f5f9;
 		--bg-surface: #ffffff;
 		--bg-elevated: #ffffff;
 
-		--border-subtle: #e8e8e8;
-		--border-default: #e0e0e0;
-		--border-strong: #d0d0d0;
+		--border-subtle: #e2e8f0;
+		--border-default: #cbd5e1;
+		--border-strong: #94a3b8;
 
-		--text-primary: #1a1a1a;
-		--text-secondary: #525252;
-		--text-muted: #8a8a8a;
+		--text-primary: #0f172a;
+		--text-secondary: #475569;
+		--text-muted: #94a3b8;
 
-		--accent: #c47f17;
-		--accent-hover: #a66a0f;
-		--accent-muted: rgba(196, 127, 23, 0.1);
+		--accent: #0d9488;
+		--accent-hover: #0f766e;
+		--accent-muted: rgba(13, 148, 136, 0.1);
 
-		--link: #0066cc;
-		--link-hover: #0052a3;
+		--link: #0d9488;
+		--link-hover: #0f766e;
 
-		--code-bg: #f0f0f0;
-		--code-text: #1a1a1a;
+		--code-bg: #f1f5f9;
+		--code-text: #1e293b;
 
 		--success: #16a34a;
 		--warning: #ca8a04;
@@ -593,7 +593,7 @@
 	.orb-1 {
 		width: 600px;
 		height: 600px;
-		background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+		background: radial-gradient(circle, #2dd4bf 0%, transparent 70%);
 		top: -200px;
 		right: -200px;
 		animation-delay: 0s;
@@ -602,7 +602,7 @@
 	.orb-2 {
 		width: 500px;
 		height: 500px;
-		background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+		background: radial-gradient(circle, #818cf8 0%, transparent 70%);
 		bottom: -150px;
 		left: -150px;
 		animation-delay: -10s;
@@ -652,10 +652,10 @@
 	}
 
 	:global([data-theme="light"]) .orb-1 {
-		background: radial-gradient(circle, #f59e0b 0%, transparent 70%);
+		background: radial-gradient(circle, #14b8a6 0%, transparent 70%);
 	}
 
 	:global([data-theme="light"]) .orb-2 {
-		background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+		background: radial-gradient(circle, #6366f1 0%, transparent 70%);
 	}
 </style>

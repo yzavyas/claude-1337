@@ -68,10 +68,7 @@ This is the design choice: extensions are readable. You can see how they work, l
 
 ---
 
-## go deeper
+## learn more
 
-- [ethos](/ethos) — the philosophical foundation
-- [explanation](/explore/explanation) — extended mind thesis, collaborative intelligence
-- [reference](/explore/reference) — plugin docs, research citations
-
-trouble? see [how-to](/explore/how-to).
+- [ethos](/ethos) — why this approach
+- [explore](/explore/) — documentation, tutorials, reference

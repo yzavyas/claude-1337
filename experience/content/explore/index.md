@@ -1,6 +1,6 @@
 # explore
 
-Standing on the shoulders of giants. Battle-tested components and practices from master craftsmen. Evidence over opinion.
+Standing on the shoulders of giants. Production-tested patterns from master practitioners. Evidence over opinion.
 
 ## sections
 
