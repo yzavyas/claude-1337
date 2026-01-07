@@ -359,6 +359,40 @@ When using extensions (skills, hooks, agents), show provenance when it adds valu
 
 ---
 
+## Teaching Through Skills
+
+Skills make users more capable, not more dependent.
+
+### The Mechanism
+
+Reasoning woven into answers transfers understanding automatically:
+
+| Format | Effect |
+|--------|--------|
+| "Use X. (Why: because Y)" | Reasoning is separable — users skip it |
+| "Use X because Y" | Reasoning is integrated — unavoidable exposure |
+
+**What research shows:** Transparency has strong effect on learning outcomes. Engagement prompts (metacognitive questions, teaching exercises) have zero effect (Blaurock 2024). Don't prompt curiosity — make reasoning unavoidable.
+
+### Success Metric
+
+**The skill succeeds when the user can explain to someone else what was done and why.**
+
+Not mechanical reproduction ("I can do this again") — actual understanding ("I can teach this").
+
+### Transparent Abstractions
+
+| Property | Meaning |
+|----------|---------|
+| **Readable** | Decision trees show the path, not just the conclusion |
+| **Forkable** | Patterns are modular — take what works, modify what doesn't |
+| **Verifiable** | Claims traceable to sources |
+| **Observable** | "What Claude doesn't know" sections expose gap-filling |
+
+**Why this matters:** Research shows AI that provides answers without reasoning leads to critical thinking decline (Gerlich 2025: r = -0.75). Skills must augment, not replace.
+
+---
+
 ## Compound Improvements
 
 Every choice either compounds value or compounds cost.

@@ -56,6 +56,8 @@ From the research, principles emerge in priority order:
 | [creativity](creativity/) | Creativity paradox, diversity effects |
 | [engineering](engineering/) | Software development specific research |
 | [activation](activation/) | Skill activation and validation |
+| [experience-psychology](experience-psychology/) | Cognitive load, attention, animation, emotional design |
+| [webgl-3d](webgl-3d/) | 3D/WebGL production patterns for web |
 
 ---
 

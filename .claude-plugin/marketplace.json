@@ -198,6 +198,42 @@
         "./"
       ],
       "components": ["skills"]
+    },
+    {
+      "name": "experience-1337",
+      "source": "./plugins/experience-1337",
+      "description": "Frontend experience engineering. Use when: animations, 3D/WebGL, scrollytelling, data visualization, typography, color systems, design patterns. Covers Motion, GSAP, Three.js, R3F, Threlte, D3, OKLCH, fluid type.",
+      "version": "1.0.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "frontend",
+        "animation",
+        "3d",
+        "webgl",
+        "scrollytelling",
+        "gsap",
+        "motion",
+        "three.js",
+        "r3f",
+        "threlte",
+        "d3",
+        "typography",
+        "color",
+        "design-systems",
+        "experience"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ],
+      "components": ["skills"]
     }
   ]
 }
