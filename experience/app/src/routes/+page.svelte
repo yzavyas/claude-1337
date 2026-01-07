@@ -63,10 +63,16 @@
 	</div>
 
 	<div class="hero-install">
-		<code class="install-cmd">
-			<span class="cmd-prompt">$</span>
-			<span class="cmd-text">/plugin marketplace add yzavyas/claude-1337</span>
-		</code>
+		<div class="install-block">
+			<code class="install-cmd" onclick="navigator.clipboard.writeText('/plugin marketplace add yzavyas/claude-1337')">
+				<span class="cmd-text">/plugin marketplace add yzavyas/claude-1337</span>
+				<span class="copy-hint">click to copy</span>
+			</code>
+			<code class="install-cmd" onclick="navigator.clipboard.writeText('/plugin install core-1337@claude-1337')">
+				<span class="cmd-text">/plugin install core-1337@claude-1337</span>
+				<span class="copy-hint">click to copy</span>
+			</code>
+		</div>
 	</div>
 </section>
 
@@ -287,10 +293,17 @@
 		justify-content: center;
 	}
 
-	.install-cmd {
-		display: inline-flex;
-		align-items: center;
+	.install-block {
+		display: flex;
+		flex-direction: column;
 		gap: var(--space-sm);
+	}
+
+	.install-cmd {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-md);
 		padding: var(--space-sm) var(--space-md);
 		background: var(--bg-elevated);
 		border: 1px solid var(--border-subtle);
@@ -299,6 +312,7 @@
 		font-size: 0.85rem;
 		transition: all var(--transition-fast);
 		cursor: pointer;
+		user-select: all;
 	}
 
 	.install-cmd:hover {
@@ -306,8 +320,19 @@
 		background: var(--bg-surface);
 	}
 
-	.cmd-prompt {
-		color: var(--accent);
+	.install-cmd:active {
+		transform: scale(0.98);
+	}
+
+	.copy-hint {
+		font-size: 0.7rem;
+		color: var(--text-muted);
+		opacity: 0;
+		transition: opacity var(--transition-fast);
+	}
+
+	.install-cmd:hover .copy-hint {
+		opacity: 1;
 	}
 
 	.cmd-text {
