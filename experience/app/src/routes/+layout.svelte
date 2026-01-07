@@ -89,11 +89,12 @@
 	</footer>
 </div>
 
-<!-- Background effects -->
+<!-- Background effects - GiTS Cyberpunk -->
 <div class="bg-effects" aria-hidden="true">
 	<div class="gradient-orb orb-1"></div>
 	<div class="gradient-orb orb-2"></div>
 	<div class="grid-overlay"></div>
+	<div class="scanlines"></div>
 	<div class="noise-overlay"></div>
 </div>
 
@@ -126,31 +127,32 @@
 		--radius-lg: 8px;
 	}
 
-	/* Dark theme (default) */
+	/* Dark theme (default) - GiTS Cyberpunk */
 	:global(:root),
 	:global([data-theme="dark"]) {
-		--bg-primary: #0a0a0b;
-		--bg-secondary: #111113;
-		--bg-surface: #161618;
-		--bg-elevated: #1c1c1f;
+		--bg-primary: #0a0f14;
+		--bg-secondary: #0d1419;
+		--bg-surface: #111820;
+		--bg-elevated: #151d26;
 
-		--border-subtle: #232326;
-		--border-default: #2a2a2e;
-		--border-strong: #3a3a3f;
+		--border-subtle: #1a2530;
+		--border-default: #223040;
+		--border-strong: #2a3a4d;
 
-		--text-primary: #e8e8e6;
-		--text-secondary: #a0a0a0;
-		--text-muted: #6a6a6a;
+		--text-primary: #e0f2fe;
+		--text-secondary: #7dd3fc;
+		--text-muted: #38bdf8;
 
-		--accent: #5eead4;
-		--accent-hover: #99f6e4;
-		--accent-muted: rgba(94, 234, 212, 0.12);
+		--accent: #22d3ee;
+		--accent-hover: #67e8f9;
+		--accent-muted: rgba(34, 211, 238, 0.12);
+		--accent-glow: rgba(34, 211, 238, 0.4);
 
-		--link: #6cb6ff;
-		--link-hover: #8fc9ff;
+		--link: #22d3ee;
+		--link-hover: #67e8f9;
 
-		--code-bg: #1a1a1c;
-		--code-text: #e0e0e0;
+		--code-bg: #0a0f14;
+		--code-text: #7dd3fc;
 
 		--success: #4ade80;
 		--warning: #f97316;
@@ -630,10 +632,25 @@
 		background-image:
 			linear-gradient(var(--border-subtle) 1px, transparent 1px),
 			linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
-		background-size: 60px 60px;
-		opacity: 0.3;
-		mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
-		-webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+		background-size: 40px 40px;
+		opacity: 0.35;
+		mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 70%);
+		-webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 70%);
+	}
+
+	/* CRT scanline effect */
+	.scanlines {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: repeating-linear-gradient(
+			0deg,
+			transparent 0px,
+			transparent 2px,
+			rgba(0, 0, 0, 0.1) 2px,
+			rgba(0, 0, 0, 0.1) 4px
+		);
+		opacity: 0.12;
 	}
 
 	.noise-overlay {
