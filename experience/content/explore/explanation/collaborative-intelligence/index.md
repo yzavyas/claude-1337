@@ -1,6 +1,6 @@
 # collaborative intelligence
 
-the umbrella concept for human-AI cognitive partnership.
+When AI assists humans, three things can happen: humans get better, humans get worse, or nothing changes. This page is about designing for the first outcome.
 
 ---
 
@@ -137,7 +137,7 @@ this is **progressive augmentation** — capability that compounds over time rat
 ## deeper
 
 - [extended mind thesis](extended-mind/) — theoretical foundation, three extension types
-- [ethos](/ethos/) — why this approach, the motivation
+- [ethos](../ethos/) — why this approach, the motivation
 - [research](/explore/reference/research/) — empirical foundations
 
 ---

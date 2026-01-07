@@ -1,6 +1,6 @@
 # research
 
-Empirical foundations for cognitive extension design.
+What does research actually say about human-AI collaboration? The findings shape everything we build here.
 
 ---
 
@@ -49,15 +49,15 @@ From the research, principles emerge in priority order:
 
 ## topic deep dives
 
-| topic | what it covers |
-|-------|---------------|
-| [collaboration](collaboration/) | Human-AI performance meta-analysis |
-| [cognition](cognition/) | Cognitive offloading, trust, metacognition |
-| [creativity](creativity/) | Creativity paradox, diversity effects |
-| [engineering](engineering/) | Software development specific research |
-| [activation](activation/) | Skill activation and validation |
-| [experience-psychology](experience-psychology/) | Cognitive load, attention, animation, emotional design |
-| [webgl-3d](webgl-3d/) | 3D/WebGL production patterns for web |
+| topic | question it answers |
+|-------|---------------------|
+| [collaboration](collaboration/) | When does collaboration help vs hurt? |
+| [cognition](cognition/) | How do humans think with AI? |
+| [creativity](creativity/) | Does AI make individuals more creative and groups less? |
+| [engineering](engineering/) | What works specifically for developers? |
+| [activation](activation/) | How do skills get triggered reliably? |
+| [experience-psychology](experience-psychology/) | What makes interfaces feel right? |
+| [webgl-3d](webgl-3d/) | How to build 3D for the web? |
 
 ---
 

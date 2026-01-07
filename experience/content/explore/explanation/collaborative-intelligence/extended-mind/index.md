@@ -1,6 +1,6 @@
 # extended mind
 
-the theoretical foundation for cognitive extension
+Your phone remembers phone numbers so you don't have to. Is that memory yours? The answer shapes how we think about AI collaboration.
 
 ---
 
@@ -12,7 +12,7 @@ clark & chalmers (1998) proposed:
 
 their example: Otto has Alzheimer's and uses a notebook to remember things. Inga uses biological memory. if we'd call Inga's process "remembering," we should call Otto's process "remembering" too — even though Otto's memory lives in a notebook.
 
-**the parity principle**: if it were done in the head, we'd call it cognition. when external but functionally equivalent, it's cognitive extension.
+**the parity principle**: if it works like thinking, it is thinking — even if it happens outside your brain.
 
 ---
 
@@ -23,7 +23,7 @@ their example: Otto has Alzheimer's and uses a notebook to remember things. Inga
 | you invoke them | they're part of thinking |
 | external to cognition | integrated into cognition |
 | "use this when needed" | "this is how I approach problems now" |
-| pick up, put down | cognitive coupling |
+| pick up, put down | becomes part of how you think |
 
 a calculator is a tool. but when you can't remember phone numbers because your phone does, that's cognitive extension — the boundary between "you" and "your tools" has blurred.
 
@@ -33,12 +33,18 @@ a calculator is a tool. but when you can't remember phone numbers because your p
 
 the human-AI system becomes a **composite cognitive system**:
 
-```
-Human Agent ←→ Cognitive Extensions ←→ AI Agent
-                      ↓
-          Composite Cognitive System
-                      ↓
-             Emergent Capability
+```mermaid
+flowchart TB
+    H[Human] <--> E[Extensions]
+    E <--> A[AI]
+
+    subgraph C[Composite Cognitive System]
+        H
+        E
+        A
+    end
+
+    C --> Cap[Emergent Capability]
 ```
 
 plugins extend the capabilities of this composite system:
@@ -130,7 +136,7 @@ these aren't one-time effects. they're trajectories. the slope steepens with con
 
 ## ba: shared context space
 
-from nonaka's SECI model, **ba** is the shared context where knowledge creation happens.
+**Ba** (Japanese, pronounced "bah") is the shared context where knowledge creation happens. From Nonaka's SECI model of organizational learning.
 
 three types of ba in claude-1337:
 
@@ -162,7 +168,7 @@ when you write a SKILL.md, you're externalizing tacit knowledge into a form that
 
 ## the kaizen loop
 
-Extensions aren't static. The collaboration → breakthrough → crystallization cycle means the system improves with use. The human role is essential: recognizing what's worth preserving.
+**Kaizen** (Japanese: continuous improvement) — extensions aren't static. The collaboration → breakthrough → crystallization cycle means the system improves with use. The human role is essential: recognizing what's worth preserving.
 
 See [knowledge crystallization](/explore/explanation/collaborative-intelligence/#knowledge-crystallization) for the full pattern.
 

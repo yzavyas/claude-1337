@@ -90,10 +90,20 @@ export function buildNavItems(section: string, baseUrl: string): NavItem[] {
     });
   }
 
-  // Sort alphabetically, but put 'index' first if present
+  // Sort with priority items first, then alphabetically
+  const priority = ['ethos', 'motivation', 'collaborative-intelligence', 'principles'];
   return items.sort((a, b) => {
     if (a.label === 'index') return -1;
     if (b.label === 'index') return 1;
+    const aPriority = priority.indexOf(a.label);
+    const bPriority = priority.indexOf(b.label);
+    // Both have priority: sort by priority order
+    if (aPriority !== -1 && bPriority !== -1) return aPriority - bPriority;
+    // Only a has priority: a comes first
+    if (aPriority !== -1) return -1;
+    // Only b has priority: b comes first
+    if (bPriority !== -1) return 1;
+    // Neither: alphabetical
     return a.label.localeCompare(b.label);
   });
 }
