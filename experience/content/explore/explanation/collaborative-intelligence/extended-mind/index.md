@@ -31,31 +31,19 @@ a calculator is a tool. but when you can't remember phone numbers because your p
 
 ## applied to AI collaboration
 
-the human-AI system becomes a **composite cognitive system**:
+The human-AI system becomes a **composite cognitive system** — human, AI, and the extensions that connect them, functioning as a unified cognitive whole.
 
-```mermaid
-flowchart TB
-    H[Human] <--> E[Extensions]
-    E <--> A[AI]
+In claude-1337, extensions take several forms:
 
-    subgraph C[Composite Cognitive System]
-        H
-        E
-        A
-    end
+| extension type | what it provides |
+|----------------|------------------|
+| **skills** | knowledge and decision frameworks that load into context |
+| **commands** | shortcuts for common workflows |
+| **agents** | specialized reasoning for complex tasks |
+| **hooks** | automatic context injection at key moments |
+| **mcp** | connections to external systems and data |
 
-    C --> Cap[Emergent Capability]
-```
-
-plugins extend the capabilities of this composite system:
-
-| component | what it extends |
-|-----------|-----------------|
-| skills | knowledge, decision frameworks |
-| commands | workflow efficiency |
-| agents | specialized reasoning |
-| hooks | context injection |
-| mcp | reach to external systems |
+Each extends what the composite system can do — not as external tools, but as integrated parts of how it thinks.
 
 ---
 
