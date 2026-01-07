@@ -116,15 +116,21 @@ non-activation isn't failure — it can represent appropriate judgment about rel
 
 human-AI collaboration produces a specific pattern:
 
-```
-collaboration → breakthrough → crystallization → new baseline
+```mermaid
+flowchart LR
+    A[collaborate] --> B[breakthrough]
+    B --> C[crystallize]
+    C --> D[new baseline]
+    D --> A
+
+    style C fill:#0d9488,color:#fff
 ```
 
 | step | what happens |
 |------|--------------|
-| collaboration | human + AI work on a problem |
+| collaborate | human + AI work on a problem |
 | breakthrough | insight emerges (neither would reach alone) |
-| crystallization | **human** recognizes value, directs encoding into persistent form |
+| **crystallize** | human recognizes value, directs encoding into persistent form |
 | new baseline | next session starts from higher ground |
 
 **the human role is essential.** claude can't unilaterally decide "this should become a skill." the human recognizes breakthroughs worth preserving and directs the crystallization.

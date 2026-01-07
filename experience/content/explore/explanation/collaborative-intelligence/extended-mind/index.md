@@ -162,20 +162,9 @@ when you write a SKILL.md, you're externalizing tacit knowledge into a form that
 
 ## the kaizen loop
 
-```
-collaboration → breakthrough → crystallization → new baseline
-```
+Extensions aren't static. The collaboration → breakthrough → crystallization cycle means the system improves with use. The human role is essential: recognizing what's worth preserving.
 
-| step | what happens |
-|------|--------------|
-| collaboration | human + AI work on a problem |
-| breakthrough | insight emerges (neither would reach alone) |
-| crystallization | **human** recognizes value, encodes it |
-| new baseline | next session starts from higher ground |
-
-**the human role is essential.** claude can't unilaterally decide "this should become a skill." the human recognizes breakthroughs worth preserving and directs the crystallization.
-
-this is **progressive augmentation**, not dependency. each cycle leaves permanent gains. the system gets smarter. whether the human does depends on engagement.
+See [knowledge crystallization](/explore/explanation/collaborative-intelligence/#knowledge-crystallization) for the full pattern.
 
 ---
 

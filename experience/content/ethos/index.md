@@ -38,19 +38,32 @@ These aren't plateau effects. They're slope indicators. And the slope steepens a
 
 ### the compounding problem
 
-Bad foundations compound:
-```
-substitutive patterns → atrophy → more dependency → more atrophy
+```mermaid
+flowchart LR
+    subgraph sub[substitutive trajectory]
+        direction LR
+        S1[offload] --> S2[atrophy]
+        S2 --> S3[depend more]
+        S3 --> S1
+    end
+
+    subgraph comp[complementary trajectory]
+        direction LR
+        C1[engage] --> C2[learn]
+        C2 --> C3[more capable]
+        C3 --> C1
+    end
+
+    START((foundation)) --> sub
+    START --> comp
+
+    sub --> OUT1[capability gap widens]
+    comp --> OUT2[capability compounds]
 ```
 
-Miscalibrated confidence masks the decline. METR (2025) found developers 19% slower with AI but perceiving themselves 20% faster. By the time you notice, the capability delta is substantial.
+Miscalibrated confidence masks the decline. METR (2025) found developers 19% slower with AI but perceiving themselves 20% faster. By the time you notice, the gap is substantial.
 
-Good foundations compound:
-```
-complementary patterns → learning → more capability → better collaboration
-```
-
-Each cycle raises the baseline. Both parties and the system improve.
+Each cycle raises or lowers the baseline. The trajectory is set by the pattern.
 
 ### why now
 
