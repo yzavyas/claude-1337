@@ -1,16 +1,25 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import { buildNavItems } from '$lib/content';
 
 	const { children } = $props();
 
-	// Dynamically build nav from content/explore/reference/*
-	const referenceItems = buildNavItems('explore/reference', `${base}/explore/reference`);
+	// Extract section from URL: /explore/{section}/... → section
+	const section = $derived(() => {
+		const path = $page.url.pathname.replace(base, '');
+		const parts = path.split('/').filter(Boolean);
+		// parts[0] = 'explore', parts[1] = section
+		return parts[1] || 'explanation';
+	});
+
+	// Build nav items dynamically based on current section
+	const navItems = $derived(buildNavItems(`explore/${section()}`, `${base}/explore/${section()}`));
 </script>
 
 <div class="section-layout">
-	<Sidebar section="reference" items={referenceItems} />
+	<Sidebar section={section()} items={navItems} />
 	<article class="section-content markdown-content">
 		{@render children()}
 	</article>
