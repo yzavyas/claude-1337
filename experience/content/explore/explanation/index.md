@@ -16,7 +16,7 @@ Extensions that make you better — not just faster, but more capable even when 
 
 **[collaborative intelligence](/explore/explanation/collaborative-intelligence/)** — the research. why motivation beats mandate. extended mind thesis. evidence for what works.
 
-**[craftsmanship](/explore/explanation/craftsmanship/)** — software development as craft. evidence hierarchies. first principles + giants' shoulders.
+**[craftsmanship](/explore/explanation/craftsmanship/)** — software development as craft. how to evaluate claims (tooling claims need production evidence; methodology claims need research). reasoning from fundamentals while building on what experts have learned.
 
 **[ecosystem](/explore/explanation/ecosystem/)** — technical architecture. five extension modalities. how activation works.
 
@@ -25,6 +25,8 @@ Extensions that make you better — not just faster, but more capable even when 
 ---
 
 ## core insight
+
+Clark and Chalmers' 1998 paper "The Extended Mind" posed a question that shapes this entire project: if something outside your head does the same cognitive work as something inside your head, is there a meaningful difference?
 
 > if a process in the world functions as a cognitive process, it *is* a cognitive process — regardless of whether it happens inside or outside the skull.
 > — Clark & Chalmers, 1998

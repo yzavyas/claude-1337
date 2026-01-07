@@ -10,7 +10,7 @@ Human-AI collaboration fails by default.
 
 [Vaccaro et al. (2024)](https://www.nature.com/articles/s41562-024-02024-1) meta-analyzed 106 studies: human-AI combos perform **worse** than the best performer alone. [METR (2025)](https://arxiv.org/abs/2507.09089) found developers **19% slower** with AI tools — but perceiving themselves 20% faster.
 
-The mechanism: opaque abstractions → cognitive offloading → capability atrophy → miscalibrated confidence.
+The mechanism: when abstractions hide their reasoning, you stop thinking through problems yourself. Skills decay from disuse. Worse, you don't notice — your confidence stays high while your capability drops.
 
 The default trajectory compounds. Offload more, think less, can't tell the difference.
 
@@ -30,7 +30,7 @@ Extensions are readable. You can see how they work, learn from them, fork them, 
 
 ---
 
-## kaizen
+## continuous improvement
 
 ```
 collaboration → breakthrough → crystallization → improved baseline

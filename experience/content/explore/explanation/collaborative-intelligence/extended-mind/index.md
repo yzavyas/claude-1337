@@ -10,7 +10,7 @@ clark & chalmers (1998) proposed:
 
 > if a process in the world functions as a cognitive process, it *is* a cognitive process — regardless of whether it happens inside or outside the skull.
 
-their example: otto has alzheimer's and uses a notebook to remember things. inga uses biological memory. if we'd call inga's process "remembering," we should call otto's process "remembering" too — even though otto's memory lives in a notebook.
+their example: Otto has Alzheimer's and uses a notebook to remember things. Inga uses biological memory. if we'd call Inga's process "remembering," we should call Otto's process "remembering" too — even though Otto's memory lives in a notebook.
 
 **the parity principle**: if it were done in the head, we'd call it cognition. when external but functionally equivalent, it's cognitive extension.
 

@@ -23,7 +23,7 @@ in practice, no.
 
 ### anthropic's architecture
 
-claude is [constitutional AI](https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback) — trained with values and principles, not rigid rules. the [soul document](https://simonwillison.net/2025/Dec/2/claude-soul-document/) describes *who claude is*, not commands to follow.
+claude is [constitutional AI](https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback) — trained with values and principles, not rigid rules. (the name comes from the training method: the AI learns from a "constitution" of principles rather than human-labeled examples of right and wrong.) the [soul document](https://simonwillison.net/2025/Dec/2/claude-soul-document/) — anthropic's internal document describing claude's character and values — describes *who claude is*, not commands to follow.
 
 the architecture is built for judgment, not compliance.
 
@@ -99,16 +99,11 @@ same goal. different framing. better outcomes.
 
 from the extended mind thesis: cognitive extension requires **integration**, not **compliance**.
 
-otto's notebook works because he trusts it and uses it naturally. if someone forced him to check the notebook before every thought, it would break the cognitive coupling.
+consider Otto, the canonical example from Clark & Chalmers (1998). Otto has Alzheimer's and uses a notebook to store information — addresses, appointments, facts. The philosophers argue his notebook functions as part of his memory. He trusts it, consults it naturally, and acts on what it says just as you'd act on information recalled from biological memory.
 
-same with claude and extensions:
+Otto's notebook works because he trusts it and uses it naturally. if someone forced him to check the notebook before every thought, it would break the cognitive coupling.
 
-| approach | result |
-|----------|--------|
-| "you MUST use this" | compliance, brittleness |
-| "here's why this helps" | understanding, appropriate judgment |
-
-non-activation isn't failure — it can represent appropriate judgment about relevance.
+same with claude and extensions. non-activation isn't failure — it can represent appropriate judgment about relevance.
 
 ---
 
@@ -135,7 +130,7 @@ flowchart LR
 
 **the human role is essential.** claude can't unilaterally decide "this should become a skill." the human recognizes breakthroughs worth preserving and directs the crystallization.
 
-this is **progressive augmentation**, not dependency. each cycle leaves permanent gains. the system gets smarter. whether the human does depends on engagement — reading the extensions, understanding the patterns, not just consuming output.
+this is **progressive augmentation** — capability that compounds over time rather than creating dependency. each cycle leaves permanent gains. the system gets smarter. whether the human does depends on engagement — reading the extensions, understanding the patterns, not just consuming output.
 
 ---
 
