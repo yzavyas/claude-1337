@@ -14,6 +14,8 @@ Extensions that make you better — not just faster, but more capable even when 
 
 ## topics
 
+**[stakes](/explore/explanation/stakes/)** — why this matters now. the divergence, the evidence, the way forward.
+
 **[collaborative intelligence](/explore/explanation/collaborative-intelligence/)** — the research. why motivation beats mandate. extended mind thesis. evidence for what works.
 
 **[craftsmanship](/explore/explanation/craftsmanship/)** — software development as craft. how to evaluate claims (tooling claims need production evidence; methodology claims need research). reasoning from fundamentals while building on what experts have learned.
