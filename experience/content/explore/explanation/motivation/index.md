@@ -1,4 +1,4 @@
-# stakes
+# motivation
 
 Why cognitive extension design matters now.
 

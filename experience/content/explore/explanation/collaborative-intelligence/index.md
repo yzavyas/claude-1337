@@ -137,7 +137,7 @@ this is **progressive augmentation** — capability that compounds over time rat
 ## deeper
 
 - [extended mind thesis](extended-mind/) — theoretical foundation, three extension types
-- [ethos](/ethos/) — why this approach, the stakes
+- [ethos](/ethos/) — why this approach, the motivation
 - [research](/explore/reference/research/) — empirical foundations
 
 ---

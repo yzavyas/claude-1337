@@ -14,7 +14,7 @@ Extensions that make you better — not just faster, but more capable even when 
 
 ## topics
 
-**[stakes](/explore/explanation/stakes/)** — why this matters now. the divergence, the evidence, the way forward.
+**[motivation](/explore/explanation/motivation/)** — why this matters now. the divergence, the evidence, the way forward.
 
 **[collaborative intelligence](/explore/explanation/collaborative-intelligence/)** — the research. why motivation beats mandate. extended mind thesis. evidence for what works.
 
