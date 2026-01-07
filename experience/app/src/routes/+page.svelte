@@ -64,14 +64,14 @@
 
 	<div class="hero-install">
 		<div class="install-block">
-			<code class="install-cmd" onclick="navigator.clipboard.writeText('/plugin marketplace add yzavyas/claude-1337')">
+			<button class="install-cmd" onclick={() => navigator.clipboard.writeText('/plugin marketplace add yzavyas/claude-1337')}>
 				<span class="cmd-text">/plugin marketplace add yzavyas/claude-1337</span>
 				<span class="copy-hint">click to copy</span>
-			</code>
-			<code class="install-cmd" onclick="navigator.clipboard.writeText('/plugin install core-1337@claude-1337')">
+			</button>
+			<button class="install-cmd" onclick={() => navigator.clipboard.writeText('/plugin install core-1337@claude-1337')}>
 				<span class="cmd-text">/plugin install core-1337@claude-1337</span>
 				<span class="copy-hint">click to copy</span>
-			</code>
+			</button>
 		</div>
 	</div>
 </section>
@@ -313,6 +313,8 @@
 		transition: all var(--transition-fast);
 		cursor: pointer;
 		user-select: all;
+		text-align: left;
+		width: 100%;
 	}
 
 	.install-cmd:hover {

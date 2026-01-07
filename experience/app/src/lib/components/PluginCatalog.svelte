@@ -88,7 +88,7 @@
 					class:expanded={expandedPlugin === plugin.name}
 					in:fly={{ y: 20, duration: 300, delay: i * 50 }}
 				>
-					<div class="plugin-header" onclick={() => toggleExpand(plugin.name)} role="button" tabindex="0">
+					<div class="plugin-header" onclick={() => toggleExpand(plugin.name)} onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleExpand(plugin.name)} role="button" tabindex="0">
 						<h3>{plugin.name}</h3>
 						<span class="expand-icon">{expandedPlugin === plugin.name ? '−' : '+'}</span>
 					</div>

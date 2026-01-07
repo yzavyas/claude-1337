@@ -61,6 +61,7 @@
 		</a>
 		<div class="nav-right">
 			<div class="links">
+				<a href="{base}/explore/reference/catalog/">catalog</a>
 				<a href="{base}/explore/">explore</a>
 				<a href="{base}/ethos/">ethos</a>
 			</div>
