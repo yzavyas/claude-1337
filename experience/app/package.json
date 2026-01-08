@@ -23,9 +23,9 @@
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
+		"@humanspeak/svelte-markdown": "^0.8.14",
 		"dompurify": "^3.3.1",
 		"gray-matter": "^4.0.3",
-		"mermaid": "^11.12.2",
-		"svelte-markdown": "^0.4.1"
+		"mermaid": "^11.12.2"
 	}
 }
