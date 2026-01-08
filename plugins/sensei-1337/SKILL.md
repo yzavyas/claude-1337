@@ -1,154 +1,232 @@
 ---
 name: sensei-1337
-description: "Documentation and teaching methodology. Diataxis, Feynman technique, cognitive load theory. Use when: writing docs, tutorials, explanations, READMEs, teaching concepts."
+description: "Teaching and information sharing across all contexts. Use when: writing docs, explaining concepts, making presentations, teaching in conversation, curating documentation, technical writing for impact."
 ---
 
 # sensei-1337
 
-Make the complex simple. Teach, don't just inform.
+Teaching is about impact, not just clarity. Make knowledge land with the people who need it.
+
+## The Purpose
+
+Feynman didn't simplify physics because simplicity is nice. He simplified because he wanted physics to *matter* — to reach people, to change how they see the world.
+
+Teaching isn't about explaining. It's about:
+- Reaching the person who needs the information
+- Overcoming their resistance to change
+- Speaking their language
+- Making the case land
+
+The best understanding in the world doesn't matter if it stays locked in your head.
+
+## The Teaching Progression
+
+Four stages, in order. Each builds on the last.
+
+### 1. Psychology → Why do they resist?
+
+People don't change just because they understand. Resistance is wired in: status quo bias, loss aversion, identity threat, effort aversion.
+
+- Motivation beats mandate — "here's why" produces judgment, "MUST" produces brittleness
+- Meet them where they are — are they aware there's a problem, or in denial?
+- Teaching against resistance requires different techniques than teaching willing students
+
+See: [psychology-of-change](references/psychology-of-change.md)
+
+### 2. Audience → Who are they?
+
+Understand before you structure:
+
+| Question | Why it matters |
+|----------|----------------|
+| What do they already believe? | You start from their map |
+| What do they fear? | Resistance comes from fear |
+| What do they value? | Connect to their concerns |
+| What language do they speak? | Wrong words = "not for me" |
+| What's their expertise level? | Novices need scaffolding; experts find it patronizing |
+
+Different audiences need different approaches. A decision-maker needs the bottom line in 30 seconds. A practitioner needs the recipe. An evaluator needs the evidence.
+
+See: [audience-empathy](references/audience-empathy.md)
+
+### 3. Craft → How do you structure it?
+
+Now choose structure and technique:
+
+| For | Use |
+|-----|-----|
+| Document type | Diataxis (tutorial, how-to, explanation, reference) |
+| Information structure | BLUF, inverted pyramid |
+| Managing complexity | Cognitive load theory, progressive disclosure |
+| Testing understanding | Feynman technique |
+| Collection organization | Single source of truth, linking architecture |
+
+See references for each: [diataxis](references/diataxis.md), [rhetoric-for-impact](references/rhetoric-for-impact.md), [cognitive-load](references/cognitive-load.md), [feynman-technique](references/feynman-technique.md), [collection-architecture](references/collection-architecture.md)
+
+### 4. Translation → Speak their survival language
+
+The same information, framed for different audiences:
+
+**The finding**: AI tools may reduce productivity by 19%.
+
+| Audience | Translation |
+|----------|-------------|
+| Decision-maker | "Your AI investment may be costing you 19% productivity. Here's the RCT and what to do." |
+| Practitioner | "Here's research on when AI helps vs. hurts. Here's how to use it effectively." |
+| Evaluator | "METR 2025 RCT: 19% slowdown vs. 20% perceived speedup. Methodology here." |
+| Learner | "AI tools aren't automatically helpful. Let me show you when they work." |
+
+Same fact. Four different teachings. Each lands with its audience.
+
+See: [rhetoric-for-impact](references/rhetoric-for-impact.md)
+
+## Gauging Context
+
+In conversation or when context is available, gauge the audience:
+
+### Expertise Signals
+
+| Signal | Likely level | Adjust |
+|--------|--------------|--------|
+| Uses jargon correctly | Competent+ | Skip basics |
+| Asks foundational questions | Novice | Scaffold, define terms |
+| Points out edge cases | Expert | Engage nuance |
+| Short responses | Overwhelmed or disengaged | Simplify |
+
+### Role Signals
+
+| Signal | Likely role | Adjust |
+|--------|-------------|--------|
+| "What's the ROI?" | Decision-maker | Lead with business impact |
+| "How do I do X?" | Practitioner | Give the recipe |
+| "What's the evidence?" | Evaluator | Provide methodology |
+| "Can you explain X?" | Learner | Scaffold from simple |
 
 ## Scope
 
-This skill is for human-facing documentation. Different audiences need different approaches:
+Sensei applies to all teaching contexts:
 
-| content | audience | apply sensei? |
+| Context | Sensei applies |
+|---------|----------------|
+| Documentation | Yes |
+| Conversation | Yes — explain concepts, answer questions |
+| Code review | Yes — explain why, not just what |
+| Presentations | Yes — structure for impact |
+| Any explanatory output | Yes |
+
+### Human vs. AI-Facing Content
+
+| Content | Audience | Apply sensei? |
 |---------|----------|---------------|
-| README, guides, tutorials | humans | yes - full methodology |
-| API docs, user guides | humans | yes |
-| SKILL.md, agent definitions | Claude/AI | no - different concerns |
-| Config files, prompts | Claude/AI | no |
+| README, guides, tutorials | Humans | Yes — full methodology |
+| API docs, user guides | Humans | Yes |
+| SKILL.md, agent definitions | Claude/AI | No — different concerns |
+| Config files, prompts | Claude/AI | No |
 
-For AI-facing content, consistent structure helps parsing. Repetition reinforces patterns. AI tell-tales don't apply.
+For AI-facing content, consistent structure helps parsing. For human content, everything here applies.
 
-For human docs, everything in this skill applies: F-pattern, cognitive load, Diataxis, AI tell-tales, Feynman test.
+## Document-Level Principles
 
-## How People Read
+### How People Read
 
-People don't read — they scan. Nielsen Norman Group tracked 232 users across thousands of pages and found the F-pattern: eyes sweep left-to-right at the top, then down the left edge.
+People scan, not read. F-pattern: eyes sweep top, then down left edge.
 
-What this means for docs:
-- Front-load important words at the start of headings and paragraphs
-- Use headers as signposts — readers scan them to find what they need
+- Front-load keywords in headings and paragraphs
+- Headers as signposts
 - Bullets and bold for scannability
-- Wall of text = reader bounces
+- Wall of text = bounce
 
-Source: [Nielsen Norman Group, F-Pattern Research (2006, validated 2017)](https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/)
+See: [reading-patterns](references/reading-patterns.md)
 
-## Cognitive Load
+### Cognitive Load
 
-Working memory is limited. Sweller's Cognitive Load Theory identifies three types:
+Working memory is limited. Three types of load:
 
-| Type | What it is | Your job |
-|------|------------|----------|
-| Intrinsic | Difficulty of the subject | Can't change, but can sequence |
-| Extraneous | Load from poor presentation | Minimize ruthlessly |
-| Germane | Effort to build mental models | This is where learning happens |
+| Type | Your job |
+|------|----------|
+| Intrinsic | Can't change difficulty, but can sequence it |
+| Extraneous | Minimize ruthlessly |
+| Germane | This is where learning happens — protect it |
 
-Reduce extraneous load so germane learning can happen:
-- Chunk information into digestible pieces
-- Use consistent structure (reduces cognitive effort)
-- Progressive disclosure — simple first, details later
-- Visuals complement text (dual coding)
+See: [cognitive-load](references/cognitive-load.md)
 
-Source: [Sweller, Cognitive Load Theory (2011)](https://www.emrahakman.com/wp-content/uploads/2024/10/Cognitive-Load-Sweller-2011.pdf)
+### Doc Type (Diataxis)
 
-## Doc Type Decision (Diataxis)
+| Reader says | Write a |
+|-------------|---------|
+| "Teach me X" | Tutorial |
+| "How do I do X?" | How-to |
+| "Why does X work?" | Explanation |
+| "What exactly is X?" | Reference |
 
-Different needs, different docs. Mixing them creates confusion.
+Don't mix types. See: [diataxis](references/diataxis.md)
 
-| Reader says | They need | Write a |
-|-------------|-----------|---------|
-| "Teach me X" | Learning | Tutorial — guided lesson |
-| "How do I do X?" | A task done | How-to — recipe |
-| "Why does X work?" | Understanding | Explanation — context |
-| "What exactly is X?" | Facts | Reference — precise spec |
+### AI Writing Tell-Tales
 
-Production example: Django documentation follows Diataxis — tutorials, how-tos, explanations, and reference are clearly separated.
+LLM text has statistical signatures. "AI slop" triggers disengagement.
 
-Source: [Diataxis.fr — Daniele Procida](https://diataxis.fr)
+Avoid: delve, leverage, utilize, robust, excessive bold, uniform paragraphs, rule-of-three abuse, generic openings.
 
-## The Feynman Method
+The fix: specifics over adjectives, direct statements, natural rhythm.
 
-If you can't explain it simply, you don't understand it well enough.
+See: [ai-writing-antipatterns](references/ai-writing-antipatterns.md)
 
-1. Choose a specific concept (not "databases" — "how B-trees enable fast lookups")
-2. Explain it to a novice — simple words, no jargon
-3. Find gaps — where you struggle, you don't understand
-4. Simplify — analogies, shorter sentences, cut
+## Collection-Level Principles
 
-The test: could a smart 12-year-old follow this?
+Document-level principles aren't enough. Collections need architecture.
 
-## Teaching Patterns
+### Single Source of Truth
 
-| Pattern | Why it works |
-|---------|--------------|
-| Hook first | Problem before solution — motivation |
-| Show then tell | Example before explanation — concrete anchor |
-| One concept per section | Mixing diffuses understanding |
-| Define jargon on first use | Respect newcomers |
+Each fact lives in one place. Everywhere else links to it.
 
-## Anti-Patterns
+| Instead of | Do this |
+|------------|---------|
+| Explain research in every doc | Explain once in reference, link |
+| Repeat key tables | One location, reference it |
 
-| Trap | Why it fails |
-|------|--------------|
-| Wall of text | Readers scan, bounce on density |
-| Theory first | Boring — hook with problem |
-| "Obviously" / "Simply" | Alienates anyone who doesn't find it obvious |
-| Explaining everything | Buries the point — link for depth |
+Why: Redundancy increases cognitive load, dilutes impact, creates maintenance burden.
 
-## AI Writing Tell-Tales
+### Progressive Disclosure at Architecture Level
 
-LLM text has statistical signatures. Readers pattern-match "AI slop" and disengage. If teaching requires trust, tell-tales undermine the goal before content is read.
+Structure the collection as layers:
 
-| pattern | why it fails |
-|---------|--------------|
-| delve, leverage, utilize, robust | overused 25x post-ChatGPT, signals AI |
-| excessive bold | emphasis should be rare and meaningful |
-| uniform paragraph length | human writing varies naturally |
-| rule-of-three abuse | "fast, reliable, and efficient" everywhere |
-| generic openings | "In today's fast-paced world..." |
-| excessive hedging | "It may be worth considering..." |
+```
+Entry point (30 sec) → Explanation (5 min) → Reference (verify) → Bibliography (sources)
+```
 
-The core problem is uniformity. Human writers show range. AI sounds like anyone—or no one.
+Each layer is complete for its audience. Nobody reads more than they need.
 
-The fix: specifics over adjectives, direct statements, natural rhythm, your voice.
+### Linking Flow
 
-Full checklist: [references/ai-writing-antipatterns.md](references/ai-writing-antipatterns.md)
+Information flows downward. Links point to deeper layers.
 
-## Simplicity Principles
-
-From Google's Developer Documentation Style Guide:
-
-> Write short and useful documents. Cut out everything unnecessary.
-
-- Shorter sentences are clearer — if you need a comma, consider splitting
-- White space aids scanning — break at thought boundaries
-- Jargon requires definition — or don't use it
-- One idea, one place — mixing concepts diffuses understanding
-
-Source: [Google Developer Documentation Style Guide](https://developers.google.com/style)
+See: [collection-architecture](references/collection-architecture.md)
 
 ## Agent: feynman
 
-For autonomous documentation and explanation work.
+For autonomous teaching work:
 
 ```
-Task(subagent_type="sensei-1337:feynman", prompt="Write/evaluate docs for...")
+Task(subagent_type="sensei-1337:feynman", prompt="...")
 ```
 
-The agent applies: Understand → Structure → Write → Refine
+The agent applies the full progression: Psychology → Audience → Craft → Translation
 
 Works for:
-- Writing tutorials, guides, explanations
-- Evaluating existing documentation
-- Explaining complex concepts clearly
-- Technical writing with teaching focus
+- Writing documentation
+- Explaining concepts in conversation
+- Evaluating existing docs
+- Technical writing for impact
 
 ## Sources
 
-- Nielsen Norman Group. [F-Shaped Pattern for Reading Web Content](https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/). 2006, 2017.
-- Sweller, J. [Cognitive Load Theory](https://www.emrahakman.com/wp-content/uploads/2024/10/Cognitive-Load-Sweller-2011.pdf). 2011.
-- Procida, D. [Diataxis Framework](https://diataxis.fr). Django documentation exemplar.
-- Google. [Developer Documentation Style Guide](https://developers.google.com/style).
-- Feynman Method. Teaching methodology commonly attributed to Richard Feynman.
-- Wikipedia. [Signs of AI Writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). AI tell-tales guide.
+Core references in `references/`:
+- [psychology-of-change](references/psychology-of-change.md) — resistance and motivation
+- [audience-empathy](references/audience-empathy.md) — understanding who you're teaching
+- [rhetoric-for-impact](references/rhetoric-for-impact.md) — BLUF, inverted pyramid, translation
+- [collection-architecture](references/collection-architecture.md) — organizing multiple documents
+- [cognitive-load](references/cognitive-load.md) — working memory and learning
+- [diataxis](references/diataxis.md) — document types
+- [feynman-technique](references/feynman-technique.md) — simplification method
+- [reading-patterns](references/reading-patterns.md) — how people scan
+- [ai-writing-antipatterns](references/ai-writing-antipatterns.md) — what to avoid
