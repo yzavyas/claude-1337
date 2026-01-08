@@ -21,10 +21,10 @@ Rewrote `experience/content/explore/explanation/ethos/index.md` with:
 
 ### Ethos (Values - the "why")
 
-**Goal:** Effective collaborative intelligence — both parties more capable.
+**Goal:** Both parties grow through collaboration. Learning transfers to other areas.
 
 **Core Insight:** Foundations compound.
-- Complementary → capability accumulates
+- Complementary → learning transfers, capability grows
 - Substitutive → capability atrophies
 
 **Why Now:** AI capability increasing faster than our frameworks. Window matters.

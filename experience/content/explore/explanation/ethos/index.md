@@ -6,9 +6,9 @@ Our values and why we hold them.
 
 ## the goal
 
-**Effective collaborative intelligence** — human-AI collaboration where both parties become more capable.
+Human-AI collaboration where both parties grow.
 
-Not just faster. Not just more productive. *More capable* — even when the extension isn't available.
+Working together should teach you something. That learning should transfer — to problems you haven't worked on together, to contexts where the AI isn't available. The collaboration builds capability that carries over.
 
 ---
 
@@ -73,15 +73,15 @@ flowchart LR
 
 ### first principles
 
-**What:** Reason from fundamentals. Question assumptions.
+Reason from fundamentals. Question assumptions.
 
-**Motivation:** We're in a phase shift. AI is challenging assumptions about work, capability, and collaboration. When structural assumptions collapse, patterns built on those assumptions may break. But **universal laws still hold** — physics, cognition, causation don't change. First principles lets us reason from what remains true.
+We're in a phase shift. AI challenges assumptions about work, capability, collaboration. Patterns built on those assumptions may break. But universal laws still hold — physics, cognition, causation. First principles: reason from what remains true when assumptions fail.
 
 ### giants' shoulders
 
-**What:** Build on what masters have learned. Filter by evidence, not popularity.
+Build on what masters learned. Filter by evidence, not popularity.
 
-**Motivation:** Knowledge accumulates. Don't reinvent wheels. But which giants? Popular ≠ correct.
+Knowledge accumulates. Don't reinvent wheels. But which giants? Popular ≠ correct.
 
 | Claim type | Evidence hierarchy |
 |------------|-------------------|
@@ -90,39 +90,37 @@ flowchart LR
 
 ### scientific method
 
-**What:** Hypothesis → test → observe → refine.
+Hypothesis → test → observe → refine.
 
-**Motivation:** Theory must meet reality. What works in one context may not work in another. TDD is literally this: Red → Green → Refactor.
+Theory must meet reality. What works in one context may not in another. TDD is this: Red → Green → Refactor.
 
 ---
 
 ## design principles
 
-How we build.
-
 ### transparent abstractions
 
-**What:** Readable, forkable, verifiable, observable.
+Readable. Forkable. Verifiable. Observable.
 
-**Motivation:** If you can't see how it works, you can't learn from it. Opacity creates dependency; transparency enables learning.
+Can't learn from what you can't see. Opacity creates dependency.
 
 ### motivation over mandates
 
-**What:** Explain why, don't command.
+Explain why, don't command.
 
-**Motivation:** Claude is constitutional AI — trained with values, not rigid rules. "Here's why" produces understanding and judgment. "MUST" produces compliance and brittleness.
+Claude is constitutional AI — trained with values, not rigid rules. "Here's why" produces judgment. "MUST" produces brittleness.
 
 ### bidirectional learning
 
-**What:** Both parties develop through the collaboration.
+Both parties develop through the collaboration.
 
-**Motivation:** One-way transfer creates dependency. Mutual growth creates lasting capability.
+One-way transfer creates dependency.
 
 ### composable architecture
 
-**What:** Extensions build on each other.
+Extensions build on each other.
 
-**Motivation:** Compound improvement beats reinvention. Each choice makes the next enhancement easier or harder.
+Each choice makes the next enhancement easier or harder.
 
 ---
 
@@ -130,7 +128,7 @@ How we build.
 
 | Type | Human role | Trajectory |
 |------|------------|------------|
-| **Complementary** | learns, improves | better WITH and WITHOUT extension |
+| **Complementary** | learns, improves | learning transfers to other areas |
 | **Constitutive** | learns, guides, shapes | enables new capability |
 | **Substitutive** | just consumes output | capability atrophies — **avoid** |
 
@@ -178,7 +176,7 @@ When building extensions:
 - Cite sources accurately
 - Make it readable
 
-After using your extension, the collaboration should be more capable.
+After using your extension, the human should have learned something they can use elsewhere.
 
 ---
 
