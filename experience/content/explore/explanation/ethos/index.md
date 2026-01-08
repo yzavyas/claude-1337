@@ -33,9 +33,9 @@ flowchart LR
 
 The evidence:
 
-- **r = -0.75** correlation between AI use and critical thinking — a strong negative relationship where -1.0 would be perfect inverse correlation ([Gerlich 2025](/explore/reference/bibliography/#gerlich-2025))
-- **20%** skill degradation in 3 months ([Lancet 2025](/explore/reference/bibliography/#lancet-2025))
-- **39-point** perception gap — developers thought they were 20% faster, were 19% slower ([METR 2025](/explore/reference/bibliography/#metr-2025))
+- **r = -0.75** correlation between AI use and critical thinking — a strong negative relationship where -1.0 would be perfect inverse correlation ([Gerlich 2025](/explore/reference/research/cognition/))
+- **20%** skill degradation in 3 months ([Lancet 2025](/explore/reference/research/cognition/))
+- **39-point** perception gap — developers thought they were 20% faster, were 19% slower ([METR 2025](/explore/reference/research/engineering/))
 
 These aren't one-time drops that level out — they indicate ongoing decline.
 
@@ -43,7 +43,7 @@ These aren't one-time drops that level out — they indicate ongoing decline.
 
 ## what determines outcome
 
-Blaurock et al. (2024) tested five design features:
+[Blaurock et al. (2024)](/explore/explanation/collaborative-intelligence/experience-contingency/) tested five design features:
 
 **Strong effect**: transparency, process control, outcome control, reciprocity.
 

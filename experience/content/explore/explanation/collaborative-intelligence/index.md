@@ -35,23 +35,11 @@ the ceiling suggests claude exercises judgment about relevance — not all promp
 
 ### the meta-analysis (vaccaro et al., 2024)
 
-106 experiments in *nature human behaviour*:
-
-| finding | implication |
-|---------|-------------|
-| human-AI combos often **worse** than best alone (g = -0.23) | don't assume collaboration always helps |
-| **content creation**: gains | skills for building, writing, creating |
-| **decision-making**: losses | frameworks, not decisions |
-
-synergy is rare. design for augmentation, not replacement.
+human-AI combos often **worse** than best alone (g = -0.23). content creation shows gains; decision-making shows losses. synergy is rare. [see the research →](/explore/reference/research/collaboration/)
 
 ### perception-reality gap (METR, 2025)
 
-RCT with 16 experienced developers:
-- actual: **19% slower** with AI tools
-- perceived: **20% faster**
-
-we systematically misjudge AI's impact on our work.
+developers with AI tools: **19% slower** but perceived **20% faster**. we systematically misjudge AI's impact. [full study →](/explore/reference/research/engineering/)
 
 ---
 
@@ -97,13 +85,9 @@ same goal. different framing. better outcomes.
 
 ## the autonomy principle
 
-from the extended mind thesis: cognitive extension requires **integration**, not **compliance**.
+from the [extended mind thesis](extended-mind/): cognitive extension requires **integration**, not **compliance**.
 
-consider Otto, the canonical example from Clark & Chalmers (1998). Otto has Alzheimer's and uses a notebook to store information — addresses, appointments, facts. The philosophers argue his notebook functions as part of his memory. He trusts it, consults it naturally, and acts on what it says just as you'd act on information recalled from biological memory.
-
-Otto's notebook works because he trusts it and uses it naturally. if someone forced him to check the notebook before every thought, it would break the cognitive coupling.
-
-same with claude and extensions. non-activation isn't failure — it can represent appropriate judgment about relevance.
+Otto's notebook works because he trusts it and uses it naturally — forcing compliance breaks the cognitive coupling. same with claude and extensions. non-activation isn't failure — it can represent appropriate judgment about relevance.
 
 ---
 

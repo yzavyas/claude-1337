@@ -50,6 +50,8 @@ blaurock, m., büttgen, m., & schepers, j. (2024). [designing collaborative inte
 
 vaccaro, m., almaatouq, a., & malone, t.w. (2024). [when combinations of humans and AI are useful: a systematic review and meta-analysis](https://www.nature.com/articles/s41562-024-02024-1). *nature human behaviour*, 8(12), 2293-2303.
 
+cognitive amplifier study. (2025). [AI as cognitive amplifier](https://arxiv.org/abs/2512.10961). arXiv:2512.10961.
+
 ---
 
 ## motivation and autonomy
@@ -119,6 +121,32 @@ clark, a. & chalmers, d. (1998). [the extended mind](https://www.alice.id.tue.nl
 nonaka, i. & takeuchi, h. (1995). *the knowledge-creating company*. oxford university press.
 
 hutchins, e. (1995). *cognition in the wild*. MIT press.
+
+---
+
+## foundational works
+
+miller, g. a. (1956). [the magical number seven, plus or minus two](https://doi.org/10.1037/h0043158). *psychological review*, 63(2), 81-97.
+
+sweller, j. (1988). [cognitive load during problem solving](https://doi.org/10.1016/0364-0213(88)90023-7). *cognitive science*, 12(2), 257-285.
+
+nielsen, j. (1993). *usability engineering*. academic press.
+
+kurosu, m., & kashimura, k. (1995). apparent usability vs. inherent usability. *CHI '95 conference companion*.
+
+norman, d. a. (2004). *emotional design*. basic books.
+
+---
+
+## software craftsmanship
+
+hunt, a., & thomas, d. (1999). *the pragmatic programmer*. addison-wesley.
+
+mcbreen, p. (2001). *software craftsmanship*. addison-wesley.
+
+martin, r. c. (2008). *clean code*. prentice hall.
+
+mancuso, s. (2014). *the software craftsman*. prentice hall.
 
 ---
 

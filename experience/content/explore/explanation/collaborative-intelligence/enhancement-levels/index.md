@@ -63,15 +63,7 @@ Enhancement is **emergent** — new capability from the combination.
 
 ## evidence
 
-The MIT meta-analysis (Vaccaro et al., 2024) found:
-
-| condition | performance |
-|-----------|-------------|
-| human alone | baseline |
-| AI alone | varies by task |
-| human + AI | often **worse** than best alone (g = -0.23) |
-
-Synergy is rare. Most human-AI collaboration is additive (level 1), not multiplicative (level 3).
+The MIT meta-analysis found human+AI combinations often perform worse than the best individual alone (g = -0.23). Synergy is rare — most collaboration is additive (level 1), not multiplicative (level 3). [See the full research →](/explore/reference/research/collaboration/)
 
 **Design implication**: Don't assume collaboration helps. Design specifically for enhancement.
 
