@@ -1,80 +1,64 @@
 # Ethos Reorganization Context
 
 Session: 2026-01-08
-Status: In progress - needs more collaborative work
+Status: First pass complete - ethos page rewritten
 
 ---
 
-## What We're Trying to Do
+## What Was Done
 
-Organize and present the ethos, principles, and methodology clearly with proper motivations.
+Rewrote `experience/content/explore/explanation/ethos/index.md` with:
+
+1. **Clear structure** - Goal → Why Now → Core Insight → Trinity → Design Principles → Extension Types → Research
+2. **The Trinity** - First Principles, Giants' Shoulders, Scientific Method (with motivations)
+3. **Design Principles** - Transparent abstractions, Motivation over mandates, Bidirectional learning, Composable architecture (with motivations)
+4. **Accurate research section** - Facts labeled as facts, interpretation labeled as interpretation
+5. **Mermaid diagrams** - Visualizing the compounding trajectories and trinity
 
 ---
 
-## The Structure (Proposed)
+## The Complete Framework
 
-### 1. Ethos (Values - the "why")
+### Ethos (Values - the "why")
 
-**Core Insight: Foundations Compound**
+**Goal:** Effective collaborative intelligence — both parties more capable.
 
-The same technology leads to different trajectories based on design:
-- Complementary foundation → compounds toward enhancement → capability accumulates
-- Substitutive foundation → compounds toward dependency → capability atrophies
+**Core Insight:** Foundations compound.
+- Complementary → capability accumulates
+- Substitutive → capability atrophies
 
-**This isn't a one-time effect. It's a trajectory.**
+**Why Now:** AI capability increasing faster than our frameworks. Window matters.
 
-**Why Now?**
-- AI capability is increasing faster than our frameworks for using it well
-- Bad patterns established now get baked in, scaled up, harder to undo
-- Good patterns established now become the default others build on
-
-**The Divergence**
-
-At scale, over time, this divergence becomes the difference between:
-- Humans who are more capable than ever
-- Humans who can't function without their tools
-
-### 2. The Trinity (Methodology - how we think)
+### The Trinity (How we think)
 
 | Principle | What | Motivation |
 |-----------|------|------------|
-| **First Principles** | Reason from fundamentals | In a phase shift, assumptions collapse but universal laws hold |
-| **Giants' Shoulders** | Build on masters, filtered by evidence | Knowledge accumulates; but filter by evidence, not popularity |
+| **First Principles** | Reason from fundamentals | In phase shift, assumptions collapse but universal laws hold |
+| **Giants' Shoulders** | Build on masters, filtered by evidence | Knowledge accumulates; filter by evidence, not popularity |
 | **Scientific Method** | Hypothesis → test → observe → refine | Theory must meet reality |
 
-### 3. Design Principles (How we build)
+### Design Principles (How we build)
 
-| Principle | Meaning | Motivation |
-|-----------|---------|------------|
-| **Transparent abstractions** | If you can't see it, you can't learn | Opacity creates dependency; transparency enables learning |
-| **Motivation over mandates** | Explain why, don't command | Claude is constitutional AI; "here's why" produces judgment, "MUST" produces brittleness |
+| Principle | What | Motivation |
+|-----------|------|------------|
+| **Transparent abstractions** | Readable, forkable, verifiable | Can't learn from what you can't see |
+| **Motivation over mandates** | Explain why, don't command | Constitutional AI; "why" produces judgment |
 | **Bidirectional learning** | Both parties develop | One-way transfer creates dependency |
 | **Composable architecture** | Extensions build on each other | Compound improvement beats reinvention |
 
----
-
-## Three Extension Types
+### Extension Types
 
 | Type | Human Role | Trajectory |
 |------|------------|------------|
-| **Complementary** | learns, improves | better WITH and WITHOUT extension |
-| **Constitutive** | learns, guides, shapes | enables new capability (fine) |
-| **Substitutive** | just consumes output | capability atrophies (AVOID) |
+| **Complementary** | learns, improves | better WITH and WITHOUT |
+| **Constitutive** | learns, guides, shapes | enables new capability |
+| **Substitutive** | just consumes | atrophies — AVOID |
 
-The same extension can be any of these — **design determines outcome**.
+### What Makes It Complementary (Blaurock 2024)
 
----
+**Strong effects:** Transparency, Process control, Outcome control, Reciprocity
 
-## What Makes It Complementary? (Blaurock 2024)
-
-**Strong effects:**
-- Transparency
-- Process control
-- Outcome control
-- Reciprocity
-
-**NO effect:**
-- Engagement prompts (asking questions, soliciting input)
+**NO effect:** Engagement prompts
 
 **Design principle:** Show reasoning and provide control. Don't ask.
 
@@ -84,42 +68,34 @@ The same extension can be any of these — **design determines outcome**.
 
 | Finding | Source | Note |
 |---------|--------|------|
-| r = -0.75 correlation between AI use and critical thinking | Gerlich 2025 | Correlation, not proven causation |
-| 39-point perception gap (felt 20% faster, measured 19% slower) | METR 2025 | RCT |
-| g = -0.23: human-AI combos underperformed best alone | Vaccaro 2024 | Meta-analysis of 106 studies |
-| Transparency/control features showed strong positive effects | Blaurock 2024 | Two studies |
+| r = -0.75 correlation: AI use vs critical thinking | Gerlich 2025 | Correlation |
+| 39-point perception gap | METR 2025 | RCT |
+| g = -0.23 underperformance | Vaccaro 2024 | Meta-analysis |
+| Transparency/control strong effects | Blaurock 2024 | Two studies |
 
-**Our interpretation:** These are consistent patterns suggesting trajectories, not proven causal mechanisms.
-
----
-
-## Key Quote
-
-> "Precision isn't pedantry. It's the difference between a foundation that compounds toward enhancement vs one that compounds toward dependency. At scale, over time, that divergence becomes the difference between humans who are more capable than ever and humans who can't function without their tools."
-
----
-
-## Issues to Resolve
-
-1. **Ethos page needs rewrite** - Current version mixes research with values, needs clear separation
-2. **Start page** - Fixed some accuracy issues, may need more work
-3. **Research vs Philosophy** - Need clear framing that acknowledges both
-4. **Diagrams** - Should use diagrams-1337 to visualize concepts
+**Interpretation:** Consistent patterns suggesting trajectories, not proven causation.
 
 ---
 
 ## Files Changed This Session
 
+- `experience/content/explore/explanation/ethos/index.md` - **REWRITTEN** with full framework
+- `experience/content/start/index.md` - Fixed inaccurate claims
 - `plugins/sensei-1337/SKILL.md` - Added accuracy section
 - `plugins/sensei-1337/references/accuracy-integrity.md` - New reference
-- `experience/content/start/index.md` - Fixed inaccurate claims
 - `experience/app/src/lib/components/CodeBlock.svelte` - Svelte 4 compat fix
 
 ---
 
-## Next Steps
+## Key Quote
 
-- Work more closely on ethos reorganization
-- Apply sensei methodology (accuracy first)
-- Use diagrams-1337 for visualization
-- Ensure all claims are accurate (findings vs interpretations clearly labeled)
+> "Precision isn't pedantry. It's the difference between a foundation that compounds toward enhancement vs one that compounds toward dependency."
+
+---
+
+## For Next Session
+
+- Review ethos page for further refinement
+- Ensure principles page aligns with ethos
+- Check for remaining redundancies
+- Consider creating PR
