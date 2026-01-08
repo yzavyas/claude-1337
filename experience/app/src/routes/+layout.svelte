@@ -1,95 +1,47 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import '$lib/styles/global.css';
+	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
-	import favicon from '$lib/assets/favicon.svg';
+	import { initSmoothScroll, destroySmoothScroll } from '$lib/utils/scroll';
 
 	let { children } = $props();
 
-	let theme = $state<'light' | 'dark'>('dark');
-
-	// Initialize theme from system preference or localStorage
-	if (browser) {
-		const stored = localStorage.getItem('theme');
-		if (stored === 'light' || stored === 'dark') {
-			theme = stored;
-		} else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-			theme = 'light';
-		}
-
-		// Listen for system preference changes
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-			if (!localStorage.getItem('theme')) {
-				theme = e.matches ? 'dark' : 'light';
-			}
-		});
-	}
-
-	function toggleTheme() {
-		theme = theme === 'dark' ? 'light' : 'dark';
+	onMount(() => {
 		if (browser) {
-			localStorage.setItem('theme', theme);
+			initSmoothScroll();
 		}
-	}
+	});
 
-	// Apply theme to document
-	$effect(() => {
+	onDestroy(() => {
 		if (browser) {
-			document.documentElement.setAttribute('data-theme', theme);
+			destroySmoothScroll();
 		}
 	});
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-	<title>claude-1337</title>
+	<title>claude-1337 — Cognitive Extensions</title>
+	<meta name="description" content="Cognitive extensions for effective collaborative intelligence." />
+	<meta name="theme-color" content="#0a0f14" />
 </svelte:head>
 
-<div class="site" data-theme={theme}>
-	<!-- Closed Alpha Banner -->
-	<div class="alpha-banner">
-		<span class="alpha-badge">closed alpha</span>
-		<span class="alpha-text">This marketplace is in early development. Extensions are experimental.</span>
-	</div>
-
-	<nav class="nav">
-		<a href="{base}/" class="logo">
-			<span class="logo-prompt">$</span>
-			<span class="logo-text">claude-1337</span>
-		</a>
-		<div class="nav-right">
-			<div class="links">
-				<a href="{base}/explore/reference/catalog/">catalog</a>
-				<a href="{base}/explore/">explore</a>
-				<a href="{base}/ethos/">ethos</a>
-			</div>
-			<button class="theme-toggle" onclick={toggleTheme} aria-label="Toggle theme">
-				{#if theme === 'dark'}
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<circle cx="12" cy="12" r="5"/>
-						<path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-					</svg>
-				{:else}
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-					</svg>
-				{/if}
-			</button>
-		</div>
-	</nav>
-
-	<main>
-		{@render children()}
-	</main>
-
-	<footer class="footer">
-		<span class="footer-text">cognitive extensions for effective collaborative intelligence</span>
-	</footer>
+<!-- Closed Alpha Banner -->
+<div class="alpha-banner">
+	<span class="alpha-badge">closed alpha</span>
+	<span class="alpha-text">This marketplace is in early development. Extensions are experimental.</span>
 </div>
 
-<!-- Background effects - GiTS Cyberpunk -->
+<!-- Navigation -->
+<nav class="main-nav">
+	<a href="/" class="nav-brand">claude-1337</a>
+	<div class="nav-links">
+		<a href="/ethos/">Ethos</a>
+		<a href="/catalog/">Catalog</a>
+		<a href="/reference/">Reference</a>
+	</div>
+</nav>
+
+<!-- GiTS Background Effects -->
 <div class="bg-effects" aria-hidden="true">
 	<div class="gradient-orb orb-1"></div>
 	<div class="gradient-orb orb-2"></div>
@@ -98,485 +50,85 @@
 	<div class="noise-overlay"></div>
 </div>
 
+{@render children()}
+
 <style>
-	/* ═══════════════════════════════════════════════════════════════
-	   Design System: CSS Custom Properties
-	   ═══════════════════════════════════════════════════════════════ */
-
-	:global(:root) {
-		/* Typography */
-		--font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-		--font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
-
-		/* Spacing */
-		--space-xs: 0.25rem;
-		--space-sm: 0.5rem;
-		--space-md: 1rem;
-		--space-lg: 1.5rem;
-		--space-xl: 2rem;
-		--space-2xl: 3rem;
-		--space-3xl: 4rem;
-
-		/* Transitions */
-		--transition-fast: 150ms ease;
-		--transition-base: 250ms ease;
-
-		/* Border radius */
-		--radius-sm: 4px;
-		--radius-md: 6px;
-		--radius-lg: 8px;
-	}
-
-	/* Dark theme (default) - GiTS Cyberpunk */
-	:global(:root),
-	:global([data-theme="dark"]) {
-		--bg-primary: #0a0f14;
-		--bg-secondary: #0d1419;
-		--bg-surface: #111820;
-		--bg-elevated: #151d26;
-
-		--border-subtle: #1a2530;
-		--border-default: #223040;
-		--border-strong: #2a3a4d;
-
-		--text-primary: #e0f2fe;
-		--text-secondary: #7dd3fc;
-		--text-muted: #38bdf8;
-
-		--accent: #22d3ee;
-		--accent-hover: #67e8f9;
-		--accent-muted: rgba(34, 211, 238, 0.12);
-		--accent-glow: rgba(34, 211, 238, 0.4);
-
-		--link: #22d3ee;
-		--link-hover: #67e8f9;
-
-		--code-bg: #0a0f14;
-		--code-text: #7dd3fc;
-
-		--success: #4ade80;
-		--warning: #f97316;
-		--error: #f87171;
-	}
-
-	/* Light theme */
-	:global([data-theme="light"]) {
-		--bg-primary: #fafafa;
-		--bg-secondary: #f5f5f5;
-		--bg-surface: #ffffff;
-		--bg-elevated: #ffffff;
-
-		--border-subtle: #e8e8e8;
-		--border-default: #e0e0e0;
-		--border-strong: #d0d0d0;
-
-		--text-primary: #1a1a1a;
-		--text-secondary: #525252;
-		--text-muted: #8a8a8a;
-
-		--accent: #0d9488;
-		--accent-hover: #0f766e;
-		--accent-muted: rgba(13, 148, 136, 0.1);
-
-		--link: #0066cc;
-		--link-hover: #0052a3;
-
-		--code-bg: #f0f0f0;
-		--code-text: #1a1a1a;
-
-		--success: #16a34a;
-		--warning: #ea580c;
-		--error: #dc2626;
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Global Reset & Base Styles
-	   ═══════════════════════════════════════════════════════════════ */
-
-	:global(*) {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-	}
-
-	:global(html) {
-		scroll-behavior: smooth;
-	}
-
-	:global(body) {
-		font-family: var(--font-sans);
-		font-size: 15px;
-		line-height: 1.65;
-		color: var(--text-primary);
-		background: var(--bg-primary);
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		transition: background var(--transition-base), color var(--transition-base);
-	}
-
-	:global(::selection) {
-		background: var(--accent-muted);
-		color: var(--text-primary);
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Layout
-	   ═══════════════════════════════════════════════════════════════ */
-
-	.site {
-		max-width: 80rem;
-		margin: 0 auto;
-		padding: var(--space-xl) var(--space-lg);
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Alpha Banner
-	   ═══════════════════════════════════════════════════════════════ */
-
+	/* Closed Alpha Banner */
 	.alpha-banner {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: var(--space-sm);
-		padding: var(--space-xs) var(--space-md);
-		background: linear-gradient(90deg, var(--accent-muted), transparent, var(--accent-muted));
-		border-bottom: 1px solid var(--accent-muted);
-		font-size: 0.8rem;
+		gap: var(--space-3);
+		padding: var(--space-2) var(--space-4);
+		background: var(--color-bg-elevated);
+		border-bottom: 1px solid var(--color-border);
+		font-size: var(--text-xs);
 	}
 
 	.alpha-badge {
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
-		font-weight: 500;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		padding: 2px 8px;
-		background: var(--accent);
-		color: var(--bg-primary);
+		letter-spacing: 0.1em;
+		color: var(--color-accent);
+		background: var(--color-accent-muted);
+		padding: var(--space-1) var(--space-2);
 		border-radius: var(--radius-sm);
 	}
 
 	.alpha-text {
-		color: var(--text-secondary);
+		color: var(--color-text-muted);
 	}
 
-	/* ═══════════════════════════════════════════════════════════════
-	   Navigation
-	   ═══════════════════════════════════════════════════════════════ */
-
-	.nav {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: var(--space-3xl);
-		padding-bottom: var(--space-lg);
-		border-bottom: 1px solid var(--border-subtle);
-	}
-
-	.logo {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-		text-decoration: none;
-		transition: opacity var(--transition-fast);
-	}
-
-	.logo:hover {
-		opacity: 1;
-	}
-
-	.logo:hover .logo-prompt {
-		text-shadow: 0 0 12px var(--accent);
-	}
-
-	.logo-prompt {
-		font-family: var(--font-mono);
-		font-size: 1rem;
-		font-weight: 500;
-		color: var(--accent);
-		transition: text-shadow var(--transition-fast);
-	}
-
-	.logo-text {
-		font-family: var(--font-mono);
-		font-size: 1rem;
-		font-weight: 500;
-		color: var(--text-primary);
-		letter-spacing: -0.01em;
-	}
-
-	.nav-right {
-		display: flex;
-		align-items: center;
-		gap: var(--space-lg);
-	}
-
-	.links {
-		display: flex;
-		gap: var(--space-lg);
-	}
-
-	.links a {
-		font-family: var(--font-mono);
-		font-size: 0.85rem;
-		color: var(--text-secondary);
-		text-decoration: none;
-		transition: color var(--transition-fast);
-		position: relative;
-	}
-
-	.links a::after {
-		content: '';
-		position: absolute;
-		bottom: -2px;
+	/* Navigation */
+	.main-nav {
+		position: fixed;
+		top: 36px;
 		left: 0;
-		width: 0;
-		height: 1px;
-		background: var(--accent);
-		transition: width var(--transition-fast);
-	}
-
-	.links a:hover {
-		color: var(--text-primary);
-	}
-
-	.links a:hover::after {
-		width: 100%;
-		box-shadow: 0 0 8px var(--accent);
-	}
-
-	.theme-toggle {
+		right: 0;
+		z-index: 99;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		width: 36px;
-		height: 36px;
-		background: transparent;
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-md);
-		color: var(--text-secondary);
-		cursor: pointer;
-		transition: all var(--transition-fast);
+		justify-content: space-between;
+		padding: var(--space-3) var(--space-6);
+		background: var(--color-bg-deep);
+		border-bottom: 1px solid var(--color-border-subtle);
 	}
 
-	.theme-toggle:hover {
-		border-color: var(--accent);
-		color: var(--accent);
-		background: var(--bg-surface);
-		box-shadow: 0 0 16px -4px var(--accent);
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Main Content
-	   ═══════════════════════════════════════════════════════════════ */
-
-	main {
-		flex: 1;
-		animation: fadeIn 300ms ease;
-	}
-
-	@keyframes fadeIn {
-		from { opacity: 0; transform: translateY(8px); }
-		to { opacity: 1; transform: translateY(0); }
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Footer
-	   ═══════════════════════════════════════════════════════════════ */
-
-	.footer {
-		margin-top: var(--space-3xl);
-		padding-top: var(--space-lg);
-		border-top: 1px solid var(--border-subtle);
-		text-align: center;
-	}
-
-	.footer-text {
+	.nav-brand {
 		font-family: var(--font-mono);
-		font-size: 0.8rem;
-		color: var(--text-muted);
-		letter-spacing: 0.02em;
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Markdown Content Styles
-	   ═══════════════════════════════════════════════════════════════ */
-
-	:global(.markdown-content) {
-		max-width: 100%;
-	}
-
-	:global(.markdown-content h1) {
-		font-size: 2rem;
-		font-weight: 600;
-		margin-bottom: var(--space-md);
-		line-height: 1.2;
-		color: var(--text-primary);
-		letter-spacing: -0.02em;
-	}
-
-	:global(.markdown-content h2) {
-		font-size: 1.35rem;
-		font-weight: 600;
-		margin-top: var(--space-2xl);
-		margin-bottom: var(--space-md);
-		color: var(--text-primary);
-		letter-spacing: -0.01em;
-	}
-
-	:global(.markdown-content h3) {
-		font-size: 1.1rem;
-		font-weight: 600;
-		margin-top: var(--space-xl);
-		margin-bottom: var(--space-sm);
-		color: var(--text-primary);
-	}
-
-	:global(.markdown-content p) {
-		margin-bottom: var(--space-md);
-		color: var(--text-secondary);
-	}
-
-	:global(.markdown-content a) {
-		color: var(--link);
+		font-size: var(--text-sm);
+		font-weight: var(--font-semibold);
+		color: var(--color-text-primary);
 		text-decoration: none;
-		transition: color var(--transition-fast);
 	}
 
-	:global(.markdown-content a:hover) {
-		color: var(--link-hover);
-		text-decoration: underline;
+	.nav-brand:hover {
+		color: var(--color-accent);
 	}
 
-	:global(.markdown-content code) {
+	.nav-links {
+		display: flex;
+		gap: var(--space-6);
+	}
+
+	.nav-links a {
 		font-family: var(--font-mono);
-		font-size: 0.85em;
-		background: var(--code-bg);
-		color: var(--code-text);
-		padding: 0.15em 0.4em;
-		border-radius: var(--radius-sm);
-		border: 1px solid var(--border-subtle);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		text-decoration: none;
+		transition: color var(--duration-fast) var(--ease-out);
 	}
 
-	:global(.markdown-content pre) {
-		background: var(--bg-elevated);
-		border: 1px solid var(--border-default);
-		padding: var(--space-md);
-		border-radius: var(--radius-md);
-		overflow-x: auto;
-		margin: var(--space-md) 0;
+	.nav-links a:hover {
+		color: var(--color-accent);
 	}
 
-	:global(.markdown-content pre code) {
-		background: none;
-		border: none;
-		padding: 0;
-		font-size: 0.85rem;
-		color: var(--code-text);
-	}
-
-	:global(.markdown-content ul),
-	:global(.markdown-content ol) {
-		margin: var(--space-md) 0;
-		padding-left: var(--space-lg);
-		color: var(--text-secondary);
-	}
-
-	:global(.markdown-content li) {
-		margin-bottom: var(--space-xs);
-	}
-
-	:global(.markdown-content li::marker) {
-		color: var(--text-muted);
-	}
-
-	:global(.markdown-content table) {
-		width: 100%;
-		border-collapse: collapse;
-		margin: var(--space-md) 0;
-		font-size: 0.9rem;
-	}
-
-	:global(.markdown-content th),
-	:global(.markdown-content td) {
-		text-align: left;
-		padding: var(--space-sm) var(--space-md);
-		border-bottom: 1px solid var(--border-default);
-	}
-
-	:global(.markdown-content th) {
-		font-weight: 600;
-		color: var(--text-primary);
-		background: var(--bg-surface);
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-
-	:global(.markdown-content td) {
-		color: var(--text-secondary);
-	}
-
-	:global(.markdown-content tr:hover td) {
-		background: var(--bg-surface);
-	}
-
-	:global(.markdown-content hr) {
-		border: none;
-		border-top: 1px solid var(--border-subtle);
-		margin: var(--space-2xl) 0;
-	}
-
-	:global(.markdown-content blockquote) {
-		border-left: 3px solid var(--accent);
-		padding-left: var(--space-md);
-		margin: var(--space-md) 0;
-		color: var(--text-secondary);
-		font-style: italic;
-	}
-
-	:global(.markdown-content em) {
-		color: var(--text-secondary);
-	}
-
-	:global(.markdown-content strong) {
-		font-weight: 600;
-		color: var(--text-primary);
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Responsive
-	   ═══════════════════════════════════════════════════════════════ */
-
-	@media (max-width: 640px) {
-		.site {
-			padding: var(--space-md);
-		}
-
-		.nav {
-			margin-bottom: var(--space-xl);
-		}
-
-		.links {
-			gap: var(--space-md);
-		}
-
-		:global(.markdown-content h1) {
-			font-size: 1.6rem;
-		}
-
-		:global(.markdown-content h2) {
-			font-size: 1.2rem;
-		}
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Background Effects & Flair
-	   ═══════════════════════════════════════════════════════════════ */
-
+	/* GiTS Cyberpunk Background */
 	.bg-effects {
 		position: fixed;
 		inset: 0;
@@ -596,7 +148,7 @@
 	.orb-1 {
 		width: 600px;
 		height: 600px;
-		background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+		background: radial-gradient(circle, #22d3ee 0%, transparent 70%);
 		top: -200px;
 		right: -200px;
 		animation-delay: 0s;
@@ -630,8 +182,8 @@
 		position: absolute;
 		inset: 0;
 		background-image:
-			linear-gradient(var(--border-subtle) 1px, transparent 1px),
-			linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+			linear-gradient(#1a2530 1px, transparent 1px),
+			linear-gradient(90deg, #1a2530 1px, transparent 1px);
 		background-size: 40px 40px;
 		opacity: 0.35;
 		mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 70%);
@@ -642,7 +194,6 @@
 	.scanlines {
 		position: absolute;
 		inset: 0;
-		pointer-events: none;
 		background: repeating-linear-gradient(
 			0deg,
 			transparent 0px,
@@ -658,22 +209,5 @@
 		inset: 0;
 		opacity: 0.03;
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-	}
-
-	/* Light mode adjustments */
-	:global([data-theme="light"]) .gradient-orb {
-		opacity: 0.2;
-	}
-
-	:global([data-theme="light"]) .grid-overlay {
-		opacity: 0.15;
-	}
-
-	:global([data-theme="light"]) .orb-1 {
-		background: radial-gradient(circle, #14b8a6 0%, transparent 70%);
-	}
-
-	:global([data-theme="light"]) .orb-2 {
-		background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
 	}
 </style>

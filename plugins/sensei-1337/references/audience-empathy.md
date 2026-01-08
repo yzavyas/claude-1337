@@ -138,7 +138,7 @@ Identical information, reframed for different audiences:
 |----------|-------|
 | Decision-maker | "Your AI investment may be costing you 19% productivity. Here's the RCT data and what to do about it." |
 | Practitioner | "Here's research showing AI tools can slow you down if used wrong. Here's how to use them effectively." |
-| Evaluator | "METR 2025 RCT (n=16): 19% measured slowdown vs. 20% perceived speedup. Methodology and limitations here." |
+| Evaluator | "METR 2025 RCT (n=16): 19% measured slowdown vs. 24% perceived speedup. Methodology and limitations here." |
 | Learner | "AI tools aren't automatically helpful. Let's look at when they help and when they hurt." |
 
 Same fact. Four different teachings.

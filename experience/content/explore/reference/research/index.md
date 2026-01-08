@@ -1,63 +1,35 @@
-# research
+# Research
 
-What does research actually say about human-AI collaboration? The findings shape everything we build here.
+Validated findings supporting the ethos.
 
----
+## Productivity
 
-## key findings
+| Study | Finding | n |
+|-------|---------|---|
+| METR 2025 | 19% slower with AI tools, 24% predicted faster | 16 experienced developers |
+| Stack Overflow 2024-2025 | Trust dropped 43% → 33%, adoption rose 76% → 84% | Survey |
+| Fastly 2025 | Seniors 4.3 min verification, juniors 1.2 min | 791 developers |
 
-| finding | source | implication |
-|---------|--------|-------------|
-| Human-AI combos often **worse** than best alone | Vaccaro 2024 | Design for augmentation, not replacement |
-| Content creation gains, decision-making losses | Vaccaro 2024 | Provide frameworks, not decisions |
-| r = -0.75: AI use vs critical thinking | Gerlich 2025 | Preserve engagement and judgment |
-| 20% skill degradation in 3 months | Budzyń Lancet 2025 | Skill decay is rapid |
-| 83% couldn't recall their AI-assisted writing | Kosmyna MIT 2025 | Cognitive debt accumulates fast |
-| Individual creativity ↑, collective diversity ↓ | Doshi 2024 | Homogenization risk at scale |
+## Cognitive Effects
 
----
+| Study | Finding | Effect |
+|-------|---------|--------|
+| Lee CHI 2025 | Higher AI confidence → less critical thinking | β = -0.69 |
+| Kosmyna MIT 2025 | Couldn't recall AI-assisted writing | 83% |
+| Bastani PNAS 2025 | Unrestricted AI → worse exam performance | -17% |
+| Bansal CHI 2021 | AI explanations increase overreliance | — |
 
-## design principles
+## Skill Degradation
 
-From the research, principles emerge in priority order:
+| Study | Finding | Timeframe |
+|-------|---------|-----------|
+| Budzyń Lancet 2025 | ADR dropped 28.4% → 22.4% after AI removal | 3 months |
+| GitClear 2024 | 8x code duplication, refactoring 25% → 10% | 2020-2024 |
 
-### foundational (non-negotiable)
+## Collaboration Design
 
-| principle | research basis |
-|-----------|---------------|
-| **augment, don't replace** | Vaccaro 2024: synergy is rare |
-| **preserve autonomy** | SDT 2025: autonomy drives motivation |
-| **enable co-creation** | Nature 2024: co-creation beats editing |
+| Study | Finding | n |
+|-------|---------|---|
+| Blaurock JSR 2024 | Transparency (β=0.415), control (β=0.507) improve outcomes; engagement (b=-0.555) hurts | 106 studies |
 
-### trust (critical for adoption)
-
-| principle | research basis |
-|-----------|---------------|
-| **enable validation** | CHI 2021: validation beats acceptance |
-| **calibrate reliance** | CHB 2024: over-reliance harms |
-| **maintain critical thinking** | Gerlich 2025: r = -0.75 correlation |
-
-### growth (long-term capability)
-
-| principle | research basis |
-|-----------|---------------|
-| **support metacognition** | ICER 2025: skills determine benefit |
-| **preserve diversity** | Science Advances 2024: collective risk |
-| **avoid dependency** | Nature 2025: gains don't transfer |
-
----
-
-## topic deep dives
-
-| topic | question it answers |
-|-------|---------------------|
-| [experience-psychology](experience-psychology/) | What makes interfaces feel right? |
-| [webgl-3d](webgl-3d/) | How to build 3D for the web? |
-
-**Note:** Research on collaboration, cognition, creativity, engineering, and activation is now consolidated in the skill references themselves (core-1337, eval-1337, sensei-1337). See those skills for deep dives on their respective topics.
-
----
-
-## full citations
-
-[bibliography](/explore/reference/bibliography/)
+Full citations in [bibliography](/explore/reference/bibliography).

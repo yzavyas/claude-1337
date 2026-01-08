@@ -1,6 +1,7 @@
 ---
 name: davinci
 description: "Architecture diagram specialist. Generates comprehensive diagram suites for systems, codebases, and APIs. Use when: documenting system architecture, explaining complex interactions, visualizing data flows, creating technical documentation with multiple diagram views."
+capabilities: ["diagrams", "visualization", "architecture documentation"]
 ---
 
 # DaVinci: Architecture Diagram Agent

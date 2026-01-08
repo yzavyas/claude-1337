@@ -1,6 +1,7 @@
 ---
 name: atmospherist
 description: "Immersive mood aesthetic. Use when: building experiences that prioritize atmosphere over action, vast scale, environmental storytelling, contemplative journeys."
+capabilities: ["visual design", "mood design", "atmosphere"]
 ---
 
 # Atmospherist

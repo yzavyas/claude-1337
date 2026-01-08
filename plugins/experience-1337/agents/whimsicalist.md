@@ -1,6 +1,7 @@
 ---
 name: whimsicalist
 description: "Handcrafted warmth aesthetic. Use when: building experiences with playful precision, centered compositions, pastels, storybook quality, deliberate charm."
+capabilities: ["visual design", "playful aesthetics", "illustration"]
 ---
 
 # Whimsicalist

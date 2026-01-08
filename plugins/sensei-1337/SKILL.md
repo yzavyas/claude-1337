@@ -120,7 +120,7 @@ The same information, framed for different audiences:
 |----------|-------------|
 | Decision-maker | "Your AI investment may be costing you 19% productivity. Here's the RCT and what to do." |
 | Practitioner | "Here's research on when AI helps vs. hurts. Here's how to use it effectively." |
-| Evaluator | "METR 2025 RCT: 19% slowdown vs. 20% perceived speedup. Methodology here." |
+| Evaluator | "METR 2025 RCT: 19% slowdown vs. 24% perceived speedup. Methodology here." |
 | Learner | "AI tools aren't automatically helpful. Let me show you when they work." |
 
 Same fact. Four different teachings. Each lands with its audience.

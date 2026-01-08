@@ -1,6 +1,7 @@
 ---
 name: shadowist
 description: "Tension through darkness aesthetic. Use when: building experiences with dramatic restraint, dark palettes, desaturation, psychological weight, noir sensibility."
+capabilities: ["visual design", "dark themes", "dramatic aesthetics"]
 ---
 
 # Shadowist

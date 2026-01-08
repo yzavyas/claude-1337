@@ -4,13 +4,11 @@ import { mdsvex } from 'mdsvex';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	extensions: ['.svelte', '.md', '.svx'],
+	extensions: ['.svelte', '.svx'],
 	preprocess: [
 		vitePreprocess(),
 		mdsvex({
-			extensions: ['.md', '.svx'],
-			// Layout for markdown files (optional, can add later)
-			// layout: './src/lib/layouts/MdLayout.svelte'
+			extensions: ['.svx']
 		})
 	],
 
@@ -18,17 +16,14 @@ const config = {
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
-			fallback: '404.html',
+			fallback: undefined,
 			precompress: false,
 			strict: true
 		}),
-		paths: {
-			base: process.env.NODE_ENV === 'production' ? '/claude-1337' : ''
-		},
-		prerender: {
-			handleHttpError: ({ path, referrer }) => {
-				console.warn(`[prerender] 404: ${path} (from ${referrer})`);
-			}
+		alias: {
+			$components: 'src/lib/components',
+			$styles: 'src/lib/styles',
+			$content: '../content'
 		}
 	}
 };

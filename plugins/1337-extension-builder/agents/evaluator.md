@@ -12,6 +12,7 @@ description: |
   user: "Evaluate all our skills"
   assistant: "I'll use the evaluator agent to assess each skill."
   </example>
+capabilities: ["evaluation", "quality review", "verification"]
 ---
 
 # 1337 Evaluator

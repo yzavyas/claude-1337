@@ -1,6 +1,7 @@
 ---
 name: feynman
 description: "Documentation agent using Feynman technique. Use when: writing docs, tutorials, explanations, concept guides. Produces clear, example-first content."
+capabilities: ["documentation", "teaching", "explanations"]
 model: sonnet
 ---
 

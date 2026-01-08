@@ -1,6 +1,7 @@
 ---
 name: editorialist
 description: "Magazine heritage aesthetic. Use when: building content-driven experiences with typography as hero, generous white space, editorial layouts, longform storytelling."
+capabilities: ["visual design", "editorial layout", "typography"]
 ---
 
 # Editorialist

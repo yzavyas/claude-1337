@@ -1,0 +1,139 @@
+/* Design Tokens - GiTS Cyberpunk */
+
+:root {
+	/* === Color Palette (hex, from legacy app) === */
+
+	/* Backgrounds */
+	--color-bg-deep: #0a0f14;
+	--color-bg-surface: #111820;
+	--color-bg-elevated: #151d26;
+	--color-bg-hover: #1a2530;
+
+	/* Text - cyan tinted */
+	--color-text-primary: #e0f2fe;
+	--color-text-secondary: #7dd3fc;
+	--color-text-tertiary: #38bdf8;
+	--color-text-muted: #0ea5e9;
+
+	/* Accents */
+	--color-accent: #22d3ee;
+	--color-accent-hover: #67e8f9;
+	--color-accent-muted: rgba(34, 211, 238, 0.15);
+	--color-accent-positive: #4ade80;
+	--color-accent-negative: #f87171;
+	--color-accent-data: #7dd3fc;
+	--color-accent-link: #22d3ee;
+	--color-accent-link-hover: #67e8f9;
+
+	/* Semantic */
+	--color-border: #1a2530;
+	--color-border-subtle: #151d26;
+	--color-border-strong: #223040;
+	--color-success: #4ade80;
+
+	/* Gradients */
+	--gradient-text: linear-gradient(135deg, #e0f2fe 0%, #22d3ee 100%);
+	--gradient-surface: linear-gradient(180deg, #111820 0%, #0a0f14 100%);
+	--gradient-glow: radial-gradient(ellipse at center, rgba(34, 211, 238, 0.15), transparent 70%);
+
+	/* === Typography === */
+
+	/* Font families */
+	--font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+	--font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
+	--font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+	/* Font sizes - fluid with clamp */
+	--text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
+	--text-sm: clamp(0.8125rem, 0.75rem + 0.3vw, 0.875rem);
+	--text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+	--text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+	--text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+	--text-2xl: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+	--text-3xl: clamp(2rem, 1.7rem + 1.2vw, 2.75rem);
+	--text-4xl: clamp(2.5rem, 2rem + 2vw, 4rem);
+
+	/* Line heights */
+	--leading-none: 1;
+	--leading-tight: 1.2;
+	--leading-snug: 1.4;
+	--leading-normal: 1.6;
+	--leading-relaxed: 1.75;
+	--leading-loose: 2;
+
+	/* Letter spacing */
+	--tracking-tighter: -0.03em;
+	--tracking-tight: -0.015em;
+	--tracking-normal: 0;
+	--tracking-wide: 0.015em;
+	--tracking-wider: 0.03em;
+
+	/* Font weights */
+	--font-normal: 400;
+	--font-medium: 500;
+	--font-semibold: 600;
+	--font-bold: 700;
+
+	/* === Spacing === */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.25rem;
+	--space-6: 1.5rem;
+	--space-8: 2rem;
+	--space-10: 2.5rem;
+	--space-12: 3rem;
+	--space-16: 4rem;
+	--space-20: 5rem;
+	--space-24: 6rem;
+	--space-32: 8rem;
+	--space-40: 10rem;
+	--space-48: 12rem;
+	--space-64: 16rem;
+
+	/* === Layout === */
+	--content-width: 680px;
+	--content-width-wide: 900px;
+	--content-width-full: 1200px;
+	--section-padding: var(--space-24);
+	--section-padding-mobile: var(--space-16);
+
+	/* === Animation === */
+	--duration-instant: 100ms;
+	--duration-fast: 200ms;
+	--duration-normal: 300ms;
+	--duration-slow: 500ms;
+	--duration-slower: 800ms;
+
+	/* Easing - GSAP equivalents for CSS */
+	--ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+	--ease-in: cubic-bezier(0.32, 0, 0.67, 0);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+	/* === Z-index === */
+	--z-base: 0;
+	--z-sticky: 100;
+	--z-fixed: 200;
+	--z-overlay: 300;
+	--z-modal: 400;
+
+	/* === Borders === */
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+	--radius-xl: 16px;
+	--radius-full: 9999px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--duration-instant: 0ms;
+		--duration-fast: 0ms;
+		--duration-normal: 0ms;
+		--duration-slow: 0ms;
+		--duration-slower: 0ms;
+	}
+}

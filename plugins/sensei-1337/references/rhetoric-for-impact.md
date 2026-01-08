@@ -37,7 +37,7 @@ Decision-makers don't read to the end. Give them the bottom line first.
 > "We conducted a study examining AI tool usage among 16 developers over several months. Using randomized controlled methodology, we measured both perceived and actual productivity impacts. The results showed an interesting divergence between perception and reality..."
 
 **BLUF:**
-> "AI tools reduced developer productivity by 19%, despite developers perceiving a 20% improvement. Here's the evidence and what to do about it."
+> "AI tools reduced developer productivity by 19%, despite developers perceiving a 24% improvement. Here's the evidence and what to do about it."
 
 ### When to Use
 

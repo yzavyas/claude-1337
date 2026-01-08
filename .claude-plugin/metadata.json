@@ -1,0 +1,34 @@
+{
+  "core-1337": {
+    "displayName": "Core Reasoning",
+    "category": "foundation"
+  },
+  "terminal-1337": {
+    "displayName": "Terminal Tools",
+    "category": "tooling"
+  },
+  "rust-1337": {
+    "displayName": "Rust",
+    "category": "language"
+  },
+  "sensei-1337": {
+    "displayName": "Effective Explanations",
+    "category": "documentation"
+  },
+  "diagrams-1337": {
+    "displayName": "Diagrams",
+    "category": "documentation"
+  },
+  "1337-extension-builder": {
+    "displayName": "Build Extensions",
+    "category": "meta"
+  },
+  "eval-1337": {
+    "displayName": "Evals",
+    "category": "testing"
+  },
+  "experience-1337": {
+    "displayName": "Experience Engineering",
+    "category": "frontend"
+  }
+}

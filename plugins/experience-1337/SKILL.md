@@ -338,19 +338,60 @@ See `references/component-patterns.md` for full patterns.
 
 See `references/cognitive-design.md` for full research.
 
+## Microcopy & Interaction Design
+
+### Microcopy Rules
+
+| Do | Don't | Why |
+|----|-------|-----|
+| "copy" | "click to copy" | Every word must earn its place |
+| "save" | "save changes" | Context makes it obvious |
+| "✓" | "✓ copied!" | Feedback should be minimal |
+| Verb only | Verb + explanation | Users know what buttons do |
+
+**The test:** Can you remove a word without losing meaning? Remove it.
+
+### Hover/Focus States
+
+| Issue | Fix |
+|-------|-----|
+| Text overlaps hint | Add `padding-right` to text, give hint `background` |
+| Hint visible at rest | `opacity: 0` with transition, not `display: none` |
+| No hover feedback | Border color change, subtle transform |
+| Focus invisible | `:focus-visible` outline, not `:focus` (avoids click flash) |
+
+**Always check:** What happens when text is longer than expected?
+
+### Positioning Checklist
+
+- [ ] Absolute elements have containing block?
+- [ ] Text has room for overlaid elements (padding)?
+- [ ] Hints/tooltips have backgrounds (don't show through)?
+- [ ] Overflow handled (`hidden`, `ellipsis`, or scroll)?
+- [ ] Works at minimum AND maximum content length?
+
 ## Checklist
 
 Before shipping experience work:
 
+**Animation & Performance:**
 - [ ] GSAP/ScrollTrigger cleanup on unmount?
 - [ ] 3D behind SSR guard (`browser` check / dynamic import)?
 - [ ] `prefers-reduced-motion` respected?
 - [ ] Mobile tested (especially iOS)?
 - [ ] Passive scroll listeners?
+- [ ] Asymmetric animation timing (enter slower than exit)?
+
+**Design Quality:**
 - [ ] Optical adjustments, not just math?
 - [ ] Personality in the design, not just correctness?
 - [ ] Audience considered (age, expertise, culture)?
-- [ ] Asymmetric animation timing (enter slower than exit)?
+
+**Interaction Design:**
+- [ ] Microcopy minimal (every word earns its place)?
+- [ ] Hover/focus states visible and non-overlapping?
+- [ ] Works at edge-case content lengths?
+- [ ] Absolute positioned elements contained properly?
 
 ## Aesthetic Agents
 

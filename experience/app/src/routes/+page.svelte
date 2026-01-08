@@ -1,428 +1,171 @@
 <script lang="ts">
-	import SvelteMarkdown from '@humanspeak/svelte-markdown';
-	import { base } from '$app/paths';
-	import { getContent } from '$lib/content';
-
-	const content = getContent('start');
-
-	// Typing animation for the tagline
-	let displayed = $state('');
-	const fullText = 'engineering excellence through collaboration';
-
-	$effect(() => {
-		let i = 0;
-		const interval = setInterval(() => {
-			if (i <= fullText.length) {
-				displayed = fullText.slice(0, i);
-				i++;
-			} else {
-				clearInterval(interval);
-			}
-		}, 40);
-		return () => clearInterval(interval);
-	});
+	import CopyCommand from '$lib/components/CopyCommand.svelte';
 </script>
 
-<!-- Hero Section -->
-<section class="hero">
-	<div class="hero-badge">
-		<span class="badge-dot"></span>
-		<span class="badge-text">marketplace</span>
-	</div>
+<svelte:head>
+	<title>Cognitive Extensions — claude-1337</title>
+</svelte:head>
 
-	<h1 class="hero-title">
-		<span class="title-line">
-			<span class="prompt">$</span>
-			<span class="highlight">claude-1337</span>
-		</span>
-	</h1>
-
-	<p class="hero-tagline">
-		cognitive extensions for
-		<span class="emphasis">effective collaborative intelligence</span>
-	</p>
-
-	<p class="hero-typing">
-		<span class="typing-text">{displayed}</span>
-		<span class="cursor">▊</span>
-	</p>
-
-	<div class="hero-description">
-		<p>Extensions that make engineers <strong>more capable</strong>, not more dependent.</p>
-		<p>Five extension types — skills, hooks, agents, commands, MCP. Knowledge that compounds. You grow, the system learns.</p>
-	</div>
-
-	<div class="hero-actions">
-		<a href="{base}/explore/reference/catalog/" class="btn-primary">
-			<span class="btn-icon">→</span>
-			browse catalog
-		</a>
-		<a href="{base}/explore/" class="btn-secondary">
-			explore docs
-		</a>
-	</div>
-
-	<div class="hero-install">
-		<div class="install-block">
-			<button class="install-cmd" onclick={() => navigator.clipboard.writeText('/plugin marketplace add yzavyas/claude-1337')}>
-				<span class="cmd-text">/plugin marketplace add yzavyas/claude-1337</span>
-				<span class="copy-hint">click to copy</span>
-			</button>
-			<button class="install-cmd" onclick={() => navigator.clipboard.writeText('/plugin install core-1337@claude-1337')}>
-				<span class="cmd-text">/plugin install core-1337@claude-1337</span>
-				<span class="copy-hint">click to copy</span>
-			</button>
+<main class="landing">
+	<section class="hero">
+		<div class="badge">
+			<span class="badge-dot"></span>
+			<span class="badge-text">marketplace</span>
 		</div>
+
+		<h1 class="headline">
+			<span class="headline-primary">Enhanced capability.</span>
+			<span class="headline-primary">Effective collaboration.</span>
+			<span class="headline-primary">Compounding growth.</span>
+		</h1>
+
+		<p class="description">
+			Cognitive extensions that make engineers better, not more dependent.
+		</p>
+
+		<div class="actions">
+			<a href="/ethos/" class="primary-action">
+				<span>Understand the approach</span>
+				<span class="arrow">→</span>
+			</a>
+		</div>
+	</section>
+
+	<div class="secondary-link">
+		<a href="/catalog/">Browse Extensions</a>
 	</div>
-</section>
-
-<!-- Divider -->
-<div class="section-divider">
-	<span class="divider-text">why this exists</span>
-</div>
-
-<!-- Content from markdown -->
-<article class="markdown-content home-content">
-	{#if content}
-		<SvelteMarkdown source={content} />
-	{:else}
-		<p>Loading content...</p>
-	{/if}
-</article>
+</main>
 
 <style>
-	/* ═══════════════════════════════════════════════════════════════
-	   Hero Section
-	   ═══════════════════════════════════════════════════════════════ */
+	.landing {
+		min-height: 100vh;
+		padding: 100px var(--space-6) var(--space-12);
+	}
 
 	.hero {
+		max-width: var(--content-width);
 		text-align: center;
-		padding: var(--space-2xl) 0 var(--space-3xl);
-		animation: heroFadeIn 600ms ease;
+		margin: 0 auto var(--space-16);
 	}
 
-	@keyframes heroFadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	.hero-badge {
+	.badge {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--space-sm);
-		padding: var(--space-xs) var(--space-md);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-default);
-		border-radius: 999px;
-		margin-bottom: var(--space-xl);
-		animation: badgePulse 3s ease-in-out infinite;
+		gap: var(--space-2);
+		padding: var(--space-1) var(--space-4);
+		background: var(--color-bg-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		margin-bottom: var(--space-8);
+		animation: fadeIn 600ms ease;
 	}
 
-	@keyframes badgePulse {
-		0%, 100% { box-shadow: 0 0 0 0 var(--accent-muted); }
-		50% { box-shadow: 0 0 0 8px transparent; }
+	@keyframes fadeIn {
+		from { opacity: 0; transform: translateY(12px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 
 	.badge-dot {
-		width: 8px;
-		height: 8px;
-		background: var(--success);
+		width: 6px;
+		height: 6px;
+		background: var(--color-success);
 		border-radius: 50%;
-		animation: dotPulse 2s ease-in-out infinite;
+		animation: pulse 2s ease-in-out infinite;
 	}
 
-	@keyframes dotPulse {
+	@keyframes pulse {
 		0%, 100% { opacity: 1; }
 		50% { opacity: 0.5; }
 	}
 
 	.badge-text {
 		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		color: var(--text-secondary);
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
 	}
 
-	.hero-title {
-		font-size: clamp(2.5rem, 8vw, 4rem);
-		font-weight: 600;
-		line-height: 1.1;
-		margin-bottom: var(--space-md);
-		letter-spacing: -0.03em;
+	.headline {
+		margin-bottom: var(--space-8);
+		animation: fadeIn 600ms ease 100ms both;
 	}
 
-	.title-line {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: var(--space-md);
+	.headline-primary {
+		display: block;
+		font-family: var(--font-display);
+		font-size: var(--text-4xl);
+		font-weight: var(--font-medium);
+		letter-spacing: var(--tracking-tighter);
+		line-height: var(--leading-tight);
+		color: var(--color-text-primary);
 	}
 
-	.prompt {
-		font-family: var(--font-mono);
-		color: var(--accent);
-		font-size: 0.8em;
-		animation: promptBlink 1.5s ease-in-out infinite;
+	.description {
+		font-size: var(--text-lg);
+		color: var(--color-text-secondary);
+		max-width: 480px;
+		margin: 0 auto var(--space-10);
+		line-height: var(--leading-relaxed);
+		animation: fadeIn 600ms ease 200ms both;
 	}
 
-	@keyframes promptBlink {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0.6; }
+	.actions {
+		animation: fadeIn 600ms ease 300ms both;
+		margin-bottom: var(--space-16);
 	}
 
-	.highlight {
-		font-family: var(--font-mono);
-		background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
-	.hero-tagline {
-		font-size: 1.25rem;
-		color: var(--text-secondary);
-		margin-bottom: var(--space-md);
-		line-height: 1.4;
-	}
-
-	.emphasis {
-		color: var(--text-primary);
-		font-weight: 500;
-	}
-
-	.hero-typing {
-		font-family: var(--font-mono);
-		font-size: 1rem;
-		color: var(--accent);
-		margin-bottom: var(--space-xl);
-		min-height: 1.5em;
-	}
-
-	.cursor {
-		animation: cursorBlink 1s step-end infinite;
-		opacity: 1;
-	}
-
-	@keyframes cursorBlink {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0; }
-	}
-
-	.hero-description {
-		max-width: 500px;
-		margin: 0 auto var(--space-xl);
-	}
-
-	.hero-description p {
-		font-size: 1rem;
-		color: var(--text-secondary);
-		line-height: 1.6;
-		margin-bottom: var(--space-sm);
-	}
-
-	.hero-description strong {
-		color: var(--text-primary);
-	}
-
-	.hero-actions {
-		display: flex;
-		gap: var(--space-md);
-		justify-content: center;
-		margin-bottom: var(--space-xl);
-		flex-wrap: wrap;
-	}
-
-	.btn-primary {
+	.primary-action {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--space-sm);
-		padding: var(--space-sm) var(--space-lg);
-		background: var(--accent);
-		color: #0a0a0b;
-		font-family: var(--font-mono);
-		font-size: 0.9rem;
-		font-weight: 500;
-		text-decoration: none;
+		gap: var(--space-2);
+		padding: var(--space-3) var(--space-6);
+		background: var(--color-accent);
 		border-radius: var(--radius-md);
-		transition: all var(--transition-fast);
+		color: var(--color-bg-deep);
+		font-weight: var(--font-medium);
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		text-decoration: none;
+		transition:
+			background var(--duration-fast) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
 	}
 
-	.btn-primary:hover {
-		background: var(--accent-hover);
+	.primary-action:hover {
+		background: var(--color-accent-hover);
 		transform: translateY(-2px);
-		box-shadow: 0 8px 20px -8px var(--accent);
 	}
 
-	.btn-icon {
-		transition: transform var(--transition-fast);
+	.primary-action .arrow {
+		transition: transform var(--duration-fast) var(--ease-out);
 	}
 
-	.btn-primary:hover .btn-icon {
+	.primary-action:hover .arrow {
 		transform: translateX(4px);
 	}
 
-	.btn-secondary {
-		display: inline-flex;
-		align-items: center;
-		padding: var(--space-sm) var(--space-lg);
-		background: transparent;
-		color: var(--text-secondary);
+	.secondary-link {
+		text-align: center;
+		animation: fadeIn 600ms ease 500ms both;
+	}
+
+	.secondary-link a {
 		font-family: var(--font-mono);
-		font-size: 0.9rem;
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
 		text-decoration: none;
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-md);
-		transition: all var(--transition-fast);
+		transition: color var(--duration-fast) var(--ease-out);
 	}
 
-	.btn-secondary:hover {
-		border-color: var(--border-strong);
-		color: var(--text-primary);
-		background: var(--bg-surface);
+	.secondary-link a:hover {
+		color: var(--color-accent);
 	}
 
-	.hero-install {
-		display: flex;
-		justify-content: center;
-	}
-
-	.install-block {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-sm);
-	}
-
-	.install-cmd {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--space-md);
-		padding: var(--space-sm) var(--space-md);
-		background: var(--bg-elevated);
-		border: 1px solid var(--border-subtle);
-		border-radius: var(--radius-md);
-		font-family: var(--font-mono);
-		font-size: 0.85rem;
-		transition: all var(--transition-fast);
-		cursor: pointer;
-		user-select: all;
-		text-align: left;
-		width: 100%;
-	}
-
-	.install-cmd:hover {
-		border-color: var(--accent);
-		background: var(--bg-surface);
-	}
-
-	.install-cmd:active {
-		transform: scale(0.98);
-	}
-
-	.copy-hint {
-		font-size: 0.7rem;
-		color: var(--text-muted);
-		opacity: 0;
-		transition: opacity var(--transition-fast);
-	}
-
-	.install-cmd:hover .copy-hint {
-		opacity: 1;
-	}
-
-	.cmd-text {
-		color: var(--text-secondary);
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Section Divider
-	   ═══════════════════════════════════════════════════════════════ */
-
-	.section-divider {
-		display: flex;
-		align-items: center;
-		gap: var(--space-md);
-		margin: var(--space-3xl) 0 var(--space-xl);
-	}
-
-	.section-divider::before,
-	.section-divider::after {
-		content: '';
-		flex: 1;
-		height: 1px;
-		background: linear-gradient(90deg, transparent, var(--border-default), transparent);
-	}
-
-	.divider-text {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		color: var(--text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Home Content (after hero)
-	   ═══════════════════════════════════════════════════════════════ */
-
-	.home-content {
-		padding-bottom: var(--space-2xl);
-	}
-
-	/* Hide the first h1 since we have the hero */
-	.home-content :global(h1:first-child) {
-		display: none;
-	}
-
-	/* ═══════════════════════════════════════════════════════════════
-	   Responsive
-	   ═══════════════════════════════════════════════════════════════ */
-
+	/* Mobile */
 	@media (max-width: 640px) {
-		.hero {
-			padding: var(--space-lg) 0 var(--space-2xl);
-		}
-
-		.hero-title {
-			font-size: 2rem;
-		}
-
-		.title-line {
-			flex-direction: column;
-			gap: var(--space-xs);
-		}
-
-		.prompt {
-			font-size: 1.2rem;
-		}
-
-		.hero-tagline {
-			font-size: 1.1rem;
-		}
-
-		.hero-typing {
-			font-size: 0.85rem;
-		}
-
-		.hero-actions {
-			flex-direction: column;
-			align-items: stretch;
-		}
-
-		.btn-primary,
-		.btn-secondary {
-			justify-content: center;
-		}
-
-		.install-cmd {
-			font-size: 0.75rem;
+		.headline-primary {
+			font-size: var(--text-3xl);
 		}
 	}
 </style>
