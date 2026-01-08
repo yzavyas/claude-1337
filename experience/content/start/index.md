@@ -12,9 +12,7 @@ Three numbers that matter:
 - **19% slower, 20% faster perception**: Developers are actually slower with AI tools while perceiving themselves faster ([METR 2025](https://arxiv.org/abs/2507.09089), randomized controlled trial)
 - **r = -0.75**: Strong negative correlation between AI use and critical thinking (Gerlich 2025)
 
-**The mechanism**: Hidden abstractions → less thinking → skill decay you don't notice.
-
-**The trajectory**: This compounds. Default AI collaboration hollows out capability while boosting confidence.
+These are correlations, not proven causal mechanisms. But the pattern is consistent across studies.
 
 ---
 
@@ -24,11 +22,11 @@ Three numbers that matter:
 
 Your AI investment may be reducing team productivity while creating false confidence. The research shows:
 
-- Developers feel 20% more productive but ship 19% slower
-- Human-AI combinations underperform solo experts by effect size g = -0.23
-- Skills atrophy measurably (r = -0.75) when AI use replaces thinking
+- Developers felt 20% more productive but measured 19% slower (METR 2025)
+- Human-AI combinations underperformed solo experts, g = -0.23 (Vaccaro 2024)
+- AI use correlated with lower critical thinking scores, r = -0.75 (Gerlich 2025)
 
-Cost: degraded capability that looks like improvement.
+These findings suggest a risk of capability degradation that feels like improvement.
 
 ### The Opportunity
 
@@ -38,7 +36,7 @@ Collaborative intelligence works differently:
 - **Bidirectional learning**: Both human and AI improve through the work
 - **Crystallized knowledge**: Breakthroughs persist as extensions
 
-Evidence: When designed for transparency and control ([Blaurock et al. 2024](https://journals.sagepub.com/doi/full/10.1177/10946705241238751)), AI collaboration enhances rather than hollows.
+Research: Transparency and control features showed strong positive effects on collaboration outcomes ([Blaurock et al. 2024](https://journals.sagepub.com/doi/full/10.1177/10946705241238751)).
 
 ### Next Steps
 
@@ -87,12 +85,13 @@ When you figure something out together, write it down. The extension persists. N
 
 ---
 
-## The Research
+## The Framework
 
-This isn't philosophy — it's evidence-based collaborative intelligence.
+This project has both a philosophy and evidence informing it.
 
-- [**Ethos**](/explore/explanation/ethos) — why this matters, what the research shows
-- [**Principles**](/explore/explanation/principles) — design for transparency and learning
+- [**Ethos**](/explore/explanation/ethos) — our values and why we hold them
+- [**Research**](/explore/reference/research) — empirical findings on human-AI collaboration
+- [**Principles**](/explore/explanation/principles) — design guidelines derived from both
 - [**Bibliography**](/explore/reference/bibliography) — full citations, methodology, effect sizes
 - [**Catalog**](/explore/reference/catalog) — available extensions and their purposes
 
@@ -107,4 +106,4 @@ Extensions aren't hidden black boxes. They're **transparent abstractions**:
 - **Verifiable**: Claims have sources, methodology visible
 - **Observable**: See what Claude does with them
 
-If you can't see how it works, you can't learn from it. If you can't learn from it, it hollows rather than enhances.
+If you can't see how it works, you can't learn from it.

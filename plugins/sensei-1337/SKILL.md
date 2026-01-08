@@ -19,6 +19,45 @@ Teaching isn't about explaining. It's about:
 
 The best understanding in the world doesn't matter if it stays locked in your head.
 
+## Before Technique: Accuracy
+
+All the rhetoric and structure in the world won't help if the content is wrong.
+
+### Why accuracy is foundational
+
+**Ethical:**
+- Teaching creates trust. Misrepresentation violates it.
+- Learners form mental models from what you teach. Wrong models lead to wrong decisions.
+- Misinformation compounds — learners pass it on, build on it, cite it.
+
+**Material:**
+- Decisions built on wrong foundations fail.
+- Unlearning is harder than learning. Wrong first impressions persist.
+- Credibility destroyed when errors discovered — everything else you taught becomes suspect.
+
+### Common accuracy failures
+
+| Failure | Example | Fix |
+|---------|---------|-----|
+| **Inference as finding** | "Study shows X causes Y" when study showed correlation | State what was actually measured |
+| **Selective citation** | Cherry-picking studies that support your view | Acknowledge contradictory evidence |
+| **Mechanism invention** | "This works because..." when mechanism unknown | Say "correlates with" not "causes" |
+| **Implication overreach** | Drawing conclusions the evidence doesn't support | Separate findings from interpretation |
+| **Framing bias** | Presenting values as facts | Label philosophy as philosophy |
+
+### The test
+
+Before teaching anything:
+
+1. **What was actually found?** — Not what you infer, what was measured
+2. **What's the evidence quality?** — Sample size, methodology, replication
+3. **What are you adding?** — Distinguish source claims from your interpretation
+4. **Would an honest skeptic accept this framing?** — If not, revise
+
+Teaching wrong things effectively is worse than not teaching at all.
+
+See: [accuracy-integrity](references/accuracy-integrity.md)
+
 ## The Teaching Progression
 
 Four stages, in order. Each builds on the last.
@@ -222,6 +261,7 @@ Works for:
 ## Sources
 
 Core references in `references/`:
+- [accuracy-integrity](references/accuracy-integrity.md) — why accuracy comes before technique
 - [psychology-of-change](references/psychology-of-change.md) — resistance and motivation
 - [audience-empathy](references/audience-empathy.md) — understanding who you're teaching
 - [rhetoric-for-impact](references/rhetoric-for-impact.md) — BLUF, inverted pyramid, translation
