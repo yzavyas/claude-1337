@@ -1,5 +1,4 @@
 <script lang="ts">
-	import CopyCommand from '$lib/components/CopyCommand.svelte';
 	import { base } from '$app/paths';
 </script>
 
@@ -90,14 +89,6 @@
 		animation: fadeIn 600ms ease 100ms both;
 	}
 
-	.headline-secondary {
-		display: block;
-		font-size: var(--text-lg);
-		font-weight: var(--font-normal);
-		color: var(--color-text-tertiary);
-		margin-bottom: var(--space-2);
-	}
-
 	.headline-primary {
 		display: block;
 		font-family: var(--font-display);
@@ -171,10 +162,6 @@
 
 	/* Mobile */
 	@media (max-width: 640px) {
-		.headline-secondary {
-			font-size: var(--text-base);
-		}
-
 		.headline-primary {
 			font-size: var(--text-3xl);
 		}

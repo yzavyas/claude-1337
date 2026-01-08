@@ -38,7 +38,7 @@
 	<div class="nav-links">
 		<a href="{base}/ethos/">Ethos</a>
 		<a href="{base}/catalog/">Catalog</a>
-		<a href="{base}/reference/">Reference</a>
+		<a href="{base}/reference/">Research</a>
 	</div>
 </nav>
 

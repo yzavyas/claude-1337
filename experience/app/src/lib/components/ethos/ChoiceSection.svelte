@@ -180,7 +180,7 @@
 				<span class="cta-arrow">→</span>
 			</a>
 			<a href="{base}/reference/" class="cta-link secondary">
-				<span class="cta-text">Research Bibliography</span>
+				<span class="cta-text">View Research</span>
 			</a>
 		</div>
 	</div>
