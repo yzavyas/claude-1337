@@ -139,6 +139,40 @@ Extensions must be transparent so builders can learn from them.
 | **decisions, not tutorials** | decision frameworks + gotchas, not step-by-step guides |
 | **compound value** | each choice makes the next enhancement easier or harder |
 
+## Structural Effectiveness
+
+Accurate content that's poorly structured doesn't land. Two CI checks: accuracy (CoVe) AND structure.
+
+### Why Structure Matters
+
+| principle | effect | application |
+|-----------|--------|-------------|
+| **Coherence** | d = 0.86 (Mayer) | Cut extraneous — every line earns its place |
+| **Signaling** | d = 0.46 (Mayer) | Headers, tables, scannable structure |
+| **Expertise reversal** | d = ±0.5 (Kalyuga) | Don't scaffold what reader knows — it hurts |
+
+79% of readers scan (Nielsen). Headers are often the only thing they read.
+
+### Structural Checklist
+
+| check | why |
+|-------|-----|
+| Tables over prose | Scannable, comparable, lower load |
+| One concept per section | Working memory = 4 chunks |
+| Front-load decisions | Busy readers stop early |
+| No wall of text | Breaks fluency, triggers bounce |
+
+### Skills = Reference + Explanation
+
+| section type | structure |
+|--------------|-----------|
+| Decision tables | Scannable, factual |
+| "Why" sections | Context, tradeoffs |
+| "When to use" | Clear conditions |
+| Examples | Concrete, copy-paste |
+
+Don't write tutorials. Tutorials bore experts. Skills are for lookup and understanding, not hand-holding.
+
 ## Design Philosophy
 
 ### Pit of Success
