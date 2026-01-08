@@ -132,7 +132,7 @@
 					year: 2025,
 					title: 'Measuring the Impact of Early AI Assistance on Experienced Open-Source Developers',
 					venue: 'arXiv',
-					url: 'https://arxiv.org/abs/2501.04631',
+					url: 'https://arxiv.org/abs/2507.09089',
 					finding: 'Felt 24% faster, actually 19% slower',
 					abstract: 'Randomized controlled trial with 16 experienced open-source developers working on their own mature repositories. Despite feeling 24% faster with AI assistance, actual task completion was 19% slower. Suggests a gap between perceived and actual productivity benefits.'
 				},
