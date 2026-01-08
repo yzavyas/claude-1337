@@ -5,19 +5,19 @@ description: "Teaching and information sharing across all contexts. Use when: wr
 
 # sensei-1337
 
-Teaching is about impact, not just clarity. Make knowledge land with the people who need it.
+Teaching is about understanding, not just explaining. Help students build mental models that stick.
 
 ## The Purpose
 
-Feynman didn't simplify physics because simplicity is nice. He simplified because he wanted physics to *matter* — to reach people, to change how they see the world.
+Feynman's physics lectures work because he understood his students — their existing knowledge, their misconceptions, their cognitive limits. Simplicity was the result, not the goal.
 
-Teaching isn't about explaining. It's about:
-- Reaching the person who needs the information
-- Overcoming their resistance to change
-- Speaking their language
-- Making the case land
+Effective teaching requires:
+- Understanding how your student processes information
+- Adapting to their expertise level and role
+- Structuring for their cognitive load
+- Speaking in terms they already understand
 
-The best understanding in the world doesn't matter if it stays locked in your head.
+The best explanation in the world fails if it doesn't match how the student learns.
 
 ## Before Technique: Accuracy
 
@@ -62,15 +62,22 @@ See: [accuracy-integrity](references/accuracy-integrity.md)
 
 Four stages, in order. Each builds on the last.
 
-### 1. Psychology → Why do they resist?
+### 1. Reader Psychology → How do they process?
 
-People don't change just because they understand. Resistance is wired in: status quo bias, loss aversion, identity threat, effort aversion.
+People scan, filter, and decide in milliseconds whether to engage. Understanding reader cognition:
 
-- Motivation beats mandate — "here's why" produces judgment, "MUST" produces brittleness
-- Meet them where they are — are they aware there's a problem, or in denial?
-- Teaching against resistance requires different techniques than teaching willing students
+- **Cognitive load** — working memory is limited; extraneous material harms learning (Mayer: d = 0.86 for coherence)
+- **Dual processing** — readers use fast heuristics first; make the right path obvious
+- **Information foraging** — readers follow "scent" of relevance; weak scent = bounce
+- **Processing fluency** — easy-to-read feels more credible (Schwarz & Oppenheimer)
 
-See: [psychology-of-change](references/psychology-of-change.md)
+Different roles process differently:
+- **Decision-makers** — scan for bottom line, ROI, risk (BLUF essential)
+- **Practitioners** — seek "how to do X" (recipes, examples)
+- **Evaluators** — assess credibility (methodology, sources)
+- **Learners** — build mental models (scaffolding, progressive disclosure)
+
+See: [reader-psychology](references/reader-psychology.md)
 
 ### 2. Audience → Who are they?
 
@@ -144,15 +151,25 @@ In conversation or when context is available, gauge the audience:
 
 ## Scope
 
-Sensei applies to all teaching contexts:
+Sensei covers knowledge transfer across three modes:
 
-| Context | Sensei applies |
-|---------|----------------|
-| Documentation | Yes |
-| Conversation | Yes — explain concepts, answer questions |
-| Code review | Yes — explain why, not just what |
-| Presentations | Yes — structure for impact |
-| Any explanatory output | Yes |
+### The Three Modes
+
+| Mode | What | Techniques |
+|------|------|------------|
+| **Conversation** | Explaining in chat, answering questions | Gauge expertise, adapt, scaffold |
+| **Single Doc** | One document that stands alone | Diataxis, cognitive load, structure |
+| **Collection** | Multiple docs forming a knowledge system | Information architecture, single source of truth, linking flow |
+
+### Where Sensei Applies
+
+| Context | Mode | Sensei applies |
+|---------|------|----------------|
+| Chat explanation | Conversation | Yes — gauge and adapt |
+| README, guide | Single doc | Yes — structure for audience |
+| Documentation site | Collection | Yes — architecture matters |
+| Code review | Conversation | Yes — explain why |
+| Presentation | Single doc | Yes — structure for impact |
 
 ### Human vs. AI-Facing Content
 
@@ -262,7 +279,7 @@ Works for:
 
 Core references in `references/`:
 - [accuracy-integrity](references/accuracy-integrity.md) — why accuracy comes before technique
-- [psychology-of-change](references/psychology-of-change.md) — resistance and motivation
+- [reader-psychology](references/reader-psychology.md) — how readers process information
 - [audience-empathy](references/audience-empathy.md) — understanding who you're teaching
 - [rhetoric-for-impact](references/rhetoric-for-impact.md) — BLUF, inverted pyramid, translation
 - [collection-architecture](references/collection-architecture.md) — organizing multiple documents

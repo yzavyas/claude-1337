@@ -1,12 +1,12 @@
 # Rhetoric for Impact
 
-Structures and techniques that make information land. From journalism, military communication, and persuasion research.
+Structures and techniques that make information land. From journalism, military communication, and reading behavior research.
 
 ## Why This Matters
 
-Understanding the audience and having clear information isn't enough. Structure determines whether the message lands. The right structure respects the reader's time, meets their needs immediately, and creates the conditions for change.
+79% of readers scan; only 16% read word-by-word (Nielsen Norman Group). Readers spend at most 28% of their time on actual content. The right structure meets this reality.
 
-Teaching isn't just about clarity — it's about impact. The best research in the world doesn't matter if it's structured in a way nobody reads.
+Structure determines whether the message lands. The best content in the world fails if it's structured in a way nobody reads.
 
 ## BLUF: Bottom Line Up Front
 
@@ -41,13 +41,24 @@ Decision-makers don't read to the end. Give them the bottom line first.
 
 ### When to Use
 
-| Context | Use BLUF? |
-|---------|-----------|
-| Executive communication | Always |
-| Status updates | Always |
-| Technical recommendations | Yes — lead with recommendation |
-| Tutorials | No — learning requires progression |
-| Explanations | Sometimes — depends on audience |
+| Context | Use BLUF? | Why |
+|---------|-----------|-----|
+| Executive communication | Always | Executives scan for 2 minutes max (USC study) |
+| Status updates | Always | Readers want the state, not the journey |
+| Technical recommendations | Yes | Lead with recommendation, then justify |
+| Reporting events | Yes | Most important facts first |
+
+### When NOT to Use
+
+| Context | Why BLUF fails |
+|---------|----------------|
+| Controversial conclusions | Readers reject before hearing evidence |
+| Building an argument | Conclusion without context lacks persuasive force |
+| Insufficient shared context | Reader can't understand bottom line without setup |
+| Tutorials | Learning requires progression; momentum matters |
+| Narrative/storytelling | Chronology creates engagement |
+
+**The key limitation**: BLUF assumes shared context. When the audience lacks background, the bottom line won't land. Build context first, then BLUF.
 
 ## The Inverted Pyramid
 
@@ -185,8 +196,22 @@ Complexity doesn't excuse burying the point.
 
 ## Sources
 
-- U.S. Military. BLUF communication standard.
-- Journalism training. Inverted pyramid structure.
-- Nielsen Norman Group. [Inverted Pyramid Writing](https://www.nngroup.com/articles/inverted-pyramid/). Eye-tracking validation.
-- Cialdini, R. (2006). *Influence: The Psychology of Persuasion*. (Persuasion principles)
-- Aristotle. *Rhetoric*. (Logos, pathos, ethos — the original framework)
+### Reading Behavior
+- Nielsen Norman Group. [F-Shaped Pattern](https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/). 232 users, eye-tracking (2006, confirmed 2017).
+- Nielsen Norman Group. [Inverted Pyramid Writing](https://www.nngroup.com/articles/inverted-pyramid/). Comprehension validation.
+- 79% scan, 16% read word-by-word. [How Users Read on the Web](https://www.nngroup.com/articles/how-users-read-on-the-web/).
+
+### BLUF
+- U.S. Army Regulation 25-50. Preparing and Managing Correspondence. (Codified BLUF).
+- USC Writing Guide. Executive Summary. (2-minute scanning behavior).
+
+### Inverted Pyramid
+- Pottker, H. (2003). News and its communicative quality. *Journalism Studies*. (Historical origins: 1880s-1890s, not Civil War).
+
+### Plain Language
+- Kimble, J. (2012). *Writing for Dollars, Writing to Please*. 60 empirical studies compiled.
+- Mindlin, M. (2012). Plain language court forms study. +20-47% comprehension improvement.
+
+### Persuasion
+- Kahneman, D. & Tversky, A. (1981). The framing of decisions. *Science*. (Framing effects).
+- Aristotle. *Rhetoric*. (Logos, pathos, ethos).

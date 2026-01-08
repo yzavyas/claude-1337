@@ -57,12 +57,21 @@ Now refine:
 | Visualization | Diagram the flow |
 | Story | Walk through a scenario |
 
-## Why It Works
+## Why It Works (Theoretical Basis)
 
-1. **Exposes shallow understanding** - Jargon hides gaps
-2. **Forces active processing** - Teaching requires reorganization
-3. **Creates multiple mental models** - Analogies build connections
-4. **Produces transferable explanations** - What you create helps others
+The Feynman Technique combines several well-validated learning mechanisms:
+
+| Mechanism | Effect Size | Source |
+|-----------|-------------|--------|
+| Self-explanation | g = 0.55 | Bisra et al. 2018 meta-analysis |
+| Testing/retrieval | g = 0.50 | Rowland 2014 meta-analysis |
+| Generation effect | d = 0.40 | Bertsch et al. 2007 |
+
+**Why these mechanisms help**:
+1. **Self-explanation (g = 0.55)** — Forcing yourself to explain connects new info to existing knowledge
+2. **Retrieval practice (g = 0.50)** — Attempting to recall strengthens memory traces
+3. **Generation effect (d = 0.40)** — Self-generated information is remembered better than provided information
+4. **Gap identification** — Failure to explain reveals gaps; jargon masks shallow understanding
 
 ## Application to Documentation
 
@@ -82,8 +91,27 @@ From his teaching:
 3. **Start concrete, go abstract** - Example first, then pattern
 4. **Admit what you don't know** - Intellectual honesty builds trust
 
+## Evidence Status
+
+**Honest assessment**: The Feynman Technique as a named method has limited direct research validation. However, it combines mechanisms with strong empirical support:
+
+| Mechanism | Evidence quality | Effect size |
+|-----------|-----------------|-------------|
+| Self-explanation | Meta-analysis (69 effects) | g = 0.55 |
+| Retrieval practice | Meta-analysis (61 studies) | g = 0.50 |
+| Generation effect | Established since 1978 | d = 0.40 |
+
+A few small studies on the technique itself show promise (K-12 Philippines, language learning +17%, slow learners study), but sample sizes are small and methodological quality varies.
+
+**Practical implication**: Use the technique with confidence because the underlying mechanisms are solid, not because "Feynman Technique" has been validated as a package.
+
 ## Sources
 
-- Richard Feynman's autobiography "Surely You're Joking, Mr. Feynman!"
-- Feynman Lectures on Physics (for teaching style)
-- Cal Newport's "How to Learn Hard Things" (modern application)
+### The Technique
+- Feynman, R. (1985). *Surely You're Joking, Mr. Feynman!* (Autobiographical source)
+- Cal Newport. "How to Learn Hard Things." (Modern application)
+
+### Underlying Mechanisms
+- Bisra, K., et al. (2018). Inducing self-explanation meta-analysis. *Educational Psychology Review*.
+- Rowland, C. A. (2014). Testing effect meta-analysis. *Psychological Bulletin*, 140(6), 1432-1463.
+- Slamecka, N. J., & Graf, P. (1978). Generation effect. *J. Verbal Learning and Verbal Behavior*.
