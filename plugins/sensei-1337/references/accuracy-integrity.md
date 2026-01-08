@@ -124,6 +124,73 @@ If not, revise.
 
 ---
 
+## Reasoning Verification Techniques
+
+Knowing failure modes isn't enough. You need techniques to catch them in your own reasoning.
+
+### Chain of Verification (CoVe)
+
+Generate verification questions, answer them independently, then revise.
+
+| Step | Action | Example |
+|------|--------|---------|
+| 1. Initial claim | State what you're about to teach | "Transparency improves learning" |
+| 2. Generate verification Qs | Ask questions that could falsify | "What was measured?" "Correlation or causation?" "Effect size?" "Contradictory findings?" |
+| 3. Answer independently | Answer each without defending the claim | "Task completion, not learning" "Correlational" "d=0.34" "One null result" |
+| 4. Revise | Update claim based on answers | "Transparency correlated with better task completion (d=0.34) in some studies" |
+
+**Why it works**: Generating verification questions activates critical thinking. Answering independently prevents motivated reasoning.
+
+### Decomposition
+
+Break complex claims into atomic sub-claims. Verify each.
+
+| Complex claim | Decomposed | Verification |
+|---------------|------------|--------------|
+| "AI collaboration enhances capability" | 1. "AI + human outperforms human alone" | Check: In what tasks? What metrics? |
+| | 2. "The human learns from the collaboration" | Check: Was learning measured? Or just performance? |
+| | 3. "Enhancement persists after AI removed" | Check: Was this tested? |
+
+**Why it works**: Complex claims hide weak links. Decomposition exposes them.
+
+### Adversarial Check
+
+Steel-man the counter-argument. Does your claim survive?
+
+| Your claim | Steel-manned counter | Verdict |
+|------------|---------------------|---------|
+| "Effect size d=0.86 is large" | "In education research, d=0.4 is typical. What's the practical significance?" | Add context about typical effect sizes |
+| "Study shows X works" | "N=16, single context, no replication. How generalizable?" | Acknowledge limitations |
+
+**Why it works**: If you can't defeat the strongest counter-argument, your claim is weaker than you thought.
+
+### Source Triangulation
+
+Multiple independent sources > single source.
+
+| Evidence level | Description |
+|----------------|-------------|
+| **Strong** | Multiple meta-analyses, independent replications |
+| **Moderate** | Several studies, some replication |
+| **Weak** | Single study, no replication |
+| **Speculative** | Theoretical only, no empirical support |
+
+**Label accordingly**: "Meta-analysis of 55 studies shows..." vs "One study suggests..."
+
+### The Quick Check
+
+Before teaching any claim, run through:
+
+1. **What was actually measured?** (not inferred)
+2. **Correlation or causation?** (don't upgrade)
+3. **Effect size and sample?** (context for significance)
+4. **Replicated?** (single study = tentative)
+5. **Counter-evidence?** (acknowledge it)
+
+If you can't answer these, you're not ready to teach the claim.
+
+---
+
 ## Practical Guidelines
 
 | Situation | Do | Don't |
