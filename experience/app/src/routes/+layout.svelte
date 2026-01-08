@@ -2,6 +2,7 @@
 	import '$lib/styles/global.css';
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 	import { initSmoothScroll, destroySmoothScroll } from '$lib/utils/scroll';
 
 	let { children } = $props();
@@ -33,11 +34,11 @@
 
 <!-- Navigation -->
 <nav class="main-nav">
-	<a href="/" class="nav-brand">claude-1337</a>
+	<a href="{base}/" class="nav-brand">claude-1337</a>
 	<div class="nav-links">
-		<a href="/ethos/">Ethos</a>
-		<a href="/catalog/">Catalog</a>
-		<a href="/reference/">Reference</a>
+		<a href="{base}/ethos/">Ethos</a>
+		<a href="{base}/catalog/">Catalog</a>
+		<a href="{base}/reference/">Reference</a>
 	</div>
 </nav>
 

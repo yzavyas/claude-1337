@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CopyCommand from '$lib/components/CopyCommand.svelte';
+	import { base } from '$app/paths';
 </script>
 
 <svelte:head>
@@ -14,17 +15,17 @@
 		</div>
 
 		<h1 class="headline">
-			<span class="headline-primary">Enhanced capability.</span>
-			<span class="headline-primary">Effective collaboration.</span>
-			<span class="headline-primary">Compounding growth.</span>
+			<span class="headline-secondary">Cognitive extensions for</span>
+			<span class="headline-primary">Effective Collaborative Intelligence</span>
 		</h1>
 
 		<p class="description">
-			Cognitive extensions that make engineers better, not more dependent.
+			Extensions that make engineers better, not more dependent.
+			<br />Enhanced capability. Compounding growth.
 		</p>
 
 		<div class="actions">
-			<a href="/ethos/" class="primary-action">
+			<a href="{base}/ethos/" class="primary-action">
 				<span>Understand the approach</span>
 				<span class="arrow">→</span>
 			</a>
@@ -32,7 +33,7 @@
 	</section>
 
 	<div class="secondary-link">
-		<a href="/catalog/">Browse Extensions</a>
+		<a href="{base}/catalog/">Browse Extensions</a>
 	</div>
 </main>
 
@@ -89,6 +90,14 @@
 	.headline {
 		margin-bottom: var(--space-8);
 		animation: fadeIn 600ms ease 100ms both;
+	}
+
+	.headline-secondary {
+		display: block;
+		font-size: var(--text-lg);
+		font-weight: var(--font-normal);
+		color: var(--color-text-tertiary);
+		margin-bottom: var(--space-2);
 	}
 
 	.headline-primary {
@@ -164,6 +173,10 @@
 
 	/* Mobile */
 	@media (max-width: 640px) {
+		.headline-secondary {
+			font-size: var(--text-base);
+		}
+
 		.headline-primary {
 			font-size: var(--text-3xl);
 		}

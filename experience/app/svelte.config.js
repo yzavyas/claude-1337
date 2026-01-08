@@ -20,6 +20,9 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
+		paths: {
+			base: process.env.NODE_ENV === 'production' ? '/claude-1337' : ''
+		},
 		alias: {
 			$components: 'src/lib/components',
 			$styles: 'src/lib/styles',

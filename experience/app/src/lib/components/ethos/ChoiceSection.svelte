@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 	import { gsap, createScrollContext } from '$lib/utils/scroll';
 
 	let section: HTMLElement;
@@ -174,11 +175,11 @@
 		</div>
 
 		<div class="cta">
-			<a href="/catalog/" class="cta-link primary">
+			<a href="{base}/catalog/" class="cta-link primary">
 				<span class="cta-text">Browse Extensions</span>
 				<span class="cta-arrow">→</span>
 			</a>
-			<a href="/reference/" class="cta-link secondary">
+			<a href="{base}/reference/" class="cta-link secondary">
 				<span class="cta-text">Research Bibliography</span>
 			</a>
 		</div>
