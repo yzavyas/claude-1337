@@ -341,6 +341,31 @@ Before publishing any extension:
 
 **When evidence is sparse:** Acknowledge limitations explicitly. "Based on limited evidence from X" is honest. Confident claims from weak evidence is not.
 
+### Why This Matters: Cascade
+
+Extensions are teaching. Teaching cascades.
+
+| What the extension teaches | Who learns | What they build/teach | Impact |
+|---------------------------|------------|----------------------|--------|
+| Wrong reasoning | Builder A | 5 extensions | Each propagates the error |
+| Correct reasoning | Builder A | 5 extensions | Each propagates correct patterns |
+
+**The asymmetry**: Correct reasoning must be actively verified. Wrong reasoning spreads by default (easier, faster, feels productive).
+
+**CoVe before commit** (line 164) exists because one bad pattern in an extension becomes organizational culture. The extension builder is upstream of everything.
+
+### Pre-Publish CoVe Check
+
+Before publishing, for each factual claim:
+
+1. **What was measured?** (not inferred)
+2. **Correlation or causation?** (don't upgrade)
+3. **Effect size and sample?** (context)
+4. **Replicated?** (single study = tentative)
+5. **Counter-evidence?** (acknowledge it)
+
+If you can't answer these for a claim, either find the evidence or label it speculative.
+
 See [research-workflow.md](references/research-workflow.md) Step 6 for full validation process.
 
 ## Creation Process
