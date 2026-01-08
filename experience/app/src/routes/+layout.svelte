@@ -224,7 +224,7 @@
 	   ═══════════════════════════════════════════════════════════════ */
 
 	.site {
-		max-width: 52rem;
+		max-width: 80rem;
 		margin: 0 auto;
 		padding: var(--space-xl) var(--space-lg);
 		min-height: 100vh;

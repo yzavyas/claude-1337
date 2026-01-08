@@ -1,18 +1,30 @@
 # claude-1337
 
-A marketplace of cognitive extensions for effective human-AI collaboration.
+Cognitive extensions for *effective* collaborative intelligence.
 
 ---
 
-## The Bottom Line
+## The Problem
 
-Three numbers that matter:
+Most AI collaboration isn't effective.
 
-- **g = -0.23**: Human-AI combinations perform worse than the best performer alone ([Vaccaro et al. 2024](https://www.nature.com/articles/s41562-024-02024-1), meta-analysis of 106 studies)
-- **19% slower, 20% faster perception**: Developers are actually slower with AI tools while perceiving themselves faster ([METR 2025](https://arxiv.org/abs/2507.09089), randomized controlled trial)
-- **r = -0.75**: Strong negative correlation between AI use and critical thinking (Gerlich 2025)
+| finding | source |
+|---------|--------|
+| Human-AI combos underperform best alone (g = -0.23) | Vaccaro 2024, 106 studies |
+| Developers 19% slower while feeling 20% faster | METR 2025, RCT |
+| AI use correlates with lower critical thinking (r = -0.75) | Gerlich 2025 |
 
-These are correlations, not proven causal mechanisms. But the pattern is consistent across studies.
+These are correlations, not proven mechanisms. But the pattern is consistent: **ineffective AI use degrades capability while creating false confidence.**
+
+## The Solution
+
+Effectiveness requires intentional design. Extensions that:
+
+- Show reasoning (transparency)
+- Provide control (agency)
+- Build capability (bidirectional learning)
+
+Research: These features showed strong positive effects ([Blaurock 2024](https://journals.sagepub.com/doi/full/10.1177/10946705241238751)).
 
 ---
 

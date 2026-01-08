@@ -28,8 +28,7 @@
         "foundation"
       ],
       "category": "development",
-      "strict": false,
-      "components": ["hooks"]
+      "strict": false
     },
     {
       "name": "terminal-1337",
@@ -54,8 +53,7 @@
       "strict": false,
       "skills": [
         "./skills"
-      ],
-      "components": ["skills"]
+      ]
     },
     {
       "name": "rust-1337",
@@ -83,8 +81,7 @@
       "strict": true,
       "skills": [
         "./"
-      ],
-      "components": ["skills"]
+      ]
     },
     {
       "name": "1337-extension-builder",
@@ -108,8 +105,7 @@
       "strict": false,
       "skills": [
         "./"
-      ],
-      "components": ["skills"]
+      ]
     },
     {
       "name": "sensei-1337",
@@ -136,7 +132,7 @@
       "skills": [
         "./"
       ],
-      "components": ["skills", "agents"]
+      "agents": "./agents"
     },
     {
       "name": "diagrams-1337",
@@ -164,7 +160,7 @@
       "skills": [
         "./"
       ],
-      "components": ["skills", "agents"]
+      "agents": "./agents"
     },
     {
       "name": "eval-1337",
@@ -196,8 +192,7 @@
       "strict": false,
       "skills": [
         "./"
-      ],
-      "components": ["skills"]
+      ]
     },
     {
       "name": "experience-1337",
@@ -232,8 +227,7 @@
       "strict": false,
       "skills": [
         "./"
-      ],
-      "components": ["skills"]
+      ]
     }
   ]
 }

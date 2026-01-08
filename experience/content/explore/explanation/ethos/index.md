@@ -27,25 +27,8 @@ AI capability is increasing faster than our frameworks for using it well.
 
 Foundations compound.
 
-```mermaid
-flowchart TD
-    subgraph Complementary
-        C1[transparency + control] --> C2[engage, learn]
-        C2 --> C3[capability accumulates]
-    end
-
-    subgraph Substitutive
-        S1[consumption only] --> S2[offload, depend]
-        S2 --> S3[capability atrophies]
-    end
-
-    C3 --> |compounds| C4[more capable over time]
-    S3 --> |compounds| S4[less capable over time]
-
-    style C3 fill:#059669,color:#fff
-    style C4 fill:#059669,color:#fff
-    style S3 fill:#dc2626,color:#fff
-    style S4 fill:#dc2626,color:#fff
+```visual
+TrajectoryVisual
 ```
 
 If the foundation is **complementary** — humans learning, guiding, growing through collaboration — that compounds. Each cycle makes the next better. Capability accumulates.

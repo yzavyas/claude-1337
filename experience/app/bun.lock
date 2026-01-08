@@ -9,6 +9,7 @@
         "dompurify": "^3.3.1",
         "gray-matter": "^4.0.3",
         "mermaid": "^11.12.2",
+        "svelvet": "^11.0.5",
       },
       "devDependencies": {
         "@sveltejs/adapter-auto": "^7.0.0",
@@ -485,6 +486,8 @@
 
     "svelte-check": ["svelte-check@4.3.5", "", { "dependencies": { "@jridgewell/trace-mapping": "^0.3.25", "chokidar": "^4.0.1", "fdir": "^6.2.0", "picocolors": "^1.0.0", "sade": "^1.7.4" }, "peerDependencies": { "svelte": "^4.0.0 || ^5.0.0-next.0", "typescript": ">=5.0.0" }, "bin": { "svelte-check": "bin/svelte-check" } }, "sha512-e4VWZETyXaKGhpkxOXP+B/d0Fp/zKViZoJmneZWe/05Y2aqSKj3YN2nLfYPJBQ87WEiY4BQCQ9hWGu9mPT1a1Q=="],
 
+    "svelvet": ["svelvet@11.0.5", "", { "dependencies": { "svelvet": "^10.0.2", "uuid": "^11.0.5" }, "peerDependencies": { "svelte": ">=3.59.2 || ^4.0.0" } }, "sha512-wGDGh3bRKK06stu613DC+r4ujE7sWkFTAp4bfW6Impc2A89Ix0M/PzZAyeW229FMS5TF2GRDugHgpk0q0D8k2g=="],
+
     "tinyexec": ["tinyexec@1.0.2", "", {}, "sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg=="],
 
     "tinyglobby": ["tinyglobby@0.2.15", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.3" } }, "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ=="],
@@ -544,6 +547,8 @@
     "dom-serializer/entities": ["entities@4.5.0", "", {}, "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw=="],
 
     "mermaid/marked": ["marked@16.4.2", "", { "bin": { "marked": "bin/marked.js" } }, "sha512-TI3V8YYWvkVf3KJe1dRkpnjs68JUPyEa5vjKrp1XEEJUAOaQc+Qj+L1qWbPd0SJuAdQkFU0h73sXXqwDYxsiDA=="],
+
+    "svelvet/svelvet": ["svelvet@10.0.2", "", { "peerDependencies": { "svelte": ">=3.59.2 || ^4.0.0" } }, "sha512-CSxAyQ9xF/Qq3K0xsL/gy9u9UpC4DVFUUbq3awpQ9Dic4EGJ40qAhlcCKBBAb3Kul6hlks2bzlyBmNby8CfpDg=="],
 
     "cytoscape-fcose/cose-base/layout-base": ["layout-base@2.0.1", "", {}, "sha512-dp3s92+uNI1hWIpPGH3jK2kxE2lMjdXdr+DH8ynZHpd6PUlH6x6cbuXnoMmiNumznqaNO31xu9e79F0uuZ0JFg=="],
 

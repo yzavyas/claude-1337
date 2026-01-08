@@ -108,7 +108,6 @@
 	.shadowist-content :global(p) {
 		color: var(--text-secondary);
 		line-height: 1.8;
-		max-width: 65ch;
 	}
 
 	.shadowist-content :global(strong) {

@@ -363,6 +363,21 @@ After building any extension:
 
 If any answer is NO, the extension may create dependency rather than capability. Revise before shipping.
 
+## Marketplace Publishing
+
+When adding plugins to a marketplace, the `marketplace.json` has a strict schema.
+
+**Key gotcha**: No generic `"components"` field. Use explicit fields:
+
+| component | field |
+|-----------|-------|
+| agents | `"agents": "./agents"` |
+| commands | `"commands": "./commands"` |
+| hooks | `"hooks": "./hooks.json"` |
+| MCP servers | `"mcpServers": {...}` |
+
+See [marketplace-schema.md](references/marketplace-schema.md) for full schema.
+
 ## Quality Gates
 
 Before publishing any extension:

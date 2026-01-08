@@ -51,13 +51,10 @@ From the research, principles emerge in priority order:
 
 | topic | question it answers |
 |-------|---------------------|
-| [collaboration](collaboration/) | When does collaboration help vs hurt? |
-| [cognition](cognition/) | How do humans think with AI? |
-| [creativity](creativity/) | Does AI make individuals more creative and groups less? |
-| [engineering](engineering/) | What works specifically for developers? |
-| [activation](activation/) | How do skills get triggered reliably? |
 | [experience-psychology](experience-psychology/) | What makes interfaces feel right? |
 | [webgl-3d](webgl-3d/) | How to build 3D for the web? |
+
+**Note:** Research on collaboration, cognition, creativity, engineering, and activation is now consolidated in the skill references themselves (core-1337, eval-1337, sensei-1337). See those skills for deep dives on their respective topics.
 
 ---
 

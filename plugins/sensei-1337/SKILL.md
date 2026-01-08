@@ -1,6 +1,6 @@
 ---
 name: sensei-1337
-description: "Teaching and information sharing across all contexts. Use when: writing docs, explaining concepts, making presentations, teaching in conversation, curating documentation, technical writing for impact."
+description: "Teaching and information sharing across all contexts. Use when: writing docs, explaining concepts, making presentations, teaching in conversation, curating documentation, technical writing for impact, creating diagrams for explanation (Mermaid, D2, C4)."
 ---
 
 # sensei-1337
@@ -259,6 +259,52 @@ Information flows downward. Links point to deeper layers.
 
 See: [collection-architecture](references/collection-architecture.md)
 
+## Visual Communication (Diagrams)
+
+Diagrams are teaching tools. Choose based on what you're explaining, not what's trendy.
+
+### Tool Selection
+
+| Need | Tool | Why |
+|------|------|-----|
+| Quick docs, GitHub/GitLab native | Mermaid | Zero build step, renders in markdown |
+| Complex architecture (50+ nodes) | D2 | Better layouts, requires build step |
+| Formal C4 models | C4-PlantUML | Production-proven, enterprise standard |
+
+### Mermaid (Default)
+
+Use for 95% of documentation diagrams:
+- **sequenceDiagram**: API calls, message flow
+- **flowchart**: Process flow, decision trees
+- **stateDiagram-v2**: State machines, lifecycles
+- **erDiagram**: Database schema, data models
+- **classDiagram**: OOP structure, interfaces
+
+Platform reality: GitHub uses ~10.0.2. Newer types (timeline, mindmap, architecture-beta) may not render.
+
+See: [mermaid-types](references/mermaid-types.md), [diagram-gotchas](references/diagram-gotchas.md)
+
+### D2 (When Mermaid Isn't Enough)
+
+Upgrade to D2 when:
+- Auto-layout produces spaghetti
+- Need precise positioning
+- Complex architecture diagrams
+
+Trade-off: Requires build step, no native GitHub rendering.
+
+See: [d2](references/d2.md)
+
+### C4 Model
+
+For architecture documentation:
+- **Context** (Level 1): System boundary, users, external systems
+- **Container** (Level 2): High-level tech choices, communication
+
+Most teams only need Context + Container diagrams.
+
+See: [c4-architecture](references/c4-architecture.md)
+
 ## Agent: feynman
 
 For autonomous teaching work:
@@ -278,14 +324,24 @@ Works for:
 ## Sources
 
 Core references in `references/`:
+
+**Teaching & Communication:**
 - [accuracy-integrity](references/accuracy-integrity.md) — why accuracy comes before technique
 - [reader-psychology](references/reader-psychology.md) — how readers process information
 - [audience-empathy](references/audience-empathy.md) — understanding who you're teaching
 - [rhetoric-for-impact](references/rhetoric-for-impact.md) — BLUF, inverted pyramid, translation
-- [collection-architecture](references/collection-architecture.md) — organizing multiple documents
-- [information-architecture](references/information-architecture.md) — where content lives, findability
 - [cognitive-load](references/cognitive-load.md) — working memory and learning
 - [diataxis](references/diataxis.md) — document types
 - [feynman-technique](references/feynman-technique.md) — simplification method
 - [reading-patterns](references/reading-patterns.md) — how people scan
 - [ai-writing-antipatterns](references/ai-writing-antipatterns.md) — what to avoid
+
+**Documentation Architecture:**
+- [collection-architecture](references/collection-architecture.md) — organizing multiple documents
+- [information-architecture](references/information-architecture.md) — where content lives, findability
+
+**Visual Communication (Diagrams):**
+- [mermaid-types](references/mermaid-types.md) — Mermaid diagram catalog with syntax
+- [diagram-gotchas](references/diagram-gotchas.md) — platform issues and debugging
+- [d2](references/d2.md) — D2 for complex architecture diagrams
+- [c4-architecture](references/c4-architecture.md) — C4 model for system documentation

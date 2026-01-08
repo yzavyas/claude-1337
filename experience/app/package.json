@@ -27,6 +27,7 @@
 		"@humanspeak/svelte-markdown": "^0.8.14",
 		"dompurify": "^3.3.1",
 		"gray-matter": "^4.0.3",
-		"mermaid": "^11.12.2"
+		"mermaid": "^11.12.2",
+		"svelvet": "^11.0.5"
 	}
 }

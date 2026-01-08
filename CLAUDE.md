@@ -228,6 +228,15 @@ scratch/        → Working documents, session context
 scratch/archive/→ Older valuable context (don't load by default)
 ```
 
+### Documentation Architecture
+
+| Component type | Documentation |
+|----------------|---------------|
+| **Markdown-based** (skills, hooks, agents, commands) | Self-documenting via SKILL.md, hooks.json, etc. |
+| **Code-based** (MCP servers, agent apps, complex components) | Experience layer docs (`experience/content/`) |
+
+Markdown extensions ARE their own documentation. Experience layer docs exist for things that need separate explanation (implementation guides, architecture, non-markdown components).
+
 ---
 
 ## Five Extension Modalities
@@ -269,6 +278,31 @@ bun remove <pkg>     # Remove dependency
 ### Other Tooling
 
 Skills live in `plugins/`. Check `<available_skills>` for what's currently installed.
+
+---
+
+## Experience App (Docs Site)
+
+The human-facing documentation site lives in `experience/app/`. It's a SvelteKit app.
+
+**Location:** `experience/app/`
+
+**Commands** (run from `experience/app/`):
+```bash
+bun install          # Install dependencies (first time)
+bun run dev          # Start dev server (usually http://localhost:5173)
+bun run build        # Production build
+bun run check        # TypeScript + Svelte type checking
+```
+
+**Content lives in:** `experience/content/` (markdown files, separate from the app)
+
+**Key files:**
+- `src/routes/` - Page routes (Svelte components)
+- `src/lib/components/` - Shared components (Mermaid, CodeBlock, etc.)
+- `svelte.config.js` - mdsvex processes `.svx` files only (not `.md`)
+
+**Tests:** `python tests/pages.py` (Playwright, run from `experience/app/`)
 
 ---
 
