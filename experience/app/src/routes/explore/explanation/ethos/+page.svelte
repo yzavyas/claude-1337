@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SvelteMarkdown from 'svelte-markdown';
+	import SvelteMarkdown from '@humanspeak/svelte-markdown';
 	import CodeBlock from '$lib/components/CodeBlock.svelte';
 	import { getContent } from '$lib/content';
 

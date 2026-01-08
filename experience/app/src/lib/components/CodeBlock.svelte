@@ -8,7 +8,7 @@
 
 	const { lang, text }: Props = $props();
 
-	const isMermaid = lang === 'mermaid';
+	const isMermaid = $derived(lang === 'mermaid');
 </script>
 
 {#if isMermaid}

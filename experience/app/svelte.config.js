@@ -1,9 +1,18 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { mdsvex } from 'mdsvex';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: vitePreprocess(),
+	extensions: ['.svelte', '.md', '.svx'],
+	preprocess: [
+		vitePreprocess(),
+		mdsvex({
+			extensions: ['.md', '.svx'],
+			// Layout for markdown files (optional, can add later)
+			// layout: './src/lib/layouts/MdLayout.svelte'
+		})
+	],
 
 	kit: {
 		adapter: adapter({

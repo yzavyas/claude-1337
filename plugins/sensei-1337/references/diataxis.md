@@ -1,6 +1,16 @@
 # Diataxis Framework
 
-A systematic approach to technical documentation by Daniele Procida.
+A systematic approach to technical documentation by Daniele Procida. Adopted by Gatsby, Cloudflare, Django, and many open-source projects.
+
+## Why This Matters
+
+Documentation fails when it mixes purposes. A tutorial that stops to explain theory loses momentum. A reference that guides step-by-step wastes expert time.
+
+Diataxis separates content by **user intent**:
+- **Action-oriented** (doing): Tutorials, How-tos
+- **Knowledge-oriented** (understanding): Explanations, Reference
+
+Each type serves a different cognitive mode. Mixing them creates cognitive dissonance.
 
 ## The Four Types
 
@@ -100,7 +110,30 @@ Documentation serves four distinct needs. Mixing them creates confusion.
 | Reference with narrative | Hard to scan | Strip to facts |
 | Explanation with steps | Confuses purpose | Separate into how-to |
 
+## Affordances: When to Use Each
+
+| User says... | They want... | Write a... | Key affordance |
+|--------------|--------------|------------|----------------|
+| "Teach me X" | To acquire a skill | Tutorial | Guided success builds confidence |
+| "How do I do X?" | To complete a task | How-to | Answers the question directly |
+| "Why does X work?" | To understand context | Explanation | Connects to bigger picture |
+| "What exactly is X?" | To look up a fact | Reference | Fast, accurate, scannable |
+
+## Connection to Expertise Reversal
+
+Diataxis implicitly handles the expertise reversal effect:
+
+| Doc type | Audience expertise | Scaffolding level |
+|----------|-------------------|-------------------|
+| Tutorial | Novice | High (guided, sequential) |
+| How-to | Competent | Medium (assumes basics) |
+| Reference | Expert | Low (direct access) |
+| Explanation | Any | Adaptive (reader controls depth) |
+
+This is why mixing types fails: a tutorial written for novices will frustrate experts; a reference written for experts will lose novices.
+
 ## Sources
 
-- [Diataxis.fr](https://diataxis.fr) - Daniele Procida's framework
-- [Django Documentation](https://docs.djangoproject.com) - Exemplar implementation
+- [Diataxis.fr](https://diataxis.fr) — Daniele Procida's framework
+- [Django Documentation](https://docs.djangoproject.com) — Exemplar implementation
+- Kalyuga, S., et al. (2003). The expertise reversal effect. *Educational Psychologist*. — Why expertise level matters
