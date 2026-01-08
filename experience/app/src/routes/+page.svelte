@@ -15,13 +15,11 @@
 		</div>
 
 		<h1 class="headline">
-			<span class="headline-secondary">Cognitive extensions for</span>
 			<span class="headline-primary">Effective Collaborative Intelligence</span>
 		</h1>
 
 		<p class="description">
-			Extensions that make engineers better, not more dependent.
-			<br />Enhanced capability. Compounding growth.
+			Cognitive extensions to enhance capability and limit dependency.
 		</p>
 
 		<div class="actions">
