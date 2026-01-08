@@ -60,8 +60,9 @@ Now choose structure and technique:
 | Managing complexity | Cognitive load theory, progressive disclosure |
 | Testing understanding | Feynman technique |
 | Collection organization | Single source of truth, linking architecture |
+| Information organization | Where does content live? Findability, mental models |
 
-See references for each: [diataxis](references/diataxis.md), [rhetoric-for-impact](references/rhetoric-for-impact.md), [cognitive-load](references/cognitive-load.md), [feynman-technique](references/feynman-technique.md), [collection-architecture](references/collection-architecture.md)
+See references for each: [diataxis](references/diataxis.md), [rhetoric-for-impact](references/rhetoric-for-impact.md), [cognitive-load](references/cognitive-load.md), [feynman-technique](references/feynman-technique.md), [collection-architecture](references/collection-architecture.md), [information-architecture](references/information-architecture.md)
 
 ### 4. Translation → Speak their survival language
 
@@ -225,6 +226,7 @@ Core references in `references/`:
 - [audience-empathy](references/audience-empathy.md) — understanding who you're teaching
 - [rhetoric-for-impact](references/rhetoric-for-impact.md) — BLUF, inverted pyramid, translation
 - [collection-architecture](references/collection-architecture.md) — organizing multiple documents
+- [information-architecture](references/information-architecture.md) — where content lives, findability
 - [cognitive-load](references/cognitive-load.md) — working memory and learning
 - [diataxis](references/diataxis.md) — document types
 - [feynman-technique](references/feynman-technique.md) — simplification method
