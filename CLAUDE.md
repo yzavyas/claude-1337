@@ -1,6 +1,6 @@
 # claude-1337 Project Understanding
 
-Crystallized from collaborative sessions, 2026-01-05 through 2026-01-06.
+Crystallized from collaborative sessions, 2026-01-05 onwards.
 
 ---
 
@@ -244,7 +244,31 @@ scratch/archive/→ Older valuable context (don't load by default)
 
 ## Tooling
 
-Use `bun` not `npm`. Skills live in `plugins/`. Check `<available_skills>` for what's currently installed.
+### Package Manager: bun
+
+Use `bun` not `npm`.
+
+**Why bun:**
+- **Speed**: 10-25x faster installs than npm (native code, no node_modules duplication)
+- **TypeScript native**: Runs .ts files directly without compilation step
+- **Drop-in replacement**: Same commands (`bun install`, `bun run dev`, `bun add`)
+- **Lockfile**: `bun.lock` is binary, faster to parse
+- **Production proven**: Used by Figma, Vercel, Discord
+
+**Commands:**
+```bash
+bun install          # Install deps
+bun run dev          # Run dev server
+bun add <pkg>        # Add dependency
+bun add -d <pkg>     # Add dev dependency
+bun remove <pkg>     # Remove dependency
+```
+
+**Do not use:** `npm`, `yarn`, `pnpm` - stick to one package manager per project.
+
+### Other Tooling
+
+Skills live in `plugins/`. Check `<available_skills>` for what's currently installed.
 
 ---
 
