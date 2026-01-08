@@ -126,68 +126,65 @@ If not, revise.
 
 ## Reasoning Verification Techniques
 
-Knowing failure modes isn't enough. You need techniques to catch them in your own reasoning.
+### Why This Is Sacred
+
+Teaching isn't about one person. It's about cascade.
+
+A senior engineer teaches a junior to merge PRs without reviewing. That junior becomes a senior, teaches five more. Those five teach twenty-five. One bad lesson becomes organizational culture.
+
+| What you teach | Who learns | Who they teach | Total impact |
+|----------------|------------|----------------|--------------|
+| Wrong reasoning | 1 person | 5 people each | 1 → 5 → 25 → 125... |
+| Correct reasoning | 1 person | 5 people each | Same cascade, opposite direction |
+
+**The asymmetry**: Correct reasoning must be actively taught. Bad reasoning spreads by default (it's easier, faster, feels productive).
+
+**The responsibility**: When you teach, you're not just affecting the learner. You're affecting everyone they'll ever teach, every decision they'll ever make with that knowledge, every system they'll build on that foundation.
+
+This is why verification techniques exist. Not because being wrong is embarrassing — because being wrong *scales*.
 
 ### Chain of Verification (CoVe)
 
-Generate verification questions, answer them independently, then revise.
+Draft → Question → Check → Refine (Dhuliawala et al. 2023: +23% accuracy).
 
-| Step | Action | Example |
-|------|--------|---------|
-| 1. Initial claim | State what you're about to teach | "Transparency improves learning" |
-| 2. Generate verification Qs | Ask questions that could falsify | "What was measured?" "Correlation or causation?" "Effect size?" "Contradictory findings?" |
-| 3. Answer independently | Answer each without defending the claim | "Task completion, not learning" "Correlational" "d=0.34" "One null result" |
-| 4. Revise | Update claim based on answers | "Transparency correlated with better task completion (d=0.34) in some studies" |
-
-**Why it works**: Generating verification questions activates critical thinking. Answering independently prevents motivated reasoning.
+| Step | For teaching claims |
+|------|---------------------|
+| **Draft** | State the claim you're about to teach |
+| **Question** | What was measured? Correlation or causation? Effect size? Replicated? Counter-evidence? |
+| **Check** | Answer each question honestly, without defending the claim |
+| **Refine** | Update claim based on answers |
 
 ### Decomposition
 
 Break complex claims into atomic sub-claims. Verify each.
 
-| Complex claim | Decomposed | Verification |
+| Complex claim | Sub-claims | Verification |
 |---------------|------------|--------------|
-| "AI collaboration enhances capability" | 1. "AI + human outperforms human alone" | Check: In what tasks? What metrics? |
-| | 2. "The human learns from the collaboration" | Check: Was learning measured? Or just performance? |
-| | 3. "Enhancement persists after AI removed" | Check: Was this tested? |
+| "AI collaboration enhances capability" | 1. AI + human outperforms human alone | In what tasks? What metrics? |
+| | 2. Human learns from collaboration | Was learning measured, or just performance? |
+| | 3. Enhancement persists after AI removed | Was transfer tested? |
 
-**Why it works**: Complex claims hide weak links. Decomposition exposes them.
+If any sub-claim fails verification, the complex claim fails.
 
-### Adversarial Check
+### Evidence Labeling
 
-Steel-man the counter-argument. Does your claim survive?
+Be explicit about evidence strength:
 
-| Your claim | Steel-manned counter | Verdict |
-|------------|---------------------|---------|
-| "Effect size d=0.86 is large" | "In education research, d=0.4 is typical. What's the practical significance?" | Add context about typical effect sizes |
-| "Study shows X works" | "N=16, single context, no replication. How generalizable?" | Acknowledge limitations |
+| Level | Description | Language to use |
+|-------|-------------|-----------------|
+| **Strong** | Meta-analyses, replications | "Research consistently shows..." |
+| **Moderate** | Several studies | "Studies suggest..." |
+| **Weak** | Single study | "One study found..." |
+| **Speculative** | Theory only | "In principle..." |
 
-**Why it works**: If you can't defeat the strongest counter-argument, your claim is weaker than you thought.
+### The Pre-Teaching Check
 
-### Source Triangulation
+Before teaching any claim:
 
-Multiple independent sources > single source.
-
-| Evidence level | Description |
-|----------------|-------------|
-| **Strong** | Multiple meta-analyses, independent replications |
-| **Moderate** | Several studies, some replication |
-| **Weak** | Single study, no replication |
-| **Speculative** | Theoretical only, no empirical support |
-
-**Label accordingly**: "Meta-analysis of 55 studies shows..." vs "One study suggests..."
-
-### The Quick Check
-
-Before teaching any claim, run through:
-
-1. **What was actually measured?** (not inferred)
-2. **Correlation or causation?** (don't upgrade)
-3. **Effect size and sample?** (context for significance)
-4. **Replicated?** (single study = tentative)
-5. **Counter-evidence?** (acknowledge it)
-
-If you can't answer these, you're not ready to teach the claim.
+1. **Can I pass CoVe?** — If verification Qs expose gaps, not ready
+2. **Can I decompose it?** — If I can't break it down, I don't understand it
+3. **What's my evidence level?** — Label honestly
+4. **Would a skeptic accept this?** — If not, revise
 
 ---
 
