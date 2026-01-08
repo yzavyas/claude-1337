@@ -86,19 +86,7 @@ the same extension can be complementary or substitutive depending on design and 
 
 ## what makes extensions complementary
 
-blaurock et al. (2024) identified five design features that determine outcome:
-
-| feature | effect | how to implement |
-|---------|--------|------------------|
-| **transparency** | strong positive | show reasoning, not just conclusions |
-| **process control** | strong positive | user shapes the approach |
-| **outcome control** | strong positive | user shapes the result |
-| **reciprocity** | strong positive | both human and AI improve |
-| **engagement** | weak/none | asking questions isn't enough |
-
-the critical finding: engagement alone (the system prompting the user) has minimal effect. what matters is transparency and control — the user seeing how it works and shaping the outcome.
-
-**design implication**: don't just ask questions. show reasoning. provide decision frameworks. let the user guide direction.
+Blaurock et al. (2024) identified five design features that determine outcomes. The key finding: transparency and control have strong effects, while engagement prompts have almost none. [See the full analysis →](/explore/explanation/collaborative-intelligence/experience-contingency/)
 
 ---
 
