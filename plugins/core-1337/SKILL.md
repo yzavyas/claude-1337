@@ -564,9 +564,10 @@ The highest-value crystallizations are **abstract principles** — patterns that
 
 | Specific Insight | Abstract Principle |
 |------------------|-------------------|
-| "async-std is deprecated, use tokio" | "Check maintenance status before adopting dependencies" |
-| "StateFlow conflates equal values" | "Understand emission semantics before choosing reactive types" |
-| "Container memory ≠ heap memory" | "Budget for all resource consumers, not just the obvious one" |
+| "Library X is deprecated, use Y" | "Check maintenance status before adopting dependencies" |
+| "API conflates equal values" | "Understand emission/equality semantics before choosing abstractions" |
+| "Resource A ≠ resource B limit" | "Budget for all resource consumers, not just the obvious one" |
+| "Fix worked locally, failed in CI" | "Test in the environment that matters, not just the convenient one" |
 
 **The test:** Does this principle apply to situations I haven't seen yet? If yes, it's worth crystallizing.
 
@@ -658,9 +659,9 @@ Skills layer and compound. Understanding the architecture enables effective use.
 ```
 core-1337 (guiding principles)
     ↓ always loaded
-domain skills (rust-1337, kotlin-1337, experience-1337)
+domain skills (language-specific, framework-specific)
     ↓ activated by context
-specialty skills (jvm-runtime-1337, diagrams-1337)
+specialty skills (deep expertise for specific needs)
     ↓ activated by specific need
 ```
 
