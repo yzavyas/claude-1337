@@ -42,8 +42,9 @@ From `references/reasoning-scaffolds.md`:
 | Need verification | CoVe |
 | Multiple perspectives | Blackboard |
 | Dynamic, environment changing | OODA |
+| Process improvement | PDCA |
 
-**Wolf's default:** OODA wraps everything. Observe → Orient (select inner scaffold) → Decide → Act → loop.
+**Wolf's default:** OODA for reacting, PDCA for improving. Orient selects inner scaffold.
 
 Output: Scaffold choice + why.
 

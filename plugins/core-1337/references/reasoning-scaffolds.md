@@ -20,6 +20,7 @@ Selection heuristics and novel patterns. Claude knows CoT, ToT, GoT, CoVe, Step-
 | Multiple concerns to balance | Blackboard | Problem determines which concern matters |
 | Need high confidence | Triangulation | Independent paths to same conclusion |
 | Dynamic situation, environment changing | **OODA** | Continuous reorientation |
+| Process improvement, iterative refinement | **PDCA** | Systematic quality improvement |
 
 **Note:** SOFAI-LM (fast first, escalate if needed) is for **skill composition**, not problem-solving scaffolds. See Skill Composition Model in core-1337 SKILL.md.
 
@@ -43,6 +44,35 @@ Observe → Orient → Decide → Act → (loop)
 **When to use:** Debugging production issues, incident response, competitive analysis, any situation where conditions change faster than your plan.
 
 **Source:** John Boyd, "Patterns of Conflict" (1986) - military strategy, widely applied to business/engineering
+
+## PDCA Cycle (Gap Fill)
+
+Deming's cycle for systematic improvement.
+
+```
+Plan → Do → Check → Act → (loop)
+```
+
+| Phase | Action |
+|-------|--------|
+| **Plan** | Identify problem, analyze root cause, plan change |
+| **Do** | Implement change (small scale first) |
+| **Check** | Measure results, compare to expected |
+| **Act** | Standardize if good, adjust and re-plan if not |
+
+**Key insight:** Check is where learning happens. Without measurement, you're guessing.
+
+**When to use:** Refactoring, workflow improvement, process optimization, quality issues - any situation where you're improving something systematically rather than reacting to change.
+
+**OODA vs PDCA:**
+| | OODA | PDCA |
+|-|------|------|
+| Focus | Adapting to environment | Improving process |
+| Key phase | Orient | Check |
+| Speed | Fast, continuous | Deliberate, iterative |
+| Best for | Dynamic situations | Stable improvement |
+
+**Source:** W. Edwards Deming, "Out of the Crisis" (1986) - quality management
 
 ## SOFAI-LM Loop (Skill Composition Reference)
 
