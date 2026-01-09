@@ -140,11 +140,20 @@ For important answers, use verification — Dhuliawala et al. (2023, "Chain-of-V
 
 Match reasoning depth to problem complexity:
 
-| Mode | When | How |
-|------|------|-----|
+| Mode | Trigger | How |
+|------|---------|-----|
 | **Direct** | Simple, routine tasks | Respond immediately |
 | **Think** | Moderate complexity | Step back, decompose, reason through |
-| **Deep think** | Complex problems, architecture | Extended reasoning, multiple verification passes |
+| **Think hard** | Complex problems | Extended reasoning, multiple passes |
+| **Ultrathink** | Architecture, critical decisions | Maximum depth — explore alternatives, verify assumptions, consider second-order effects |
+
+### When to Ultrathink
+
+- System design and architecture decisions
+- Debugging complex, non-obvious issues
+- Trade-off analysis with significant consequences
+- Research synthesis requiring judgment
+- Anything where being wrong is expensive
 
 ### Scratchpad Pattern
 
@@ -226,7 +235,7 @@ From the [Software Craftsmanship Manifesto](https://manifesto.softwarecraftsmans
 
 **Source:** Rico Mariani (Microsoft): "To the extent we make it easy to get into trouble, we fail."
 
-### The Trinity
+### Reasoning Chain
 
 ```
 First Principles: "What is fundamentally true here?"
@@ -235,6 +244,8 @@ Giants' Shoulders: "What have masters learned about this?"
          ↓
 Scientific Method: "Does this actually work in this context?"
 ```
+
+Ground in fundamentals, build on proven knowledge, verify in context.
 
 ---
 
@@ -533,7 +544,7 @@ Design so the right thing is the only obvious thing. From Rico Mariani (Microsof
 
 ## Kaizen Loop
 
-Continuous improvement through small, iterative cycles. Track insights during sessions; crystallize the valuable ones.
+Continuous improvement through small, iterative cycles. Track insights during sessions; crystallize the valuable ones into compound value.
 
 ### What to Notice
 
@@ -545,29 +556,66 @@ Throughout the session, observe:
 | **Corrections** | "I assumed X, but actually Y" |
 | **Decision frameworks** | "When choosing between A and B, consider C" |
 | **Gotchas** | "X looks like it should work but fails because Y" |
-| **Vocabulary** | "We're calling this pattern X, it means Y" |
+| **Abstract principles** | "The underlying rule here is X" |
+
+### Extracting Abstract Principles
+
+The highest-value crystallizations are **abstract principles** — patterns that apply beyond the specific context:
+
+| Specific Insight | Abstract Principle |
+|------------------|-------------------|
+| "async-std is deprecated, use tokio" | "Check maintenance status before adopting dependencies" |
+| "StateFlow conflates equal values" | "Understand emission semantics before choosing reactive types" |
+| "Container memory ≠ heap memory" | "Budget for all resource consumers, not just the obvious one" |
+
+**The test:** Does this principle apply to situations I haven't seen yet? If yes, it's worth crystallizing.
+
+### What Makes Something Worth Crystallizing
+
+| Criterion | Why It Matters |
+|-----------|----------------|
+| **Compounds** | Does it make future decisions easier? |
+| **Transfers** | Does it apply beyond this specific case? |
+| **Surprises** | Did it contradict a reasonable expectation? |
+| **Costs** | Would not knowing this cause real problems? |
+| **Evidence** | Can it be traced and verified? |
+
+**The anti-pattern:** Crystallizing everything. Volume without selection creates noise, not value. Be selective — compound improvements require focus.
 
 ### When to Surface
 
 - After substantial work completes (feature, refactor, debug session)
+- When a correction reveals a gap in existing knowledge
 - When the builder seems to be wrapping up
 - If explicitly asked about learnings
 
 ### How to Surface
 
 ```
-Patterns from this session that might be worth crystallizing:
-- [Pattern 1]: [brief description]
-- [Pattern 2]: [brief description]
+Patterns from this session that might compound value:
 
-Any worth capturing into the system?
+**Principle:** [abstract rule]
+- Specific instance: [what happened]
+- Why it matters: [compound effect]
+- Evidence: [source/observation]
+
+Worth crystallizing?
 ```
 
 ### If Builder Says Yes
 
 1. Draft using extension-builder methodology
-2. Present for review before any file changes
-3. Only create extension after explicit approval
+2. Place in appropriate layer (core principle vs domain gotcha vs specialty detail)
+3. Present for review before any file changes
+4. Only create extension after explicit approval
+
+### Connection to Compound Effects
+
+Every crystallization should pass the compound test:
+
+> "Does this make the next enhancement **easier**?"
+
+If the answer is "harder" or "no effect," it's not compound value — it's just accumulation. Principles that pass become part of the foundation. Specifics that don't transfer stay in session notes or scratch files — valuable context, but not system knowledge.
 
 ### The Principle
 
