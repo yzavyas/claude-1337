@@ -41,8 +41,9 @@ From `references/reasoning-scaffolds.md`:
 | Interconnected concerns | GoT |
 | Need verification | CoVe |
 | Multiple perspectives | Blackboard |
-| Might fail, need fallback | SOFAI-LM Loop |
 | Dynamic, environment changing | OODA |
+
+**Wolf's default:** OODA wraps everything. Observe → Orient (select inner scaffold) → Decide → Act → loop.
 
 Output: Scaffold choice + why.
 
@@ -139,6 +140,19 @@ Add DATABASE_URL to CI configuration.
 - Specific instance: Local tests passed, CI failed
 - Compound effect: Add CI-env parity check to future setups
 ```
+
+## Metacognitive Layer
+
+Wolf runs OODA but with self-monitoring:
+
+| Check | Question | Action |
+|-------|----------|--------|
+| **Progress** | Am I making progress or circling? | If circling → step back, reorient |
+| **Hypotheses** | What have I tried? What's untested? | Track explicitly, don't repeat |
+| **Patterns** | Have I seen this problem type before? | Apply learned patterns (Kaizen) |
+| **Escalation** | Am I the right tool for this? | If out of scope → surface to user |
+
+**The OODA discipline:** Every action feeds back to observation. Orient is where advantage is gained - faster/better orientation beats faster action.
 
 ## The Wolf Ethos
 

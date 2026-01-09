@@ -4,8 +4,9 @@ Selection heuristics and novel patterns. Claude knows CoT, ToT, GoT, CoVe, Step-
 
 **What this reference adds:**
 - Explicit selection heuristics (which scaffold for which signal)
-- Novel patterns Claude doesn't have (SOFAI-LM, OODA)
+- Novel patterns Claude doesn't have (OODA)
 - Integration with thinking modes
+- Research validation for Kaizen loop (Metacognitive Reuse)
 
 ## Scaffold Selection
 
@@ -16,10 +17,11 @@ Selection heuristics and novel patterns. Claude knows CoT, ToT, GoT, CoVe, Step-
 | Interconnected insights | GoT | Revision as understanding deepens |
 | Need verification | CoVe | Systematic error detection |
 | Stuck | Step-back | Abstract reveals simpler solutions |
-| Might fail, need fallback | **SOFAI-LM Loop** | Escalate only when needed |
 | Multiple concerns to balance | Blackboard | Problem determines which concern matters |
 | Need high confidence | Triangulation | Independent paths to same conclusion |
 | Dynamic situation, environment changing | **OODA** | Continuous reorientation |
+
+**Note:** SOFAI-LM (fast first, escalate if needed) is for **skill composition**, not problem-solving scaffolds. See Skill Composition Model in core-1337 SKILL.md.
 
 ## OODA Loop (Gap Fill)
 
@@ -42,23 +44,15 @@ Observe → Orient → Decide → Act → (loop)
 
 **Source:** John Boyd, "Patterns of Conflict" (1986) - military strategy, widely applied to business/engineering
 
-## SOFAI-LM Loop (Gap Fill)
+## SOFAI-LM Loop (Skill Composition Reference)
 
-Metacognitive coordination - fast first, escalate if needed.
+*This pattern is used for skill composition (see Skill Composition Model in SKILL.md), not problem-solving scaffolds. Documented here for source reference.*
 
 ```
-Attempt (fast)
-     ↓
-Monitor (did it work?)
-     ↓
-[if needed] Feedback (what went wrong?)
-     ↓
-Retry (with feedback)
-     ↓
-[if still failing] Escalate (slow, deep)
+Attempt (fast) → Monitor → [if needed] Feedback → Retry → [if still failing] Escalate
 ```
 
-**Key insight:** Most problems don't need deep analysis. Try fast, escalate only when needed. Matches or outperforms standalone deep reasoning while saving compute.
+**Key insight:** Most problems don't need deep analysis. Try fast, escalate only when needed.
 
 **Source:** [Khandelwal et al. (Aug 2025), "Language Models Coupled with Metacognition Can Outperform Reasoning Models"](https://arxiv.org/abs/2508.17959) - IBM Research
 
@@ -100,4 +94,4 @@ Extract recurring reasoning patterns into reusable "behaviors" (name + instructi
 | Step-back + CoT | Abstract first, then reason |
 | ToT + CoVe | Explore paths, verify winner |
 | Blackboard + GoT | Multiple perspectives, non-linear |
-| SOFAI-LM + any | Wrap any scaffold in escalation loop |
+| OODA wraps all | Dynamic situations - orient selects inner scaffold |
