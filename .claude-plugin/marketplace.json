@@ -84,6 +84,37 @@
       ]
     },
     {
+      "name": "jvm-runtime-1337",
+      "source": "./plugins/jvm-runtime-1337",
+      "description": "JVM runtime analysis and production debugging. Use when: profiling Java applications, tuning GC, analyzing heap/thread dumps, debugging memory leaks, optimizing for containers. Covers async-profiler, JFR, JMC, G1/ZGC/Shenandoah, MAT, jstack.",
+      "version": "1.0.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "jvm",
+        "java",
+        "profiling",
+        "async-profiler",
+        "jfr",
+        "gc-tuning",
+        "heap-dump",
+        "thread-dump",
+        "containers",
+        "kubernetes",
+        "production"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
+    },
+    {
       "name": "1337-extension-builder",
       "source": "./plugins/1337-extension-builder",
       "description": "Build Claude extensions — skills, hooks, agents, commands, MCP servers. Use when: creating extensions. Evidence-based methodology.",
