@@ -132,3 +132,39 @@ This is not a contradiction—it's the mechanism. Improved performance removes t
 - Tihanyi et al. (2024). AI code vulnerabilities. EMSE.
 
 **Validation**: Triangulated across Claude Desktop + Gemini 3 Pro deep research (14+ agents, 4 phases). See `scratch/final-validated-synthesis.md`.
+
+---
+
+## Caveats
+
+### Why Few Software Developer Studies?
+
+| reality | implication |
+|---------|-------------|
+| AI coding tools are new (2021+) | Longitudinal studies don't exist yet |
+| Developer productivity is hard to measure | Most studies use proxies (lines, completion time) |
+| Companies don't publish internal data | RCTs are rare (Demirer exception) |
+| Academic CS focuses on the AI, not the human | HCI studies lag behind |
+
+**What we have**: Medical studies (colonoscopy, radiology), education studies, general population studies. These transfer imperfectly but the mechanisms (skill degradation, cognitive offloading) are domain-general.
+
+**What we don't have**: 5-year longitudinal studies of developers using Copilot/Claude. These will come.
+
+### Study Limitations
+
+| study | limitation |
+|-------|------------|
+| **Budzyń (colonoscopy)** | Medical domain, may not transfer to cognitive work |
+| **Gerlich (r=-0.75)** | Cross-sectional, can't prove causation |
+| **Lee (β=-0.69)** | Self-reported critical thinking |
+| **Blaurock (meta)** | Service contexts, not dev-specific |
+| **Mastery (OR=35.7)** | Single study, needs replication |
+
+### What This Means
+
+The research provides **direction**, not **precision**. We know:
+- Transparency and control help (strong evidence)
+- Passive use risks capability (convergent evidence across domains)
+- The exact effect sizes for developers are unknown
+
+**Our approach**: Use the research to inform design principles, but don't over-claim precision we don't have. The methodology (transparency, control, learning) is robust even if exact numbers aren't.
