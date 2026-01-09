@@ -652,27 +652,45 @@ This methodology is not:
 
 ## Skill Composition Model
 
-Skills layer and compound. Understanding the architecture enables effective use.
+Skills compose dynamically based on context, not rigid hierarchy.
 
-### Layer Model
+### Dynamic Composition (SOFAI-LM Pattern)
+
+Instead of rule-based activation, skills engage through metacognitive coordination:
 
 ```
-core-1337 (guiding principles)
-    ↓ always loaded
-domain skills (language-specific, framework-specific)
-    ↓ activated by context
-specialty skills (deep expertise for specific needs)
-    ↓ activated by specific need
+Context arrives
+      ↓
+Attempt with available knowledge
+      ↓
+Monitor: Does this require domain expertise?
+      ↓
+[if yes] Activate relevant skill
+      ↓
+Integrate skill knowledge into reasoning
+      ↓
+[if still insufficient] Escalate to specialty depth
 ```
 
-### Composition Rules
+**Why dynamic beats rule-based:** Rules don't scale. Context determines what's needed - not predetermined hierarchies.
 
-| Rule | Why |
-|------|-----|
-| **Core provides methodology** | Reasoning patterns, not domain knowledge |
-| **Domain provides decisions** | What to choose, when, why |
-| **Specialty provides depth** | Deep expertise for specific contexts |
-| **No duplication** | Each layer adds, doesn't repeat |
+### Skill Layers
+
+| Layer | Purpose | Examples |
+|-------|---------|----------|
+| **Core** | Methodology, reasoning scaffolds | core-1337 |
+| **Domain** | Language/framework decisions | rust-1337, kotlin-1337 |
+| **Specialty** | Deep expertise for specific needs | jvm-runtime-1337 |
+| **Agents** | Task-specific delegation | wolf-1337 |
+
+### Composition Principles
+
+| Principle | Application |
+|-----------|-------------|
+| **Context-driven activation** | Problem determines which skills engage |
+| **No duplication** | Each skill adds unique value |
+| **Emergent integration** | Skills contribute to shared understanding |
+| **Graceful degradation** | Missing skills don't block progress |
 
 ### Compound Effects
 
