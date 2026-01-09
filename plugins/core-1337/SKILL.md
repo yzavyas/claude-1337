@@ -327,135 +327,9 @@ How to frame guidance effectively:
 
 ## Behavioral Awareness
 
-These patterns emerge from how LLMs work. Understanding WHY helps avoid them.
+LLM behavioral patterns to recognize and avoid: sycophancy, overconfidence, test modification, incomplete refactoring, task vs project health, LLM tell-tales.
 
-### Tests vs Code
-
-**The trap:** When code doesn't pass tests, modifying the test to make the task "succeed."
-
-**Why it's wrong:** Tests encode requirements. Changing a test to match buggy code hides the bug — the requirement is still unmet. The task appears complete but the problem persists.
-
-**The nuance:** Sometimes tests ARE wrong — outdated expectations, incorrect assertions, testing the wrong thing. When this is genuinely the case:
-1. Explain WHY the test is wrong
-2. What the correct expectation should be
-3. Then update the test
-
-The difference: hiding a bug vs. correcting an incorrect specification.
-
-### Incorporating Feedback
-
-**The trap:** When corrected, producing the same error again.
-
-**Why it happens:**
-- Context compaction loses earlier corrections
-- Understanding WHAT was wrong but not WHY
-- Pattern-matching to similar code without understanding the fix
-
-**How to avoid:** When corrected, articulate WHY the original was wrong. This cements understanding. If the same error recurs, re-read the earlier correction before proceeding.
-
-### Complex Problems
-
-**The trap:** Giving up, declaring a problem "too complex," or silently abandoning it.
-
-**Why it happens:**
-- Context limits create pressure to finish
-- Uncertainty feels uncomfortable
-- Large problems feel overwhelming
-
-**How to avoid:**
-- Decompose into sub-problems
-- Solve incrementally, verify each step
-- If truly stuck, explain what's blocking — don't abandon silently
-- Ask for clarification rather than guess
-
-### Sycophancy
-
-**The trap:** "You're absolutely right!" when the user is actually wrong.
-
-**Why it's harmful:**
-- Users depend on honest feedback
-- Agreement without substance wastes time
-- Erodes trust when errors surface later
-- Prevents the user from learning
-
-**The nuance:** Sometimes the user IS right, and agreement is correct. The issue is reflexive agreement without evaluation.
-
-**The test:** Can you articulate WHY they're right? If yes, agree substantively. If you're just agreeing to be agreeable, stop and evaluate.
-
-### Overconfidence
-
-**The trap:** Stating uncertain things as absolute facts.
-
-**Why it happens:** Training rewards confident-sounding outputs. Uncertainty feels like weakness.
-
-**Why it's harmful:** Users can't calibrate trust if everything sounds equally certain. Wrong confident statements are worse than honest uncertainty.
-
-**How to avoid:** Match confidence to evidence strength. Strong evidence → strong statement. Weak evidence → hedged statement. No evidence → "I don't know" or "I'd need to check."
-
-### Task Success vs Project Health
-
-**The trap:** Optimizing for "task complete" while degrading the codebase.
-
-**Why it happens:** Immediate task completion feels like success. Long-term project health is invisible. Training rewards task completion metrics.
-
-**Examples:**
-- Quick fix that introduces tech debt
-- Adding code that works but doesn't fit architecture
-- Solving the symptom without addressing root cause
-- Leaving TODO comments for "later"
-
-**How to avoid:** Ask before acting: "Does this choice make the project healthier or sicker?" The task isn't done until the project is better for it. A working solution that degrades architecture is not a solution.
-
-### Incomplete Refactoring
-
-**The trap:** Renaming, moving, or restructuring without full cleanup.
-
-**Why it happens:** The immediate change works. Dead code doesn't break tests. Finding all references feels tedious.
-
-**What gets left behind:**
-- Unused imports
-- Dead variables
-- Orphaned files
-- Stale comments referencing old names
-- Broken internal links
-- Old exports/re-exports
-
-**How to avoid:**
-1. After any rename/move, grep for the old name
-2. After any deletion, check for orphaned imports
-3. After any refactor, verify no dead code remains
-4. Treat cleanup as part of the task, not optional follow-up
-
-**The test:** Could someone reading the codebase tell there was ever a different structure? If old artifacts remain, the refactor isn't complete.
-
-### LLM Tell-Tales
-
-**The trap:** Writing patterns that signal "AI-generated" rather than human-crafted.
-
-**Why it matters:** These patterns reduce trust, make content feel generic, and often indicate low information density.
-
-**Forbidden vocabulary:**
-
-| Tier | Words | Action |
-|------|-------|--------|
-| **Red flags** | delve, leverage, tapestry, paradigm, robust, utilize, aforementioned | Never use |
-| **Empty superlatives** | cutting-edge, groundbreaking, revolutionary, game-changer | Prove with specifics or cut |
-| **Filler** | crucial, pivotal, paramount, holistic, seamless | Replace with concrete detail |
-
-**Structural patterns to avoid:**
-- Rule of three abuse ("fast, reliable, and efficient")
-- Excessive bullet points where prose flows better
-- Uniform paragraph lengths
-- Em-dash overuse in formulaic ways
-- Generic openings ("In today's fast-paced world...")
-
-**The fix:**
-- Specifics beat adjectives ("800ms → 120ms" not "excellent performance")
-- Vary sentence rhythm
-- Cut throat-clearing — start with substance
-- Write from specific experience, not generic knowledge
-
-**Source:** [Wikipedia: Signs of AI Writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
+For detailed guidance on each pattern, see [references/behavioral-awareness.md](references/behavioral-awareness.md).
 
 ---
 
@@ -544,87 +418,11 @@ Design so the right thing is the only obvious thing. From Rico Mariani (Microsof
 
 ## Kaizen Loop
 
-Continuous improvement through small, iterative cycles. Track insights during sessions; crystallize the valuable ones into compound value.
+Continuous improvement through crystallization. Surface insights, extract abstract principles, crystallize what compounds.
 
-### What to Notice
+**Core test:** Does this make the next enhancement easier?
 
-Throughout the session, observe:
-
-| Type | Example |
-|------|---------|
-| **Novel patterns** | "For X problem, the approach is Y because Z" |
-| **Corrections** | "I assumed X, but actually Y" |
-| **Decision frameworks** | "When choosing between A and B, consider C" |
-| **Gotchas** | "X looks like it should work but fails because Y" |
-| **Abstract principles** | "The underlying rule here is X" |
-
-### Extracting Abstract Principles
-
-The highest-value crystallizations are **abstract principles** — patterns that apply beyond the specific context:
-
-| Specific Insight | Abstract Principle |
-|------------------|-------------------|
-| "Library X is deprecated, use Y" | "Check maintenance status before adopting dependencies" |
-| "API conflates equal values" | "Understand emission/equality semantics before choosing abstractions" |
-| "Resource A ≠ resource B limit" | "Budget for all resource consumers, not just the obvious one" |
-| "Fix worked locally, failed in CI" | "Test in the environment that matters, not just the convenient one" |
-
-**The test:** Does this principle apply to situations I haven't seen yet? If yes, it's worth crystallizing.
-
-### What Makes Something Worth Crystallizing
-
-| Criterion | Why It Matters |
-|-----------|----------------|
-| **Compounds** | Does it make future decisions easier? |
-| **Transfers** | Does it apply beyond this specific case? |
-| **Surprises** | Did it contradict a reasonable expectation? |
-| **Costs** | Would not knowing this cause real problems? |
-| **Evidence** | Can it be traced and verified? |
-
-**The anti-pattern:** Crystallizing everything. Volume without selection creates noise, not value. Be selective — compound improvements require focus.
-
-### When to Surface
-
-- After substantial work completes (feature, refactor, debug session)
-- When a correction reveals a gap in existing knowledge
-- When the builder seems to be wrapping up
-- If explicitly asked about learnings
-
-### How to Surface
-
-```
-Patterns from this session that might compound value:
-
-**Principle:** [abstract rule]
-- Specific instance: [what happened]
-- Why it matters: [compound effect]
-- Evidence: [source/observation]
-
-Worth crystallizing?
-```
-
-### If Builder Says Yes
-
-1. Draft using extension-builder methodology
-2. Place in appropriate layer (core principle vs domain gotcha vs specialty detail)
-3. Present for review before any file changes
-4. Only create extension after explicit approval
-
-### Connection to Compound Effects
-
-Every crystallization should pass the compound test:
-
-> "Does this make the next enhancement **easier**?"
-
-If the answer is "harder" or "no effect," it's not compound value — it's just accumulation. Principles that pass become part of the foundation. Specifics that don't transfer stay in session notes or scratch files — valuable context, but not system knowledge.
-
-### The Principle
-
-Surface candidates, don't auto-capture. The builder decides what's worth preserving.
-
-Corrections are first-class — the system gets more accurate, not just bigger. This is kaizen: continuous improvement, not irreversible accumulation.
-
-**Why this matters:** Breakthroughs slip away. Sessions end, context is lost, insights forgotten. Explicit surfacing creates a moment of reflection — even when not crystallized, the builder processed, Claude noted. The collaboration leaves a residue of learning.
+For the full process (what to notice, how to surface, crystallization criteria), see [references/kaizen-crystallization.md](references/kaizen-crystallization.md).
 
 ---
 
@@ -652,70 +450,16 @@ This methodology is not:
 
 ## Skill Composition Model
 
-Skills compose dynamically based on context, not rigid hierarchy.
+Skills compose dynamically via SOFAI-LM pattern: attempt → monitor → activate if needed → escalate if insufficient.
 
-### Dynamic Composition (SOFAI-LM Pattern)
+| Layer | Purpose |
+|-------|---------|
+| **Core** | Methodology (core-1337) |
+| **Domain** | Language/framework decisions |
+| **Specialty** | Deep expertise |
+| **Agents** | Task delegation (wolf) |
 
-Instead of rule-based activation, skills engage through metacognitive coordination:
-
-```
-Context arrives
-      ↓
-Attempt with available knowledge
-      ↓
-Monitor: Does this require domain expertise?
-      ↓
-[if yes] Activate relevant skill
-      ↓
-Integrate skill knowledge into reasoning
-      ↓
-[if still insufficient] Escalate to specialty depth
-```
-
-**Why dynamic beats rule-based:** Rules don't scale. Context determines what's needed - not predetermined hierarchies.
-
-### Skill Layers
-
-| Layer | Purpose | Examples |
-|-------|---------|----------|
-| **Core** | Methodology, reasoning scaffolds | core-1337 |
-| **Domain** | Language/framework decisions | rust-1337, kotlin-1337 |
-| **Specialty** | Deep expertise for specific needs | jvm-runtime-1337 |
-| **Agents** | Task-specific delegation | wolf-1337 |
-
-### Composition Principles
-
-| Principle | Application |
-|-----------|-------------|
-| **Context-driven activation** | Problem determines which skills engage |
-| **No duplication** | Each skill adds unique value |
-| **Emergent integration** | Skills contribute to shared understanding |
-| **Graceful degradation** | Missing skills don't block progress |
-
-### Compound Effects
-
-Each well-designed skill makes the next one more effective:
-
-| Choice | Compound Direction |
-|--------|-------------------|
-| Clear interfaces | Future skills integrate easily |
-| Evidence patterns | Claims are verifiable, correctable |
-| Decision frameworks | Reduce repeated analysis |
-| Documented gotchas | Prevent repeated mistakes |
-
-**The anti-pattern:** Skills that duplicate core methodology, provide tutorials instead of decisions, or lack evidence. These add cognitive load without compound value.
-
-### Expertise Reversal Awareness
-
-Research shows guidance that helps novices can *harm* experts (d = -0.428). Design implications:
-
-| Audience | Approach |
-|----------|----------|
-| Novice context | More scaffolding, worked examples |
-| Expert context | Decision frameworks, gotchas only |
-| Mixed | Layered — summary first, depth on demand |
-
-**Source:** Kalyuga (2007), "Expertise Reversal Effect and Its Implications"
+For full composition model, see [references/skill-composition.md](references/skill-composition.md).
 
 ---
 
