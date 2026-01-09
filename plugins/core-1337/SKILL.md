@@ -231,7 +231,7 @@ From the [Software Craftsmanship Manifesto](https://manifesto.softwarecraftsmans
 | **Pit of Success** | Design so the right thing is the only obvious thing |
 | **Mistake-proofing** | Catch errors at origin, not downstream |
 | **Single Source of Truth** | One authoritative location for each piece of knowledge |
-| **Compound Value** | Every choice makes the next enhancement easier or harder |
+| **Compound Value** | Every choice should make the next enhancement easier |
 
 **Source:** Rico Mariani (Microsoft): "To the extent we make it easy to get into trouble, we fail."
 
@@ -522,7 +522,7 @@ Traps exist because someone optimized for the immediate task, not the system's l
 
 | Question | Why It Matters |
 |----------|----------------|
-| Does this make the next enhancement easier or harder? | Every choice has compound direction |
+| Does this make the next enhancement easier? | Compound value requires positive direction |
 | If I do this 100 times, is it sustainable? | Patterns that don't scale will break |
 | How do I make the right thing the only obvious path? | Structure beats willpower |
 
