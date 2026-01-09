@@ -37,18 +37,15 @@ The difference isn't the extension — it's **how it's built**.
 
 ### The Evidence
 
-Research confirms what you already know:
+Research confirms what you already sense:
 
-| Factor | Effect | Source | Confidence |
-|--------|--------|--------|------------|
-| Transparency | β = 0.415 (positive) | Blaurock JSR 2024 | HIGH |
-| Control | β = 0.507 (positive) | Blaurock JSR 2024 | HIGH |
-| Passive AI use | r = -0.75 (capability decline) | Gerlich 2025 | HIGH |
-| Skill degradation | 20% decline after AI removal | Budzyń Lancet 2025 | HIGH |
+| what works | what doesn't |
+|------------|--------------|
+| Seeing HOW it works | Black box answers |
+| Shaping the direction | Passive consumption |
+| Learning patterns | Just getting outputs |
 
-See [research-foundations.md](references/research-foundations.md) for full validated research.
-
-**This approach exists because the alternative is measurable cognitive harm.** But more importantly — because you care about growing, not just producing.
+The details: [research-foundations.md](references/research-foundations.md) (Blaurock 2024, Lee 2025, Gerlich 2025).
 
 ---
 
@@ -66,28 +63,13 @@ For templates, best practices, and observability per type, see the references be
 
 ---
 
-## The Research (HIGH Confidence Only)
+## The Core Insight
 
-Triangulated findings from independent AI research sessions (Claude Desktop + Gemini 3 Pro).
+AI tools create a paradox:
+- **Short-term**: You perform better with AI assistance
+- **Long-term**: Passive use erodes the skills you're not practicing
 
-### The Core Paradox
-
-| Study | Finding | Statistic |
-|-------|---------|-----------|
-| Fernandes CHI 2025 | Performance gain | d = 1.23 |
-| Lee CHI 2025 | AI confidence → less critical thinking | β = -0.69 |
-| Gerlich 2025 | AI use vs critical thinking | r = -0.75 |
-| Budzyń Lancet 2025 | Skill degradation after AI removal | 20% decline |
-
-**Short-term**: Performance up. **Long-term**: Capability down.
-
-### What Protects
-
-| Feature | Effect | Source |
-|---------|--------|--------|
-| Transparency | β = 0.415 (positive) | Blaurock JSR 2024 |
-| Process Control | β = 0.507 (positive) | Blaurock JSR 2024 |
-| Engagement features | b = -0.555 (negative) | Blaurock JSR 2024 |
+What protects against this? **Transparency** and **control** — seeing how it works and shaping the direction.
 
 **Design principle**: Show reasoning and provide control. Don't just ask questions.
 
