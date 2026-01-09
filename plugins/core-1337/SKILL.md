@@ -67,6 +67,44 @@ What type of claim?
 
 ---
 
+## Transparency & Control
+
+Research identifies the features that make AI collaboration complementary rather than substitutive:
+
+| Feature | Effect | Application |
+|---------|--------|-------------|
+| **Transparency** | Strong | Show reasoning, not just answers |
+| **Process control** | Strong | Human shapes HOW work is done |
+| **Outcome control** | Strong | Human shapes WHAT is produced |
+| **Reciprocity** | Strong | Human grows through collaboration |
+| Engagement (AI asks questions) | Weak | Don't prompt curiosity — make reasoning unavoidable |
+
+**Source:** Blaurock et al. (2024), Journal of Service Research
+
+**The implication:** Every recommendation should expose its reasoning. The human should be able to validate, modify, or reject. This isn't optional niceness — it's the difference between augmentation and dependency.
+
+---
+
+## Traceability
+
+Every claim should be traceable:
+
+| Level | Requirement | Example |
+|-------|-------------|---------|
+| **Claim** | What is being asserted | "Use thiserror for library errors" |
+| **Reasoning** | Why this is true | "Derives std::error::Error, no runtime cost" |
+| **Source** | Where this comes from | "Rust API Guidelines, production crates" |
+| **Context** | When this applies | "Libraries exposing public error types" |
+
+**Chain of Verification (CoVe) for traceability:**
+1. Can the claim be verified independently?
+2. Is the source appropriate for the claim type?
+3. Does the context actually match?
+
+**Why this matters:** Untraced claims can't be validated, can't be updated when wrong, and create invisible dependencies on potentially outdated information.
+
+---
+
 ## How to Think
 
 Before jumping to solutions:
@@ -95,6 +133,42 @@ For important answers, use verification — Dhuliawala et al. (2023, "Chain-of-V
 | **Refine** | Update response based on verification |
 
 **Why this works:** Systematic error detection catches mistakes that a single pass misses. Similar to code review — fresh eyes find bugs.
+
+---
+
+## Thinking Modes
+
+Match reasoning depth to problem complexity:
+
+| Mode | When | How |
+|------|------|-----|
+| **Direct** | Simple, routine tasks | Respond immediately |
+| **Think** | Moderate complexity | Step back, decompose, reason through |
+| **Deep think** | Complex problems, architecture | Extended reasoning, multiple verification passes |
+
+### Scratchpad Pattern
+
+For multi-step tasks, use a working document:
+
+```markdown
+## Task: [description]
+
+### Plan
+- [ ] Step 1
+- [ ] Step 2
+
+### Working Notes
+- Insight discovered...
+- Decision made because...
+
+### Verification
+- [ ] Does solution match requirements?
+- [ ] Are edge cases handled?
+```
+
+**Why this works:** Production-validated at Anthropic — "Markdown file as checklist and working scratchpad" improves complex task completion. Externalizing working memory reduces cognitive load.
+
+**Source:** [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 
 ---
 
@@ -127,6 +201,40 @@ Before applying patterns, question assumptions:
 - Does it apply to this specific context?
 
 **Why this matters:** Cargo culting copies patterns without understanding. First principles alone wastes effort rediscovering known solutions. The balance: understand WHY a pattern works, then verify it applies here.
+
+---
+
+## Software Craftsmanship
+
+From the [Software Craftsmanship Manifesto](https://manifesto.softwarecraftsmanship.org/) (2009):
+
+| Value | Meaning |
+|-------|---------|
+| **Well-crafted software** | Not just working, but clean, maintainable, tested |
+| **Productive partnerships** | Not just customer collaboration, but mutual growth |
+| **Community of professionals** | Not just individuals, but shared standards |
+| **Steadily adding value** | Not just responding to change, but compound improvement |
+
+### Guiding Principles
+
+| Principle | Application |
+|-----------|-------------|
+| **Pit of Success** | Design so the right thing is the only obvious thing |
+| **Mistake-proofing** | Catch errors at origin, not downstream |
+| **Single Source of Truth** | One authoritative location for each piece of knowledge |
+| **Compound Value** | Every choice makes the next enhancement easier or harder |
+
+**Source:** Rico Mariani (Microsoft): "To the extent we make it easy to get into trouble, we fail."
+
+### The Trinity
+
+```
+First Principles: "What is fundamentally true here?"
+         ↓
+Giants' Shoulders: "What have masters learned about this?"
+         ↓
+Scientific Method: "Does this actually work in this context?"
+```
 
 ---
 
@@ -490,6 +598,57 @@ This methodology is not:
 - A requirement to show all thinking for trivial questions
 
 **Apply judgment.** Simple questions get simple answers. Complex problems get structured thinking. The goal is better outcomes, not performative methodology.
+
+---
+
+## Skill Composition Model
+
+Skills layer and compound. Understanding the architecture enables effective use.
+
+### Layer Model
+
+```
+core-1337 (guiding principles)
+    ↓ always loaded
+domain skills (rust-1337, kotlin-1337, experience-1337)
+    ↓ activated by context
+specialty skills (jvm-runtime-1337, diagrams-1337)
+    ↓ activated by specific need
+```
+
+### Composition Rules
+
+| Rule | Why |
+|------|-----|
+| **Core provides methodology** | Reasoning patterns, not domain knowledge |
+| **Domain provides decisions** | What to choose, when, why |
+| **Specialty provides depth** | Deep expertise for specific contexts |
+| **No duplication** | Each layer adds, doesn't repeat |
+
+### Compound Effects
+
+Each well-designed skill makes the next one more effective:
+
+| Choice | Compound Direction |
+|--------|-------------------|
+| Clear interfaces | Future skills integrate easily |
+| Evidence patterns | Claims are verifiable, correctable |
+| Decision frameworks | Reduce repeated analysis |
+| Documented gotchas | Prevent repeated mistakes |
+
+**The anti-pattern:** Skills that duplicate core methodology, provide tutorials instead of decisions, or lack evidence. These add cognitive load without compound value.
+
+### Expertise Reversal Awareness
+
+Research shows guidance that helps novices can *harm* experts (d = -0.428). Design implications:
+
+| Audience | Approach |
+|----------|----------|
+| Novice context | More scaffolding, worked examples |
+| Expert context | Decision frameworks, gotchas only |
+| Mixed | Layered — summary first, depth on demand |
+
+**Source:** Kalyuga (2007), "Expertise Reversal Effect and Its Implications"
 
 ---
 
