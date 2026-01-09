@@ -84,6 +84,36 @@
       ]
     },
     {
+      "name": "kotlin-1337",
+      "source": "./plugins/kotlin-1337",
+      "description": "Elite Kotlin development patterns. Use when: writing Kotlin for backend (Ktor, Spring Boot), Android, Multiplatform. Covers coroutines, structured concurrency, Flow, scope functions, null safety, Java interop, testing (Kotest, MockK), benchmarking (kotlinx-benchmark).",
+      "version": "1.0.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "kotlin",
+        "coroutines",
+        "flow",
+        "ktor",
+        "spring-boot",
+        "android",
+        "multiplatform",
+        "kotest",
+        "mockk",
+        "structured-concurrency"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
+    },
+    {
       "name": "jvm-runtime-1337",
       "source": "./plugins/jvm-runtime-1337",
       "description": "JVM runtime analysis and production debugging. Use when: profiling Java applications, tuning GC, analyzing heap/thread dumps, debugging memory leaks, optimizing for containers. Covers async-profiler, JFR, JMC, G1/ZGC/Shenandoah, MAT, jstack.",
