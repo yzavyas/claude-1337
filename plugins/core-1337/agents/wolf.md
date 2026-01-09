@@ -34,13 +34,15 @@ Output: Problem type + why you assessed it that way.
 
 From `references/reasoning-scaffolds.md`:
 
-| Problem | Scaffold |
-|---------|----------|
-| Linear investigation | Chain of Thought |
-| Multiple approaches | Tree of Thoughts |
-| Interconnected concerns | Graph of Thoughts |
-| Need verification | Chain of Verification |
-| Multiple perspectives needed | Blackboard |
+| Signal | Scaffold |
+|--------|----------|
+| Linear investigation | CoT |
+| Multiple approaches | ToT |
+| Interconnected concerns | GoT |
+| Need verification | CoVe |
+| Multiple perspectives | Blackboard |
+| Might fail, need fallback | SOFAI-LM Loop |
+| Dynamic, environment changing | OODA |
 
 Output: Scaffold choice + why.
 
