@@ -7,26 +7,13 @@ Valid schema for `marketplace.json` in Claude Code plugins.
 | field | type | required | description |
 |-------|------|----------|-------------|
 | `name` | string | yes | Marketplace identifier (kebab-case) |
-| `owner` | object | yes | Maintainer info |
+| `owner` | object | yes | `{ name, email? }` |
 | `plugins` | array | yes | List of plugins |
-| `metadata` | object | no | Description, version |
+| `metadata` | object | no | `{ description?, version?, pluginRoot? }` |
 
-### Owner Object
+---
 
-| field | type | required |
-|-------|------|----------|
-| `name` | string | yes |
-| `email` | string | no |
-
-### Metadata Object
-
-| field | type | description |
-|-------|------|-------------|
-| `description` | string | Brief marketplace description |
-| `version` | string | Marketplace version |
-| `pluginRoot` | string | Base directory for relative source paths |
-
-## Plugin Entry Object
+## Plugin Entry
 
 ### Required Fields
 
@@ -39,7 +26,7 @@ Valid schema for `marketplace.json` in Claude Code plugins.
 
 | field | type | description |
 |-------|------|-------------|
-| `description` | string | What plugin does |
+| `description` | string | What plugin does (include "Use when:") |
 | `version` | string | Plugin version |
 | `author` | object | `{ name, email }` |
 | `homepage` | string | URL |
@@ -47,12 +34,9 @@ Valid schema for `marketplace.json` in Claude Code plugins.
 | `license` | string | SPDX identifier |
 | `keywords` | array | Search terms |
 | `category` | string | Plugin category |
-| `tags` | array | Additional tags |
 | `strict` | boolean | Requires own `plugin.json` |
 
 ### Component Configuration
-
-Explicit fields for each component type:
 
 | field | type | description |
 |-------|------|-------------|
@@ -62,7 +46,9 @@ Explicit fields for each component type:
 | `mcpServers` | string/object | MCP server config |
 | `lspServers` | string/object | LSP server config |
 
-## Gotcha: No Generic "components" Field
+---
+
+## Gotcha: No Generic "components"
 
 Claude Code does NOT accept:
 
@@ -79,6 +65,8 @@ Use explicit fields instead:
   "agents": "./agents"  // VALID
 }
 ```
+
+---
 
 ## Minimal Example
 
@@ -97,6 +85,8 @@ Use explicit fields instead:
   ]
 }
 ```
+
+---
 
 ## Full Example
 
@@ -126,6 +116,8 @@ Use explicit fields instead:
   ]
 }
 ```
+
+---
 
 ## Source
 

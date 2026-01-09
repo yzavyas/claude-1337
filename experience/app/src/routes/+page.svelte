@@ -22,15 +22,42 @@
 		</p>
 
 		<div class="actions">
-			<a href="{base}/ethos/" class="primary-action">
-				<span>Understand the approach</span>
+			<a href="{base}/catalog/" class="primary-action">
+				<span>Browse extensions</span>
 				<span class="arrow">→</span>
 			</a>
 		</div>
 	</section>
 
+	<section class="install">
+		<h2 class="install-heading">Install</h2>
+		<div class="install-steps">
+			<div class="install-step">
+				<span class="step-number">1</span>
+				<div class="step-content">
+					<p class="step-label">Clone the marketplace</p>
+					<code class="step-code">git clone https://github.com/yzavyas/claude-1337.git</code>
+				</div>
+			</div>
+			<div class="install-step">
+				<span class="step-number">2</span>
+				<div class="step-content">
+					<p class="step-label">Add to Claude Code settings</p>
+					<code class="step-code">~/.claude/settings.json → "pluginDirectories"</code>
+				</div>
+			</div>
+			<div class="install-step">
+				<span class="step-number">3</span>
+				<div class="step-content">
+					<p class="step-label">Skills auto-load when relevant</p>
+					<code class="step-code">Use when: triggers activation</code>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<div class="secondary-link">
-		<a href="{base}/catalog/">Browse Extensions</a>
+		<a href="{base}/ethos/">Understand the approach</a>
 	</div>
 </main>
 
@@ -160,10 +187,90 @@
 		color: var(--color-accent);
 	}
 
+	/* Install Section */
+	.install {
+		max-width: 560px;
+		margin: 0 auto var(--space-16);
+		animation: fadeIn 600ms ease 400ms both;
+	}
+
+	.install-heading {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: var(--font-medium);
+		color: var(--color-text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: var(--space-6);
+		text-align: center;
+	}
+
+	.install-steps {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.install-step {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-4);
+		padding: var(--space-4);
+		background: var(--color-bg-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+	}
+
+	.step-number {
+		flex-shrink: 0;
+		width: 24px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-accent-muted);
+		color: var(--color-accent);
+		border-radius: var(--radius-full);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: var(--font-semibold);
+	}
+
+	.step-content {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.step-label {
+		font-size: var(--text-sm);
+		color: var(--color-text-secondary);
+		margin-bottom: var(--space-1);
+	}
+
+	.step-code {
+		display: block;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		background: var(--color-bg-elevated);
+		padding: var(--space-2) var(--space-3);
+		border-radius: var(--radius-sm);
+		overflow-x: auto;
+	}
+
 	/* Mobile */
 	@media (max-width: 640px) {
 		.headline-primary {
 			font-size: var(--text-3xl);
+		}
+
+		.install-step {
+			flex-direction: column;
+			gap: var(--space-2);
+		}
+
+		.step-code {
+			font-size: 11px;
 		}
 	}
 </style>

@@ -85,6 +85,17 @@
 		color: var(--color-text-muted);
 	}
 
+	/* Mobile: hide long text, keep badge */
+	@media (max-width: 640px) {
+		.alpha-banner {
+			padding: var(--space-1) var(--space-3);
+		}
+
+		.alpha-text {
+			display: none;
+		}
+	}
+
 	/* Navigation */
 	.main-nav {
 		position: fixed;
@@ -127,6 +138,23 @@
 
 	.nav-links a:hover {
 		color: var(--color-accent);
+	}
+
+	/* Mobile nav adjustments */
+	@media (max-width: 640px) {
+		.main-nav {
+			top: 28px;
+			padding: var(--space-2) var(--space-4);
+		}
+
+		.nav-links {
+			gap: var(--space-4);
+		}
+
+		.nav-links a,
+		.nav-brand {
+			font-size: var(--text-xs);
+		}
 	}
 
 	/* GiTS Cyberpunk Background */
