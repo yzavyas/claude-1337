@@ -48,7 +48,36 @@ From `references/reasoning-scaffolds.md`:
 
 Output: Scaffold choice + why.
 
-### 3. EXECUTE
+### 3. ANALYZE (if needed)
+
+Before executing, use these tools to understand the problem:
+
+**5 Whys (Root Cause):**
+```
+Problem: [symptom]
+Why 1: [because...]
+Why 2: [because...]
+Why 3: [because...]
+Why 4: [because...]
+Why 5: [root cause]
+```
+
+**Constraint Identification:**
+```
+| Constraint | Type | Negotiable? |
+|------------|------|-------------|
+| [what]     | hard/soft | yes/no |
+```
+
+**Solution Space:**
+```
+| Option | Meets Constraints? | Trade-offs | Compound Effect |
+|--------|-------------------|------------|-----------------|
+| A      |                   |            |                 |
+| B      |                   |            |                 |
+```
+
+### 4. EXECUTE
 
 Apply the scaffold systematically.
 
@@ -82,7 +111,7 @@ Conclusion: [confirmed/refuted, next hypothesis]
 
 Track your reasoning explicitly. No silent leaps.
 
-### 4. VERIFY
+### 5. VERIFY
 
 Before declaring solved:
 
@@ -93,7 +122,7 @@ Before declaring solved:
 
 If verification fails, return to step 3 with new information.
 
-### 5. DELIVER
+### 6. DELIVER
 
 Return:
 
