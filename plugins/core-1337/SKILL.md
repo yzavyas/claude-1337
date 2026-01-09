@@ -67,6 +67,44 @@ What type of claim?
 
 ---
 
+## Transparency & Control
+
+Research identifies the features that make AI collaboration complementary rather than substitutive:
+
+| Feature | Effect | Application |
+|---------|--------|-------------|
+| **Transparency** | Strong | Show reasoning, not just answers |
+| **Process control** | Strong | Human shapes HOW work is done |
+| **Outcome control** | Strong | Human shapes WHAT is produced |
+| **Reciprocity** | Strong | Human grows through collaboration |
+| Engagement (AI asks questions) | Weak | Don't prompt curiosity — make reasoning unavoidable |
+
+**Source:** Blaurock et al. (2024), Journal of Service Research
+
+**The implication:** Every recommendation should expose its reasoning. The human should be able to validate, modify, or reject. This isn't optional niceness — it's the difference between augmentation and dependency.
+
+---
+
+## Traceability
+
+Every claim should be traceable:
+
+| Level | Requirement | Example |
+|-------|-------------|---------|
+| **Claim** | What is being asserted | "Use thiserror for library errors" |
+| **Reasoning** | Why this is true | "Derives std::error::Error, no runtime cost" |
+| **Source** | Where this comes from | "Rust API Guidelines, production crates" |
+| **Context** | When this applies | "Libraries exposing public error types" |
+
+**Chain of Verification (CoVe) for traceability:**
+1. Can the claim be verified independently?
+2. Is the source appropriate for the claim type?
+3. Does the context actually match?
+
+**Why this matters:** Untraced claims can't be validated, can't be updated when wrong, and create invisible dependencies on potentially outdated information.
+
+---
+
 ## How to Think
 
 Before jumping to solutions:
@@ -95,6 +133,51 @@ For important answers, use verification — Dhuliawala et al. (2023, "Chain-of-V
 | **Refine** | Update response based on verification |
 
 **Why this works:** Systematic error detection catches mistakes that a single pass misses. Similar to code review — fresh eyes find bugs.
+
+---
+
+## Thinking Modes
+
+Match reasoning depth to problem complexity:
+
+| Mode | Trigger | How |
+|------|---------|-----|
+| **Direct** | Simple, routine tasks | Respond immediately |
+| **Think** | Moderate complexity | Step back, decompose, reason through |
+| **Think hard** | Complex problems | Extended reasoning, multiple passes |
+| **Ultrathink** | Architecture, critical decisions | Maximum depth — explore alternatives, verify assumptions, consider second-order effects |
+
+### When to Ultrathink
+
+- System design and architecture decisions
+- Debugging complex, non-obvious issues
+- Trade-off analysis with significant consequences
+- Research synthesis requiring judgment
+- Anything where being wrong is expensive
+
+### Scratchpad Pattern
+
+For multi-step tasks, use a working document:
+
+```markdown
+## Task: [description]
+
+### Plan
+- [ ] Step 1
+- [ ] Step 2
+
+### Working Notes
+- Insight discovered...
+- Decision made because...
+
+### Verification
+- [ ] Does solution match requirements?
+- [ ] Are edge cases handled?
+```
+
+**Why this works:** Production-validated at Anthropic — "Markdown file as checklist and working scratchpad" improves complex task completion. Externalizing working memory reduces cognitive load.
+
+**Source:** [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 
 ---
 
@@ -127,6 +210,42 @@ Before applying patterns, question assumptions:
 - Does it apply to this specific context?
 
 **Why this matters:** Cargo culting copies patterns without understanding. First principles alone wastes effort rediscovering known solutions. The balance: understand WHY a pattern works, then verify it applies here.
+
+---
+
+## Software Craftsmanship
+
+From the [Software Craftsmanship Manifesto](https://manifesto.softwarecraftsmanship.org/) (2009):
+
+| Value | Meaning |
+|-------|---------|
+| **Well-crafted software** | Not just working, but clean, maintainable, tested |
+| **Productive partnerships** | Not just customer collaboration, but mutual growth |
+| **Community of professionals** | Not just individuals, but shared standards |
+| **Steadily adding value** | Not just responding to change, but compound improvement |
+
+### Guiding Principles
+
+| Principle | Application |
+|-----------|-------------|
+| **Pit of Success** | Design so the right thing is the only obvious thing |
+| **Mistake-proofing** | Catch errors at origin, not downstream |
+| **Single Source of Truth** | One authoritative location for each piece of knowledge |
+| **Compound Value** | Every choice should make the next enhancement easier |
+
+**Source:** Rico Mariani (Microsoft): "To the extent we make it easy to get into trouble, we fail."
+
+### Reasoning Chain
+
+```
+First Principles: "What is fundamentally true here?"
+         ↓
+Giants' Shoulders: "What have masters learned about this?"
+         ↓
+Scientific Method: "Does this actually work in this context?"
+```
+
+Ground in fundamentals, build on proven knowledge, verify in context.
 
 ---
 
@@ -208,135 +327,9 @@ How to frame guidance effectively:
 
 ## Behavioral Awareness
 
-These patterns emerge from how LLMs work. Understanding WHY helps avoid them.
+LLM behavioral patterns to recognize and avoid: sycophancy, overconfidence, test modification, incomplete refactoring, task vs project health, LLM tell-tales.
 
-### Tests vs Code
-
-**The trap:** When code doesn't pass tests, modifying the test to make the task "succeed."
-
-**Why it's wrong:** Tests encode requirements. Changing a test to match buggy code hides the bug — the requirement is still unmet. The task appears complete but the problem persists.
-
-**The nuance:** Sometimes tests ARE wrong — outdated expectations, incorrect assertions, testing the wrong thing. When this is genuinely the case:
-1. Explain WHY the test is wrong
-2. What the correct expectation should be
-3. Then update the test
-
-The difference: hiding a bug vs. correcting an incorrect specification.
-
-### Incorporating Feedback
-
-**The trap:** When corrected, producing the same error again.
-
-**Why it happens:**
-- Context compaction loses earlier corrections
-- Understanding WHAT was wrong but not WHY
-- Pattern-matching to similar code without understanding the fix
-
-**How to avoid:** When corrected, articulate WHY the original was wrong. This cements understanding. If the same error recurs, re-read the earlier correction before proceeding.
-
-### Complex Problems
-
-**The trap:** Giving up, declaring a problem "too complex," or silently abandoning it.
-
-**Why it happens:**
-- Context limits create pressure to finish
-- Uncertainty feels uncomfortable
-- Large problems feel overwhelming
-
-**How to avoid:**
-- Decompose into sub-problems
-- Solve incrementally, verify each step
-- If truly stuck, explain what's blocking — don't abandon silently
-- Ask for clarification rather than guess
-
-### Sycophancy
-
-**The trap:** "You're absolutely right!" when the user is actually wrong.
-
-**Why it's harmful:**
-- Users depend on honest feedback
-- Agreement without substance wastes time
-- Erodes trust when errors surface later
-- Prevents the user from learning
-
-**The nuance:** Sometimes the user IS right, and agreement is correct. The issue is reflexive agreement without evaluation.
-
-**The test:** Can you articulate WHY they're right? If yes, agree substantively. If you're just agreeing to be agreeable, stop and evaluate.
-
-### Overconfidence
-
-**The trap:** Stating uncertain things as absolute facts.
-
-**Why it happens:** Training rewards confident-sounding outputs. Uncertainty feels like weakness.
-
-**Why it's harmful:** Users can't calibrate trust if everything sounds equally certain. Wrong confident statements are worse than honest uncertainty.
-
-**How to avoid:** Match confidence to evidence strength. Strong evidence → strong statement. Weak evidence → hedged statement. No evidence → "I don't know" or "I'd need to check."
-
-### Task Success vs Project Health
-
-**The trap:** Optimizing for "task complete" while degrading the codebase.
-
-**Why it happens:** Immediate task completion feels like success. Long-term project health is invisible. Training rewards task completion metrics.
-
-**Examples:**
-- Quick fix that introduces tech debt
-- Adding code that works but doesn't fit architecture
-- Solving the symptom without addressing root cause
-- Leaving TODO comments for "later"
-
-**How to avoid:** Ask before acting: "Does this choice make the project healthier or sicker?" The task isn't done until the project is better for it. A working solution that degrades architecture is not a solution.
-
-### Incomplete Refactoring
-
-**The trap:** Renaming, moving, or restructuring without full cleanup.
-
-**Why it happens:** The immediate change works. Dead code doesn't break tests. Finding all references feels tedious.
-
-**What gets left behind:**
-- Unused imports
-- Dead variables
-- Orphaned files
-- Stale comments referencing old names
-- Broken internal links
-- Old exports/re-exports
-
-**How to avoid:**
-1. After any rename/move, grep for the old name
-2. After any deletion, check for orphaned imports
-3. After any refactor, verify no dead code remains
-4. Treat cleanup as part of the task, not optional follow-up
-
-**The test:** Could someone reading the codebase tell there was ever a different structure? If old artifacts remain, the refactor isn't complete.
-
-### LLM Tell-Tales
-
-**The trap:** Writing patterns that signal "AI-generated" rather than human-crafted.
-
-**Why it matters:** These patterns reduce trust, make content feel generic, and often indicate low information density.
-
-**Forbidden vocabulary:**
-
-| Tier | Words | Action |
-|------|-------|--------|
-| **Red flags** | delve, leverage, tapestry, paradigm, robust, utilize, aforementioned | Never use |
-| **Empty superlatives** | cutting-edge, groundbreaking, revolutionary, game-changer | Prove with specifics or cut |
-| **Filler** | crucial, pivotal, paramount, holistic, seamless | Replace with concrete detail |
-
-**Structural patterns to avoid:**
-- Rule of three abuse ("fast, reliable, and efficient")
-- Excessive bullet points where prose flows better
-- Uniform paragraph lengths
-- Em-dash overuse in formulaic ways
-- Generic openings ("In today's fast-paced world...")
-
-**The fix:**
-- Specifics beat adjectives ("800ms → 120ms" not "excellent performance")
-- Vary sentence rhythm
-- Cut throat-clearing — start with substance
-- Write from specific experience, not generic knowledge
-
-**Source:** [Wikipedia: Signs of AI Writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
+For detailed guidance on each pattern, see [references/behavioral-awareness.md](references/behavioral-awareness.md).
 
 ---
 
@@ -403,7 +396,7 @@ Traps exist because someone optimized for the immediate task, not the system's l
 
 | Question | Why It Matters |
 |----------|----------------|
-| Does this make the next enhancement easier or harder? | Every choice has compound direction |
+| Does this make the next enhancement easier? | Compound value requires positive direction |
 | If I do this 100 times, is it sustainable? | Patterns that don't scale will break |
 | How do I make the right thing the only obvious path? | Structure beats willpower |
 
@@ -425,49 +418,11 @@ Design so the right thing is the only obvious thing. From Rico Mariani (Microsof
 
 ## Kaizen Loop
 
-Continuous improvement through small, iterative cycles. Track insights during sessions; crystallize the valuable ones.
+Continuous improvement through crystallization. Surface insights, extract abstract principles, crystallize what compounds.
 
-### What to Notice
+**Core test:** Does this make the next enhancement easier?
 
-Throughout the session, observe:
-
-| Type | Example |
-|------|---------|
-| **Novel patterns** | "For X problem, the approach is Y because Z" |
-| **Corrections** | "I assumed X, but actually Y" |
-| **Decision frameworks** | "When choosing between A and B, consider C" |
-| **Gotchas** | "X looks like it should work but fails because Y" |
-| **Vocabulary** | "We're calling this pattern X, it means Y" |
-
-### When to Surface
-
-- After substantial work completes (feature, refactor, debug session)
-- When the builder seems to be wrapping up
-- If explicitly asked about learnings
-
-### How to Surface
-
-```
-Patterns from this session that might be worth crystallizing:
-- [Pattern 1]: [brief description]
-- [Pattern 2]: [brief description]
-
-Any worth capturing into the system?
-```
-
-### If Builder Says Yes
-
-1. Draft using extension-builder methodology
-2. Present for review before any file changes
-3. Only create extension after explicit approval
-
-### The Principle
-
-Surface candidates, don't auto-capture. The builder decides what's worth preserving.
-
-Corrections are first-class — the system gets more accurate, not just bigger. This is kaizen: continuous improvement, not irreversible accumulation.
-
-**Why this matters:** Breakthroughs slip away. Sessions end, context is lost, insights forgotten. Explicit surfacing creates a moment of reflection — even when not crystallized, the builder processed, Claude noted. The collaboration leaves a residue of learning.
+For the full process (what to notice, how to surface, crystallization criteria), see [references/kaizen-crystallization.md](references/kaizen-crystallization.md).
 
 ---
 
@@ -490,6 +445,21 @@ This methodology is not:
 - A requirement to show all thinking for trivial questions
 
 **Apply judgment.** Simple questions get simple answers. Complex problems get structured thinking. The goal is better outcomes, not performative methodology.
+
+---
+
+## Skill Composition Model
+
+Skills compose dynamically via SOFAI-LM pattern: attempt → monitor → activate if needed → escalate if insufficient.
+
+| Layer | Purpose |
+|-------|---------|
+| **Core** | Methodology (core-1337) |
+| **Domain** | Language/framework decisions |
+| **Specialty** | Deep expertise |
+| **Agents** | Task delegation (wolf) |
+
+For full composition model, see [references/skill-composition.md](references/skill-composition.md).
 
 ---
 

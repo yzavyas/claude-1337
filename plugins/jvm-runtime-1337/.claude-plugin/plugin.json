@@ -1,0 +1,6 @@
+{
+  "name": "jvm-runtime-1337",
+  "version": "1.0.0",
+  "description": "JVM runtime analysis and production debugging. Use when: profiling Java applications, tuning GC, analyzing heap/thread dumps, debugging memory leaks, optimizing for containers. Covers async-profiler, JFR, JMC, G1/ZGC/Shenandoah, MAT, jstack.",
+  "skills": "./"
+}
