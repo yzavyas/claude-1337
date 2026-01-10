@@ -171,17 +171,6 @@ Sensei covers knowledge transfer across three modes:
 | Code review | Conversation | Yes — explain why |
 | Presentation | Single doc | Yes — structure for impact |
 
-### Human vs. AI-Facing Content
-
-| Content | Audience | Apply sensei? |
-|---------|----------|---------------|
-| README, guides, tutorials | Humans | Yes — full methodology |
-| API docs, user guides | Humans | Yes |
-| SKILL.md, agent definitions | Claude/AI | No — different concerns |
-| Config files, prompts | Claude/AI | No |
-
-For AI-facing content, consistent structure helps parsing. For human content, everything here applies.
-
 ## Document-Level Principles
 
 ### How People Read

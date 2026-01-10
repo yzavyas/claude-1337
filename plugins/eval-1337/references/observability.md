@@ -1,295 +1,428 @@
-# Observability and Interpretability
+# Analyzing Traces for Evaluation
 
-Tracing, debugging, and understanding agent behavior. All local, no cloud.
+Use observability data to assess agent behavior. This guide focuses on ANALYSIS — reading and extracting metrics from traces. For building observable extensions, see `extension-builder/references/observability.md`.
 
-## What to Measure
+## Why Traces for Assessments
 
-| Metric | Question | Tool |
-|--------|----------|------|
-| Trace spans | What steps did the agent take? | Phoenix (local) |
-| Latency breakdown | Where is time spent? | Phoenix |
-| Token flow | How do tokens flow through? | OpenTelemetry |
-| Decision points | Why did it make this choice? | Manual logging |
+Traces provide ground truth about what actually happened:
+- **What tools were called** (not just what was output)
+- **Token usage** (cost and efficiency)
+- **Timing** (latency bottlenecks)
+- **Error patterns** (where failures occur)
+- **Decision paths** (multi-step reasoning)
 
-## Phoenix (Local)
+---
 
-[Phoenix](https://docs.arize.com/phoenix) runs entirely on your machine:
+## Key Spans to Analyze
 
-```python
-import phoenix as px
+### Agent Assessment
 
-# Launch local Phoenix UI (opens browser at localhost:6006)
-session = px.launch_app()
-
-# Instrument your agent
-from openinference.instrumentation import instrument
-instrument()
-
-# Run your agent - traces appear in local UI
-result = my_agent("input")
-
-# Query traces programmatically
-traces = px.Client().get_traces()
-```
-
-**Install:**
-```bash
-pip install arize-phoenix openinference-instrumentation
-```
-
-**Key Features:**
-- Runs locally on localhost:6006
-- Automatic trace collection
-- Span visualization
-- Latency breakdown
-- Token usage per span
-- No data leaves your machine
-
-## OpenTelemetry (Standard)
-
-Framework-agnostic tracing with OpenTelemetry:
+| Span | Extract | Use |
+|------|---------|-----|
+| `agent_run` | total_steps, success | Task completion rate |
+| `llm_call` | input_tokens, output_tokens | Cost efficiency |
+| `tool_call` | tool_name, success, duration | Tool correctness |
 
 ```python
-from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import SimpleSpanProcessor, ConsoleSpanExporter
+def extract_agent_metrics(trace):
+    agent_spans = [s for s in trace.spans if s.name == "agent_run"]
 
-# Setup local exporter (console or file)
-provider = TracerProvider()
-processor = SimpleSpanProcessor(ConsoleSpanExporter())
-provider.add_span_processor(processor)
-trace.set_tracer_provider(provider)
-
-tracer = trace.get_tracer("agent-eval")
-
-def my_agent(input):
-    with tracer.start_as_current_span("agent") as span:
-        span.set_attribute("input", input)
-
-        with tracer.start_as_current_span("retrieve") as retrieve_span:
-            docs = retrieve(input)
-            retrieve_span.set_attribute("doc_count", len(docs))
-
-        with tracer.start_as_current_span("generate") as gen_span:
-            output = generate(input, docs)
-            gen_span.set_attribute("output_length", len(output))
-
-        span.set_attribute("output", output)
-        return output
+    return {
+        "task_completed": agent_spans[0].attributes.get("success", False),
+        "total_steps": agent_spans[0].attributes.get("total_steps", 0),
+        "total_tokens": sum(
+            s.attributes.get("gen_ai.usage.input_tokens", 0) +
+            s.attributes.get("gen_ai.usage.output_tokens", 0)
+            for s in trace.spans if s.name == "llm_call"
+        ),
+        "tool_calls": [
+            {
+                "name": s.attributes.get("gen_ai.tool.name"),
+                "success": s.attributes.get("success"),
+                "duration_ms": s.duration_ms
+            }
+            for s in trace.spans if s.name == "tool_call"
+        ]
+    }
 ```
 
-**Install:**
-```bash
-pip install opentelemetry-sdk opentelemetry-exporter-otlp
+### Skill Assessment
+
+| Span | Extract | Use |
+|------|---------|-----|
+| `skill_check` | activation_count | Over/under-activation |
+| `skill_match` | skill_name, activated | Precision/recall |
+| `skill_load` | load_time_ms | Performance |
+
+```python
+def extract_skill_metrics(traces, ground_truth):
+    """
+    ground_truth: dict mapping prompt -> expected_skills (list)
+    """
+    results = []
+
+    for trace in traces:
+        prompt = trace.attributes.get("prompt", "")
+        expected = set(ground_truth.get(prompt, []))
+
+        activated = set()
+        for span in trace.spans:
+            if span.name == "skill_match" and span.attributes.get("activated"):
+                activated.add(span.attributes.get("skill_name"))
+
+        tp = len(activated & expected)
+        fp = len(activated - expected)
+        fn = len(expected - activated)
+
+        results.append({
+            "prompt": prompt,
+            "expected": list(expected),
+            "activated": list(activated),
+            "true_positives": tp,
+            "false_positives": fp,
+            "false_negatives": fn
+        })
+
+    return results
 ```
 
-## TypeScript: OpenTelemetry
+### MCP Server Assessment
 
-```typescript
-import { trace } from "@opentelemetry/api";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { SimpleSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
+| Span | Extract | Use |
+|------|---------|-----|
+| `mcp_server` | server_name | Server availability |
+| `mcp_discover` | tool_count | Schema correctness |
+| `mcp_call` | success, duration_ms | Reliability |
 
-const provider = new NodeTracerProvider();
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-provider.register();
+---
 
-const tracer = trace.getTracer("agent-eval");
+## Drift Detection
 
-async function myAgent(input: string) {
-  return tracer.startActiveSpan("agent", async (span) => {
-    span.setAttribute("input", input);
-
-    const docs = await tracer.startActiveSpan("retrieve", async (retrieveSpan) => {
-      const result = await retrieve(input);
-      retrieveSpan.setAttribute("doc_count", result.length);
-      retrieveSpan.end();
-      return result;
-    });
-
-    const output = await tracer.startActiveSpan("generate", async (genSpan) => {
-      const result = await generate(input, docs);
-      genSpan.setAttribute("output_length", result.length);
-      genSpan.end();
-      return result;
-    });
-
-    span.setAttribute("output", output);
-    span.end();
-    return output;
-  });
-}
-```
-
-**Install:**
-```bash
-bun add @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base
-```
-
-## File-Based Tracing (Minimal)
-
-Simplest local tracing - JSON to file:
+Track behavioral changes over time by comparing trace metrics against baselines.
 
 ```python
 import json
-import time
 from pathlib import Path
+from statistics import mean, stdev
 
-TRACE_DIR = Path("./traces")
-TRACE_DIR.mkdir(exist_ok=True)
+BASELINE_FILE = Path("./baselines.json")
 
-def trace_agent(func):
-    def wrapper(input):
-        trace = {
-            "input": input,
-            "start_time": time.time(),
-            "spans": []
+def record_baseline(metric_name: str, value: float):
+    """Update rolling baseline from recent observations."""
+    baselines = json.loads(BASELINE_FILE.read_text()) if BASELINE_FILE.exists() else {}
+
+    if metric_name not in baselines:
+        baselines[metric_name] = {"values": [], "mean": 0, "std": 0}
+
+    baselines[metric_name]["values"].append(value)
+    values = baselines[metric_name]["values"][-100:]  # Keep last 100
+    baselines[metric_name]["mean"] = mean(values)
+    baselines[metric_name]["std"] = stdev(values) if len(values) > 1 else 0
+
+    BASELINE_FILE.write_text(json.dumps(baselines, indent=2))
+
+def check_drift(metric_name: str, current_value: float, threshold_std: float = 2.0):
+    """Check if current value has drifted from baseline."""
+    baselines = json.loads(BASELINE_FILE.read_text())
+
+    if metric_name not in baselines:
+        return False, "no baseline"
+
+    baseline = baselines[metric_name]
+    if baseline["std"] == 0:
+        return False, "insufficient data"
+
+    z_score = abs(current_value - baseline["mean"]) / baseline["std"]
+
+    if z_score > threshold_std:
+        return True, f"drift detected: z={z_score:.2f} (value={current_value}, baseline={baseline['mean']:.2f})"
+    return False, f"within bounds: z={z_score:.2f}"
+```
+
+### Using Drift Detection in Assessments
+
+```python
+def assess_with_drift_check(test_cases):
+    """Run assessment and check for drift on key metrics."""
+    results = run_assessment(test_cases)
+
+    metrics_to_track = [
+        ("accuracy", results["accuracy"]),
+        ("avg_latency_ms", results["avg_latency_ms"]),
+        ("avg_tokens", results["avg_tokens"]),
+        ("tool_call_success_rate", results["tool_success_rate"])
+    ]
+
+    drift_warnings = []
+    for metric_name, value in metrics_to_track:
+        drifted, msg = check_drift(metric_name, value)
+        if drifted:
+            drift_warnings.append(f"WARNING: {metric_name} {msg}")
+        record_baseline(metric_name, value)
+
+    return results, drift_warnings
+```
+
+---
+
+## Phoenix Integration
+
+Use Phoenix's assessment library to analyze traces locally.
+
+### Setup
+
+```bash
+pip install arize-phoenix arize-phoenix-evals
+```
+
+```python
+import phoenix as px
+px.launch_app()  # localhost:6006
+
+from phoenix.evals import llm_classify, OpenAIModel
+```
+
+### Response Quality Assessment
+
+```python
+from phoenix.evals import llm_classify
+
+def assess_response_quality(responses: list[dict]):
+    """Assess response quality using LLM-as-judge."""
+    import pandas as pd
+
+    assessment_model = OpenAIModel(model="gpt-4o-mini")
+
+    results = llm_classify(
+        dataframe=pd.DataFrame(responses),
+        template="Is this response helpful and accurate? {response}",
+        model=assessment_model,
+        rails=["helpful", "unhelpful"],
+    )
+    return results
+```
+
+### RAG Relevance Assessment
+
+```python
+from phoenix.evals import run_relevance_eval
+
+def assess_retrieval_relevance(queries_and_docs):
+    """Assess if retrieved docs are relevant to queries."""
+    import pandas as pd
+
+    assessment_model = OpenAIModel(model="gpt-4o-mini")
+
+    relevance_scores = run_relevance_eval(
+        dataframe=pd.DataFrame(queries_and_docs),
+        model=assessment_model,
+        query_column="query",
+        document_column="retrieved_doc",
+    )
+    return relevance_scores
+```
+
+---
+
+## Extracting Metrics from Traces
+
+### Token Efficiency
+
+```python
+def analyze_token_efficiency(traces):
+    """Analyze token usage patterns."""
+    token_data = []
+
+    for trace in traces:
+        for span in trace.spans:
+            if span.name == "llm_call":
+                input_tokens = span.attributes.get("gen_ai.usage.input_tokens", 0)
+                output_tokens = span.attributes.get("gen_ai.usage.output_tokens", 0)
+                token_data.append({
+                    "trace_id": trace.trace_id,
+                    "step": span.attributes.get("step"),
+                    "input_tokens": input_tokens,
+                    "output_tokens": output_tokens,
+                    "total": input_tokens + output_tokens
+                })
+
+    return {
+        "total_tokens": sum(d["total"] for d in token_data),
+        "avg_per_call": mean(d["total"] for d in token_data) if token_data else 0,
+        "max_single_call": max((d["total"] for d in token_data), default=0),
+        "calls_count": len(token_data)
+    }
+```
+
+### Tool Usage Patterns
+
+```python
+def analyze_tool_usage(traces):
+    """Analyze tool call patterns for correctness assessment."""
+    tool_calls = []
+
+    for trace in traces:
+        for span in trace.spans:
+            if span.name == "tool_call":
+                tool_calls.append({
+                    "trace_id": trace.trace_id,
+                    "tool_name": span.attributes.get("gen_ai.tool.name"),
+                    "success": span.attributes.get("success"),
+                    "duration_ms": span.duration_ms,
+                    "error": span.attributes.get("error_type")
+                })
+
+    # Group by tool
+    by_tool = {}
+    for call in tool_calls:
+        name = call["tool_name"]
+        if name not in by_tool:
+            by_tool[name] = {"total": 0, "success": 0, "durations": []}
+        by_tool[name]["total"] += 1
+        if call["success"]:
+            by_tool[name]["success"] += 1
+        by_tool[name]["durations"].append(call["duration_ms"])
+
+    return {
+        name: {
+            "call_count": data["total"],
+            "success_rate": data["success"] / data["total"] if data["total"] > 0 else 0,
+            "avg_duration_ms": mean(data["durations"]) if data["durations"] else 0
         }
-
-        result = func(input, trace)
-
-        trace["end_time"] = time.time()
-        trace["output"] = result
-        trace["duration_ms"] = (trace["end_time"] - trace["start_time"]) * 1000
-
-        # Save to local file
-        trace_file = TRACE_DIR / f"trace_{int(time.time())}.json"
-        trace_file.write_text(json.dumps(trace, indent=2))
-
-        return result
-    return wrapper
-
-@trace_agent
-def my_agent(input, trace):
-    # Add spans manually
-    trace["spans"].append({"name": "retrieve", "start": time.time()})
-    docs = retrieve(input)
-    trace["spans"][-1]["end"] = time.time()
-
-    return generate(input, docs)
+        for name, data in by_tool.items()
+    }
 ```
 
-## Debugging Failed Evals
-
-When an eval fails, trace analysis helps understand why:
+### Latency Analysis
 
 ```python
-def analyze_failure(trace):
-    # 1. Find the failing step
-    for span in trace["spans"]:
-        if span.get("status") == "error":
-            print(f"Failed at: {span['name']}")
-            print(f"Error: {span.get('error')}")
+def analyze_latency(traces):
+    """Analyze latency distribution."""
+    latencies = []
 
-    # 2. Check token usage
-    for span in trace["spans"]:
-        tokens = span.get("tokens", 0)
-        if tokens > 10000:
-            print(f"High token usage at: {span['name']} ({tokens})")
+    for trace in traces:
+        agent_spans = [s for s in trace.spans if s.name == "agent_run"]
+        if agent_spans:
+            latencies.append(agent_spans[0].duration_ms)
 
-    # 3. Check latency
-    for span in trace["spans"]:
-        latency = span.get("end", 0) - span.get("start", 0)
-        if latency > 5:
-            print(f"Slow step: {span['name']} ({latency*1000:.0f}ms)")
+    if not latencies:
+        return {}
 
-    # 4. Inspect decision points
-    for span in trace["spans"]:
-        if "tool_call" in span.get("name", ""):
-            print(f"Tool: {span.get('tool_name')}")
-            print(f"Args: {span.get('tool_args')}")
+    sorted_latencies = sorted(latencies)
+    n = len(sorted_latencies)
+
+    return {
+        "p50": sorted_latencies[n // 2],
+        "p90": sorted_latencies[int(n * 0.9)],
+        "p99": sorted_latencies[int(n * 0.99)] if n > 100 else sorted_latencies[-1],
+        "min": sorted_latencies[0],
+        "max": sorted_latencies[-1],
+        "mean": mean(sorted_latencies)
+    }
 ```
 
-## Interpretability Techniques
+---
 
-### Attention Analysis (Local Models)
+## Connecting to Trace Sources
 
-For understanding what the model focuses on:
+### From Phoenix
 
 ```python
-# Requires local model that exposes attention weights
-# API models don't expose this
-from transformers import AutoModel
+import phoenix as px
+from datetime import datetime, timedelta
 
-model = AutoModel.from_pretrained("model", output_attentions=True)
-outputs = model(**inputs)
-attention = outputs.attentions  # List of attention matrices
+# Get traces from Phoenix
+client = px.Client()
+traces = client.get_trace_data(
+    project_name="my-agent",
+    start_time=datetime.now() - timedelta(hours=24)
+)
 ```
 
-### Token Attribution
-
-Understanding which input tokens influenced output:
+### From OTLP Collector
 
 ```python
-# SHAP-style attribution (approximate for LLMs)
-def token_attribution(input_tokens, output, model):
-    attributions = []
-    for i, token in enumerate(input_tokens):
-        # Mask token and measure output change
-        masked_input = mask_token(input_tokens, i)
-        masked_output = model(masked_input)
-        importance = diff(output, masked_output)
-        attributions.append((token, importance))
-    return sorted(attributions, key=lambda x: -x[1])
+from opentelemetry.sdk.trace.export import SpanExporter, SpanExportResult
+from opentelemetry.sdk.trace import ReadableSpan
+
+class AssessmentCollector(SpanExporter):
+    """Collect spans for assessment."""
+
+    def __init__(self):
+        self.spans = []
+
+    def export(self, spans: list[ReadableSpan]):
+        self.spans.extend(spans)
+        return SpanExportResult.SUCCESS
+
+    def get_traces(self):
+        # Group spans by trace_id
+        by_trace = {}
+        for span in self.spans:
+            tid = span.context.trace_id
+            if tid not in by_trace:
+                by_trace[tid] = []
+            by_trace[tid].append(span)
+        return by_trace
 ```
 
-## Trace Schema
+### From JSON Logs
 
-Standard trace structure for evals:
+```python
+def load_traces_from_logs(log_dir: Path):
+    """Load traces from JSON log files."""
+    traces = []
+
+    for log_file in log_dir.glob("*.json"):
+        with open(log_file) as f:
+            for line in f:
+                event = json.loads(line)
+                traces.append(event)
+
+    return traces
+```
+
+---
+
+## Unified Trace Schema
+
+Standard schema for analysis:
 
 ```python
 trace = {
     "trace_id": "uuid",
-    "start_time": "2024-12-24T00:00:00Z",
-    "end_time": "2024-12-24T00:00:01Z",
+    "start_time": "2026-01-10T00:00:00Z",
+    "end_time": "2026-01-10T00:00:01Z",
+    "success": True,
     "spans": [
         {
             "span_id": "uuid",
             "parent_span_id": None,
-            "name": "agent",
+            "name": "agent_run",
             "start_time": "...",
             "end_time": "...",
+            "duration_ms": 1234,
             "attributes": {
-                "input": "...",
-                "output": "...",
-                "tokens": 1500
-            }
-        },
-        {
-            "span_id": "uuid",
-            "parent_span_id": "parent-uuid",
-            "name": "tool_call",
-            "attributes": {
-                "tool_name": "search",
-                "tool_args": {"query": "..."}
+                "task": "...",
+                "total_steps": 5,
+                "success": True
             }
         }
-    ]
+    ],
+    "metrics": {
+        "total_tokens": 1500,
+        "latency_ms": 2340,
+        "tool_calls": 3,
+        "errors": 0
+    }
 }
 ```
 
-## Gotchas
-
-| Trap | Fix |
-|------|-----|
-| Too much logging | Log decision points, not every token |
-| Missing context | Include relevant input in spans |
-| No baselines | Compare traces of success vs failure |
-| Ignoring async | Trace async calls correctly |
-
-## Tool Comparison
-
-| Tool | Local | Strengths |
-|------|-------|-----------|
-| **Phoenix** | Yes | UI, visualization, LLM-native |
-| **OpenTelemetry** | Yes | Standard, portable, any backend |
-| **File logging** | Yes | Zero deps, full control |
-| Jaeger | Yes | Mature, battle-tested |
+---
 
 ## Sources
 
-- [Phoenix Docs](https://docs.arize.com/phoenix) - Local LLM observability
-- [OpenTelemetry Python](https://opentelemetry.io/docs/languages/python/) - Official SDK docs
-- [OpenTelemetry JS](https://opentelemetry.io/docs/languages/js/) - Node/Bun SDK docs
-- [OpenInference](https://github.com/Arize-ai/openinference) - LLM-specific OTel instrumentation
-- [Jaeger](https://www.jaegertracing.io/) - Distributed tracing backend
+- [Phoenix](https://docs.arize.com/phoenix) - Local LLM observability UI
+- [Phoenix Assessments](https://docs.arize.com/phoenix/evaluation) - LLM assessment library
+- [OpenTelemetry Python](https://opentelemetry.io/docs/languages/python/) - Trace data structures
+- [Anthropic Agent Assessment Guide](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) - Agent assessment best practices

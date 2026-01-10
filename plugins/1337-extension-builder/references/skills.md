@@ -4,60 +4,120 @@ Templates, best practices, and observability for skill extensions.
 
 ---
 
-## Template
+## Structure
 
-```yaml
----
-name: skill-name
-description: "What it does. Use when: [trigger 1], [trigger 2]. Covers: [keyword1], [keyword2]."
----
-
-# Skill Title
-
-One sentence purpose.
-
-## Decision Framework
-
-| Situation | Choice | Why |
-|-----------|--------|-----|
-| [Use case] | **[winner]** | Evidence: [source] |
-
-## Production Gotchas
-
-| Trap | Fix |
-|------|-----|
-| [Gotcha] | [Solution] |
-
-## Domain Routing
-
-| Detected | Load |
-|----------|------|
-| [keyword] | [reference.md](references/reference.md) |
+```
+skill-name/
+├── SKILL.md           (required - pragmatic, < 500 lines)
+├── references/        (detailed docs, academic sources, load as needed)
+├── scripts/           (executable code, deterministic operations)
+└── assets/            (templates, files used in output)
 ```
 
 ---
 
-## Best Practices
+## SKILL.md Template
 
-| practice | why |
-|----------|-----|
-| "Use when:" in description | Only signal Claude uses to activate |
-| Specific tools/terms | Improves activation precision |
-| < 500 lines SKILL.md | Loads on every activation |
-| < 600 chars description | Token budget limit (15k total) |
-| References for deep content | Progressive disclosure |
-| Evidence per recommendation | Verifiable, learnable |
-| Decision tables over prose | Scannable, lower cognitive load |
+```yaml
+---
+name: skill-name
+description: "What it does. Use when: [trigger 1], [trigger 2]."
+---
 
-### Activation
+# Skill Title
 
-Skills activate through pure LLM reasoning. The description is the **only signal**.
+One sentence: what this enables.
 
-| good description | bad description |
-|------------------|-----------------|
-| "Use when: debugging TypeScript errors, need tsconfig help" | "Helps with TypeScript" |
-| "Covers: jest, vitest, testing patterns" | "Testing skill" |
-| Action verbs + specific terms | Abstract nouns |
+## Why This Approach
+
+Practical motivation — why this matters, not research citations.
+
+## Core Content
+
+| situation | choice | why |
+|-----------|--------|-----|
+| [context] | **[winner]** | [practical reason] |
+
+## Gotchas
+
+| trap | fix |
+|------|-----|
+| [what goes wrong] | [how to avoid] |
+
+## References
+
+| need | load |
+|------|------|
+| [specific need] | [reference.md](references/reference.md) |
+
+Research citations, detailed patterns, and examples live in references.
+```
+
+---
+
+## What Goes Where
+
+| SKILL.md | references/ |
+|----------|-------------|
+| High-level workflow | Detailed patterns |
+| Decision frameworks | Full examples |
+| Practical motivation | Academic/industry citations |
+| "Load X when Y" navigation | Deep technical content |
+| Gotchas and traps | API documentation |
+| < 500 lines | No limit |
+
+**Key insight:** SKILL.md motivates and navigates. References provide depth.
+
+---
+
+## Progressive Disclosure
+
+Context is shared. Tokens are a public good.
+
+| level | size | when loaded |
+|-------|------|-------------|
+| **Metadata** (name + description) | ~100 words | Always — triggers activation |
+| **SKILL.md body** | < 500 lines | When skill activates |
+| **References** | Unlimited | When Claude needs them |
+
+### Referencing Patterns
+
+**Pattern 1: Load table**
+```markdown
+## References
+
+| need | load |
+|------|------|
+| Python patterns | [python.md](references/python.md) |
+| Error handling | [errors.md](references/errors.md) |
+```
+
+**Pattern 2: Inline conditional**
+```markdown
+For simple edits, modify directly.
+
+**For tracked changes**: See [redlining.md](references/redlining.md)
+```
+
+**Pattern 3: Domain routing**
+```markdown
+| detected | load |
+|----------|------|
+| AWS | [aws.md](references/aws.md) |
+| GCP | [gcp.md](references/gcp.md) |
+```
+
+---
+
+## Activation
+
+Skills activate through LLM reasoning. The **description is the only signal**.
+
+| good | bad |
+|------|-----|
+| "Use when: debugging TypeScript, need tsconfig help" | "Helps with TypeScript" |
+| "Use when: creating diagrams, need Mermaid syntax" | "Diagram skill" |
+| Action verbs + specific triggers | Abstract nouns |
 
 ### Character Budget
 
@@ -112,12 +172,22 @@ def trace_skill_activation(prompt: str, skills: list[Skill]):
 
 ---
 
-## Quality Checklist
+## Checklist
 
+### Content
+- [ ] Fills gaps (what Claude doesn't know)
+- [ ] Decisions, not tutorials
+- [ ] SKILL.md < 500 lines
+- [ ] Practical motivation, not academic
+
+### Activation
 - [ ] "Use when:" in description
 - [ ] Description < 600 chars
-- [ ] SKILL.md < 500 lines
-- [ ] Evidence per recommendation
-- [ ] Decision tables, not tutorials
-- [ ] Tested activation in real session
-- [ ] Negative test cases (shouldn't trigger)
+- [ ] Triggers on right prompts
+- [ ] Negative test cases (shouldn't trigger on X)
+
+### Structure
+- [ ] References clearly navigated
+- [ ] Academic/industry sources in references, not SKILL.md
+- [ ] Scripts for deterministic operations
+- [ ] Tested in real session

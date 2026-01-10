@@ -2,6 +2,25 @@
 
 Crate selection, deprecations, and evaluation frameworks.
 
+## Sources
+
+| Attribution | URL |
+|-------------|-----|
+| Rust 1.80 (LazyLock) | https://blog.rust-lang.org/2024/07/25/Rust-1.80.0/ |
+| Rust 1.70 (OnceLock) | https://blog.rust-lang.org/2023/06/01/Rust-1.70.0/ |
+| Rust 1.75 (async fn in traits) | https://blog.rust-lang.org/2023/12/21/async-fn-rpit-in-traits/ |
+| Rust 1.85 (async closures) | https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/ |
+| async-std deprecated | https://github.com/async-rs/async-std/issues/1072 |
+| clap 3.0 release | https://github.com/clap-rs/clap/releases/tag/v3.0.0 |
+| RUSTSEC-2021-0139 (ansi_term) | https://rustsec.org/advisories/RUSTSEC-2021-0139 |
+| RUSTSEC-2022-0054 (wee_alloc) | https://rustsec.org/advisories/RUSTSEC-2022-0054 |
+| wee_alloc Issue #106 | https://github.com/rustwasm/wee_alloc/issues/106 |
+| Cargo reference: features | https://doc.rust-lang.org/cargo/reference/features.html#feature-unification |
+| Cargo book | https://doc.rust-lang.org/cargo/commands/cargo-tree.html |
+| DHAT | https://docs.rs/dhat |
+| cargo-flamegraph | https://github.com/flamegraph-rs/flamegraph |
+| Rust Book ch15 | https://doc.rust-lang.org/book/ch15-06-reference-cycles.html |
+
 ## What Production Tools Actually Use
 
 Evidence over opinion:

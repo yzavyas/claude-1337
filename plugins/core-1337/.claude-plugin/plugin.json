@@ -1,9 +1,10 @@
 {
   "name": "core-1337",
-  "description": "Problem-solving methodology for cognitive extensions. Evidence hierarchy, scientific method, first principles. Install first.",
-  "version": "0.3.0",
+  "description": "Engineering excellence for builders. Compound value, transparency, verification. Use when: writing code, making decisions, refactoring.",
+  "version": "0.4.0",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"
-  }
+  },
+  "agents": ["./agents/"]
 }

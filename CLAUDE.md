@@ -94,6 +94,10 @@ collaboration → breakthrough → crystallization → new baseline
 
 **The human role is essential** - Claude can't unilaterally decide what becomes a skill. The human recognizes breakthroughs worth preserving.
 
+**What to crystallize**: Principles that generalize, not concrete rules. Research shows learning transfers better when abstracted. The specific case is evidence; the principle is the learning.
+
+**Compound engineering** (Shipper 2025): Each session can leave the system smarter — not through accumulating rules, but through crystallizing transferable principles.
+
 ### Ba (Nonaka's SECI Model)
 
 SKILL.md isn't just "knowledge that loads." It's **crystallized ba** - shared context that persists across sessions.
@@ -107,6 +111,8 @@ From the Software Craftsmanship Manifesto (2009), extended:
 - Well-crafted software → well-crafted extensions
 - Productive partnerships → human-AI collaborative intelligence
 - Community of professionals → includes AI collaborators
+
+**The manifesto framing works** (validated 2026-01-10): Research on Constitutional AI shows values-based commitment framing ("As a signatory, I commit to...") triggers character-based reasoning, not rule-following compliance. This is how Claude is designed to work — trained with values, responds to motivation over mandate.
 
 **The guild path**: Apprentice → Journeyman → Master. Even masters continue learning.
 
@@ -170,6 +176,18 @@ Reason from fundamentals, not by analogy.
 | **forkable** | copy, modify, make your own |
 | **verifiable** | claims have sources |
 | **observable** | see what Claude does with them |
+
+### Hook Observability (added 2026-01-10)
+
+Hooks that modify behavior must be observable and controllable:
+
+| principle | meaning |
+|-----------|---------|
+| **suggest, don't block** | show alternatives, let user proceed with original |
+| **opt-out mechanism** | document how to disable, respect env vars |
+| **reasoning visible** | show what triggered, what's recommended, why |
+
+Hooks that silently block or enforce without consent violate collaborative agency.
 
 ### Content Guidance
 
@@ -236,6 +254,40 @@ scratch/archive/→ Older valuable context (don't load by default)
 | **Code-based** (MCP servers, agent apps, complex components) | Experience layer docs (`experience/content/`) |
 
 Markdown extensions ARE their own documentation. Experience layer docs exist for things that need separate explanation (implementation guides, architecture, non-markdown components).
+
+### Plugin Lifecycle
+
+**Creating a new plugin:**
+
+1. Create folder: `plugins/<name>-1337/`
+2. Create `plugin.json` with name, description, version
+3. Add content (SKILL.md, agents/, hooks/, commands/)
+4. Register in `.claude-plugin/marketplace.json`
+5. Add display metadata in `.claude-plugin/metadata.json`
+
+**Updating a plugin:**
+
+1. Modify plugin content
+2. Bump version in plugin.json and marketplace.json if significant
+
+**Registry files** (`.claude-plugin/`):
+
+| File | Purpose |
+|------|---------|
+| `marketplace.json` | Plugin registry - name, source, description |
+| `metadata.json` | Catalog display - displayName, category |
+
+```json
+// .claude-plugin/metadata.json
+{
+  "plugin-name": {
+    "displayName": "Human Readable Name",
+    "category": "foundation|language|tooling|documentation|testing|frontend|meta|research"
+  }
+}
+```
+
+The catalog at `/catalog/` reads from these files dynamically.
 
 ---
 

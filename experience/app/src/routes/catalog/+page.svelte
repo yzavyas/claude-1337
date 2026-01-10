@@ -2,15 +2,14 @@
 	import CopyCommand from '$lib/components/CopyCommand.svelte';
 
 	let { data } = $props();
-	const plugins = data.plugins;
 
 	// Category filter
 	let activeCategory = $state<string | null>(null);
 
-	const categories = [...new Set(plugins.map(p => p.category))];
+	const categories = $derived([...new Set(data.plugins.map(p => p.category))]);
 
 	const filteredPlugins = $derived(
-		activeCategory ? plugins.filter(p => p.category === activeCategory) : plugins
+		activeCategory ? data.plugins.filter(p => p.category === activeCategory) : data.plugins
 	);
 
 	function toggleCategory(cat: string) {
@@ -50,12 +49,12 @@
 		{#each filteredPlugins as plugin}
 			<article class="plugin-card">
 				<header class="plugin-header">
-					<h2 class="plugin-name">{plugin.displayName}</h2>
+					<a href={plugin.sourceUrl} target="_blank" rel="noopener" class="plugin-name">{plugin.displayName}</a>
 					<span class="plugin-category">{plugin.category}</span>
 				</header>
 				<p class="plugin-description">{plugin.description}</p>
-				<button class="plugin-install" onclick={() => navigator.clipboard.writeText(plugin.name)}>
-					<span class="install-name">{plugin.name}</span>
+				<button class="plugin-install" onclick={() => navigator.clipboard.writeText(`/plugin install ${plugin.name}@claude-1337`)}>
+					<span class="install-name">/plugin install {plugin.name}@claude-1337</span>
 					<span class="install-hint">copy</span>
 				</button>
 			</article>
@@ -165,6 +164,12 @@
 		font-size: var(--text-lg);
 		font-weight: var(--font-semibold);
 		color: var(--color-text-primary);
+		text-decoration: none;
+		transition: color var(--duration-fast) var(--ease-out);
+	}
+
+	.plugin-name:hover {
+		color: var(--color-accent);
 	}
 
 	.plugin-category {

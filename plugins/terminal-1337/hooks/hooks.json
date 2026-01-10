@@ -1,5 +1,5 @@
 {
-  "description": "Terminal tool enforcement: modern alternatives to legacy commands",
+  "description": "Terminal tool suggestions: recommends modern alternatives without blocking",
   "hooks": {
     "SessionStart": [
       {

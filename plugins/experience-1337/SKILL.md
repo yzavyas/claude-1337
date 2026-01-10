@@ -7,18 +7,7 @@ description: Svelte-first frontend experience engineering. Use when building int
 
 Svelte-first patterns for interactive frontend experiences. Uses bun, not npm.
 
-## How This Skill Teaches
-
-Reasoning is woven into every pattern — not separable footnotes, but integrated explanations. You absorb the WHY by using the skill, not by reading "teaching sections."
-
-| Property | How It's Applied |
-|----------|------------------|
-| **Readable** | Decision trees show the path, not just the answer |
-| **Forkable** | Patterns are modular — take what works, modify what doesn't |
-| **Verifiable** | Sources linked, claims traceable |
-| **Observable** | "What Claude doesn't know" sections expose gap-filling |
-
-**Success metric:** You can explain to someone else why a choice was made.
+Claims cite sources inline [Author Year] or in the Sources section.
 
 ---
 
@@ -52,15 +41,15 @@ Need animation?
 | Library | Bundle | Best For | Gotcha |
 |---------|--------|----------|--------|
 | Svelte transitions | 0KB | Enter/exit, simple | Built-in |
-| GSAP | ~23KB core | Timelines, scroll, SVG | **Free but prohibits Webflow competitors** |
-| Lenis | ~3KB | Smooth scroll | **Production standard (not Locomotive)** |
+| GSAP | ~23KB core | Timelines, scroll, SVG | Free but prohibits Webflow competitors [GSAP License 2025] |
+| Lenis | ~3KB | Smooth scroll | Production standard (not Locomotive) |
 
 **What Claude doesn't know:**
-- Lenis + ScrollTrigger is the Awwwards stack
-- GSAP licensing prohibits certain commercial uses
-- CSS `animation-timeline: scroll()` landed in Safari 26
-- View Transitions API is Baseline (Oct 2025)
-- `linear()` timing function enables CSS springs
+- Lenis + ScrollTrigger is the Awwwards stack [Darkroom Engineering, Lusion SOTD]
+- GSAP Standard License prohibits "Competitive Products" — tools for visual animation building [GSAP 2025]
+- CSS `animation-timeline: scroll()` landed in Safari 26 [WebKit 2025]
+- View Transitions API became Baseline Oct 2025 [web.dev 2025]
+- `linear()` timing function enables CSS springs [Comeau 2024]
 
 ### Performance Rules
 
@@ -134,129 +123,39 @@ See `references/3d-experiences.md` for full patterns.
 | CSS scroll-driven | Progressive enhancement | Still limited support |
 
 **What Claude doesn't know:**
-- Locomotive Scroll breaks `position: sticky`
+- Locomotive Scroll breaks `position: sticky` [GitHub Issues #282, #30, #401]
 - `scroll-snap-type: mandatory` dangerous with tall content
 - Passive listeners are non-negotiable
-- NYT Snow Fall team toned down "spectacular" transitions
+- NYT Snow Fall team "toned down" flashy transitions for reader focus [OpenNews 2012]
 
-### Production Patterns
-
-**Sticky + Steps (Pudding standard):**
-```css
-.sticky-container {
-  position: relative;
-  display: flex;
-}
-.sticky-graphic {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  flex: 1;
-}
-.steps {
-  flex: 1;
-}
-.step {
-  min-height: 100vh;
-}
-```
-
-**CSS Scroll-driven (progressive enhancement):**
-```css
-@supports (animation-timeline: scroll()) {
-  .element {
-    animation: reveal linear both;
-    animation-timeline: scroll();
-    animation-range: entry 0% entry 100%;
-  }
-}
-```
-
-See `references/scrollytelling.md` for award-winning examples.
+See `references/scrollytelling.md` for Sticky+Steps pattern, CSS scroll-driven examples, and award-winning implementations.
 
 ## Typography
 
-### Fluid Scaling
+Use `clamp()` for fluid scaling (never pure `vw` — fails WCAG 1.4.4 [WCAG 2.1]).
 
-```css
-/* Modern approach - no breakpoints */
-h1 { font-size: clamp(2rem, 2.4rem + 1vw, 3.2rem); }
-h2 { font-size: clamp(1.5rem, 1.7rem + 0.5vw, 2.2rem); }
-body { font-size: clamp(1rem, 0.9rem + 0.25vw, 1.125rem); }
-```
-
-**Accessibility**: Pure `vw` units fail WCAG 1.4.4 (200% zoom). Always use `clamp()` with rem bounds.
-
-### System Font Stacks
-
-```css
-/* Simple modern */
-font-family: system-ui, sans-serif;
-
-/* Comprehensive */
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
-             'Helvetica Neue', Arial, sans-serif;
-
-/* Monospace */
-font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro',
-             Menlo, Consolas, monospace;
-```
-
-See `references/typography.md` for variable fonts and type scales.
+See `references/typography.md` for fluid type patterns, system font stacks, and variable fonts.
 
 ## Color Systems
 
-### OKLCH: The Modern Standard
+**OKLCH over HSL:** Perceptually uniform, predictable contrast, P3 support [CSS Color Level 4 spec].
 
-```css
-/* OKLCH syntax: L (lightness), C (chroma), H (hue) */
-color: oklch(70% 0.15 240);
+**Dark mode:** Deep grays (not pure black), off-white text, desaturated colors.
 
-/* With fallback */
-color: rgb(59, 130, 246);
-color: oklch(61% 0.18 250);
-```
-
-**Why OKLCH over HSL:**
-- Perceptually uniform (HSL's yellow appears lighter than blue at same "lightness")
-- Predictable contrast when shifting hues
-- Better gradients (no muddy middle colors)
-- Supports P3 displays
-
-### Dark Mode
-
-| Do | Don't | Why |
-|----|-------|-----|
-| Deep grays (#0a0a0a, #121212) | Pure black (#000000) | Reduces eye strain |
-| Off-white text (#E0E0E0) | Pure white (#FFFFFF) | Halo effect on dark |
-| Desaturate colors | Keep bright saturated colors | Eye strain |
-| Increase line height slightly | Same as light mode | Dark backgrounds compress |
-
-See `references/color-systems.md` for accessible palettes.
+See `references/color-systems.md` for OKLCH syntax, dark mode patterns, and accessible palettes.
 
 ## "Designed" vs "AI-Generated"
 
-### AI Tells to Avoid
-
-| Tell | Fix |
-|------|-----|
-| Sterile, hollow feeling | Add personality, point of view |
+| AI Tell | Fix |
+|---------|-----|
+| Sterile, hollow | Add personality, point of view |
 | Symmetric everything | Intentional asymmetry, tension |
-| Generic blue-to-purple gradients | Context-specific color choices |
-| Cookie-cutter layouts | Unexpected compositions |
-| No micro-polish | Hover states, 300-500ms transitions |
+| Generic gradients | Context-specific color choices |
 | Mathematically equal spacing | Optical adjustments |
+| No micro-polish | Hover states, 300-500ms transitions |
+| Linear timing | Cubic-bezier curves |
 
-### What Claude Often Misses
-
-1. **Optical adjustments** — Visual equality ≠ mathematical equality
-2. **Tension and contrast** — Over-reliance on harmony
-3. **Restraint** — Great design is what you leave out
-4. **Personality** — Defaults to neutral, safe choices
-5. **Animation timing** — Cubic-bezier curves, not linear
-6. **Color temperature** — Pure hues vs intentional warm/cool
-
-**The gap**: Technically correct but emotionally hollow. Every choice should serve a purpose.
+**The gap:** Technically correct but emotionally hollow. Visual equality ≠ mathematical equality.
 
 ## Design System Tooling
 
@@ -267,15 +166,7 @@ See `references/color-systems.md` for accessible palettes.
 | Panda CSS | Tailwind-like + CSS-in-JS patterns | Newer, smaller ecosystem |
 | CSS Modules | Simple scoping, no runtime | Less dynamic |
 
-### Design Tokens
-
-Three-layer structure:
-```
-primitives → semantic aliases → component slots
-color-blue-500 → color-brand-primary → button-background-default
-```
-
-See `references/design-systems.md` for production patterns.
+See `references/design-systems.md` for design tokens (primitives → semantic → component slots) and production patterns.
 
 ## Headless UI
 
@@ -326,8 +217,8 @@ See `references/component-patterns.md` for full patterns.
 
 | factor | evidence |
 |--------|----------|
-| Age decline | 0.8%/year usability loss (NNg) |
-| Tailored UIs | +30% improvement for older adults |
+| Age decline | 0.8%/year task slowdown ages 25-60 [Nielsen 2013] |
+| Tailored UIs | +30% improvement for older adults [NNg research] |
 | Cultural color | White = death in China; red = luck |
 
 **What Claude gets wrong:**
@@ -338,86 +229,36 @@ See `references/component-patterns.md` for full patterns.
 
 See `references/cognitive-design.md` for full research.
 
-## Microcopy & Interaction Design
+## Microcopy & Interaction
 
-### Microcopy Rules
+**Microcopy test:** Can you remove a word without losing meaning? Remove it. ("copy" not "click to copy")
 
-| Do | Don't | Why |
-|----|-------|-----|
-| "copy" | "click to copy" | Every word must earn its place |
-| "save" | "save changes" | Context makes it obvious |
-| "✓" | "✓ copied!" | Feedback should be minimal |
-| Verb only | Verb + explanation | Users know what buttons do |
+**Focus states:** Use `:focus-visible` (not `:focus`), add `opacity: 0` transitions (not `display: none`).
 
-**The test:** Can you remove a word without losing meaning? Remove it.
+**Positioning:** Absolute elements need containing blocks; test min AND max content lengths.
 
-### Hover/Focus States
+## Pre-Ship Checklist
 
-| Issue | Fix |
-|-------|-----|
-| Text overlaps hint | Add `padding-right` to text, give hint `background` |
-| Hint visible at rest | `opacity: 0` with transition, not `display: none` |
-| No hover feedback | Border color change, subtle transform |
-| Focus invisible | `:focus-visible` outline, not `:focus` (avoids click flash) |
+**Animation:** GSAP cleanup on unmount, SSR guards, `prefers-reduced-motion`, mobile test (iOS), passive listeners.
 
-**Always check:** What happens when text is longer than expected?
+**Design:** Optical adjustments, personality, audience (age/culture).
 
-### Positioning Checklist
-
-- [ ] Absolute elements have containing block?
-- [ ] Text has room for overlaid elements (padding)?
-- [ ] Hints/tooltips have backgrounds (don't show through)?
-- [ ] Overflow handled (`hidden`, `ellipsis`, or scroll)?
-- [ ] Works at minimum AND maximum content length?
-
-## Checklist
-
-Before shipping experience work:
-
-**Animation & Performance:**
-- [ ] GSAP/ScrollTrigger cleanup on unmount?
-- [ ] 3D behind SSR guard (`browser` check / dynamic import)?
-- [ ] `prefers-reduced-motion` respected?
-- [ ] Mobile tested (especially iOS)?
-- [ ] Passive scroll listeners?
-- [ ] Asymmetric animation timing (enter slower than exit)?
-
-**Design Quality:**
-- [ ] Optical adjustments, not just math?
-- [ ] Personality in the design, not just correctness?
-- [ ] Audience considered (age, expertise, culture)?
-
-**Interaction Design:**
-- [ ] Microcopy minimal (every word earns its place)?
-- [ ] Hover/focus states visible and non-overlapping?
-- [ ] Works at edge-case content lengths?
-- [ ] Absolute positioned elements contained properly?
+**Interaction:** Minimal microcopy, visible focus states, edge-case content lengths.
 
 ## Aesthetic Agents
 
-Agents are **modes of expression**, not personas to copy. Each represents an archetypal approach to visual design.
+Modes of expression, not personas. Each represents an archetypal design approach.
 
 | Agent | Essence | Use When |
 |-------|---------|----------|
-| **symmetrist** | Geometric precision, one-point perspective | Formal, controlled, authoritative |
-| **atmospherist** | Vast scale, mood, environmental | Immersive, contemplative, cinematic |
-| **whimsicalist** | Centered, pastels, handcrafted | Playful, charming, storybook |
-| **shadowist** | Dark, desaturated, tension | Dramatic, premium, mysterious |
-| **brutalist** | Raw, honest, confrontational | Artistic, anti-corporate, stark |
-| **editorialist** | Typography-forward, white space | Content-driven, longform, magazine |
+| **symmetrist** | Geometric precision | Formal, authoritative |
+| **atmospherist** | Vast scale, mood | Immersive, cinematic |
+| **whimsicalist** | Pastels, handcraft | Playful, charming |
+| **shadowist** | Dark, tension | Dramatic, premium |
+| **brutalist** | Raw, honest | Artistic, anti-corporate |
+| **editorialist** | Typography-forward | Content-driven, longform |
 
-### How to Use Agents
-
-| Approach | Example |
-|----------|---------|
-| **Invoke by name** | "Use the atmospherist approach for this" |
-| **Blend archetypes** | "Combine shadowist palette with editorialist typography" |
-| **Learn the principles** | Read the agent, apply the principles yourself |
-| **Fork and modify** | Take symmetrist's grid system, add your own color theory |
-
-**The goal isn't to invoke the agent forever** — it's to internalize the mode of expression so you can apply it independently.
-
-See `agents/` for full definitions.
+Invoke by name, blend archetypes, or learn the principles. Full definitions in `agents/`.
 
 ## References
 
@@ -435,3 +276,4 @@ See `agents/` for full definitions.
 | `references/design-systems.md` | Tokens, Tailwind, CSS-in-JS decisions |
 | `references/component-patterns.md` | Compound, composition patterns |
 | `references/cognitive-design.md` | Attention, load, timing, audience targeting |
+| `references/sources.md` | Full citations for all claims |

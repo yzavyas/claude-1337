@@ -1,5 +1,14 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+
+	let copied = $state(false);
+	const installCommand = '/plugin marketplace add yzavyas/claude-1337';
+
+	async function copyCommand() {
+		await navigator.clipboard.writeText(installCommand);
+		copied = true;
+		setTimeout(() => copied = false, 2000);
+	}
 </script>
 
 <svelte:head>
@@ -13,51 +22,34 @@
 			<span class="badge-text">marketplace</span>
 		</div>
 
+		<p class="headline-intro">Cognitive extensions for</p>
 		<h1 class="headline">
 			<span class="headline-primary">Effective Collaborative Intelligence</span>
 		</h1>
 
 		<p class="description">
-			Cognitive extensions to enhance capability and limit dependency.
+			Collaboration that compounds capability.
 		</p>
 
 		<div class="actions">
-			<a href="{base}/catalog/" class="primary-action">
-				<span>Browse extensions</span>
+			<a href="{base}/ethos/" class="primary-action">
+				<span>Understand the approach</span>
 				<span class="arrow">→</span>
 			</a>
 		</div>
 	</section>
 
 	<section class="install">
-		<h2 class="install-heading">Install</h2>
-		<div class="install-steps">
-			<div class="install-step">
-				<span class="step-number">1</span>
-				<div class="step-content">
-					<p class="step-label">Clone the marketplace</p>
-					<code class="step-code">git clone https://github.com/yzavyas/claude-1337.git</code>
-				</div>
-			</div>
-			<div class="install-step">
-				<span class="step-number">2</span>
-				<div class="step-content">
-					<p class="step-label">Add to Claude Code settings</p>
-					<code class="step-code">~/.claude/settings.json → "pluginDirectories"</code>
-				</div>
-			</div>
-			<div class="install-step">
-				<span class="step-number">3</span>
-				<div class="step-content">
-					<p class="step-label">Skills auto-load when relevant</p>
-					<code class="step-code">Use when: triggers activation</code>
-				</div>
-			</div>
-		</div>
+		<h2 class="install-heading">Add to Claude Code</h2>
+		<button class="install-command" onclick={copyCommand}>
+			<span class="command-code">{installCommand}</span>
+			<span class="copy-hint">{copied ? 'Copied!' : 'copy'}</span>
+		</button>
+		<p class="install-note">Then browse and install individual plugins with <code>/plugin</code></p>
 	</section>
 
 	<div class="secondary-link">
-		<a href="{base}/ethos/">Understand the approach</a>
+		<a href="{base}/catalog/">Browse extensions</a>
 	</div>
 </main>
 
@@ -111,8 +103,18 @@
 		letter-spacing: 0.1em;
 	}
 
+	.headline-intro {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.15em;
+		margin-bottom: var(--space-3);
+		animation: fadeIn 600ms ease 50ms both;
+	}
+
 	.headline {
-		margin-bottom: var(--space-8);
+		margin-bottom: var(--space-6);
 		animation: fadeIn 600ms ease 100ms both;
 	}
 
@@ -170,6 +172,77 @@
 		transform: translateX(4px);
 	}
 
+	/* Install Section */
+	.install {
+		max-width: 560px;
+		margin: 0 auto var(--space-16);
+		animation: fadeIn 600ms ease 400ms both;
+		text-align: center;
+	}
+
+	.install-heading {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: var(--font-medium);
+		color: var(--color-text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: var(--space-4);
+	}
+
+	.install-command {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		width: 100%;
+		padding: var(--space-3) var(--space-4);
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		margin-bottom: var(--space-3);
+		cursor: pointer;
+		transition:
+			border-color var(--duration-fast) var(--ease-out),
+			background var(--duration-fast) var(--ease-out);
+	}
+
+	.install-command:hover {
+		border-color: var(--color-accent);
+		background: var(--color-bg-surface);
+	}
+
+	.install-command:active {
+		transform: scale(0.98);
+	}
+
+	.command-code {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-text-secondary);
+	}
+
+	.copy-hint {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		opacity: 0;
+		transition: opacity var(--duration-fast) var(--ease-out);
+	}
+
+	.install-command:hover .copy-hint {
+		opacity: 1;
+	}
+
+	.install-note {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+	}
+
+	.install-note code {
+		font-family: var(--font-mono);
+		color: var(--color-text-secondary);
+	}
+
 	.secondary-link {
 		text-align: center;
 		animation: fadeIn 600ms ease 500ms both;
@@ -187,90 +260,14 @@
 		color: var(--color-accent);
 	}
 
-	/* Install Section */
-	.install {
-		max-width: 560px;
-		margin: 0 auto var(--space-16);
-		animation: fadeIn 600ms ease 400ms both;
-	}
-
-	.install-heading {
-		font-family: var(--font-mono);
-		font-size: var(--text-sm);
-		font-weight: var(--font-medium);
-		color: var(--color-text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		margin-bottom: var(--space-6);
-		text-align: center;
-	}
-
-	.install-steps {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-4);
-	}
-
-	.install-step {
-		display: flex;
-		align-items: flex-start;
-		gap: var(--space-4);
-		padding: var(--space-4);
-		background: var(--color-bg-surface);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-	}
-
-	.step-number {
-		flex-shrink: 0;
-		width: 24px;
-		height: 24px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: var(--color-accent-muted);
-		color: var(--color-accent);
-		border-radius: var(--radius-full);
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		font-weight: var(--font-semibold);
-	}
-
-	.step-content {
-		flex: 1;
-		min-width: 0;
-	}
-
-	.step-label {
-		font-size: var(--text-sm);
-		color: var(--color-text-secondary);
-		margin-bottom: var(--space-1);
-	}
-
-	.step-code {
-		display: block;
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		color: var(--color-text-muted);
-		background: var(--color-bg-elevated);
-		padding: var(--space-2) var(--space-3);
-		border-radius: var(--radius-sm);
-		overflow-x: auto;
-	}
-
 	/* Mobile */
 	@media (max-width: 640px) {
 		.headline-primary {
 			font-size: var(--text-3xl);
 		}
 
-		.install-step {
-			flex-direction: column;
-			gap: var(--space-2);
-		}
-
-		.step-code {
-			font-size: 11px;
+		.command-code {
+			font-size: var(--text-xs);
 		}
 	}
 </style>
