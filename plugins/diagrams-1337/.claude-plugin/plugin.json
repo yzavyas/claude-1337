@@ -1,9 +1,0 @@
-{
-  "name": "diagrams-1337",
-  "description": "Diagram-as-code for documentation and architecture. Use when: creating diagrams. Mermaid, D2, C4.",
-  "version": "0.1.0",
-  "author": {
-    "name": "yzavyas",
-    "email": "yza.vyas@gmail.com"
-  }
-}

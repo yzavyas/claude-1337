@@ -152,4 +152,22 @@ Installs rustup automatically if needed. fzf/jq handled via system package manag
 3. **Always fallback** - Legacy tools work fine. If user declines or tool unavailable, use grep/find/cat/ls without apology.
 4. **Use features** - When tool is available, use its strengths: syntax highlighting (bat), git integration (eza), parallel search (rg), simpler syntax (fd).
 
+## Hook Behavior
+
+This plugin includes hooks that **suggest** modern alternatives. Following the collaborative agency principle, hooks never block commands - they inform and let you proceed.
+
+**SessionStart hook**: Displays available modern alternatives at session start.
+
+**PreToolUse hook**: When legacy commands like `rm` are used, suggests the modern alternative (e.g., `rip` for recoverable deletion) but allows the original command to proceed.
+
+### Disabling Suggestions
+
+To disable all hook suggestions, set the environment variable:
+
+```bash
+export TERMINAL_1337_SKIP_SUGGESTIONS=1
+```
+
+This silences both the session start message and per-command suggestions. The modern tools remain available for manual use.
+
 For detailed tool docs: `references/{tool}.md`

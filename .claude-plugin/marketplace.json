@@ -84,6 +84,54 @@
       ]
     },
     {
+      "name": "kotlin-1337",
+      "source": "./plugins/kotlin-1337",
+      "description": "Elite Kotlin development patterns. Use when: writing Kotlin for backend (Ktor, Spring Boot), Android, Multiplatform. Covers coroutines, structured concurrency, Flow, scope functions, null safety, Java interop, testing (Kotest, MockK), benchmarking (kotlinx-benchmark).",
+      "version": "1.0.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "kotlin",
+        "coroutines",
+        "flow",
+        "ktor",
+        "spring-boot",
+        "android",
+        "multiplatform",
+        "kotest",
+        "mockk",
+        "structured-concurrency"
+      ],
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
+    },
+    {
+      "name": "jvm-analysis-1337",
+      "source": "./plugins/jvm-analysis-1337",
+      "description": "JVM static and runtime analysis. Use when: finding dead code, optimizing Java/Kotlin apps, profiling, debugging memory leaks. Covers SootUp, Scavenger, async-profiler, JFR, ProGuard.",
+      "version": "1.0.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "category": "development",
+      "strict": false,
+      "skills": [
+        "./"
+      ]
+    },
+    {
       "name": "1337-extension-builder",
       "source": "./plugins/1337-extension-builder",
       "description": "Build Claude extensions — skills, hooks, agents, commands, MCP servers. Use when: creating extensions. Evidence-based methodology.",
@@ -126,33 +174,6 @@
         "diataxis",
         "tutorials",
         "explanations"
-      ],
-      "category": "development",
-      "strict": false,
-      "skills": [
-        "./"
-      ]
-    },
-    {
-      "name": "diagrams-1337",
-      "source": "./plugins/diagrams-1337",
-      "description": "Diagram-as-code for documentation and architecture. Use when: creating diagrams. Mermaid, D2, C4. Includes davinci agent for architecture diagramming.",
-      "version": "0.1.0",
-      "author": {
-        "name": "yzavyas",
-        "email": "yza.vyas@gmail.com"
-      },
-      "homepage": "https://github.com/yzavyas/claude-1337",
-      "repository": "https://github.com/yzavyas/claude-1337",
-      "license": "MIT",
-      "keywords": [
-        "diagrams",
-        "mermaid",
-        "d2",
-        "architecture",
-        "visualization",
-        "documentation",
-        "c4-model"
       ],
       "category": "development",
       "strict": false,

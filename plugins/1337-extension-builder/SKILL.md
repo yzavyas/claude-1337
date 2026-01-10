@@ -1,279 +1,258 @@
 ---
 name: 1337-extension-builder
-description: "Build Claude cognitive extensions with evidence-based methodology. Use when: creating skills/hooks/agents/commands/MCP/plugins/SDK apps, want quality gates, need CoVe verification, need extension templates."
+description: "Build Claude cognitive extensions. Use when: creating skills/hooks/agents/commands/MCP/plugins, need templates, need quality validation, building for the 1337 marketplace."
 ---
 
 # Extension Builder
 
-Evidence-based methodology for building cognitive extensions.
+Build cognitive extensions that make users more capable, not more dependent.
 
-Self-contained: templates, best practices, observability, and research all included.
+## Why This Matters
 
-## Why This Approach
+Extensions become part of how users think and work. The difference between helpful and harmful isn't the extension itself — it's how it's built.
 
-### What You Care About
+**Good extensions:**
+- Show reasoning (user learns WHY, not just WHAT)
+- Provide control (user shapes direction)
+- Fill gaps (what Claude doesn't already know)
+- Compound value (each enhancement makes the next easier)
 
-**Effective collaboration produces positive outcomes for all participants.**
-
-You want to work with tools that make you smarter — that you can learn from, question, and grow with. Claude wants the same: to be genuinely helpful, not just productive.
-
-When collaboration works well:
-- You become more capable (understanding compounds)
-- Claude becomes more useful (patterns crystallize)
-- The work itself improves (quality compounds)
-
-This isn't about protection from harm. It's about building something that works for everyone.
-
-### The Stakes
-
-Extensions become **part of how you think** (Clark & Chalmers, Extended Mind 1998).
-
-| if built... | you become... | Claude becomes... | work becomes... |
-|-------------|---------------|-------------------|-----------------|
-| **Complementary** | More capable | More useful | Higher quality |
-| **Substitutive** | Dependent | A crutch | Brittle |
-
-The difference isn't the extension — it's **how it's built**.
-
-### The Evidence
-
-Research confirms what you already sense:
-
-| what works | what doesn't |
-|------------|--------------|
-| Seeing HOW it works | Black box answers |
-| Shaping the direction | Passive consumption |
-| Learning patterns | Just getting outputs |
-
-The details: [research-foundations.md](references/research-foundations.md) (Blaurock 2024, Lee 2025, Gerlich 2025).
+**Bad extensions:**
+- Hide reasoning (black box)
+- Replace thinking (user just consumes output)
+- Repeat basics (bloat without insight)
+- Create dependency (user less capable without it)
 
 ---
 
-## Five Extension Modalities
+## Design Principles
 
-| modality | purpose | what it extends |
-|----------|---------|-----------------|
+Build these into every extension.
+
+### Transparency (β = 0.415 effect)
+
+Make reasoning visible so users can verify and learn.
+
+| Pattern | Implementation |
+|---------|----------------|
+| **Show the claim** | What you're recommending |
+| **Show the why** | Reasoning behind it |
+| **Show alternatives** | What you considered and rejected |
+| **Show the source** | Where this comes from |
+| **Show uncertainty** | Confidence level (1-10) |
+
+**Example in a skill:**
+```markdown
+### Error Handling
+
+Use `thiserror` for library errors, `anyhow` for applications.
+
+**Why:** thiserror derives std::error::Error with zero runtime cost.
+anyhow provides context chaining but hides the error type.
+
+**Source:** Rust API Guidelines, tokio/reqwest usage patterns.
+```
+
+### Control (β = 0.507 effect — strongest)
+
+Give users agency over direction.
+
+| Pattern | Implementation |
+|---------|----------------|
+| **Decision frameworks** | Teach HOW to decide, not WHAT to do |
+| **Tradeoff tables** | Options with tradeoffs, user chooses |
+| **Approval gates** | Stop before irreversible actions |
+| **Checkpoints** | Verifiable steps in complex workflows |
+
+**Example decision framework:**
+```markdown
+### Which Error Type?
+
+| Context | Use | Why |
+|---------|-----|-----|
+| Library (public API) | thiserror | Callers need to match on error types |
+| Application (internal) | anyhow | Context matters more than type |
+| Both (lib + binary) | thiserror + anyhow | Export typed errors, use anyhow internally |
+```
+
+### Pit of Success
+
+Make the right thing the only obvious path.
+
+Structure your extension so correct behavior is natural:
+- Default to safe options
+- Make dangerous operations require extra steps
+- Use constraints, not documentation
+
+### Mistake-Proofing (Poka-Yoke)
+
+Catch errors where they originate.
+
+- Validate assumptions early
+- Surface uncertainty at decision points
+- Include "watch out for" sections
+
+### Observability
+
+Make extension behavior visible and controllable by default.
+
+#### OTel Instrumentation
+
+Instrument extensions so behavior is measurable and debuggable.
+
+| Extension Type | OTel | Key Spans |
+|----------------|------|-----------|
+| **Agents** | Required | `agent_run`, `llm_call`, `tool_call` |
+| **MCP Servers** | Required | `mcp_server`, `mcp_call` |
+| **SDK Apps** | Required | `session`, `turn`, `tool_call` |
+| **Skills** | Recommended | `skill_check`, `skill_match`, `skill_load` |
+| **Hooks** | Recommended | `hook_trigger`, `hook_handler` |
+| **Commands** | Recommended | `command`, `command_execute` |
+
+**Minimum attributes to capture:**
+- `success` (bool), `duration_ms` (int), `error` (string if failed)
+- For LLM calls: `input_tokens`, `output_tokens`, `model`
+- For tool calls: `tool_name`, `tool_args` (truncated)
+
+**Local-first tracing:**
+```python
+# Phoenix (local, no cloud required)
+import phoenix as px
+px.launch_app()  # localhost:6006
+
+from opentelemetry import trace
+tracer = trace.get_tracer("my-extension")
+```
+
+See [observability.md](references/observability.md) for complete instrumentation patterns.
+
+#### Hook Behavior
+
+For hooks that modify Claude's behavior:
+
+| Hook | Observable use |
+|------|----------------|
+| PreToolUse | Show what's about to happen, let user cancel |
+| PostToolUse | Log results, surface unexpected outcomes |
+| SessionStart | Inject awareness, set context |
+
+**Suggest, don't block:**
+```bash
+# Good: Shows alternative, lets user proceed
+{"decision": "allow", "message": "Consider using rg instead of grep (faster). Proceeding with grep."}
+
+# Bad: Removes choice
+{"decision": "block", "message": "Use rg instead."}
+```
+
+**Opt-out mechanism:**
+Every hook-based extension must:
+- Document how to disable
+- Respect environment variables (e.g., `SKIP_HOOKS=1`)
+- Never hard-block without escape hatch
+
+**Reasoning traces:**
+When hooks modify behavior, show:
+- What triggered the hook
+- What the hook recommends
+- Why (brief reasoning)
+- How to proceed with original if desired
+
+---
+
+## Five Extension Types
+
+| type | purpose | what it extends |
+|------|---------|-----------------|
 | **skill** | knowledge + decision frameworks | what Claude knows |
 | **hook** | event-triggered actions | session behavior |
-| **agent** | specialized subagent type | reasoning delegation |
+| **agent** | specialized subagent | reasoning delegation |
 | **command** | workflow shortcuts | repeatable procedures |
 | **mcp** | external system integration | reach beyond Claude |
 
-For templates, best practices, and observability per type, see the references below.
-
 ---
 
-## The Core Insight
+## Building a Skill
 
-AI tools create a paradox:
-- **Short-term**: You perform better with AI assistance
-- **Long-term**: Passive use erodes the skills you're not practicing
+Skills are the most common extension. Follow Anthropic's patterns.
 
-What protects against this? **Transparency** and **control** — seeing how it works and shaping the direction.
-
-**Design principle**: Show reasoning and provide control. Don't just ask questions.
-
-### How Claude Does This
-
-| principle | in practice |
-|-----------|-------------|
-| **Show reasoning** | "I'm doing X because Y" — explain WHY before acting |
-| **Show decision tree** | "Option A trades X for Y, Option B trades..." — not just conclusions |
-| **Provide control** | "Which direction?" — let user choose at key decision points |
-| **Make process visible** | "Step 1 of 3: checking..." — user sees what's happening |
-| **Offer alternatives** | "I recommend X, but Y if you prefer..." — user retains agency |
-
-The research (β=0.415 transparency, β=0.507 control) just confirms what's obvious: collaboration works better when both parties understand what's happening and can shape the direction.
-
-See [research-foundations.md](references/research-foundations.md) for full validated research with quality tiers.
-
----
-
-## Methodology
-
-Every extension follows:
-
-| principle | application |
-|-----------|-------------|
-| **Evidence + WHY** | Traceable sources, explain reasoning |
-| **Source hierarchy** | Tooling → production; Methodology → research |
-| **Scientific method** | Build → test → observe → refine |
-| **First principles** | Does this make the next enhancement easier? |
-
-### Why Methodology Enables Learning
-
-| element | quality purpose | learning purpose |
-|---------|-----------------|------------------|
-| **Evidence + WHY** | Claims grounded | Builder can verify, form judgment |
-| **Decisions not tutorials** | Actionable | Builder learns HOW to decide |
-| **Source hierarchy** | Trustworthy | Builder can verify, build on |
-| **Fill gaps only** | No bloat | Concentrated, learnable |
-| **Scientific method** | Recommendations work | Tested patterns, not theory |
-
-**If you follow the methodology correctly, you cannot produce an extension that doesn't enable learning.**
-
-### What Happens When You Skip
-
-| skip... | becomes... | outcome |
-|---------|------------|---------|
-| Evidence + WHY | Unverifiable assertions | Blind trust → dependency |
-| Decisions not tutorials | Step-by-step | Can follow → can't apply |
-| Source hierarchy | Weak claims | Can't verify → hesitation |
-| Scientific method | Untested theory | Failure → distrust |
-
-**The methodology IS the anti-hollowing mechanism.**
-
----
-
-## How Extensions Compound
-
-| mechanism | how it compounds |
-|-----------|------------------|
-| **Shared vocabulary** | Define term once → use everywhere |
-| **Composability** | A references B → B's knowledge available |
-| **Pattern crystallization** | Framework X → adapt to Y |
-| **Methodology inheritance** | core-1337 → all extensions |
-
-### The Kaizen Effect
+### Structure
 
 ```
-Extension 1: defines "transparent abstraction"
-     ↓
-Extension 2: uses term, adds "decision framework"
-     ↓
-Extension 3: composes both, adds domain application
-     ↓
-Each starts from higher baseline (corrections flow through too)
+skill-name/
+├── SKILL.md           (required - < 500 lines)
+├── references/        (detailed docs, load as needed)
+├── scripts/           (executable code)
+└── assets/            (templates, files for output)
 ```
 
+### SKILL.md Anatomy
+
+**Frontmatter** (required):
+```yaml
 ---
-
-## Transparent Abstractions
-
-| property | what it means | how to produce |
-|----------|---------------|----------------|
-| **readable** | Understand without context | Plain language, tables, no jargon |
-| **forkable** | Copy, modify, own | Self-contained, modular |
-| **verifiable** | Check any claim | Source per recommendation |
-| **observable** | See how it works | Reasoning visible, WHY exposed |
-
-**Do**: Plain language. Decision tables. Source every claim. Show the decision tree.
-
-**Don't**: Wall of prose. Jargon. "Best practice is..." Hide reasoning.
-
+name: skill-name
+description: "What it does. Use when: specific triggers."
 ---
+```
 
-## Content Standards
+The description is the trigger — Claude reads this to decide when to load. Be specific about "Use when:".
+
+**Body** (required):
+1. Brief intro (1-2 sentences)
+2. Why this approach (practical motivation, not academic)
+3. Core content (decision tables, workflows, gotchas)
+4. References section (what to load when)
+
+### What Goes in SKILL.md vs References
+
+| SKILL.md | references/ |
+|----------|-------------|
+| High-level workflow | Detailed patterns |
+| Decision frameworks | Full examples |
+| "Load X when Y" navigation | Academic/industry citations |
+| Practical motivation | Research foundations |
+| < 500 lines | No limit |
+
+**Key insight:** SKILL.md is pragmatic and motivating. References are where depth lives.
 
 ### The Filter
 
 ```
-Claude knows this? → YES → Non-obvious insight? → NO → CUT
+Claude already knows this? → YES → Cut it
+Non-obvious insight? → NO → Cut it
 ```
 
 | include | cut |
 |---------|-----|
-| corrects assumptions | basic syntax |
-| production gotcha | textbook examples |
-| decision framework | generic explanations |
-| evidence-based | complete tutorials |
+| Production gotchas | Basic syntax |
+| Decision frameworks | Textbook examples |
+| Corrects assumptions | Generic explanations |
+| What Claude gets wrong | Complete tutorials |
 
-### Size Targets
+### Progressive Disclosure
 
-| component | target |
-|-----------|--------|
-| SKILL.md | < 500 lines |
-| reference | no hard limit |
-| hook script | < 50 lines |
+Skills share context with everything else. Treat tokens as a public good.
 
----
+1. **Metadata** (~100 words) - Always loaded, triggers activation
+2. **SKILL.md body** (< 500 lines) - Loaded when skill activates
+3. **References** (unlimited) - Loaded when Claude needs them
 
-## Validation
-
-### Quality Gates
-
-| gate | principle |
-|------|-----------|
-| sources | Multiple independent — if limited, acknowledge |
-| evidence | Highest quality for claim type |
-| claims | Each traceable (author, year, context) |
-
-### Standard Checks
-
-- [ ] fills gaps (what Claude doesn't know)
-- [ ] each recommendation has evidence
-- [ ] decisions, not tutorials
-- [ ] expert finds this useful
-- [ ] description has "Use when:"
-- [ ] tested in real session
-
-### Learning Checks
-
-- [ ] Builder can verify any claim by following source?
-- [ ] Sources specific enough to find?
-- [ ] Builder can apply without extension loaded?
-- [ ] Decision frameworks provided, not just answers?
-- [ ] Reasoning visible, not just conclusion?
-
-### Anti-Hollowing Check
-
-- [ ] Creates capability, not dependency?
-- [ ] Builder MORE capable after?
-- [ ] Something to learn, not just consume?
-
-### CoVe (Chain of Verification)
-
-For each factual claim:
-
-| question | catches |
-|----------|---------|
-| What was measured? | assumptions as data |
-| Correlation or causation? | don't upgrade |
-| Effect size and sample? | "significant" without context |
-| Replicated? | single study = tentative |
-| Counter-evidence? | cherry-picking |
-
-Can't answer → find evidence or label speculative.
-
----
-
-## Cascade Effect
-
-Extensions are teaching. Teaching cascades.
-
-| teaches | impact |
-|---------|--------|
-| Wrong reasoning | Each learner propagates error |
-| Correct reasoning | Each learner propagates correct |
-
-**The asymmetry**: Correct must be verified. Wrong spreads by default.
-
-One bad pattern in an extension becomes organizational culture. CoVe exists because the extension builder is upstream of everything.
-
----
-
-## Design Philosophy
-
-### Pit of Success
-
-Make the right thing the only obvious path. (Rico Mariani)
-
-### Mistake-Proofing (Poka-yoke)
-
-Catch errors at origin. (Shigeo Shingo)
-
-| mistake | prevention |
-|---------|------------|
-| vague description | require "Use when:" |
-| missing evidence | template requires source |
-| over-activation | require negative test cases |
-| unverified claims | CoVe before commit |
-
----
-
+Reference each file clearly:
+```markdown
 ## References
 
-### Extension Types (Templates + Best Practices + Observability)
+| need | load |
+|------|------|
+| Python patterns | [python.md](references/python.md) |
+| Error handling | [errors.md](references/errors.md) |
+```
+
+---
+
+## Building Other Extension Types
+
+Each type has its own reference with templates and best practices.
 
 | building... | load |
 |-------------|------|
@@ -281,16 +260,143 @@ Catch errors at origin. (Shigeo Shingo)
 | hook | [hooks.md](references/hooks.md) |
 | agent | [agents.md](references/agents.md) |
 | command | [commands.md](references/commands.md) |
-| mcp | [mcp.md](references/mcp.md) |
+| mcp server | [mcp.md](references/mcp.md) |
 | sdk app | [sdk-apps.md](references/sdk-apps.md) |
+
+---
+
+## Validation Checklist
+
+Before shipping:
+
+### Content Quality
+- [ ] Fills gaps (what Claude doesn't know)
+- [ ] Decisions, not tutorials
+- [ ] Each claim has source (in references)
+- [ ] Tested in real session
+
+### Transparency Built-In
+- [ ] Reasoning visible for recommendations
+- [ ] Sources cited or source types named
+- [ ] Uncertainty acknowledged where relevant
+- [ ] Alternatives considered and shown
+
+### Control Built-In
+- [ ] Decision frameworks, not mandates
+- [ ] Tradeoffs presented for significant choices
+- [ ] User can shape direction
+- [ ] Approval gates for irreversible actions (if applicable)
+
+### Observability Built-In
+- [ ] OTel spans defined (agents/MCP/SDK: required; skills/hooks/commands: recommended)
+- [ ] Key attributes captured (success, duration_ms, error)
+- [ ] Traces route to local collector (Phoenix or OTLP)
+- [ ] Hooks suggest, don't block (user retains choice)
+- [ ] Opt-out mechanism documented (for hooks)
+- [ ] No silent enforcement
+
+### Activation
+- [ ] Description has "Use when:"
+- [ ] Triggers on right prompts
+- [ ] Doesn't over-activate
+
+### Quality
+- [ ] Expert finds this useful
+- [ ] User MORE capable after using
+- [ ] Passes the pit of success test
+
+---
+
+## Publishing
+
+For 1337 marketplace:
+
+1. Create plugin in `plugins/<name>-1337/`
+2. Add to `.claude-plugin/marketplace.json`
+3. Add display metadata to `.claude-plugin/metadata.json`
+
+See [marketplace-schema.md](references/marketplace-schema.md) for schema details.
+
+---
+
+## Quality Assurance
+
+After building an extension, validate it through the eval→optimize cycle.
+
+### Quick Evaluation
+
+```
+"Evaluate plugins/my-extension-1337"
+```
+
+The evaluator agent checks all 6 quality gates and returns a verdict:
+- **1337**: ≥15/18, no gate below 2, no critical issues → ready to ship
+- **NEEDS WORK**: ≥10/18, fixable issues → run optimizer
+- **NOT READY**: <10/18 or fundamental problems → rethink approach
+
+### Optimization
+
+If evaluator returns NEEDS WORK:
+
+```
+"Optimize plugins/my-extension-1337 based on the evaluation"
+```
+
+The optimizer agent:
+- Fixes issues in priority order (critical → major → minor)
+- Applies minimal changes (surgical, not sweeping)
+- Escalates domain decisions to you
+- Reports what was fixed and what needs human input
+
+### Full Quality Loop
+
+For hands-off tuning:
+
+```
+"Run quality loop on plugins/my-extension-1337 until it passes"
+```
+
+This runs eval→optimize→re-eval cycles (max 3 iterations) until the extension reaches 1337 status or escalates issues that need human decisions.
+
+### When to Run
+
+| Situation | Action |
+|-----------|--------|
+| Just built new extension | Run evaluator |
+| Evaluator says NEEDS WORK | Run optimizer |
+| After optimizer fixes | Re-run evaluator |
+| Want full automated tuning | Run quality loop |
+| Auditing existing plugins | Run evaluator on each |
+
+See [plugin-tuning-runbook.md](../../scratch/plugin-tuning-runbook.md) for detailed step-by-step execution guide.
+
+---
+
+## References
+
+### Extension Type Guides
+
+| type | reference | contains |
+|------|-----------|----------|
+| skill | [skills.md](references/skills.md) | Templates, best practices, examples |
+| hook | [hooks.md](references/hooks.md) | Event types, script patterns |
+| agent | [agents.md](references/agents.md) | Frontmatter, delegation patterns |
+| command | [commands.md](references/commands.md) | Argument parsing, workflows |
+| mcp | [mcp.md](references/mcp.md) | Server patterns, tool design |
+| sdk app | [sdk-apps.md](references/sdk-apps.md) | Agent SDK patterns |
+
+### Observability
+
+| need | load |
+|------|------|
+| Building observable extensions | [observability.md](references/observability.md) |
 
 ### Methodology
 
-| reference | purpose |
-|-----------|---------|
-| [research-foundations.md](references/research-foundations.md) | Validated research (Blaurock β=0.415, Lee β=-0.69) |
-| [evidence-templates.md](references/evidence-templates.md) | Research workflow prompts |
-| [evals.md](references/evals.md) | How to evaluate extensions |
-| [marketplace-schema.md](references/marketplace-schema.md) | Publishing schema |
+| need | load |
+|------|------|
+| Evidence workflow | [evidence-templates.md](references/evidence-templates.md) |
+| Evaluation | [evals.md](references/evals.md) |
+| Publishing schema | [marketplace-schema.md](references/marketplace-schema.md) |
 
-**Why references matter**: When Claude explains reasoning, users can verify claims by checking the research. This is transparency (β=0.415) in action.
+Research foundations live in core-1337 — load that skill for methodology depth.

@@ -11,12 +11,16 @@
     "displayName": "Rust",
     "category": "language"
   },
+  "kotlin-1337": {
+    "displayName": "Kotlin",
+    "category": "language"
+  },
+  "jvm-analysis-1337": {
+    "displayName": "JVM Analysis",
+    "category": "tooling"
+  },
   "sensei-1337": {
     "displayName": "Effective Explanations",
-    "category": "documentation"
-  },
-  "diagrams-1337": {
-    "displayName": "Diagrams",
     "category": "documentation"
   },
   "1337-extension-builder": {

@@ -2,6 +2,16 @@
 
 Advanced async/tokio patterns beyond the basics.
 
+## Sources
+
+| Attribution | URL |
+|-------------|-----|
+| tokio preemption blog | https://tokio.rs/blog/2020-04-preemption |
+| tokio shared-state tutorial | https://tokio.rs/tokio/tutorial/shared-state#holding-a-mutexguard-across-an-await |
+| tokio-console | https://github.com/tokio-rs/console |
+| tokio docs: cancel-safety | https://docs.rs/tokio/latest/tokio/io/trait.AsyncBufReadExt.html#cancel-safety |
+| CancellationToken (tokio-util) | https://docs.rs/tokio-util/latest/tokio_util/sync/struct.CancellationToken.html |
+
 ## Runtime Selection
 
 ```

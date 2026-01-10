@@ -9,9 +9,9 @@ Production-grade patterns that separate competent from exceptional Rust develope
 
 ## Philosophy
 
-1. **Make illegal states unrepresentable** — use types to eliminate bugs ([Yaron Minsky, 2010](https://blog.janestreet.com/effective-ml-video/))
-2. **Parse, don't validate** — transform unstructured data into typed structures ([Alexis King, 2019](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/))
-3. **Zero-cost abstractions** — high-level code that compiles to optimal machine code ([Stroustrup, 2012](https://www.stroustrup.com/abstraction-and-machine.pdf))
+1. **Make illegal states unrepresentable** — use types to eliminate bugs (Minsky 2010)
+2. **Parse, don't validate** — transform unstructured data into typed structures (King 2019)
+3. **Zero-cost abstractions** — high-level code that compiles to optimal machine code (Stroustrup 2012)
 4. **Explicit over implicit** — no hidden allocations, no surprise behavior (Rust design principle)
 5. **Design away lifetime complexity** — if fighting the borrow checker, reconsider data model (community convention)
 6. **Clone consciously** — every `.clone()` is a decision about allocation (community convention)
@@ -21,7 +21,7 @@ Production-grade patterns that separate competent from exceptional Rust develope
 
 ### String Ownership
 
-Heuristic from [Steve Klabnik](https://steveklabnik.com/writing/when-should-i-use-string-vs-str/) (Rust core team, 12+ years experience): "Following this rule will get you through 95% of situations."
+Heuristic from Steve Klabnik (Rust core team, 12+ years experience): "Following this rule will get you through 95% of situations."
 
 | Context | Use | Why |
 |---------|-----|-----|
@@ -59,14 +59,16 @@ Writing a library?
 | High-concurrency I/O | Async | Scales to millions |
 | Simple concurrency | Threads | Avoid async complexity |
 
-**Guideline:** Keep work between `.await` points brief (microseconds to tens of milliseconds). Tokio uses [cooperative scheduling](https://tokio.rs/blog/2020-04-preemption) with budget-based yielding since v0.2.14 — tasks that exceed budget get nudged to yield, but long-running sync work still starves the runtime.
+**Guideline:** Keep work between `.await` points brief (microseconds to tens of milliseconds). Tokio uses cooperative scheduling with budget-based yielding since v0.2.14 — tasks that exceed budget get nudged to yield, but long-running sync work still starves the runtime (tokio preemption blog).
 
 ## Production Gotchas
 
+Well-established patterns from tokio documentation and production experience.
+
 ### Blocking in Async
 
-- **Trap**: Sync operations inside async tasks starve runtime
-- **Detection**: `tokio-console` shows tasks not yielding
+- **Trap**: Sync operations inside async tasks starve runtime (tokio shared-state tutorial)
+- **Detection**: tokio-console shows tasks not yielding (see "task liveliness" metrics)
 - **Fix**: `spawn_blocking()` for CPU work; async alternatives for I/O
 
 ```rust
@@ -83,8 +85,8 @@ async fn good() {
 
 ### Mutex Across Await
 
-- **Trap**: `std::sync::Mutex` guard held across `.await` deadlocks
-- **Detection**: Deadlock under load; compiles fine
+- **Trap**: `std::sync::Mutex` guard held across `.await` deadlocks (tokio shared-state tutorial)
+- **Detection**: Deadlock under load; compiles fine (Clippy lint `await_holding_lock` catches this)
 - **Fix**: Drop guard before await, or `tokio::sync::Mutex`
 
 ```rust
@@ -106,39 +108,41 @@ async fn good(mutex: Arc<std::sync::Mutex<i32>>) {
 
 ### Cancellation Safety
 
-- **Trap**: Futures dropped mid-operation leave invalid state
-- **Detection**: Check API docs; `read` is safe, `read_line` is NOT
-- **Fix**: Don't hold invalid state across await; use `CancellationToken`
+- **Trap**: Futures dropped mid-operation leave invalid state (tokio docs: cancel-safety)
+- **Detection**: Check API docs for "Cancel safety" section; `read` is safe, `read_line` is NOT
+- **Fix**: Don't hold invalid state across await; use `CancellationToken` (tokio-util)
+- **Checkpoint**: Before using `select!` or `timeout`, verify each branch's cancellation safety in docs
 
 ### Feature Flag Unification
 
-- **Trap**: Cargo unifies features globally; non-additive features break
-- **Detection**: `cargo tree --edges features`
+- **Trap**: Cargo unifies features globally; non-additive features break (Cargo reference: features)
+- **Detection**: `cargo tree --edges features` (Cargo book)
 - **Fix**: Features must be additive; use `default-features = false`
+- **Checkpoint**: Before adding feature-gated dependencies, run `cargo tree -e features -i <crate>` to check resolution
 
 ### Hidden Allocations
 
-- **Trap**: `clone()`, `to_string()`, `format!()`, Vec growth
-- **Detection**: DHAT, cargo-flamegraph
+- **Trap**: `clone()`, `to_string()`, `format!()`, Vec growth (community pattern)
+- **Detection**: DHAT, cargo-flamegraph, Clippy `perf` lints
 - **Fix**: `with_capacity()`, `SmallVec`, `Cow`, `shrink_to_fit()`
 
 ### Reference Cycles
 
-- **Trap**: `Rc<RefCell<T>>` cycles leak memory
+- **Trap**: `Rc<RefCell<T>>` cycles leak memory (Rust Book ch15)
 - **Fix**: `Weak<T>` for back-edges; consider arenas
 
 ## Obsolete Patterns
 
 | Obsolete | Replacement | Reference |
 |----------|-------------|-----------|
-| `lazy_static!` | `std::sync::LazyLock` | [Rust 1.80](https://blog.rust-lang.org/2024/07/25/Rust-1.80.0/) |
-| `once_cell` (most uses) | `std::sync::OnceLock` | [Rust 1.70](https://blog.rust-lang.org/2023/06/01/Rust-1.70.0/) |
-| `async-std` | smol (or tokio) | [Deprecated March 2025](https://github.com/async-rs/async-std/issues/1072) |
-| `structopt` | clap v4 derive | [clap 3.0 release](https://github.com/clap-rs/clap/releases/tag/v3.0.0) |
-| `async-trait` (some cases) | Native async fn in traits | [Rust 1.75](https://blog.rust-lang.org/2023/12/21/async-fn-rpit-in-traits/) |
-| async closure workarounds | Native `async \|\| {}` closures | [Rust 1.85](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/) |
-| `ansi_term` | `nu-ansi-term` | [RUSTSEC-2021-0139](https://rustsec.org/advisories/RUSTSEC-2021-0139) |
-| `wee_alloc` | Default allocator or Talc | [RUSTSEC-2022-0054](https://rustsec.org/advisories/RUSTSEC-2022-0054), [Issue #106](https://github.com/rustwasm/wee_alloc/issues/106) |
+| `lazy_static!` | `std::sync::LazyLock` | Rust 1.80 |
+| `once_cell` (most uses) | `std::sync::OnceLock` | Rust 1.70 |
+| `async-std` | smol (or tokio) | Deprecated March 2025 |
+| `structopt` | clap v4 derive | clap 3.0 release |
+| `async-trait` (some cases) | Native async fn in traits | Rust 1.75 |
+| async closure workarounds | Native `async \|\| {}` closures | Rust 1.85 |
+| `ansi_term` | `nu-ansi-term` | RUSTSEC-2021-0139 |
+| `wee_alloc` | Default allocator or Talc | RUSTSEC-2022-0054 |
 
 Note: `async-trait` still needed for `dyn Trait` with async methods.
 
