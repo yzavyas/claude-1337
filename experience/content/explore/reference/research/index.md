@@ -2,6 +2,11 @@
 
 Validated findings supporting the ethos.
 
+## Deep Dives
+
+- [Effective Skill Design](effective-skill-design.md) — Why identity-based framing outperforms instructions
+- [Anti-Hollowing Framework](anti-hollowing-framework.md) — How transparency and control protect capability
+
 ## Productivity
 
 | Study | Finding | n |
