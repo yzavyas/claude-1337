@@ -208,6 +208,21 @@
 		<p class="compiled">Compiled January 2026. Citations verified against primary sources.</p>
 	</header>
 
+	<section class="synthesis-section">
+		<h2 class="section-title">Research Syntheses</h2>
+		<p class="synthesis-intro">Deep dives that synthesize the research into actionable frameworks.</p>
+		<div class="synthesis-cards">
+			<a href="{base}/explore/reference/research/effective-skill-design" class="synthesis-card">
+				<h3>Effective Skill Design</h3>
+				<p>Why identity-based framing outperforms instructions. How Constitutional AI training shapes what prompting techniques work.</p>
+			</a>
+			<a href="{base}/explore/reference/research/anti-hollowing-framework" class="synthesis-card">
+				<h3>Anti-Hollowing Framework</h3>
+				<p>How transparency and control protect capability. Design patterns that prevent skill atrophy in human-AI collaboration.</p>
+			</a>
+		</div>
+	</section>
+
 	{#each sections as section}
 		<section class="research-section">
 			<h2 class="section-title">{section.title}</h2>
@@ -273,6 +288,51 @@
 		font-family: var(--font-mono);
 		font-size: var(--text-xs);
 		color: var(--color-text-muted);
+	}
+
+	.synthesis-section {
+		margin-bottom: var(--space-12);
+	}
+
+	.synthesis-intro {
+		font-size: var(--text-sm);
+		color: var(--color-text-tertiary);
+		margin-bottom: var(--space-6);
+	}
+
+	.synthesis-cards {
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	.synthesis-card {
+		display: block;
+		padding: var(--space-5);
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		text-decoration: none;
+		transition: border-color var(--duration-fast) var(--ease-out),
+					transform var(--duration-fast) var(--ease-out);
+	}
+
+	.synthesis-card:hover {
+		border-color: var(--color-accent);
+		transform: translateY(-2px);
+	}
+
+	.synthesis-card h3 {
+		font-family: var(--font-display);
+		font-size: var(--text-lg);
+		font-weight: var(--font-medium);
+		color: var(--color-text-primary);
+		margin-bottom: var(--space-2);
+	}
+
+	.synthesis-card p {
+		font-size: var(--text-sm);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
 	}
 
 	.research-section {

@@ -1,5 +1,5 @@
 // Enable prerendering for static site
 export const prerender = true;
 
-// Trailing slashes
-export const trailingSlash = 'always';
+// No trailing slashes for cleaner URLs
+export const trailingSlash = 'never';
