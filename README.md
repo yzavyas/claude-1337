@@ -22,20 +22,11 @@ Curated skills, hooks, and agents that extend Claude Code with production-tested
 /plugin install eval-1337@claude-1337
 ```
 
-## Available Plugins
+## Plugins
 
-| Plugin | Type | Description |
-|--------|------|-------------|
-| **core-1337** | skill | Engineering excellence methodology |
-| **eval-1337** | skill | LLM evaluation frameworks |
-| **rust-1337** | skill | Rust ecosystem decisions |
-| **kotlin-1337** | skill | Kotlin/JVM patterns |
-| **terminal-1337** | hooks | Terminal best practices |
-| **sensei-1337** | skill | Documentation methodology |
-| **experience-1337** | skill + hooks | Docs site patterns |
-| **1337-extension-builder** | skill + agents | Build your own extensions |
+Browse the [catalog](https://yzavyas.github.io/claude-1337/catalog/) for all available plugins — skills, hooks, agents, and commands.
 
-See the full [catalog](https://yzavyas.github.io/claude-1337/catalog/) for all plugins.
+Start with **core-1337** for engineering methodology, then add domain-specific plugins as needed.
 
 ## Philosophy
 
