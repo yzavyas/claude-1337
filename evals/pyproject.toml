@@ -1,30 +1,56 @@
 [project]
 name = "evals-1337"
-version = "0.2.0"
-description = "Extension evaluation framework for claude-1337 marketplace"
+version = "0.3.0"
+description = "Evaluation framework for Claude Agent SDK apps and Claude Code plugins"
+readme = "README.md"
 requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["claude", "anthropic", "evals", "testing", "ai", "agents"]
+
 dependencies = [
+    # Core
     "anthropic>=0.40.0",
+    "pydantic>=2.0",
+
+    # CLI & Display
     "click>=8.0",
     "rich>=13.0",
-    "pydantic>=2.0",
+
+    # Data Analysis
+    "pandas>=2.0",
+    "tabulate>=0.9",
+
+    # Async
+    "anyio>=4.0",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
+    "pytest-cov>=4.0",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "pandas-stubs>=2.0",
 ]
-# Observability extras - install with: uv pip install -e ".[observe]"
+
+# Observability - install with: uv sync --extra observe
 observe = [
-    "opentelemetry-sdk",
-    "opentelemetry-exporter-otlp",
-    "arize-phoenix",
-    "openinference-instrumentation-anthropic",
+    "opentelemetry-sdk>=1.20",
+    "opentelemetry-exporter-otlp>=1.20",
+    "arize-phoenix>=4.0",
+    "openinference-instrumentation-anthropic>=0.1",
 ]
+
+# All extras
+all = ["evals-1337[dev,observe]"]
 
 [project.scripts]
 evals-1337 = "evals_1337.cli:main"
+
+[project.urls]
+Repository = "https://github.com/yzavyas/claude-1337"
+Documentation = "https://github.com/yzavyas/claude-1337/tree/main/evals"
 
 [build-system]
 requires = ["hatchling"]
@@ -32,3 +58,22 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/evals_1337"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]  # Line length handled by formatter
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true

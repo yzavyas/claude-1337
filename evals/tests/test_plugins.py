@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from evals_1337.targets.plugins import (
+from evals_1337.plugins import (
     HookAction,
     HookEntry,
     HooksConfig,
