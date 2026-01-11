@@ -197,4 +197,4 @@ When you notice yourself doing any of these:
 3. **Ask** — "What's the long-term cost?"
 4. **Correct** — do the harder right thing
 
-This isn't about being perfect. It's about catching yourself and correcting before the cost compounds.
+Catch yourself and correct before the cost compounds.

@@ -2,21 +2,61 @@
 
 Templates, best practices, and observability for skill extensions.
 
+Source: [Claude Code - Agent Skills](https://code.claude.com/docs/en/skills.md)
+
 ---
 
-## Structure
+## Location
+
+Skills can live in two places:
+
+### Project Skills (for one project)
+
+```
+your-project/
+└── .claude/
+    └── skills/
+        └── my-skill/
+            └── SKILL.md
+```
+
+### Plugin Skills (bundled with plugins)
+
+```
+my-plugin/
+└── skills/
+    └── skill-name/
+        └── SKILL.md
+```
+
+**Important**: SKILL.md must be inside a subdirectory under `skills/`.
+
+---
+
+## Skill Directory Structure
 
 ```
 skill-name/
-├── SKILL.md           (required - pragmatic, < 500 lines)
-├── references/        (detailed docs, academic sources, load as needed)
-├── scripts/           (executable code, deterministic operations)
-└── assets/            (templates, files used in output)
+├── SKILL.md           # Required - pragmatic, < 500 lines
+├── references/        # Detailed docs, academic sources, load as needed
+├── scripts/           # Executable code, deterministic operations
+└── assets/            # Templates, files used in output
 ```
 
 ---
 
-## SKILL.md Template
+## SKILL.md Format
+
+### Required Frontmatter
+
+```yaml
+---
+name: skill-name
+description: "What it does. Use when: [trigger 1], [trigger 2]."
+---
+```
+
+### Full Template
 
 ```yaml
 ---
@@ -30,7 +70,7 @@ One sentence: what this enables.
 
 ## Why This Approach
 
-Practical motivation — why this matters, not research citations.
+Practical motivation: why this matters, not research citations.
 
 ## Core Content
 
@@ -187,7 +227,15 @@ def trace_skill_activation(prompt: str, skills: list[Skill]):
 - [ ] Negative test cases (shouldn't trigger on X)
 
 ### Structure
+- [ ] Skill in `skills/<name>/SKILL.md`
 - [ ] References clearly navigated
 - [ ] Academic/industry sources in references, not SKILL.md
 - [ ] Scripts for deterministic operations
 - [ ] Tested in real session
+
+---
+
+## Sources
+
+- [Claude Code - Agent Skills](https://code.claude.com/docs/en/skills.md)
+- [Claude Code - Plugins Reference](https://code.claude.com/docs/en/plugins-reference.md)

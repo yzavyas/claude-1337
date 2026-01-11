@@ -92,7 +92,7 @@ AI improves task performance while degrading underlying capability.
 **Short-term**: AI improves performance (d = 1.23)
 **Long-term**: AI degrades capability (β = -0.69, r = -0.75, 20% skill decline)
 
-This is not a contradiction—it's the mechanism. Improved performance removes the cognitive load that maintains skill.
+This is the mechanism: improved performance removes the cognitive load that maintains skill.
 
 ---
 

@@ -119,9 +119,9 @@ Not just "I don't want to repeat myself."
 > **"I don't want ANYONE to have to repeat themselves."**
 
 This shifts everything:
-- Single source of truth isn't about DRY—it's about protecting future collaborators from traps
-- Dynamic generation isn't about automation—it's about making the wrong thing impossible
-- Complete refactoring isn't about perfection—it's about not leaving landmines
+- Single source of truth protects future collaborators from traps
+- Dynamic generation makes the wrong thing impossible
+- Complete refactoring avoids leaving landmines
 
 ---
 

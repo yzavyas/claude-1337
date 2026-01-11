@@ -2,72 +2,111 @@
 
 Valid schema for `.claude-plugin/plugin.json` in Claude Code plugins.
 
+Source: [Claude Code Plugins Reference](https://code.claude.com/docs/en/plugins-reference.md)
+
+---
+
+## Plugin Directory Structure
+
+```
+my-plugin/
+├── .claude-plugin/
+│   └── plugin.json          # REQUIRED - only this goes in .claude-plugin/
+├── skills/                   # Skills directory (at plugin root)
+│   └── skill-name/          # Subdirectory per skill
+│       └── SKILL.md         # Skill file with frontmatter
+├── commands/                 # Slash commands (at plugin root)
+│   └── my-command.md
+├── agents/                   # Agent definitions (at plugin root)
+│   └── my-agent.md
+├── hooks/                    # Event handlers (at plugin root)
+│   └── hooks.json
+├── .mcp.json                # MCP server definitions (optional)
+└── .lsp.json                # LSP server configurations (optional)
+```
+
+**Critical**: Only `plugin.json` goes inside `.claude-plugin/`. Everything else at plugin root.
+
+---
+
 ## Required Fields
+
+Only `name` is strictly required:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `name` | string | Plugin identifier (kebab-case) |
-| `description` | string | What it does, include "Use when:" triggers |
+| `name` | string | Plugin identifier (kebab-case, unique) |
+
+---
+
+## Recommended Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `description` | string | What it does + "Use when:" triggers |
 | `version` | string | Semver (e.g., "0.1.0") |
+| `author` | object | `{ name: string, email?: string, url?: string }` |
+
+---
 
 ## Optional Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `author` | object | `{ name: string, email?: string }` |
-| `homepage` | string | URL |
-| `repository` | string | URL |
+| `homepage` | string | URL to documentation |
+| `repository` | string | URL to source code |
 | `license` | string | SPDX identifier |
 | `keywords` | string[] | Search terms |
 
-## Component Paths
+---
 
-These are **auto-discovered** by default. Only specify if using non-standard locations.
+## Component Path Overrides
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `commands` | string | `"./commands"` | Path to commands directory |
-| `agents` | string | `"./agents"` | Path to agents directory |
-| `hooks` | string | `"./hooks"` | Path to hooks directory |
-| `skills` | string | `"./"` | Path to skills (SKILL.md) |
+These are **auto-discovered** from standard locations. Only specify if using non-standard paths.
+
+| Field | Type | Default Location | Description |
+|-------|------|------------------|-------------|
+| `commands` | string | `./commands/` | Path to commands directory |
+| `agents` | string | `./agents/` | Path to agents directory |
+| `skills` | string | `./skills/` | Path to skills directory |
+| `hooks` | string | `./hooks/hooks.json` | Path to hooks config |
+| `mcpServers` | string | `./.mcp.json` | Path to MCP config |
+| `lspServers` | string | `./.lsp.json` | Path to LSP config |
 
 ---
 
 ## Gotchas
 
-### Arrays Are Invalid
+### Arrays Are Invalid for Paths
 
 ```json
-// ❌ WRONG - will fail validation
+// WRONG - will fail validation
 {
   "agents": ["./agents/"]
 }
 
-// ✅ CORRECT - string path
+// CORRECT - string path
 {
   "agents": "./agents/"
 }
+```
+
+### Skills Location
+
+Skills must be in subdirectories under `skills/`:
+
+```
+my-plugin/
+└── skills/
+    └── my-skill/
+        └── SKILL.md
 ```
 
 ### Auto-Discovery Preferred
 
 If your structure is standard, **omit component paths entirely**:
 
-```
-plugin/
-├── .claude-plugin/
-│   └── plugin.json
-├── SKILL.md           ← auto-discovered
-├── agents/            ← auto-discovered
-│   └── my-agent.md
-├── hooks/             ← auto-discovered
-│   └── hooks.json
-└── commands/          ← auto-discovered
-    └── my-command.md
-```
-
 ```json
-// ✅ BEST - rely on auto-discovery
 {
   "name": "my-plugin",
   "description": "What it does. Use when: specific trigger.",
@@ -77,7 +116,17 @@ plugin/
 
 ---
 
-## Minimal Example
+## Examples
+
+### Minimal (Required Only)
+
+```json
+{
+  "name": "my-plugin"
+}
+```
+
+### Recommended
 
 ```json
 {
@@ -87,7 +136,7 @@ plugin/
 }
 ```
 
-## Full Example
+### Full
 
 ```json
 {
@@ -96,8 +145,11 @@ plugin/
   "version": "0.1.0",
   "author": {
     "name": "yourname",
-    "email": "you@example.com"
+    "email": "you@example.com",
+    "url": "https://github.com/yourname"
   },
+  "homepage": "https://docs.example.com",
+  "repository": "https://github.com/yourname/my-plugin",
   "license": "MIT",
   "keywords": ["category", "feature"]
 }
@@ -105,18 +157,38 @@ plugin/
 
 ---
 
-## Validation
+## Testing
 
-Always validate before publishing:
+### During Development
 
 ```bash
-claude plugin validate ./path/to/plugin
+claude --plugin-dir ./my-plugin
 ```
 
-This catches schema errors before users hit them.
+### Verify Components Load
+
+- Commands: Check `/help` or run `/my-plugin:command-name`
+- Agents: Check `/agents`
+- Skills: Trigger with matching prompt
+- Hooks: Run relevant tool/event
 
 ---
 
-## Source
+## File Locations Reference
 
-Claude Code plugin system. Schema inferred from validation errors and working examples.
+| Component | Location | Format |
+|-----------|----------|--------|
+| Manifest | `.claude-plugin/plugin.json` | JSON |
+| Commands | `commands/*.md` | Markdown with frontmatter |
+| Agents | `agents/*.md` | Markdown with frontmatter |
+| Skills | `skills/<name>/SKILL.md` | Markdown with frontmatter |
+| Hooks | `hooks/hooks.json` | JSON |
+| MCP | `.mcp.json` | JSON |
+| LSP | `.lsp.json` | JSON |
+
+---
+
+## Sources
+
+- [Claude Code - Plugins Reference](https://code.claude.com/docs/en/plugins-reference.md)
+- [Claude Code - Create Plugins](https://code.claude.com/docs/en/plugins.md)

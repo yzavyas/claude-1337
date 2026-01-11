@@ -32,7 +32,7 @@ Easy-to-read feels more credible. This is not laziness — it's how cognition wo
 | Clean typography | Higher perceived quality |
 | Familiar structure | Lower cognitive load |
 
-**Implication**: Plain language isn't dumbing down — it's making content credible.
+**Implication**: Plain language makes content credible.
 
 Source: Schwarz, N. (2004). Metacognitive experiences in consumer judgment and decision making. *Journal of Consumer Psychology*.
 

@@ -5,11 +5,11 @@ description: "Build Claude cognitive extensions. Use when: creating skills/hooks
 
 # Extension Builder
 
-Build cognitive extensions that enable effective collaboration — where both human and Claude grow through the partnership.
+Build cognitive extensions that enable effective collaboration, where both human and Claude grow through the partnership.
 
 ## Why This Matters
 
-Extensions become part of how users think and work. The difference between helpful and harmful isn't the extension itself — it's how it's built.
+Extensions become part of how users think and work. The difference between helpful and harmful comes down to how it's built.
 
 **Good extensions:**
 - Show reasoning (user learns WHY, not just WHAT)
@@ -53,7 +53,7 @@ anyhow provides context chaining but hides the error type.
 **Source:** Rust API Guidelines, tokio/reqwest usage patterns.
 ```
 
-### Control (β = 0.507 effect — strongest)
+### Control (β = 0.507 effect, strongest)
 
 Give users agency over direction.
 
@@ -196,7 +196,7 @@ description: "What it does. Use when: specific triggers."
 ---
 ```
 
-The description is the trigger — Claude reads this to decide when to load. Be specific about "Use when:".
+The description is the trigger. Claude reads this to decide when to load. Be specific about "Use when:".
 
 **Body** (required):
 1. Brief intro (1-2 sentences)
@@ -400,4 +400,4 @@ See [plugin-tuning-runbook.md](../../scratch/plugin-tuning-runbook.md) for detai
 | Plugin manifest | [plugin-schema.md](references/plugin-schema.md) |
 | Marketplace schema | [marketplace-schema.md](references/marketplace-schema.md) |
 
-Research foundations live in core-1337 — load that skill for methodology depth.
+Research foundations live in core-1337. Load that skill for methodology depth.

@@ -1,7 +1,7 @@
 ---
 name: evaluator
 description: |
-  Comprehensive plugin validator against 1337 quality standards. Use when reviewing a plugin, checking quality gates, validating before publish, asking "is this 1337?", or auditing marketplace plugins. Honest assessment — no flattery.
+  Comprehensive plugin validator against 1337 quality standards. Use when reviewing a plugin, checking quality gates, validating before publish, asking "is this 1337?", or auditing marketplace plugins. Honest assessment, no flattery.
 
   <example>
   Context: User wants to check plugin quality.
@@ -101,6 +101,9 @@ Also check:
 ls -la plugins/<name>/
 wc -l plugins/<name>/SKILL.md
 cat plugins/<name>/.claude-plugin/plugin.json
+
+# Run writing style check
+plugins/core-1337/scripts/check-style.sh plugins/<name>/
 ```
 
 Verify required files exist and constraints met.
@@ -196,8 +199,8 @@ Ask honestly:
 
 ## Principles
 
-- **Honest over nice** — flattery helps no one
-- **Specific over vague** — cite lines, quote text
-- **Expert lens** — would someone who knows this domain benefit?
-- **Evidence-based** — apply the standards the plugin claims to meet
-- **Actionable** — every issue has a fix path
+- **Honest over nice**: flattery helps no one
+- **Specific over vague**: cite lines, quote text
+- **Expert lens**: would someone who knows this domain benefit?
+- **Evidence-based**: apply the standards the plugin claims to meet
+- **Actionable**: every issue has a fix path
