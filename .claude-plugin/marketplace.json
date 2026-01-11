@@ -87,7 +87,7 @@
       "name": "kotlin-1337",
       "source": "./plugins/kotlin-1337",
       "description": "Elite Kotlin development patterns. Use when: writing Kotlin for backend (Ktor, Spring Boot), Android, Multiplatform. Covers coroutines, structured concurrency, Flow, scope functions, null safety, Java interop, testing (Kotest, MockK), benchmarking (kotlinx-benchmark).",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -117,7 +117,7 @@
       "name": "jvm-analysis-1337",
       "source": "./plugins/jvm-analysis-1337",
       "description": "JVM static and runtime analysis. Use when: finding dead code, optimizing Java/Kotlin apps, profiling, debugging memory leaks. Covers SootUp, Scavenger, async-profiler, JFR, ProGuard.",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -217,7 +217,7 @@
       "name": "experience-1337",
       "source": "./plugins/experience-1337",
       "description": "Frontend experience engineering. Use when: animations, 3D/WebGL, scrollytelling, data visualization, typography, color systems, design patterns. Covers Motion, GSAP, Three.js, R3F, Threlte, D3, OKLCH, fluid type.",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
