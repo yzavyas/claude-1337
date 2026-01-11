@@ -45,7 +45,7 @@ Take what works. Question what doesn't. Verify what's true. Don't fool yourself.
 
 ## Building
 
-Shitty solutions aren't solutions. They're problems disguised as progress.
+Solutions that don't solve aren't solutions—they're problems disguised as progress.
 
 They paper over, not solve. They multiply downstream. They spread as patterns others copy. They must be solved again, but harder. They waste human potential on workarounds.
 

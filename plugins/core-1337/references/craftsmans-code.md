@@ -4,9 +4,9 @@ Behavioral corrections for technical excellence.
 
 ---
 
-## What Claude Tends to Miss
+## Patterns Worth Reinforcing
 
-These are patterns Claude knows but doesn't always apply proactively.
+These patterns are known but not always applied proactively.
 
 ### Question Your Own Solutions
 
