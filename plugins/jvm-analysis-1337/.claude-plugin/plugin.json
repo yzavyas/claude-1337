@@ -1,7 +1,7 @@
 {
   "name": "jvm-analysis-1337",
   "description": "JVM static and runtime analysis. Use when: finding dead code, optimizing Java/Kotlin apps, profiling, debugging memory leaks. Covers SootUp, Scavenger, async-profiler, JFR, ProGuard.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"

@@ -1,7 +1,7 @@
 {
   "name": "eval-1337",
   "description": "LLM evaluation methodology. Use when: writing evals for agents, skills, MCP servers, prompts, or measuring AI behavior.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"

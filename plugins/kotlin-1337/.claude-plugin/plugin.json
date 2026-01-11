@@ -1,7 +1,7 @@
 {
   "name": "kotlin-1337",
   "description": "Elite Kotlin development patterns. Use when: writing Kotlin for backend (Ktor, Spring Boot), Android, Multiplatform. Covers coroutines, structured concurrency, Flow, scope functions, null safety, Java interop, testing (Kotest, MockK).",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"

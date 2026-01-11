@@ -1,7 +1,7 @@
 {
   "name": "1337-extension-builder",
   "description": "Build Claude extensions — skills, hooks, agents, commands, MCP servers. Use when: creating extensions. Evidence-based methodology.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"
