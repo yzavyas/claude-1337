@@ -397,6 +397,7 @@ See [plugin-tuning-runbook.md](../../scratch/plugin-tuning-runbook.md) for detai
 |------|------|
 | Evidence workflow | [evidence-templates.md](references/evidence-templates.md) |
 | Evaluation | [evals.md](references/evals.md) |
-| Publishing schema | [marketplace-schema.md](references/marketplace-schema.md) |
+| Plugin manifest | [plugin-schema.md](references/plugin-schema.md) |
+| Marketplace schema | [marketplace-schema.md](references/marketplace-schema.md) |
 
 Research foundations live in core-1337 — load that skill for methodology depth.
