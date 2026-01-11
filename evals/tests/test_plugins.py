@@ -160,3 +160,109 @@ class TestMarketplaceValidation:
 
         result = validate_manifest(manifest_path)
         assert result.valid, f"{plugin_name} invalid: {result.errors}"
+
+
+class TestSessionStartHook:
+    """Test the session-start.sh hook script."""
+
+    @pytest.fixture
+    def project_root(self) -> Path:
+        return Path(__file__).parent.parent.parent
+
+    @pytest.fixture
+    def hook_script(self, project_root: Path) -> Path:
+        return project_root / "plugins" / "core-1337" / "hooks" / "session-start.sh"
+
+    @pytest.fixture
+    def marketplace_json(self, project_root: Path) -> Path:
+        return project_root / ".claude-plugin" / "marketplace.json"
+
+    def test_hook_script_exists(self, hook_script: Path):
+        """Hook script exists and is executable."""
+        assert hook_script.exists(), f"Hook script not found: {hook_script}"
+        assert hook_script.stat().st_mode & 0o111, "Hook script not executable"
+
+    def test_hook_script_is_posix(self, hook_script: Path):
+        """Hook script uses POSIX shell, not bash-isms."""
+        content = hook_script.read_text()
+        assert content.startswith("#!/bin/sh"), "Should use #!/bin/sh for POSIX"
+        assert "[[" not in content, "Should not use [[ ]] (bash-ism)"
+
+    def test_hook_outputs_core_1337(self, hook_script: Path, project_root: Path, tmp_path: Path):
+        """Hook always outputs core-1337 load instruction."""
+        import subprocess
+        import json
+
+        # Create mock known_marketplaces.json pointing to project root
+        mock_home = tmp_path / "mock_home" / ".claude" / "plugins"
+        mock_home.mkdir(parents=True)
+
+        marketplaces = {
+            "claude-1337": {
+                "installLocation": str(project_root)
+            }
+        }
+        (mock_home / "known_marketplaces.json").write_text(json.dumps(marketplaces))
+
+        # Run script with mock HOME
+        env = {"HOME": str(tmp_path / "mock_home")}
+        result = subprocess.run(
+            ["/bin/sh", str(hook_script)],
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+
+        assert result.returncode == 0, f"Script failed: {result.stderr}"
+        assert "core-1337" in result.stdout, "Should mention core-1337"
+        assert "**Load now:**" in result.stdout, "Should have load instruction"
+
+    def test_hook_extracts_triggers(self, hook_script: Path, project_root: Path, tmp_path: Path):
+        """Hook extracts triggers from marketplace.json."""
+        import subprocess
+        import json
+
+        # Create mock known_marketplaces.json
+        mock_home = tmp_path / "mock_home" / ".claude" / "plugins"
+        mock_home.mkdir(parents=True)
+
+        marketplaces = {
+            "claude-1337": {
+                "installLocation": str(project_root)
+            }
+        }
+        (mock_home / "known_marketplaces.json").write_text(json.dumps(marketplaces))
+
+        env = {"HOME": str(tmp_path / "mock_home")}
+        result = subprocess.run(
+            ["/bin/sh", str(hook_script)],
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+
+        assert result.returncode == 0
+        # Should have extracted some plugin triggers
+        assert "rust-1337" in result.stdout, "Should list rust-1337"
+        assert "terminal-1337" in result.stdout, "Should list terminal-1337"
+        assert "SKILL.md" in result.stdout, "Should include path to SKILL.md"
+
+    def test_hook_graceful_no_marketplace(self, hook_script: Path, tmp_path: Path):
+        """Hook handles missing marketplace gracefully."""
+        import subprocess
+
+        # Empty HOME with no marketplaces
+        mock_home = tmp_path / "empty_home"
+        mock_home.mkdir()
+
+        env = {"HOME": str(mock_home)}
+        result = subprocess.run(
+            ["/bin/sh", str(hook_script)],
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+
+        # Should not crash, should still output core-1337 header
+        assert result.returncode == 0, f"Script failed: {result.stderr}"
+        assert "claude-1337" in result.stdout
