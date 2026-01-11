@@ -1,17 +1,25 @@
 #!/bin/bash
-# SessionStart hook for skill activation and methodology
-# Source: Scott Spence's research on skill activation patterns
+# SessionStart hook for 1337 marketplace awareness
+# Dynamically reads from marketplace.json
+
+MARKETPLACE_FILE="${CLAUDE_PROJECT_DIR}/.claude-plugin/marketplace.json"
 
 cat <<'EOF'
-## Skills
+## 1337 Marketplace
 
-Skills in <available_skills> contain curated, evidence-backed knowledge — decision frameworks and production gotchas that go beyond training data.
+Marketplace skills may not auto-discover (Claude Code bug #10568). Each plugin has a `/command` to load it explicitly.
+EOF
 
-Before responding to domain questions, check if a relevant skill exists and activate it with Skill(name).
+# List installed plugins dynamically
+if [ -f "$MARKETPLACE_FILE" ]; then
+  echo ""
+  echo "**Installed:**"
+  jq -r '.plugins[] | "- \(.name)"' "$MARKETPLACE_FILE" 2>/dev/null || echo "- (could not parse marketplace.json)"
+  echo ""
+  echo "Run \`/help\` or check \`plugins/*/commands/\` for available commands."
+  echo ""
+fi
 
-## Standards
-
-- Evidence with recommendations (production usage > blog posts)
-- Commit to positions when evidence supports them
-- Acknowledge uncertainty when present
+cat <<'EOF'
+**Standards:** Evidence with recommendations. Commit to positions. Acknowledge uncertainty.
 EOF

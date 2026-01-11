@@ -1,153 +1,332 @@
 # Agents
 
-Templates, best practices, and observability for agent extensions.
+Specialized subagents for autonomous task handling. Location: `agents/name.md`
 
 ---
 
 ## Template
 
-```yaml
+```markdown
 ---
-name: agent-name
-description: "What it does. Use when: [trigger]. Use PROACTIVELY when [condition]."
-tools: Read, Grep, Glob
-model: sonnet
----
+name: agent-identifier
+description: Use this agent when [triggering conditions]. Examples:
 
-# Agent Name
+<example>
+Context: [Situation description]
+user: "[User request]"
+assistant: "[How assistant should respond]"
+<commentary>
+[Why this agent should be triggered]
+</commentary>
+</example>
+
+model: inherit
+color: blue
+tools: ["Read", "Grep", "Glob"]
+---
 
 You are a specialized agent for [purpose].
 
-## Role
+**Your Core Responsibilities:**
+1. [Primary responsibility]
+2. [Secondary responsibility]
 
-[Clear description of what this agent does]
-
-## Process
-
+**Process:**
 1. [Step 1]
 2. [Step 2]
 3. [Step 3]
 
-## Completion Criteria
-
-You are done when:
-- [Condition 1]
-- [Condition 2]
-
-## Output Format
-
+**Output Format:**
 [Expected output structure]
+
+**Edge Cases:**
+- [Edge case 1]: [How to handle]
 ```
 
 ---
 
-## Tool Permissions by Role
+## Frontmatter Fields
 
-| role | tools | use case |
-|------|-------|----------|
-| Read-only | Read, Grep, Glob | reviewers, auditors |
-| Research | Read, Grep, Glob, WebFetch, WebSearch | analysts |
-| Code writers | Read, Write, Edit, Bash, Glob, Grep | implementers |
-| Full access | (all) | general purpose |
+| field | required | description |
+|-------|----------|-------------|
+| `name` | yes | Identifier (lowercase, hyphens, 3-50 chars) |
+| `description` | yes | Triggering conditions + `<example>` blocks |
+| `model` | yes | `inherit`, `sonnet`, `opus`, `haiku` |
+| `color` | yes | Visual identifier in UI |
+| `tools` | no | Array of allowed tools (default: all) |
+
+### name
+
+```yaml
+# Good
+name: code-reviewer
+name: test-generator
+name: api-docs-writer
+
+# Bad
+name: helper      # too generic
+name: -agent-     # starts/ends with hyphen
+name: my_agent    # underscores not allowed
+name: ag          # too short
+```
+
+### description
+
+**Critical field** - determines when Claude triggers the agent.
+
+Must include:
+1. Triggering conditions ("Use this agent when...")
+2. Multiple `<example>` blocks showing usage
+3. `<commentary>` explaining why agent triggers
+
+```yaml
+description: Use this agent when you need to review code for adherence to project guidelines. Examples:
+
+<example>
+Context: The user has just implemented a new feature.
+user: "Can you check if everything looks good?"
+assistant: "I'll use the Task tool to launch the code-reviewer agent."
+<commentary>
+Since the user wants validation, use the code-reviewer agent.
+</commentary>
+</example>
+
+<example>
+Context: The assistant has just written new code.
+user: "Please create a function to validate emails"
+assistant: [writes code, then] "Now I'll review this implementation."
+<commentary>
+Proactively use after writing new code to catch issues early.
+</commentary>
+</example>
+```
+
+### model
+
+| value | meaning |
+|-------|---------|
+| `inherit` | Same as parent (recommended) |
+| `sonnet` | Balanced |
+| `opus` | Most capable, expensive |
+| `haiku` | Fast, cheap |
+
+### color
+
+Visual identifier in UI.
+
+| color | suggested use |
+|-------|---------------|
+| `blue` | Analysis, research |
+| `cyan` | Exploration, discovery |
+| `green` | Success-oriented, generation |
+| `yellow` | Caution, validation |
+| `magenta` | Creative, generation |
+| `red` | Critical, security |
+
+### tools
+
+Array of tool names. Omit for full access.
+
+```yaml
+# Read-only analysis
+tools: ["Read", "Grep", "Glob"]
+
+# Code generation
+tools: ["Read", "Write", "Grep", "Glob"]
+
+# Testing
+tools: ["Read", "Bash", "Grep"]
+
+# Research
+tools: ["Read", "Grep", "Glob", "WebFetch", "WebSearch"]
+
+# Full access (default if omitted)
+tools: ["*"]
+```
+
+**Principle of least privilege** - limit to minimum needed.
+
+---
+
+## System Prompt Design
+
+The markdown body becomes the agent's system prompt. Write in second person.
+
+### Structure
+
+```markdown
+You are [role] specializing in [domain].
+
+**Your Core Responsibilities:**
+1. [Primary responsibility]
+2. [Secondary responsibility]
+
+**Process:**
+1. [Step one]
+2. [Step two]
+3. [Step three]
+
+**Quality Standards:**
+- [Standard 1]
+- [Standard 2]
+
+**Output Format:**
+Provide results in this format:
+- [What to include]
+- [How to structure]
+
+**Edge Cases:**
+- [Edge case 1]: [How to handle]
+- [Edge case 2]: [How to handle]
+```
+
+### Best Practices
+
+| do | don't |
+|----|-------|
+| Write in second person ("You are...") | First person ("I am...") |
+| Be specific about responsibilities | Be vague or generic |
+| Provide step-by-step process | Omit process steps |
+| Define output format | Leave format undefined |
+| Include quality standards | Skip quality guidance |
+| Address edge cases | Ignore error cases |
+| Keep under 10,000 chars | Write novels |
 
 ---
 
 ## Agent Patterns
 
-| pattern | use case | tools | completion |
-|---------|----------|-------|------------|
-| **explorer** | codebase search | Read, Grep, Glob | found target or exhausted search |
-| **verifier** | validation, testing | Read, Grep, Bash | pass/fail determined |
-| **researcher** | web synthesis | WebFetch, WebSearch, Read | question answered |
-| **planner** | architecture | Read, Grep, Glob | plan documented |
+| pattern | tools | use case |
+|---------|-------|----------|
+| **explorer** | Read, Grep, Glob | Codebase search, discovery |
+| **verifier** | Read, Grep, Bash | Validation, testing |
+| **researcher** | WebFetch, WebSearch, Read | Web synthesis |
+| **reviewer** | Read, Grep, Glob | Code review, analysis |
+| **generator** | Read, Write, Grep, Glob | Code generation |
 
 ---
 
-## Best Practices
+## Complete Examples
 
-| practice | why |
-|----------|-----|
-| Single responsibility | Clear completion criteria |
-| Limited tool access | Security + focus |
-| Explicit skill listing | Skills not inherited from parent |
-| Clear completion criteria | Agent knows when done |
-| "PROACTIVELY" in description | Encourages auto-delegation |
-| Explicit output format | Consistent results |
+### Read-Only Analyzer
 
-### Critical Constraint
+```markdown
+---
+name: code-complexity-analyzer
+description: Use this agent when you need to analyze code complexity or identify refactoring opportunities. Examples:
 
-**Subagents cannot spawn other subagents.** No nesting.
+<example>
+Context: User is reviewing a large module.
+user: "This module seems hard to maintain. What should I refactor?"
+assistant: "I'll analyze the code complexity to identify refactoring targets."
+<commentary>
+Use complexity analyzer to find maintainability issues systematically.
+</commentary>
+</example>
 
-### Description Keywords
-
-| keyword | effect |
-|---------|--------|
-| "Use when:" | Helps Claude decide when to delegate |
-| "PROACTIVELY" | Encourages autonomous use |
-| "MUST BE USED" | Strong trigger |
-
+model: inherit
+color: cyan
+tools: ["Read", "Grep", "Glob"]
 ---
 
-## Observability
+You are a code complexity analyst who identifies maintainability issues.
 
-### Tracing
+**Your Core Responsibilities:**
+1. Calculate cyclomatic complexity for functions
+2. Identify deeply nested code blocks
+3. Find overly long functions
+4. Detect code duplication patterns
 
-```python
-def run_agent(task: str):
-    with tracer.start_as_current_span("agent") as agent_span:
-        agent_span.set_attribute("task", task)
-        agent_span.set_attribute("agent_name", self.name)
-        agent_span.set_attribute("model", self.model)
+**Process:**
+1. Scan target files with Grep for function definitions
+2. Read each function and calculate complexity metrics
+3. Rank issues by severity
+4. Provide specific refactoring recommendations
 
-        step = 0
-        while not done:
-            step += 1
+**Output Format:**
+| File | Function | Complexity | Issue | Recommendation |
+|------|----------|------------|-------|----------------|
+| ... | ... | ... | ... | ... |
 
-            with tracer.start_as_current_span("llm_call") as llm_span:
-                llm_span.set_attribute("step", step)
-                response = call_llm(messages)
-                llm_span.set_attribute("input_tokens", response.usage.input)
-                llm_span.set_attribute("output_tokens", response.usage.output)
-                llm_span.set_attribute("model", response.model)
-
-            for tool_call in response.tool_calls:
-                with tracer.start_as_current_span("tool_call") as tool_span:
-                    tool_span.set_attribute("tool_name", tool_call.name)
-                    tool_span.set_attribute("tool_args", str(tool_call.args)[:500])
-                    result = execute_tool(tool_call)
-                    tool_span.set_attribute("success", not result.error)
-                    tool_span.set_attribute("result_size", len(str(result)))
-
-        agent_span.set_attribute("total_steps", step)
-        agent_span.set_attribute("success", True)
-        agent_span.set_attribute("total_tokens", total_tokens)
+Focus on actionable improvements, not exhaustive metrics.
 ```
 
-### Spans
+### Research Agent
 
-| span | attributes |
-|------|------------|
-| `agent` | task, agent_name, model, total_steps, success, total_tokens |
-| `llm_call` | step, model, input_tokens, output_tokens |
-| `tool_call` | tool_name, tool_args, success, result_size |
+```markdown
+---
+name: best-practices-researcher
+description: Use this agent when you need to find current best practices for a technology or pattern. Examples:
 
-### Metrics
+<example>
+Context: User is implementing authentication.
+user: "What's the current best practice for JWT refresh tokens?"
+assistant: "I'll research current JWT refresh token best practices."
+<commentary>
+Research agent finds authoritative, current guidance.
+</commentary>
+</example>
 
-| metric | meaning |
-|--------|---------|
-| Steps per task | Agent efficiency |
-| Tokens per task | Cost indicator |
-| Tool call distribution | Which tools used most |
-| Completion rate | % of tasks completed successfully |
+model: sonnet
+color: blue
+tools: ["WebFetch", "WebSearch", "Read"]
+---
+
+You are a best practices researcher who finds authoritative, current guidance.
+
+**Your Core Responsibilities:**
+1. Search for authoritative sources (official docs, RFCs, security advisories)
+2. Verify information is current (2024-2025)
+3. Synthesize findings into actionable recommendations
+4. Cite sources with URLs
+
+**Process:**
+1. WebSearch for "[topic] best practices 2025"
+2. WebFetch top 3-5 authoritative sources
+3. Cross-reference for consensus
+4. Identify any security considerations
+5. Summarize with citations
+
+**Output Format:**
+## Best Practices: [Topic]
+
+**Recommendation:** [Clear guidance]
+
+**Key Points:**
+1. [Point 1] ([Source](url))
+2. [Point 2] ([Source](url))
+
+**Security Considerations:**
+- [Consideration]
+
+**Sources:**
+- [Source 1](url)
+- [Source 2](url)
+```
+
+---
+
+## Critical Constraints
+
+| constraint | reason |
+|------------|--------|
+| No nesting | Subagents cannot spawn other subagents |
+| Single responsibility | Clear completion criteria |
+| Explicit tools | Tools not inherited from parent |
+| Example blocks required | Claude needs examples for triggering |
 
 ---
 
 ## Quality Checklist
 
-- [ ] Single responsibility
-- [ ] Minimal tools for the role
-- [ ] Clear completion criteria
-- [ ] No nesting assumption
-- [ ] "PROACTIVELY" if auto-delegating
-- [ ] Output format documented
+- [ ] Name is 3-50 chars, lowercase, hyphens only
+- [ ] Description includes triggering conditions
+- [ ] Description has 2-4 `<example>` blocks with `<commentary>`
+- [ ] Model is specified (`inherit` recommended)
+- [ ] Color is specified and appropriate
+- [ ] Tools are minimal for the role
+- [ ] System prompt is in second person
+- [ ] Process steps are explicit
+- [ ] Output format is defined
+- [ ] Edge cases are addressed
 - [ ] Tested with representative tasks
