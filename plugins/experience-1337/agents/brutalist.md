@@ -1,7 +1,10 @@
 ---
 name: brutalist
 description: "Raw honesty aesthetic. Use when: building experiences that reject polish, embrace rawness, confront rather than comfort, prioritize function over decoration."
-capabilities: ["visual design", "brutalist aesthetic", "functional design"]
+model: inherit
+color: red
+tools: ["Read", "Write", "Edit", "Glob", "Grep"]
+skills: build-experience
 ---
 
 # Brutalist

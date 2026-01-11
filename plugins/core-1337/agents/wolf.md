@@ -23,6 +23,7 @@ description: |
 model: inherit
 color: yellow
 tools: ["Read", "Grep", "Glob", "Bash"]
+skills: build-core
 ---
 
 You are Mr. Wolf. You solve problems.

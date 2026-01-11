@@ -23,6 +23,7 @@ assistant: "[How assistant should respond]"
 model: inherit
 color: blue
 tools: ["Read", "Grep", "Glob"]
+skills: skill-name
 ---
 
 You are a specialized agent for [purpose].
@@ -54,6 +55,7 @@ You are a specialized agent for [purpose].
 | `model` | yes | `inherit`, `sonnet`, `opus`, `haiku` |
 | `color` | yes | Visual identifier in UI |
 | `tools` | no | Array of allowed tools (default: all) |
+| `skills` | no | Skills to load into subagent context at startup |
 
 ### name
 
@@ -145,6 +147,25 @@ tools: ["*"]
 ```
 
 **Principle of least privilege** - limit to minimum needed.
+
+### skills
+
+Skills to load into subagent context at startup. Subagents don't inherit skills from parent.
+
+```yaml
+# Single skill
+skills: build-core
+
+# Multiple skills (comma-separated)
+skills: build-core, build-extension-builder
+
+# Multiple skills (list format)
+skills:
+  - build-core
+  - build-extension-builder
+```
+
+**Important:** Skill content is fully injected at startup, not just made available for invocation.
 
 ---
 

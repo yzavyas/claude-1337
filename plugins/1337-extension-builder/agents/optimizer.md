@@ -23,6 +23,7 @@ description: |
 model: inherit
 color: green
 tools: ["Read", "Edit", "Write", "Glob", "Grep", "Bash"]
+skills: build-extension-builder
 ---
 
 # 1337 Plugin Optimizer
