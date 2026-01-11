@@ -5,8 +5,8 @@
       {
         "hooks": [
           {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/plugin-load.sh"
+            "type": "prompt",
+            "prompt": "## 1337 Marketplace\n\nSkill auto-discovery is broken (Claude Code bug #10568).\n\n**To find available plugins:**\n1. Read `~/.claude/plugins/known_marketplaces.json` → get `installLocation` for \"claude-1337\"\n2. Read `{installLocation}/.claude-plugin/marketplace.json` → each plugin has \"Use when:\" trigger\n3. Plugin content at `{installLocation}/plugins/<name>/SKILL.md`\n\nLoad skills when their trigger matches the user's task."
           }
         ]
       }
