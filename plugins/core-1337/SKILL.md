@@ -262,9 +262,11 @@ See [kaizen-crystallization.md](references/kaizen-crystallization.md) for the fu
 
 | Need | Load |
 |------|------|
-| Detailed verification checklists | [verification-patterns.md](references/verification-patterns.md) |
+| Technical excellence behaviors | [craftsmans-code.md](references/craftsmans-code.md) |
+| Evidence-based analysis | [truth-seekers-code.md](references/truth-seekers-code.md) |
 | Anti-patterns in depth | [behavioral-awareness.md](references/behavioral-awareness.md) |
-| Writing quality (avoid AI tells) | [writing-antipatterns.md](references/writing-antipatterns.md) |
-| Research backing (why this works) | [research-foundations.md](references/research-foundations.md) |
 | Reasoning scaffolds (for wolf) | [reasoning-scaffolds.md](references/reasoning-scaffolds.md) |
 | Crystallization process | [kaizen-crystallization.md](references/kaizen-crystallization.md) |
+| Detailed verification checklists | [verification-patterns.md](references/verification-patterns.md) |
+| Writing quality (avoid AI tells) | [writing-antipatterns.md](references/writing-antipatterns.md) |
+| Research backing (why this works) | [research-foundations.md](references/research-foundations.md) |
