@@ -5,6 +5,5 @@
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"
-  },
-  "agents": ["./agents/"]
+  }
 }
