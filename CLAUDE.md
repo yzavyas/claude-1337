@@ -305,9 +305,14 @@ The catalog at `/catalog/` reads from these files dynamically.
 
 ## Tooling
 
-### Package Manager: bun
+**Core rule**: One package manager per language. No exceptions.
 
-Use `bun` not `npm`.
+| Language | Use | Do NOT use |
+|----------|-----|------------|
+| **TypeScript/JavaScript** | `bun` | npm, yarn, pnpm |
+| **Python** | `uv` | pip, conda, poetry, pipenv |
+
+### TypeScript: bun
 
 **Why bun:**
 - **Speed**: 10-25x faster installs than npm (native code, no node_modules duplication)
@@ -325,7 +330,23 @@ bun add -d <pkg>     # Add dev dependency
 bun remove <pkg>     # Remove dependency
 ```
 
-**Do not use:** `npm`, `yarn`, `pnpm` - stick to one package manager per project.
+### Python: uv
+
+**Why uv:**
+- **Speed**: 10-100x faster than pip (Rust-based)
+- **Unified**: Replaces pip, virtualenv, pyenv, poetry in one tool
+- **Lockfile**: `uv.lock` for reproducible builds
+- **Production proven**: Astral (ruff creators)
+
+**Commands:**
+```bash
+uv sync              # Install deps from pyproject.toml
+uv sync --extra dev  # Include dev dependencies
+uv run python ...    # Run in project venv
+uv run pytest ...    # Run tools in project venv
+uv add <pkg>         # Add dependency
+uv add --dev <pkg>   # Add dev dependency
+```
 
 ### Other Tooling
 
@@ -347,7 +368,7 @@ bun run build        # Production build
 bun run check        # TypeScript + Svelte type checking
 ```
 
-**Tests:** `python tests/pages.py` (Playwright, run from `experience/app/`)
+**Tests:** `uv run python tests/pages.py` (Playwright, run from `experience/app/`)
 
 ### Content-Driven Routing
 

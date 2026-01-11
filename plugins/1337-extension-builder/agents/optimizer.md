@@ -4,19 +4,25 @@ description: |
   Fix issues identified by the evaluator agent. Use when: evaluator returned "NEEDS WORK", have a list of issues to fix, want to improve a plugin's quality score. Systematic fixes, not rewrites.
 
   <example>
+  Context: Plugin failed quality evaluation.
   user: "Fix the issues the evaluator found in rust-1337"
   assistant: "I'll use the optimizer agent to address each issue systematically."
+  <commentary>
+  Optimizer takes evaluator output and applies targeted fixes.
+  </commentary>
   </example>
 
   <example>
+  Context: Plugin needs to reach quality threshold.
   user: "Optimize kotlin-1337 to pass quality gates"
   assistant: "I'll use the optimizer agent to fix issues until it reaches 1337 status."
+  <commentary>
+  Optimizer iterates until all gates pass minimum threshold.
+  </commentary>
   </example>
-capabilities: ["optimization", "refactoring", "fixing", "improvement"]
+model: inherit
+color: green
 tools: ["Read", "Edit", "Write", "Glob", "Grep", "Bash"]
-skills:
-  - core-1337
-  - 1337-extension-builder
 ---
 
 # 1337 Plugin Optimizer
