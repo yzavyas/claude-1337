@@ -28,7 +28,10 @@
         "foundation"
       ],
       "category": "development",
-      "strict": false
+      "strict": false,
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "terminal-1337",
