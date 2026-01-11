@@ -1,16 +1,9 @@
 {
-  "description": "Content structure validation: checks markdown files for proper linking and structure",
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/validate-content.sh"
-          }
-        ]
-      }
-    ]
-  }
+  "hooks": [
+    {
+      "event": "PreToolUse",
+      "matcher": { "tool_name": "Write" },
+      "script": "./hooks/validate-content.sh"
+    }
+  ]
 }

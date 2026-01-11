@@ -1,26 +1,13 @@
 {
-  "description": "Terminal tool suggestions: recommends modern alternatives without blocking",
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/tool-replacements.sh"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/block-legacy.sh"
-          }
-        ]
-      }
-    ]
-  }
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "script": "./hooks/tool-replacements.sh"
+    },
+    {
+      "event": "PreToolUse",
+      "matcher": { "tool_name": "Bash" },
+      "script": "./hooks/block-legacy.sh"
+    }
+  ]
 }
