@@ -124,7 +124,7 @@ hooks.json
 
 ## Hook Types
 
-### Command Hooks
+### Command Hooks (Recommended)
 
 Execute bash scripts for deterministic checks:
 
@@ -137,6 +137,8 @@ Execute bash scripts for deterministic checks:
 ```
 
 ### Prompt Hooks
+
+> **Known issue:** `type: prompt` hooks don't fire reliably. Use `type: command` with a shell script that echoes the content instead.
 
 Use LLM-driven decision making:
 
