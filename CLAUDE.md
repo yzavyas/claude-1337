@@ -347,14 +347,34 @@ bun run build        # Production build
 bun run check        # TypeScript + Svelte type checking
 ```
 
-**Content lives in:** `experience/content/` (markdown files, separate from the app)
-
-**Key files:**
-- `src/routes/` - Page routes (Svelte components)
-- `src/lib/components/` - Shared components (Mermaid, CodeBlock, etc.)
-- `svelte.config.js` - mdsvex processes `.svx` files only (not `.md`)
-
 **Tests:** `python tests/pages.py` (Playwright, run from `experience/app/`)
+
+### Content-Driven Routing
+
+**Principle:** The file system is the site structure. Drop a `.md` file in `experience/content/` and it becomes a web page. No routing configuration needed.
+
+```
+experience/content/
+├── explore/
+│   ├── index.md                    → /explore
+│   ├── reference/
+│   │   ├── index.md                → /explore/reference
+│   │   └── research/
+│   │       ├── index.md            → /explore/reference/research
+│   │       └── effective-skill-design.md  → /explore/reference/research/effective-skill-design
+```
+
+**Why this matters:** Transparent abstraction. Content authors work with plaintext markdown. The routing is automatic, not configured.
+
+### Content Authoring
+
+| Principle | Implication |
+|-----------|-------------|
+| **Structure enables navigation** | Every directory needs `index.md` — breadcrumbs link to parent pages |
+| **Content is web pages, not files** | Links use URL paths (`/explore/reference`), not file paths (`./reference.md`) |
+| **Internal links are absolute** | Start with `/` — the app rewrites them for the base path |
+
+Build warnings catch violations — if a link 404s during `bun run build`, fix it or it's a broken link on the site.
 
 ---
 
