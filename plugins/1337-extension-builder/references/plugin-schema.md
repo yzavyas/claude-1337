@@ -57,6 +57,18 @@ Only `name` is strictly required:
 | `repository` | string | URL to source code |
 | `license` | string | SPDX identifier |
 | `keywords` | string[] | Search terms |
+| `strict` | boolean | Path traversal control (default: false) |
+
+### strict
+
+Controls whether plugin can access files outside its directory:
+
+| Value | Behavior |
+|-------|----------|
+| `false` (default) | Plugin can access sibling directories, parent paths |
+| `true` | Plugin strictly contained, no external refs allowed |
+
+Use `strict: true` for self-contained plugins. Use `strict: false` when plugin needs shared resources.
 
 ---
 
