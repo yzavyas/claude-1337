@@ -252,16 +252,21 @@ Reference each file clearly:
 
 ## Building Other Extension Types
 
-Each type has its own reference with templates and best practices.
+For comprehensive templates and schema documentation, use the **official Claude Code plugins**:
 
-| building... | load |
-|-------------|------|
-| skill | [skills.md](references/skills.md) |
-| hook | [hooks.md](references/hooks.md) |
-| agent | [agents.md](references/agents.md) |
-| command | [commands.md](references/commands.md) |
-| mcp server | [mcp.md](references/mcp.md) |
-| sdk app | [sdk-apps.md](references/sdk-apps.md) |
+| building... | use skill |
+|-------------|-----------|
+| plugin structure | `/plugin-dev:plugin-structure` |
+| skill | `/plugin-dev:skill-development` |
+| hook | `/plugin-dev:hook-development` |
+| agent | `/plugin-dev:agent-development` |
+| command | `/plugin-dev:command-development` |
+| mcp server | `/plugin-dev:mcp-integration` |
+| sdk app | `/agent-sdk-dev:new-sdk-app` |
+
+These official skills are authoritative and always up-to-date with Claude Code.
+
+Our references add **1337-specific** patterns and quality methodology (see References section below).
 
 ---
 
@@ -374,30 +379,36 @@ See [plugin-tuning-runbook.md](../../scratch/plugin-tuning-runbook.md) for detai
 
 ## References
 
-### Extension Type Guides
+### Official Claude Code Skills (Authoritative)
 
-| type | reference | contains |
-|------|-----------|----------|
-| skill | [skills.md](references/skills.md) | Templates, best practices, examples |
-| hook | [hooks.md](references/hooks.md) | Event types, script patterns |
-| agent | [agents.md](references/agents.md) | Frontmatter, delegation patterns |
-| command | [commands.md](references/commands.md) | Argument parsing, workflows |
-| mcp | [mcp.md](references/mcp.md) | Server patterns, tool design |
-| sdk app | [sdk-apps.md](references/sdk-apps.md) | Agent SDK patterns |
+Use these official skills for comprehensive, up-to-date documentation:
 
-### Observability
+| need | skill | what you get |
+|------|-------|--------------|
+| Plugin structure | `plugin-dev:plugin-structure` | Directory layout, manifest, auto-discovery |
+| Skill development | `plugin-dev:skill-development` | SKILL.md format, frontmatter, progressive disclosure |
+| Hook development | `plugin-dev:hook-development` | Events, matchers, scripts, JSON schemas |
+| Agent development | `plugin-dev:agent-development` | Agent frontmatter, triggers, examples |
+| Command development | `plugin-dev:command-development` | Slash commands, arguments, dynamic context |
+| MCP integration | `plugin-dev:mcp-integration` | Server types, config, tool design |
+| SDK apps | `agent-sdk-dev:new-sdk-app` | Claude Agent SDK patterns |
+
+### 1337-Specific References
+
+Our references add quality methodology and marketplace specifics:
 
 | need | load |
 |------|------|
-| Building observable extensions | [observability.md](references/observability.md) |
-
-### Methodology
-
-| need | load |
-|------|------|
+| OTel instrumentation | [observability.md](references/observability.md) |
 | Evidence workflow | [evidence-templates.md](references/evidence-templates.md) |
-| Evaluation | [evals.md](references/evals.md) |
-| Plugin manifest | [plugin-schema.md](references/plugin-schema.md) |
-| Marketplace schema | [marketplace-schema.md](references/marketplace-schema.md) |
+| Skill evaluation metrics | [evals.md](references/evals.md) |
+| Plugin manifest gotchas | [plugin-schema.md](references/plugin-schema.md) |
+| 1337 marketplace | [marketplace-schema.md](references/marketplace-schema.md) |
 
-Research foundations live in core-1337. Load that skill for methodology depth.
+### Methodology Depth
+
+Research foundations live in core-1337. Load that skill for:
+- Software craftsmanship principles
+- Evidence hierarchy
+- Scientific method
+- Collaborative intelligence theory

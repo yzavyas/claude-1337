@@ -11,7 +11,7 @@ allowed-tools: Read(*), Grep(*), Glob(*)
 
 Load the 1337-extension-builder skill:
 
-1. Read `${CLAUDE_PLUGIN_ROOT}/SKILL.md` completely
+1. Read `${CLAUDE_PLUGIN_ROOT}/skills/build-extension-builder/SKILL.md` completely
 2. Read relevant references from `${CLAUDE_PLUGIN_ROOT}/references/`
 3. Apply extension building methodology to the user's current task
 
