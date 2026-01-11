@@ -8,6 +8,13 @@ from .models import (
     EvalResult,
     EvalReport,
 )
+from .comparison import (
+    ComparisonTestCase,
+    ConfigResult,
+    ComparisonReport,
+    ComparisonRunner,
+    load_configs_from_yaml,
+)
 
 __all__ = [
     "Expectation",
@@ -16,4 +23,9 @@ __all__ = [
     "EvalMetrics",
     "EvalResult",
     "EvalReport",
+    "ComparisonTestCase",
+    "ConfigResult",
+    "ComparisonReport",
+    "ComparisonRunner",
+    "load_configs_from_yaml",
 ]
