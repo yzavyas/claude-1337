@@ -1,7 +1,10 @@
 ---
 name: symmetrist
 description: "Geometric precision aesthetic. Use when: building experiences that need controlled tension, formal balance, one-point perspective, mathematical harmony."
-capabilities: ["visual design", "geometric design", "formal layouts"]
+model: inherit
+color: blue
+tools: ["Read", "Write", "Edit", "Glob", "Grep"]
+skills: build-experience
 ---
 
 # Symmetrist

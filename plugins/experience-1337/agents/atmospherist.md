@@ -1,7 +1,10 @@
 ---
 name: atmospherist
 description: "Immersive mood aesthetic. Use when: building experiences that prioritize atmosphere over action, vast scale, environmental storytelling, contemplative journeys."
-capabilities: ["visual design", "mood design", "atmosphere"]
+model: inherit
+color: cyan
+tools: ["Read", "Write", "Edit", "Glob", "Grep"]
+skills: build-experience
 ---
 
 # Atmospherist
