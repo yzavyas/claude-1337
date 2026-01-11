@@ -40,34 +40,34 @@ uv sync
 
 ## Usage
 
-### Single Test with Expectation
+### Discover Skills
 
 ```bash
-# Test that a skill SHOULD activate
-uv run skill-test test "How do I use ripgrep?" -s terminal-1337 -e must -n 5
-
-# Test that a skill should NOT activate
-uv run skill-test test "Write a haiku" -s terminal-1337 -e should_not -n 5
-
-# Compare modes
-uv run skill-test test "Find TODO comments" -s terminal-1337 -m baseline
-uv run skill-test test "Find TODO comments" -s terminal-1337 -m forced
+uv run evals-1337 discover
 ```
 
-### Run Rigorous Test Suite
+### Test Skill Activation
 
 ```bash
-# Create sample suite
-uv run skill-test init-suite sample-suite.json
+# Test a skill with default prompts
+uv run evals-1337 skills plugins/rust-1337
 
-# Run suite with baseline (no system prompt)
-uv run skill-test suite suites/rigorous-v1.json -m baseline -o baseline-report.md
+# Test with custom prompt
+uv run evals-1337 skills plugins/rust-1337 -p "What crate for CLI args?"
 
-# Run suite with forced eval
-uv run skill-test suite suites/rigorous-v1.json -m forced -o forced-report.md
+# Test that skill should NOT activate
+uv run evals-1337 skills plugins/rust-1337 -p "Write a haiku" -e must_not
 
-# Compare all modes
-uv run skill-test compare suites/rigorous-v1.json -o comparison-report.md
+# Compare modes
+uv run evals-1337 skills plugins/terminal-1337 -m baseline
+uv run evals-1337 skills plugins/terminal-1337 -m forced
+```
+
+### Run Test Suite (TODO)
+
+```bash
+# Run suite (not yet implemented)
+uv run evals-1337 suite suites/rigorous-v1.json -m baseline
 ```
 
 ## Test Suite Format
