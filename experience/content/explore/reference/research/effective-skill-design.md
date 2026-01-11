@@ -17,7 +17,7 @@ The research converges on a clear principle: values-based commitment framing tri
 | Approach | Example | Mechanism | Effect |
 |----------|---------|-----------|--------|
 | **Instructions** | "Step 1: Step back. Step 2: Decompose..." | Procedural compliance | Brittle, context-dependent |
-| **Identity** | "As a signatory to the Software Craftsmanship Manifesto..." | Character-based reasoning | Robust, transfers across contexts |
+| **Identity** | "As a signatory to the Software Craftsmanship Manifesto..." | Character-based reasoning | Durable, transfers across contexts |
 
 ### Why Identity Works
 
@@ -84,7 +84,7 @@ Design skills to encourage learning focus, not just output consumption.
 | Self-critique without external verifier | Performance collapse | Confirmation bias, no ground truth |
 | Generic persona assignments | No effect on accuracy | Too vague to activate character |
 
-### The CoT Paradigm Shift
+### The CoT Shift
 
 Modern reasoning models (Claude 4.5, o1, o3) have native test-time compute:
 
@@ -104,7 +104,7 @@ The bottleneck isn't *how* to reason but:
 1. **Frame as identity, not instructions** — "I am a craftsman who..." not "Do X then Y"
 2. **Establish values that address gaps** — Anti-sycophancy, calibration, completion
 3. **Create disposition, not procedure** — Systematic thinking as character trait
-4. **Leverage native capabilities** — Don't scaffold what's already there
+4. **Use native capabilities** — Don't scaffold what's already there
 
 ### For the Manifesto Pattern
 
