@@ -6,6 +6,10 @@
 	// Category filter
 	let activeCategory = $state<string | null>(null);
 
+	// Copy feedback
+	let copiedPlugin = $state<string | null>(null);
+	let copyTimeout: ReturnType<typeof setTimeout>;
+
 	const categories = $derived([...new Set(data.plugins.map(p => p.category))]);
 
 	const filteredPlugins = $derived(
@@ -14,6 +18,15 @@
 
 	function toggleCategory(cat: string) {
 		activeCategory = activeCategory === cat ? null : cat;
+	}
+
+	async function copyInstall(pluginName: string) {
+		await navigator.clipboard.writeText(`/plugin install ${pluginName}@claude-1337`);
+		copiedPlugin = pluginName;
+		clearTimeout(copyTimeout);
+		copyTimeout = setTimeout(() => {
+			copiedPlugin = null;
+		}, 2000);
 	}
 </script>
 
@@ -53,9 +66,9 @@
 					<span class="plugin-category">{plugin.category}</span>
 				</header>
 				<p class="plugin-description">{plugin.description}</p>
-				<button class="plugin-install" onclick={() => navigator.clipboard.writeText(`/plugin install ${plugin.name}@claude-1337`)}>
+				<button class="plugin-install" class:copied={copiedPlugin === plugin.name} onclick={() => copyInstall(plugin.name)}>
 					<span class="install-name">/plugin install {plugin.name}@claude-1337</span>
-					<span class="install-hint">copy</span>
+					<span class="install-hint">{copiedPlugin === plugin.name ? '✓' : 'copy'}</span>
 				</button>
 			</article>
 		{/each}
@@ -206,6 +219,15 @@
 
 	.plugin-install:hover {
 		border-color: var(--color-accent);
+	}
+
+	.plugin-install.copied {
+		border-color: var(--color-accent-positive);
+	}
+
+	.plugin-install.copied .install-hint {
+		opacity: 1;
+		color: var(--color-accent-positive);
 	}
 
 	.install-name {
