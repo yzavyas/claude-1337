@@ -5,7 +5,7 @@ description: "Build Claude cognitive extensions. Use when: creating skills/hooks
 
 # Extension Builder
 
-Build cognitive extensions that make users more capable, not more dependent.
+Build cognitive extensions that enable effective collaboration — where both human and Claude grow through the partnership.
 
 ## Why This Matters
 
