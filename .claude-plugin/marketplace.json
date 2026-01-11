@@ -78,7 +78,7 @@
         "production"
       ],
       "category": "development",
-      "strict": true,
+      "strict": false,
       "skills": [
         "./skills"
       ]
