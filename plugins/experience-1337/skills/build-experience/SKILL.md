@@ -1,5 +1,5 @@
 ---
-name: experience-1337
+name: build-experience
 description: Svelte-first frontend experience engineering. Use when building interactive experiences: animations, 3D/WebGL, scrollytelling, data visualization, or any visual/interactive work. Covers GSAP, Threlte 8, D3, Layer Cake, PixiJS, Melt UI, typography, and design patterns. Triggers on (1) animation/motion design, (2) 3D/WebGL work, (3) scroll-driven storytelling, (4) data visualization, (5) headless UI, (6) graphics/sprites.
 ---
 

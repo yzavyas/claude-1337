@@ -1,5 +1,5 @@
 ---
-name: sensei-1337
+name: build-explanations
 description: "Teaching and information sharing across all contexts. Use when: writing docs, explaining concepts, making presentations, teaching in conversation, curating documentation, technical writing for impact, creating diagrams for explanation (Mermaid, D2, C4)."
 ---
 

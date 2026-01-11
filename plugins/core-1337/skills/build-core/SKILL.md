@@ -1,5 +1,5 @@
 ---
-name: core-1337
+name: build-core
 description: "Engineering excellence for builders. Use when: writing code, making technical decisions, refactoring, reviewing, completing implementation work."
 ---
 

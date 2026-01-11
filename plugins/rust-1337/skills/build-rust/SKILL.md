@@ -1,5 +1,5 @@
 ---
-name: rust-1337
+name: build-rust
 description: "Rust production patterns. Use when: building Rust CLI, backend, frontend, or native apps. Covers axum, tonic, sqlx, Leptos, Dioxus, Tauri, clap, tokio. Production gotchas (blocking, cancellation, mutex), ownership decisions, crate selection. Routes to specialized domains: embedded, FFI, proc-macros, proxies/data-plane."
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: eval-1337
+name: build-eval
 description: "Write rigorous evals for LLM agents, skills, MCP servers, and prompts. Use when: building test suites, measuring agent effectiveness, evaluating tool reliability, or choosing eval frameworks. Covers: DeepEval, Braintrust, RAGAS, precision/recall, F1, task completion, pass@k."
 ---
 
