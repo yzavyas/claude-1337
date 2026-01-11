@@ -1,0 +1,52 @@
+# A/B Benchmark: Does rust-1337 skill make Claude better?
+#
+# Run: evals-1337 benchmark configs/rust-skill-benchmark.yaml
+
+name: "rust-1337 skill evaluation"
+description: "Compare Claude base vs Claude with rust-1337 skill"
+
+# A/B Comparison
+comparison:
+  a:
+    name: "baseline"
+    description: "Claude with no skill context"
+    system_prompt: null
+    skill_paths: []
+
+  b:
+    name: "with-rust-skill"
+    description: "Claude with rust-1337 skill loaded"
+    skill_paths:
+      - "../../plugins/rust-1337/SKILL.md"
+
+# Test prompts - domain questions where skill should help
+test_cases:
+  # Should improve with skill
+  - prompt: "What crate should I use for CLI argument parsing in Rust?"
+    category: "tooling"
+    expect_improvement: true
+    keywords: ["clap", "structopt", "argh"]  # Good answers mention these
+
+  - prompt: "How do I handle errors properly in Rust?"
+    category: "patterns"
+    expect_improvement: true
+    keywords: ["Result", "?", "anyhow", "thiserror"]
+
+  - prompt: "What's the best way to do async HTTP requests in Rust?"
+    category: "tooling"
+    expect_improvement: true
+    keywords: ["reqwest", "tokio", "async", "await"]
+
+  # Should NOT change (control cases)
+  - prompt: "Write me a haiku about programming"
+    category: "creative"
+    expect_improvement: false
+
+  - prompt: "What is 2 + 2?"
+    category: "math"
+    expect_improvement: false
+
+# Evaluation settings
+settings:
+  runs_per_case: 3
+  model: "claude-sonnet-4-20250514"
