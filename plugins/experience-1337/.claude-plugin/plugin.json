@@ -1,7 +1,7 @@
 {
   "name": "experience-1337",
   "description": "Svelte-first frontend experience engineering. Use when building interactive experiences: animations, 3D/WebGL, scrollytelling, data visualization, headless UI, or graphics/sprites. Covers GSAP, Threlte 8, D3, Layer Cake, PixiJS, Melt UI, typography, and design patterns.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"
