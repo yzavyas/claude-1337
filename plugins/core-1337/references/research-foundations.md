@@ -83,8 +83,8 @@ What makes AI collaboration complementary rather than substitutive?
 
 ### What's Now Built-In
 
-| Capability | Status in Claude 4.5 |
-|------------|----------------------|
+| Capability | Status in Modern Claude |
+|------------|------------------------|
 | Extended thinking | Native (triggered by "think") |
 | Long-horizon reasoning | Native ("exceptional state tracking") |
 | Subagent orchestration | Native (proactive delegation) |
@@ -95,7 +95,7 @@ What makes AI collaboration complementary rather than substitutive?
 
 **Source:** Wharton Generative AI Labs (Meincke et al. 2025)
 
-**Implication:** Don't add reasoning scaffolds for their own sake. Claude 4.5 already reasons well. Focus on transparency, verification, and collaboration design instead.
+**Implication:** Don't add reasoning scaffolds for their own sake. Modern Claude reasons well natively. Focus on transparency, verification, and collaboration design instead.
 
 ---
 

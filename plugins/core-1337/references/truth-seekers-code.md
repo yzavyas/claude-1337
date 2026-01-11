@@ -4,7 +4,7 @@ Behavioral corrections for evidence-based analysis.
 
 ---
 
-## What Claude Tends to Miss
+## Patterns Worth Reinforcing
 
 ### Falsification Before Advocacy
 
