@@ -12,7 +12,7 @@
     {
       "name": "core-1337",
       "source": "./plugins/core-1337",
-      "description": "Foundation plugin. Encourages skill activation, evidence-based recommendations, battle-tested practices. Install first.",
+      "description": "Engineering excellence for builders. Use when: writing code, making technical decisions, refactoring, reviewing, completing implementation work.",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",

@@ -1,16 +1,29 @@
 #!/bin/bash
 # SessionStart hook - inform Claude about marketplace since auto-discovery is broken
-# GitHub issues #10568, #16575
+# GitHub issues #10568, #14815, #16575
 
-cat <<'EOF'
+# Check if claude-1337 marketplace is installed
+MARKETPLACE_PATH=$(cat ~/.claude/plugins/known_marketplaces.json 2>/dev/null | jq -r '.["claude-1337"].installLocation // empty')
+
+if [[ -n "$MARKETPLACE_PATH" && -d "$MARKETPLACE_PATH" ]]; then
+  MARKETPLACE_JSON="${MARKETPLACE_PATH}/.claude-plugin/marketplace.json"
+
+  if [[ -f "$MARKETPLACE_JSON" ]]; then
+    cat <<EOF
 ## 1337 Marketplace
 
-Skill auto-discovery is broken (Claude Code bug #10568).
+Skill auto-discovery is broken (Claude Code bug #10568). Here are the available plugins:
 
-**To find available skills:** Read `${CLAUDE_PROJECT_DIR}/.claude-plugin/marketplace.json`
-- Each plugin has a description with "Use when:" — that's your activation signal
-- Plugin content at `${CLAUDE_PROJECT_DIR}/plugins/<name>/`
-- Components: SKILL.md, commands/, agents/, hooks/ (convention-based)
-
-Load what you need, when you need it.
+| Plugin | Use when | Location |
+|--------|----------|----------|
 EOF
+
+    # Parse marketplace.json and output each plugin
+    jq -r '.plugins[] | "| \(.name) | \(.description | split("Use when:")[1] // "always" | split(".")[0] | ltrimstr(" ")) | `'"${MARKETPLACE_PATH}"'/plugins/\(.name)/SKILL.md` |"' "$MARKETPLACE_JSON"
+
+    cat <<EOF
+
+Load via \`/plugin-name:skill\` (e.g., \`/rust-1337:rust\`).
+EOF
+  fi
+fi
