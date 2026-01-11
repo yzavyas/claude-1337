@@ -1,7 +1,7 @@
 {
   "name": "terminal-1337",
   "description": "Modern CLI tools replacing legacy Unix utilities. Use when: searching files, listing directories, viewing files, making HTTP requests, or working in terminal.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"

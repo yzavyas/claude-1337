@@ -1,7 +1,7 @@
 {
   "name": "rust-1337",
   "description": "Rust development decisions. Use when: selecting crates, writing Rust for CLI, backend, frontend, native, or data-plane applications.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"
