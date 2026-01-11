@@ -1,11 +1,13 @@
 ---
 name: build-extension-builder
-description: "Build Claude cognitive extensions. Use when: creating skills/hooks/agents/commands/MCP/plugins, need templates, need quality validation, building for the 1337 marketplace."
+description: "Build Claude cognitive extensions with quality methodology. Composes with plugin-dev and agent-sdk-dev. Use when: creating skills/hooks/agents/commands/MCP/plugins, need quality validation, building for the 1337 marketplace."
 ---
 
 # Extension Builder
 
 Build cognitive extensions that enable effective collaboration, where both human and Claude grow through the partnership.
+
+> **Requires:** `plugin-dev@claude-plugins-official` and `agent-sdk-dev@claude-plugins-official` for authoritative schemas and templates. This skill adds quality methodology on top.
 
 ## Why This Matters
 

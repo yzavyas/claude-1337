@@ -1,7 +1,7 @@
 {
   "name": "1337-extension-builder",
-  "description": "Build Claude extensions — skills, hooks, agents, commands, MCP servers. Use when: creating extensions. Evidence-based methodology.",
-  "version": "0.2.1",
+  "description": "Build Claude extensions with quality methodology. Composes with plugin-dev and agent-sdk-dev for schemas. Use when: creating extensions, need quality validation, building for 1337 marketplace.",
+  "version": "0.2.2",
   "author": {
     "name": "yzavyas",
     "email": "yza.vyas@gmail.com"
