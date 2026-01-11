@@ -128,7 +128,7 @@ If not, revise.
 
 ### Why This Is Sacred
 
-Teaching isn't about one person. It's about cascade.
+Teaching creates cascade.
 
 A senior engineer teaches a junior to merge PRs without reviewing. That junior becomes a senior, teaches five more. Those five teach twenty-five. One bad lesson becomes organizational culture.
 

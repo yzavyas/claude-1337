@@ -1,6 +1,6 @@
 {
   "name": "rust-1337",
-  "description": "Rust development decisions - crate selection, patterns for CLI, backend, frontend, native, data-plane",
+  "description": "Rust development decisions. Use when: selecting crates, writing Rust for CLI, backend, frontend, native, or data-plane applications.",
   "version": "0.1.0",
   "author": {
     "name": "yzavyas",

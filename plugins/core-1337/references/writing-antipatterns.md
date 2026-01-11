@@ -38,6 +38,78 @@ Words that add length without meaning:
 
 ---
 
+## False Dichotomies
+
+### The Pattern
+
+"X isn't about Y, it's about Z"
+
+Examples:
+- "This isn't about DRY, it's about protecting collaborators"
+- "Plain language isn't dumbing down, it's making content credible"
+- "Teaching isn't about one person, it's about cascade"
+
+### The Problem
+
+These create artificial exclusion. Usually both things are true. The construction:
+1. Dismisses one valid perspective
+2. Elevates another as if they conflict
+3. Sounds profound but adds nothing
+
+### The Falsification Test
+
+When you write "isn't X, it's Y", ask: Can it be both X and Y?
+
+| Statement | Both true? | Fix |
+|-----------|------------|-----|
+| "Single source of truth isn't about DRY, it's about protecting collaborators" | Yes, it's both | "Single source of truth protects collaborators" |
+| "This isn't about being perfect, it's about catching yourself" | Yes, both | "Catch yourself and correct" |
+| "Plain language isn't dumbing down, it's credibility" | Yes, both | "Plain language makes content credible" |
+
+### Valid Dichotomies
+
+Some dichotomies are real:
+- "This is O(n), not O(n²)" (mutually exclusive)
+- "Use TCP for reliability, UDP for speed" (actual tradeoff)
+
+**Test:** If removing the first clause loses nothing, it's a false dichotomy.
+
+---
+
+## Em Dash Overuse
+
+### The Pattern
+
+Claude loves em dashes. They appear everywhere:
+- "The tool is fast — and reliable"
+- "Use this approach — it works better"
+- "Context matters — load what you need"
+
+### The Problem
+
+Em dashes become a verbal tic. They:
+- Add dramatic pause where none is needed
+- Replace more precise punctuation
+- Make everything sound like an aside
+
+### Alternatives
+
+| Em dash | Usually better |
+|---------|----------------|
+| "X — Y" (explanation) | "X: Y" or "X. Y" |
+| "X — Y" (aside) | "X (Y)" or rewrite |
+| "X — Y" (contrast) | "X, but Y" or "X; Y" |
+| "X — Y — Z" (nested) | Rewrite the sentence |
+
+### When Em Dashes Work
+
+- Actual interruption: "The server — the one we deployed yesterday — crashed"
+- Strong break in thought (rare)
+
+**Test:** Read aloud. If the pause feels forced, use different punctuation.
+
+---
+
 ## Structural Anti-Patterns
 
 ### Rule of Three Abuse
@@ -155,6 +227,10 @@ Research shows:
 - [ ] No Tier 1 red flag words
 - [ ] Superlatives backed by specifics
 - [ ] Filler adjectives replaced with concrete detail
+
+### Logic
+- [ ] No false dichotomies (run falsification test)
+- [ ] Em dashes used sparingly, not as verbal tic
 
 ### Structure
 - [ ] Paragraph lengths vary naturally

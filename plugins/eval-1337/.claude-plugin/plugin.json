@@ -1,6 +1,6 @@
 {
   "name": "eval-1337",
-  "description": "Write rigorous evals for LLM agents, skills, MCP servers, and prompts",
+  "description": "LLM evaluation methodology. Use when: writing evals for agents, skills, MCP servers, prompts, or measuring AI behavior.",
   "version": "0.1.0",
   "author": {
     "name": "yzavyas",

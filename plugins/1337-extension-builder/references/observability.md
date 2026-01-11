@@ -36,7 +36,7 @@ export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
 | `claude_code.api_error` | API call failed |
 | `claude_code.tool_decision` | Permission decision |
 
-**Architecture insight:** Claude Agent SDK uses IPC/WebSocket to communicate with Claude Code CLI, not direct HTTP to api.anthropic.com. Traditional HTTP monitoring tools are blind to this layer — you need hook-based or SDK-level observability.
+**Architecture insight:** Claude Agent SDK uses IPC/WebSocket to communicate with Claude Code CLI, not direct HTTP to api.anthropic.com. Traditional HTTP monitoring tools are blind to this layer. You need hook-based or SDK-level observability.
 
 ---
 

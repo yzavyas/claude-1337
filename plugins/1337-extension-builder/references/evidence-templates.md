@@ -1,6 +1,6 @@
 # Evidence Templates
 
-Copy-paste prompts for researching extensions. Use these exactly — don't interpret.
+Copy-paste prompts for researching extensions. Use these exactly, don't interpret.
 
 ## Step 1: Define Gap
 
