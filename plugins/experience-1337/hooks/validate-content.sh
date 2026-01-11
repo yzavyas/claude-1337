@@ -2,16 +2,17 @@
 # Content validation hook for experience/content/ markdown files
 # Suggests fixes without blocking - per collaborative agency principle
 
-# Get file path from tool input (passed as JSON via stdin)
-FILE_PATH=$(cat | jq -r '.file_path // empty')
+# Read stdin once (tool input as JSON)
+INPUT=$(cat)
+
+# Parse file path and content
+FILE_PATH=$(echo "$INPUT" | jq -r '.file_path // empty')
+CONTENT=$(echo "$INPUT" | jq -r '.content // empty')
 
 # Only validate files in experience/content/
 if [[ ! "$FILE_PATH" =~ experience/content/.*\.md$ ]]; then
     exit 0
 fi
-
-# Get the content being written
-CONTENT=$(cat | jq -r '.content // empty')
 ISSUES=""
 
 # Check for .md extensions in links: [text](path.md) or [text](path.md#anchor)
