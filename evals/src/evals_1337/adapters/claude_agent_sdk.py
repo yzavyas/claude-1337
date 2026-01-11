@@ -95,36 +95,41 @@ class ClaudeAgentSDKAdapter(RuntimePort):
         tokens_used = 0
 
         async for message in query(prompt=prompt, options=options):
-            # Handle different message types
-            if hasattr(message, 'type'):
-                if message.type == 'assistant':
-                    # Extract text content
-                    if hasattr(message, 'message') and hasattr(message.message, 'content'):
-                        for block in message.message.content:
-                            if hasattr(block, 'text'):
-                                text_parts.append(block.text)
-                            elif hasattr(block, 'type') and block.type == 'tool_use':
-                                tool_call = {
-                                    "name": getattr(block, 'name', 'unknown'),
-                                    "input": getattr(block, 'input', {}),
-                                }
-                                tool_calls.append(tool_call)
+            # Priority 1: Check for final result (most reliable)
+            if hasattr(message, 'result') and message.result:
+                text_parts.append(str(message.result))
+                # Token usage if available on result message
+                if hasattr(message, 'usage'):
+                    usage = message.usage
+                    tokens_used = getattr(usage, 'input_tokens', 0) + getattr(usage, 'output_tokens', 0)
+                continue
 
-                                # Track Skill tool calls specifically
-                                if block.name == 'Skill':
-                                    skill_input = getattr(block, 'input', {})
-                                    if isinstance(skill_input, dict) and 'skill' in skill_input:
-                                        skills_activated.append(skill_input['skill'])
+            # Priority 2: Check message type for assistant content
+            msg_type = getattr(message, 'type', None)
 
-                elif message.type == 'result':
-                    # Final result
-                    if hasattr(message, 'result'):
-                        text_parts.append(str(message.result))
+            if msg_type == 'assistant':
+                # Content is directly on message, not message.message
+                content = getattr(message, 'content', None)
+                if content:
+                    for block in content:
+                        if hasattr(block, 'text'):
+                            text_parts.append(block.text)
+                        elif hasattr(block, 'type') and block.type == 'tool_use':
+                            tool_call = {
+                                "name": getattr(block, 'name', 'unknown'),
+                                "input": getattr(block, 'input', {}),
+                            }
+                            tool_calls.append(tool_call)
 
-                    # Token usage if available
-                    if hasattr(message, 'usage'):
-                        usage = message.usage
-                        tokens_used = getattr(usage, 'input_tokens', 0) + getattr(usage, 'output_tokens', 0)
+                            # Track Skill tool calls specifically
+                            if getattr(block, 'name', '') == 'Skill':
+                                skill_input = getattr(block, 'input', {})
+                                if isinstance(skill_input, dict) and 'skill' in skill_input:
+                                    skills_activated.append(skill_input['skill'])
+
+            # Priority 3: Check for text attribute directly on message
+            elif hasattr(message, 'text') and message.text:
+                text_parts.append(str(message.text))
 
         duration_ms = int((time.monotonic() - start) * 1000)
 
@@ -233,24 +238,33 @@ class ClaudeAgentSDKWithSkillToolAdapter(RuntimePort):
         tokens_used = 0
 
         async for message in query(prompt=prompt, options=options):
-            if hasattr(message, 'type'):
-                if message.type == 'assistant':
-                    if hasattr(message, 'message') and hasattr(message.message, 'content'):
-                        for block in message.message.content:
-                            if hasattr(block, 'text'):
-                                text_parts.append(block.text)
-                            elif hasattr(block, 'type') and block.type == 'tool_use':
-                                tool_calls.append({
-                                    "name": getattr(block, 'name', 'unknown'),
-                                    "input": getattr(block, 'input', {}),
-                                })
+            # Priority 1: Check for final result (most reliable)
+            if hasattr(message, 'result') and message.result:
+                text_parts.append(str(message.result))
+                if hasattr(message, 'usage'):
+                    usage = message.usage
+                    tokens_used = getattr(usage, 'input_tokens', 0) + getattr(usage, 'output_tokens', 0)
+                continue
 
-                elif message.type == 'result':
-                    if hasattr(message, 'result'):
-                        text_parts.append(str(message.result))
-                    if hasattr(message, 'usage'):
-                        usage = message.usage
-                        tokens_used = getattr(usage, 'input_tokens', 0) + getattr(usage, 'output_tokens', 0)
+            # Priority 2: Check message type for assistant content
+            msg_type = getattr(message, 'type', None)
+
+            if msg_type == 'assistant':
+                # Content is directly on message, not message.message
+                content = getattr(message, 'content', None)
+                if content:
+                    for block in content:
+                        if hasattr(block, 'text'):
+                            text_parts.append(block.text)
+                        elif hasattr(block, 'type') and block.type == 'tool_use':
+                            tool_calls.append({
+                                "name": getattr(block, 'name', 'unknown'),
+                                "input": getattr(block, 'input', {}),
+                            })
+
+            # Priority 3: Check for text attribute directly on message
+            elif hasattr(message, 'text') and message.text:
+                text_parts.append(str(message.text))
 
         duration_ms = int((time.monotonic() - start) * 1000)
 
