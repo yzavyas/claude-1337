@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Curated skills and workflows for Claude Code. Production patterns, decision frameworks, evidence-based recommendations.",
-    "version": "0.1.0"
+    "version": "0.2.1"
   },
   "plugins": [
     {
       "name": "core-1337",
       "source": "./plugins/core-1337",
       "description": "Engineering excellence for builders. Use when: writing code, making technical decisions, refactoring, reviewing, completing implementation work.",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -34,7 +34,7 @@
       "name": "terminal-1337",
       "source": "./plugins/terminal-1337",
       "description": "Modern terminal tools: ripgrep, fd, bat, eza, fzf, xh, jq, atuin. Use when: searching files, grepping patterns, viewing code.",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -59,7 +59,7 @@
       "name": "rust-1337",
       "source": "./plugins/rust-1337",
       "description": "Rust production patterns. Use when: building Rust systems. Covers ownership decisions, async gotchas, crate selection, domain knowledge (networking, embedded, WASM, FFI, proc-macros).",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -80,14 +80,14 @@
       "category": "development",
       "strict": true,
       "skills": [
-        "./"
+        "./skills"
       ]
     },
     {
       "name": "kotlin-1337",
       "source": "./plugins/kotlin-1337",
       "description": "Elite Kotlin development patterns. Use when: writing Kotlin for backend (Ktor, Spring Boot), Android, Multiplatform. Covers coroutines, structured concurrency, Flow, scope functions, null safety, Java interop, testing (Kotest, MockK), benchmarking (kotlinx-benchmark).",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -110,14 +110,14 @@
       "category": "development",
       "strict": false,
       "skills": [
-        "./"
+        "./skills"
       ]
     },
     {
       "name": "jvm-analysis-1337",
       "source": "./plugins/jvm-analysis-1337",
       "description": "JVM static and runtime analysis. Use when: finding dead code, optimizing Java/Kotlin apps, profiling, debugging memory leaks. Covers SootUp, Scavenger, async-profiler, JFR, ProGuard.",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -128,14 +128,14 @@
       "category": "development",
       "strict": false,
       "skills": [
-        "./"
+        "./skills"
       ]
     },
     {
       "name": "1337-extension-builder",
       "source": "./plugins/1337-extension-builder",
       "description": "Build Claude extensions — skills, hooks, agents, commands, MCP servers. Use when: creating extensions. Evidence-based methodology.",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -152,14 +152,14 @@
       "category": "development",
       "strict": false,
       "skills": [
-        "./"
+        "./skills"
       ]
     },
     {
       "name": "sensei-1337",
       "source": "./plugins/sensei-1337",
       "description": "Documentation methodology. Feynman technique meets Diataxis. Use when: writing docs, tutorials, explanations, READMEs. Includes feynman agent.",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -178,14 +178,14 @@
       "category": "development",
       "strict": false,
       "skills": [
-        "./"
+        "./skills"
       ]
     },
     {
       "name": "eval-1337",
       "source": "./plugins/eval-1337",
       "description": "Write rigorous evals for LLM agents, skills, MCP servers, and prompts. Use when: building test suites, measuring effectiveness, choosing frameworks. Covers: DeepEval, Braintrust, RAGAS, precision/recall, F1.",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -210,14 +210,14 @@
       "category": "development",
       "strict": false,
       "skills": [
-        "./"
+        "./skills"
       ]
     },
     {
       "name": "experience-1337",
       "source": "./plugins/experience-1337",
       "description": "Frontend experience engineering. Use when: animations, 3D/WebGL, scrollytelling, data visualization, typography, color systems, design patterns. Covers Motion, GSAP, Three.js, R3F, Threlte, D3, OKLCH, fluid type.",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -245,7 +245,7 @@
       "category": "development",
       "strict": false,
       "skills": [
-        "./"
+        "./skills"
       ]
     }
   ]
