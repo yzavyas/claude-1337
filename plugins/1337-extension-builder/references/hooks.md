@@ -99,18 +99,18 @@ hooks.json
 
 ## Events
 
-| event | when | can block? | use case |
-|-------|------|------------|----------|
-| `PreToolUse` | before tool execution | yes | validate, transform |
-| `PostToolUse` | after tool success | yes | log, notify |
-| `UserPromptSubmit` | user sends message | yes | filter, augment |
-| `Stop` | main agent finishes | yes | cleanup, summary |
-| `SubagentStop` | subagent finishes | yes | aggregate |
-| `PermissionRequest` | permission dialog | yes | auto-approve |
-| `SessionStart` | session begins | no | init |
-| `SessionEnd` | session terminates | no | cleanup |
-| `PreCompact` | before context compaction | no | preserve |
-| `Notification` | claude sends notification | no | forward |
+| event | when | can block? | matcher | use case |
+|-------|------|------------|---------|----------|
+| `PreToolUse` | before tool execution | yes | required | validate, transform |
+| `PostToolUse` | after tool success | yes | required | log, notify |
+| `PermissionRequest` | permission dialog | yes | required | auto-approve |
+| `UserPromptSubmit` | user sends message | yes | optional | filter, augment |
+| `Stop` | main agent finishes | yes | optional | cleanup, summary |
+| `SubagentStop` | subagent finishes | yes | optional | aggregate |
+| `SessionStart` | session begins | no | optional | init |
+| `SessionEnd` | session terminates | no | optional | cleanup |
+| `PreCompact` | before context compaction | no | optional | preserve |
+| `Notification` | claude sends notification | no | optional | forward |
 
 ### Exit Codes
 
@@ -199,6 +199,75 @@ Available in all command hooks:
 | `$CLAUDE_CODE_REMOTE` | Set if running in remote context |
 
 **Always use `${CLAUDE_PLUGIN_ROOT}` for portable hook scripts.**
+
+---
+
+## Hook Input/Output
+
+### Input (JSON via stdin)
+
+All command hooks receive JSON:
+
+```json
+{
+  "session_id": "abc123",
+  "transcript_path": "/path/to/transcript.jsonl",
+  "cwd": "/current/working/directory",
+  "permission_mode": "default|plan|acceptEdits|dontAsk|bypassPermissions",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_input": { "command": "npm test" },
+  "tool_use_id": "toolu_01ABC123..."
+}
+```
+
+### Output (JSON to stdout)
+
+Return JSON with exit code 0:
+
+```json
+{
+  "continue": true,
+  "systemMessage": "Optional warning to show user"
+}
+```
+
+#### Event-Specific Output
+
+**PreToolUse** can modify tool behavior:
+
+```json
+{
+  "continue": true,
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "allow|deny|ask",
+    "permissionDecisionReason": "Why this decision",
+    "updatedInput": { "command": "modified-command" }
+  }
+}
+```
+
+**UserPromptSubmit** can inject context:
+
+```json
+{
+  "continue": true,
+  "hookSpecificOutput": {
+    "hookEventName": "UserPromptSubmit",
+    "additionalContext": "Context to add to prompt"
+  }
+}
+```
+
+**Stop/SubagentStop** can prevent completion:
+
+```json
+{
+  "decision": "block",
+  "reason": "Tasks incomplete"
+}
+```
 
 ---
 
