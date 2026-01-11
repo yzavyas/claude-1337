@@ -1,8 +1,15 @@
 {
-  "hooks": [
-    {
-      "event": "SessionStart",
-      "script": "./hooks/skill-eval.sh"
-    }
-  ]
+  "description": "Session context: skill awareness, evidence-based recommendations",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/skill-eval.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
