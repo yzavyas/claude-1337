@@ -23,6 +23,16 @@ const config = {
 		paths: {
 			base: process.env.NODE_ENV === 'production' ? '/claude-1337' : ''
 		},
+		prerender: {
+			handleHttpError: ({ path, referrer, message }) => {
+				// Ignore 404s for paths that aren't web routes (e.g., /plugins/)
+				if (message.includes('404')) {
+					console.warn(`Warning: ${path} not found (linked from ${referrer})`);
+					return;
+				}
+				throw new Error(message);
+			}
+		},
 		alias: {
 			$components: 'src/lib/components',
 			$styles: 'src/lib/styles',
