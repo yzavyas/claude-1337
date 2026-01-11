@@ -1,5 +1,5 @@
 ---
-name: terminal-1337
+name: terminal
 description: "Modern CLI tools replacing legacy Unix utilities. Use when: grep/find too slow on large codebases, find syntax confusing, need syntax highlighting in terminal, directory listings need git status, curl commands too verbose, shell history search inadequate, want fuzzy file/command selection. Detect before use, suggest installation if missing."
 ---
 

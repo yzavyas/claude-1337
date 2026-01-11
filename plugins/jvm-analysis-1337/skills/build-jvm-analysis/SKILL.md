@@ -1,5 +1,5 @@
 ---
-name: jvm-analysis-1337
+name: build-jvm-analysis
 description: "JVM runtime analysis. Use when: profiling JVM performance, tuning GC, debugging memory leaks, finding dead code with production data. Not for general Java development or syntax questions."
 ---
 

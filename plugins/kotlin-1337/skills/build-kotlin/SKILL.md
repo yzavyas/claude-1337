@@ -1,5 +1,5 @@
 ---
-name: kotlin-1337
+name: build-kotlin
 description: "Elite Kotlin development patterns. Use when: writing Kotlin for backend (Ktor, Spring Boot), Android, Multiplatform. Covers coroutines, structured concurrency, Flow, scope functions, null safety, Java interop, testing (Kotest, MockK), benchmarking (kotlinx-benchmark)."
 ---
 

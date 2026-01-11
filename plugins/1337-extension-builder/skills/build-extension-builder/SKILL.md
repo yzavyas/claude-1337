@@ -1,5 +1,5 @@
 ---
-name: 1337-extension-builder
+name: build-extension-builder
 description: "Build Claude cognitive extensions. Use when: creating skills/hooks/agents/commands/MCP/plugins, need templates, need quality validation, building for the 1337 marketplace."
 ---
 
