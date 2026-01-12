@@ -12,6 +12,9 @@ on:
       - 'workaround-hooks.json'
       - 'install-workaround.sh'
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
