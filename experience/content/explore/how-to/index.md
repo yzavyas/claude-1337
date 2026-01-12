@@ -4,6 +4,10 @@ Task-oriented guides for specific goals.
 
 ---
 
+## Installation
+
+- [Troubleshoot Plugin Loading](troubleshoot.md) — Known issues and workarounds
+
 ## Contributing
 
 - [How to Contribute](contribute.md) — Build and submit plugins

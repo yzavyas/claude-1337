@@ -46,6 +46,18 @@
 			<span class="copy-hint">{copied ? 'Copied!' : 'copy'}</span>
 		</button>
 		<p class="install-note">Then browse and install individual plugins with <code>/plugin</code></p>
+
+		<div class="troubleshoot">
+			<p class="troubleshoot-label">Known issues</p>
+			<p class="troubleshoot-links">
+				<a href="https://github.com/anthropics/claude-code/issues/14815">#14815</a>,
+				<a href="https://github.com/anthropics/claude-code/issues/14061">#14061</a>,
+				<a href="https://github.com/anthropics/claude-code/issues/15369">#15369</a>
+			</p>
+			<p class="troubleshoot-links">
+				Workaround → <a href="{base}/explore/how-to/troubleshoot">How-To</a>
+			</p>
+		</div>
 	</section>
 
 	<div class="secondary-link">
@@ -241,6 +253,33 @@
 	.install-note code {
 		font-family: var(--font-mono);
 		color: var(--color-text-secondary);
+	}
+
+	.troubleshoot {
+		margin-top: var(--space-6);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.troubleshoot-label {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+		margin-bottom: var(--space-2);
+	}
+
+	.troubleshoot-links {
+		font-size: var(--text-xs);
+		color: var(--color-text-muted);
+	}
+
+	.troubleshoot-links a {
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		transition: color var(--duration-fast) var(--ease-out);
+	}
+
+	.troubleshoot-links a:hover {
+		color: var(--color-accent);
 	}
 
 	.secondary-link {
