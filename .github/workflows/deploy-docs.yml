@@ -2,7 +2,7 @@ name: Deploy Experience to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
     paths:
       - 'experience/**'
       - '.claude-plugin/marketplace.json'
