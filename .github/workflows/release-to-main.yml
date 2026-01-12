@@ -30,15 +30,11 @@ jobs:
 
       - name: Sync marketplace files from dev
         run: |
-          # Get marketplace files from dev (only marketplace.json, not metadata.json)
           git checkout dev -- plugins/
           git checkout dev -- .claude-plugin/marketplace.json
           git checkout dev -- .gitignore
           git checkout dev -- LICENSE
           git checkout dev -- README.md
-          # Remove any non-marketplace files
-          rm -f .claude-plugin/metadata.json
-          git add .claude-plugin/
 
       - name: Commit and push
         run: |
