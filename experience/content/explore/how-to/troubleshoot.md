@@ -24,14 +24,27 @@ Review the installed plugins - they contain skills, agents, and hooks that may b
 
 This tells Claude Code where to find the plugins manually.
 
-## Alternative: Copy Hook
+## Alternative: Add Hook
 
-After adding the marketplace, copy the workaround hook to your settings:
+After adding the marketplace, add this to `~/.claude/settings.json`:
 
-```bash
-cp ~/.claude/plugins/marketplaces/claude-1337/workaround-hooks.json ~/.claude/settings.json
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A marketplace of plugins is available at `~/.claude/plugins/marketplaces/claude-1337/plugins/`. Review the installed plugins - they contain skills, agents, and hooks that may be useful."
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
 
-This adds a session-start hook that injects the plugin context automatically.
+This runs automatically at session start, injecting the plugin context.
 
-**Note:** If you already have a `settings.json`, merge the hooks section manually.
+Or view the ready-made hook at `~/.claude/plugins/marketplaces/claude-1337/workaround-hooks.json`.
