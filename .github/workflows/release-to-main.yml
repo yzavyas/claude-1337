@@ -1,18 +1,18 @@
-name: Release to Main
+name: Sync to Main
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to release (e.g., 0.2.2)'
-        required: true
-        type: string
+  push:
+    branches: [dev]
+    paths:
+      - 'plugins/**'
+      - '.claude-plugin/marketplace.json'
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
 
 jobs:
-  release:
+  sync:
     runs-on: ubuntu-latest
-    env:
-      RELEASE_VERSION: ${{ inputs.version }}
     steps:
       - name: Checkout dev
         uses: actions/checkout@v4
@@ -39,6 +39,5 @@ jobs:
       - name: Commit and push
         run: |
           git add -A
-          git commit -m "release: v${RELEASE_VERSION}" || echo "No changes to commit"
-          git tag "v${RELEASE_VERSION}"
-          git push origin main --tags
+          git commit -m "sync: from dev" || echo "No changes to commit"
+          git push origin main
