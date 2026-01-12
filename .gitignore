@@ -1,3 +1,6 @@
+# Claude Code local config
+.claude/
+
 # Scratch directories for temporary work
 scratch/
 experience/lab/

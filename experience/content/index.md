@@ -6,13 +6,19 @@ AI collaboration usually fails — unless it's designed around transparency and 
 
 ## Install
 
-```bash
-claude install claude-1337
 ```
+/plugin marketplace add yzavyas/claude-1337
+```
+
+```
+/plugin install core-1337@claude-1337
+```
+
+See [INSTALL.md](https://github.com/yzavyas/claude-1337/blob/main/INSTALL.md) if plugins don't load.
 
 ## Browse Extensions
 
-See [plugins/](plugins/) for all available extensions.
+See [Catalog](/catalog/) for all available extensions.
 
 | Type | What it extends |
 |------|-----------------|

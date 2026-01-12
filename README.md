@@ -6,10 +6,15 @@ A marketplace of cognitive extensions for Claude Code.
 
 ## Install
 
-```bash
+```
 /plugin marketplace add yzavyas/claude-1337
+```
+
+```
 /plugin install core-1337@claude-1337
 ```
+
+See [INSTALL.md](INSTALL.md) if plugins don't load.
 
 ## Contributing
 
