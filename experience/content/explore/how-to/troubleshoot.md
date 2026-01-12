@@ -23,3 +23,26 @@ Review the installed plugins - they contain skills, agents, and hooks that may b
 ```
 
 This tells Claude Code where to find the plugins manually.
+
+## Alternative: Add Hook Locally
+
+You can also add a session-start hook to `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A marketplace of plugins is available at `~/.claude/plugins/marketplaces/claude-1337/plugins/`. Review the installed plugins - they contain skills, agents, and hooks that may be useful."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+This runs automatically at session start, injecting the plugin context.
