@@ -38,6 +38,7 @@ See [Catalog](/catalog/) for all available extensions.
 | **command** | Repeatable workflows |
 | **mcp** | External systems |
 
-## Why this approach
+## Learn more
 
-[Ethos](/explore/explanation/ethos)
+- [How to Contribute](/explore/how-to/contribute)
+- [Ethos](/explore/explanation/ethos)
