@@ -9,6 +9,7 @@ on:
       - 'README.md'
       - 'LICENSE'
       - '.gitignore'
+      - 'workaround-hooks.json'
 
 jobs:
   sync:
@@ -35,6 +36,7 @@ jobs:
           git checkout dev -- .gitignore
           git checkout dev -- LICENSE
           git checkout dev -- README.md
+          git checkout dev -- workaround-hooks.json
 
       - name: Commit and push
         run: |

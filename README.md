@@ -18,7 +18,13 @@ A marketplace of cognitive extensions for Claude Code.
 
 Known issues: [#14815](https://github.com/anthropics/claude-code/issues/14815), [#14061](https://github.com/anthropics/claude-code/issues/14061), [#15369](https://github.com/anthropics/claude-code/issues/15369)
 
-Workaround: add the marketplace, then paste this into `~/.claude/CLAUDE.md`:
+Workaround: copy the hook file to your settings:
+
+```bash
+cp ~/.claude/plugins/marketplaces/claude-1337/workaround-hooks.json ~/.claude/settings.json
+```
+
+Or paste this into `~/.claude/CLAUDE.md`:
 
 ```markdown
 A marketplace of plugins is available at `~/.claude/plugins/marketplaces/claude-1337/plugins/`.
