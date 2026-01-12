@@ -16,7 +16,9 @@ A marketplace of cognitive extensions for Claude Code.
 
 ### If plugins don't load
 
-Known [plugin cache issues](https://github.com/anthropics/claude-code/issues?q=is%3Aissue+plugin+cache). Workaround: add the marketplace, then paste this into `~/.claude/CLAUDE.md`:
+Known issues: [#14815](https://github.com/anthropics/claude-code/issues/14815), [#14061](https://github.com/anthropics/claude-code/issues/14061), [#15369](https://github.com/anthropics/claude-code/issues/15369)
+
+Workaround: add the marketplace, then paste this into `~/.claude/CLAUDE.md`:
 
 ```markdown
 A marketplace of plugins is available at `~/.claude/plugins/marketplaces/claude-1337/plugins/`.
@@ -26,7 +28,7 @@ Review the installed plugins - they contain skills, agents, and hooks that may b
 
 ## Contributing
 
-See the [contributor guide](https://yzavyas.github.io/claude-1337/explore/how-to/contribute/).
+See [CONTRIBUTING.md](CONTRIBUTING.md) or the [contributor guide](https://yzavyas.github.io/claude-1337/explore/how-to/contribute/).
 
 ## License
 
