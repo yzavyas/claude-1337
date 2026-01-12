@@ -1,0 +1,45 @@
+
+// this file is generated — do not edit it
+
+
+declare module "svelte/elements" {
+	export interface HTMLAttributes<T> {
+		'data-sveltekit-keepfocus'?: true | '' | 'off' | undefined | null;
+		'data-sveltekit-noscroll'?: true | '' | 'off' | undefined | null;
+		'data-sveltekit-preload-code'?:
+			| true
+			| ''
+			| 'eager'
+			| 'viewport'
+			| 'hover'
+			| 'tap'
+			| 'off'
+			| undefined
+			| null;
+		'data-sveltekit-preload-data'?: true | '' | 'hover' | 'tap' | 'off' | undefined | null;
+		'data-sveltekit-reload'?: true | '' | 'off' | undefined | null;
+		'data-sveltekit-replacestate'?: true | '' | 'off' | undefined | null;
+	}
+}
+
+export {};
+
+
+declare module "$app/types" {
+	export interface AppTypes {
+		RouteId(): "/" | "/catalog" | "/ethos" | "/reference" | "/[...path]";
+		RouteParams(): {
+			"/[...path]": { path: string }
+		};
+		LayoutParams(): {
+			"/": { path?: string };
+			"/catalog": Record<string, never>;
+			"/ethos": Record<string, never>;
+			"/reference": Record<string, never>;
+			"/[...path]": { path: string }
+		};
+		Pathname(): "/" | "/catalog" | "/catalog/" | "/ethos" | "/ethos/" | "/reference" | "/reference/" | `/${string}` & {} | `/${string}/` & {};
+		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
+		Asset(): "/robots.txt" | string & {};
+	}
+}
