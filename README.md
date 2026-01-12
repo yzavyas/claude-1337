@@ -18,12 +18,10 @@ A marketplace of cognitive extensions for Claude Code.
 
 Known issues: [#14815](https://github.com/anthropics/claude-code/issues/14815), [#14061](https://github.com/anthropics/claude-code/issues/14061), [#15369](https://github.com/anthropics/claude-code/issues/15369)
 
-Workaround: paste this into `~/.claude/CLAUDE.md`:
+Workaround:
 
-```markdown
-A marketplace of plugins is available at `~/.claude/plugins/marketplaces/claude-1337/plugins/`.
-
-Review the installed plugins - they contain skills, agents, and hooks that may be useful. Review descriptions to understand when each is relevant.
+```bash
+~/.claude/plugins/marketplaces/claude-1337/install-workaround.sh
 ```
 
 ## Contributing

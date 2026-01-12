@@ -10,6 +10,7 @@ on:
       - 'LICENSE'
       - '.gitignore'
       - 'workaround-hooks.json'
+      - 'install-workaround.sh'
 
 jobs:
   sync:
@@ -37,6 +38,7 @@ jobs:
           git checkout dev -- LICENSE
           git checkout dev -- README.md
           git checkout dev -- workaround-hooks.json
+          git checkout dev -- install-workaround.sh
 
       - name: Commit and push
         run: |
