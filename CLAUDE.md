@@ -246,6 +246,27 @@ scratch/        → Working documents, session context
 scratch/archive/→ Older valuable context (don't load by default)
 ```
 
+### Branch Workflow
+
+| Branch | Purpose | Content |
+|--------|---------|---------|
+| **dev** | Main development | Everything (plugins, evals, experience, scripts, CLAUDE.md) |
+| **main** | Marketplace distribution | Plugins only (plugins/, .claude-plugin/, README, LICENSE) |
+
+**Why split?** Claude Code marketplace clones the entire repo. Main must be clean for users.
+
+**Workflow:**
+1. All development happens on `dev`
+2. PRs target `dev` branch
+3. Docs deploy from `dev` (GitHub Pages)
+4. To release: run "Release to Main" workflow (Actions → Release to Main → Run)
+5. Release workflow syncs plugins/ from dev to main and tags
+
+**Release workflow** (`.github/workflows/release-to-main.yml`):
+- Triggered manually with version input
+- Copies marketplace files from dev to main
+- Creates version tag
+
 ### Documentation Architecture
 
 | Component type | Documentation |

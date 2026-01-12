@@ -1,0 +1,45 @@
+name: Release to Main
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 0.2.2)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Checkout main
+        run: git checkout main
+
+      - name: Sync marketplace files from dev
+        run: |
+          # Get marketplace files from dev
+          git checkout dev -- plugins/
+          git checkout dev -- .claude-plugin/
+          git checkout dev -- .gitignore
+          git checkout dev -- LICENSE
+          git checkout dev -- README.md
+
+      - name: Commit and push
+        run: |
+          git add -A
+          git commit -m "release: v${RELEASE_VERSION}" || echo "No changes to commit"
+          git tag "v${RELEASE_VERSION}"
+          git push origin main --tags
