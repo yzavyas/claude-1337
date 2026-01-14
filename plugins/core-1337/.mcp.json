@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pythea": {
+      "command": "uvx",
+      "args": ["--from", "pythea", "strawberry-mcp"],
+      "env": {},
+      "description": "Procedural hallucination detection. Use when: verifying reasoning chains, checking if cited evidence was actually used, auditing information budget for complex responses."
+    }
+  }
+}
