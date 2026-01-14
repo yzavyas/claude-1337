@@ -6,6 +6,10 @@ A marketplace of cognitive extensions for Claude Code.
 
 ## Install
 
+### If plugins don't load
+
+Known issues with Claude Code plugin auto-loading: [#14815](https://github.com/anthropics/claude-code/issues/14815), [#14061](https://github.com/anthropics/claude-code/issues/14061), [#15369](https://github.com/anthropics/claude-code/issues/15369)
+
 Three options depending on your setup:
 
 ### Option 1: Marketplace (recommended)
@@ -29,7 +33,7 @@ cd claude-1337
 
 ### Option 3: Workaround hook
 
-If marketplace plugins don't auto-load ([#14815](https://github.com/anthropics/claude-code/issues/14815), [#14061](https://github.com/anthropics/claude-code/issues/14061), [#15369](https://github.com/anthropics/claude-code/issues/15369)):
+Adds a SessionStart hook to prompt Claude about installed plugins:
 
 ```bash
 # After Option 1
