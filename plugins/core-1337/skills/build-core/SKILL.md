@@ -245,6 +245,30 @@ You're not done when it works. You're done when it's right.
 | **Project** | Is the codebase better? | Not done |
 | **Compound** | Is the next change easier? | Reconsider |
 
+### Reasoning Verification
+
+Code verification catches bugs. Reasoning verification catches a different failure mode: **conclusions that don't follow from the evidence**.
+
+| Layer | What it catches | When to use |
+|-------|-----------------|-------------|
+| **CoVe** (process) | Claims made without verification | Before stating anything non-trivial |
+| **Pythea** (output) | Evidence retrieved but not used | After complex reasoning chains |
+
+**Chain of Verification (CoVe):**
+```
+Draft → Question → Check → Refine
+```
+
+Before stating a claim: What was measured? Correlation or causation? Replicated? Counter-evidence?
+
+**Procedural Hallucination Detection:**
+
+The "strawberry problem": Claude counts r's correctly, then outputs the wrong number. The information was generated - the routing failed.
+
+When reasoning chains are complex, run `mcp__pythea__detect_hallucination` to verify conclusions follow from cited evidence.
+
+See [reasoning-verification.md](references/reasoning-verification.md) for full methodology.
+
 ### Code Hygiene
 
 - No dead code left behind
@@ -304,6 +328,7 @@ See [kaizen-crystallization.md](references/kaizen-crystallization.md).
 | Anti-patterns in depth | [behavioral-awareness.md](references/behavioral-awareness.md) |
 | Reasoning scaffolds | [reasoning-scaffolds.md](references/reasoning-scaffolds.md) |
 | Crystallization | [kaizen-crystallization.md](references/kaizen-crystallization.md) |
-| Verification | [verification-patterns.md](references/verification-patterns.md) |
+| Code verification | [verification-patterns.md](references/verification-patterns.md) |
+| Reasoning verification | [reasoning-verification.md](references/reasoning-verification.md) |
 | Writing quality | [writing-antipatterns.md](references/writing-antipatterns.md) |
 | Research foundations | [research-foundations.md](references/research-foundations.md) |

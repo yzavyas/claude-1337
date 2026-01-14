@@ -1,6 +1,6 @@
 ---
 name: build-eval
-description: "Write rigorous evals for LLM agents, skills, MCP servers, and prompts. Use when: building test suites, measuring agent effectiveness, evaluating tool reliability, or choosing eval frameworks. Covers: DeepEval, Braintrust, RAGAS, precision/recall, F1, task completion, pass@k."
+description: "Write rigorous evals for LLM agents, multi-agent systems, skills, MCP servers, and prompts. Use when: building test suites, measuring agent effectiveness, evaluating coordination, or choosing eval frameworks. Covers: DeepEval, Braintrust, RAGAS, precision/recall, F1, task completion, pass@k, iterative metrics, multi-agent coordination."
 ---
 
 # Eval-1337
@@ -37,6 +37,8 @@ Single metrics lie. You need to measure BOTH failure modes.
 | **Research** | Model (groundedness, coverage) | Claim support, source quality | Custom |
 | **Computer Use** | Code (screenshot, state inspection) | GUI state, file system | WebArena, OSWorld |
 | **Skills** | Code (activation) + Model (methodology) | F1 + adherence rubric | Custom |
+| **Multi-Agent** | Multi (milestones + coordination) | Task score, handoff success | MultiAgentBench |
+| **Pipeline** | Per-stage + handoffs + end-to-end | Stage success, bottleneck | Custom |
 
 ## Non-Determinism Metrics
 
@@ -50,6 +52,38 @@ LLMs are stochastic. Run 5+ trials per task.
 **Example:** 75% per-trial success → pass@3 ≈ 98%, pass^3 ≈ 42%.
 
 Use pass@k for exploration; pass^k for production reliability.
+
+## Iterative Metrics (Ralph Pattern)
+
+Traditional pass@k treats trials as independent. Iterative eval uses failures as feedback:
+
+| Metric | Formula | Question |
+|--------|---------|----------|
+| **pass@k (iterative)** | Success within k retries with feedback | Can it recover? |
+| **iterations_to_pass** | Retries until success | Learning speed |
+| **recovery_rate** | (pass@k - pass@1) / (1 - pass@1) | % failures that recover |
+| **feedback_sensitivity** | Δscore per iteration | Does guidance help? |
+
+**Use case:** Agent has 60% pass@1. Is that its ceiling, or can it do better with feedback?
+
+```
+Iterative eval result:
+├── pass@1: 60%         (baseline)
+├── pass@3: 91%         (with retry + feedback)
+└── recovery_rate: 78%  → Deploy with retry loop, not better prompts
+```
+
+## Multi-Agent Metrics
+
+Single-agent metrics miss coordination failures:
+
+| Metric | Formula | Measures |
+|--------|---------|----------|
+| **Task Score** | Σ(milestone × weight) | Goal achievement |
+| **Handoff Success** | Completed / expected | Task transfers work? |
+| **Comm Efficiency** | Useful messages / total | Signal vs noise |
+| **Role Adherence** | On-role actions / total | Staying specialized? |
+| **ToM Score** | Passed scenarios / total | Theory of mind |
 
 ## Match Metric to Target
 
@@ -162,6 +196,23 @@ AGENTS
   Research: LLM groundedness + coverage
   Metrics: pass@k (exploration), pass^k (reliability)
 
+MULTI-AGENT
+  Task: Milestone-weighted task score
+  Coordination: Handoff success, comm efficiency
+  Roles: Role adherence, work duplication
+  Advanced: Theory of Mind (ToM) scenarios
+
+PIPELINE (Sequential A → B → C)
+  Level 1: Single-agent metrics per stage
+  Level 2: Handoff quality between stages
+  Level 3: End-to-end pipeline metrics
+  Key: Find bottleneck stage, error propagation
+
+ITERATIVE (Ralph Pattern)
+  When: Deciding retry loop vs better prompts
+  Metrics: iterations_to_pass, recovery_rate, feedback_sensitivity
+  Key insight: pass@1 ≠ capability ceiling
+
 SKILLS
   Level 1 (Activation): F1 with labeled expectations
   Level 2 (Methodology): GEval rubric (evidence, WHY, verification)
@@ -187,6 +238,9 @@ OBSERVABILITY
 | Detected | Load |
 |----------|------|
 | agent, task completion, pass@k | [agents.md](references/agents.md) |
+| multi-agent, coordination, handoff | [multi-agent.md](references/multi-agent.md) |
+| pipeline, sequential, stage, chain | [multi-agent.md](references/multi-agent.md#pipeline-evaluation-chainsequential) |
+| iterative, retry, recovery, ralph | [iterative.md](references/iterative.md) |
 | skill, activation, trigger | [skills.md](references/skills.md) |
 | methodology, behavioral, adherence | [methodology.md](references/methodology.md) |
 | MCP, tool call, server | [mcp.md](references/mcp.md) |
