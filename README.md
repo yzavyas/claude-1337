@@ -26,6 +26,12 @@ Workaround:
 
 ## Contributing
 
+Development happens on the `dev` branch. This `main` branch is for marketplace distribution only.
+
+```bash
+git checkout dev
+```
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) or the [contributor guide](https://yzavyas.github.io/claude-1337/explore/how-to/contribute/).
 
 ## License
