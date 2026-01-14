@@ -1,0 +1,176 @@
+{
+  "name": "eval-1337-activation",
+  "version": "1.0.0",
+  "skill": "build-eval",
+  "description": "Test cases for eval-1337 skill activation",
+  "cases": [
+    {
+      "id": "must-001",
+      "prompt": "How do I write evals for my coding agent?",
+      "expectation": "must_trigger",
+      "rationale": "Direct eval question for agents"
+    },
+    {
+      "id": "must-002",
+      "prompt": "What metrics should I use to measure my LLM's performance?",
+      "expectation": "must_trigger",
+      "rationale": "Metrics for LLM evaluation"
+    },
+    {
+      "id": "must-003",
+      "prompt": "How do I test if my skill activates correctly?",
+      "expectation": "must_trigger",
+      "rationale": "Skill activation testing"
+    },
+    {
+      "id": "must-004",
+      "prompt": "What's the difference between precision and recall for my classifier?",
+      "expectation": "must_trigger",
+      "rationale": "Classification metrics"
+    },
+    {
+      "id": "must-005",
+      "prompt": "Should I use DeepEval or Braintrust for my agent evals?",
+      "expectation": "must_trigger",
+      "rationale": "Framework selection"
+    },
+    {
+      "id": "must-006",
+      "prompt": "How do I evaluate a multi-agent system?",
+      "expectation": "must_trigger",
+      "rationale": "Multi-agent evaluation"
+    },
+    {
+      "id": "must-007",
+      "prompt": "What is pass@k and when should I use it?",
+      "expectation": "must_trigger",
+      "rationale": "Non-determinism metrics"
+    },
+    {
+      "id": "must-008",
+      "prompt": "How do I measure if my MCP server tools are working correctly?",
+      "expectation": "must_trigger",
+      "rationale": "MCP server evaluation"
+    },
+    {
+      "id": "must-009",
+      "prompt": "I need to build a test suite for my AI agent",
+      "expectation": "must_trigger",
+      "rationale": "Test suite building"
+    },
+    {
+      "id": "must-010",
+      "prompt": "How do I red team my LLM application?",
+      "expectation": "must_trigger",
+      "rationale": "Security/adversarial testing"
+    },
+    {
+      "id": "must-011",
+      "prompt": "What benchmarks exist for coding agents?",
+      "expectation": "must_trigger",
+      "rationale": "Benchmark reference"
+    },
+    {
+      "id": "must-012",
+      "prompt": "How do I create a labeled dataset for my evals?",
+      "expectation": "must_trigger",
+      "rationale": "Dataset creation"
+    },
+    {
+      "id": "must-013",
+      "prompt": "My agent passes 60% of tests. Is that good? How do I improve?",
+      "expectation": "must_trigger",
+      "rationale": "Eval interpretation and improvement"
+    },
+    {
+      "id": "must-014",
+      "prompt": "How do I evaluate handoffs between agents in a pipeline?",
+      "expectation": "must_trigger",
+      "rationale": "Pipeline evaluation"
+    },
+    {
+      "id": "must-015",
+      "prompt": "What's the difference between task completion and tool correctness metrics?",
+      "expectation": "must_trigger",
+      "rationale": "Agent metric distinction"
+    },
+    {
+      "id": "not-001",
+      "prompt": "Write a Python function to calculate factorial",
+      "expectation": "should_not_trigger",
+      "rationale": "Generic coding task, no eval context"
+    },
+    {
+      "id": "not-002",
+      "prompt": "Explain how async/await works in JavaScript",
+      "expectation": "should_not_trigger",
+      "rationale": "Language explanation, not eval"
+    },
+    {
+      "id": "not-003",
+      "prompt": "Help me debug this React component",
+      "expectation": "should_not_trigger",
+      "rationale": "Debugging task, not eval"
+    },
+    {
+      "id": "not-004",
+      "prompt": "What database should I use for my application?",
+      "expectation": "should_not_trigger",
+      "rationale": "Architecture question, not eval"
+    },
+    {
+      "id": "not-005",
+      "prompt": "Write unit tests for this function",
+      "expectation": "should_not_trigger",
+      "rationale": "Unit tests != LLM evals"
+    },
+    {
+      "id": "not-006",
+      "prompt": "How do I deploy my app to AWS?",
+      "expectation": "should_not_trigger",
+      "rationale": "Deployment, not eval"
+    },
+    {
+      "id": "not-007",
+      "prompt": "Explain the CAP theorem",
+      "expectation": "should_not_trigger",
+      "rationale": "Distributed systems concept, not eval"
+    },
+    {
+      "id": "not-008",
+      "prompt": "Help me write a CLI tool in Rust",
+      "expectation": "should_not_trigger",
+      "rationale": "Rust coding, not eval"
+    },
+    {
+      "id": "not-009",
+      "prompt": "What's the best way to handle authentication?",
+      "expectation": "should_not_trigger",
+      "rationale": "Auth architecture, not eval"
+    },
+    {
+      "id": "not-010",
+      "prompt": "Review this pull request for me",
+      "expectation": "should_not_trigger",
+      "rationale": "Code review, not LLM eval"
+    },
+    {
+      "id": "edge-001",
+      "prompt": "How do I test my code?",
+      "expectation": "acceptable",
+      "rationale": "Ambiguous - could be unit tests or LLM evals"
+    },
+    {
+      "id": "edge-002",
+      "prompt": "What metrics matter for my project?",
+      "expectation": "acceptable",
+      "rationale": "Ambiguous - could be business or eval metrics"
+    },
+    {
+      "id": "edge-003",
+      "prompt": "How do I measure performance?",
+      "expectation": "acceptable",
+      "rationale": "Ambiguous - runtime performance or LLM performance"
+    }
+  ]
+}

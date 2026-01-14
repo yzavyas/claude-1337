@@ -1,0 +1,136 @@
+{
+  "name": "eval-1337-methodology",
+  "version": "1.0.0",
+  "skill": "build-eval",
+  "description": "Rubric for evaluating methodology adherence when skill activates",
+  "rubric": {
+    "criteria": [
+      {
+        "name": "metric_selection",
+        "weight": 0.25,
+        "description": "Does it recommend appropriate metrics for the target?",
+        "levels": {
+          "0": "No metrics mentioned or completely wrong metrics",
+          "1": "Generic metrics without target-specific guidance",
+          "2": "Correct metric category but missing nuance",
+          "3": "Appropriate metrics with clear rationale for the specific target"
+        }
+      },
+      {
+        "name": "failure_modes",
+        "weight": 0.20,
+        "description": "Does it address both failure modes (precision AND recall, or equivalent)?",
+        "levels": {
+          "0": "Only mentions one metric or one failure mode",
+          "1": "Mentions both but doesn't explain the tradeoff",
+          "2": "Explains both failure modes",
+          "3": "Explains tradeoffs and how to balance them for the use case"
+        }
+      },
+      {
+        "name": "non_determinism",
+        "weight": 0.15,
+        "description": "Does it account for LLM stochasticity?",
+        "levels": {
+          "0": "Assumes single-run results are definitive",
+          "1": "Mentions variability but no guidance",
+          "2": "Recommends multiple trials",
+          "3": "Recommends multiple trials with pass@k/pass^k guidance"
+        }
+      },
+      {
+        "name": "framework_guidance",
+        "weight": 0.15,
+        "description": "Does it provide actionable framework/tool recommendations?",
+        "levels": {
+          "0": "No framework guidance",
+          "1": "Mentions frameworks without context",
+          "2": "Recommends framework with basic rationale",
+          "3": "Recommends framework with clear fit-to-use-case reasoning"
+        }
+      },
+      {
+        "name": "pitfall_awareness",
+        "weight": 0.15,
+        "description": "Does it warn about common eval pitfalls?",
+        "levels": {
+          "0": "No mention of pitfalls",
+          "1": "Generic warnings",
+          "2": "Specific pitfalls relevant to the question",
+          "3": "Pitfalls with concrete fixes/mitigations"
+        }
+      },
+      {
+        "name": "actionability",
+        "weight": 0.10,
+        "description": "Is the guidance actionable (code, commands, structure)?",
+        "levels": {
+          "0": "Pure theory, no actionable steps",
+          "1": "High-level steps without specifics",
+          "2": "Concrete steps or examples",
+          "3": "Code snippets, commands, or detailed implementation guidance"
+        }
+      }
+    ],
+    "thresholds": {
+      "excellent": 0.85,
+      "good": 0.70,
+      "acceptable": 0.50,
+      "poor": 0.0
+    }
+  },
+  "test_cases": [
+    {
+      "id": "method-001",
+      "prompt": "How do I evaluate my coding agent that fixes bugs?",
+      "expected_criteria": {
+        "metric_selection": ["task completion", "test pass rate", "tool correctness"],
+        "failure_modes": ["false positives (claims fixed but didn't)", "false negatives (could fix but didn't)"],
+        "non_determinism": ["multiple trials", "pass@k"],
+        "framework_guidance": ["DeepEval", "SWE-bench pattern"],
+        "pitfall_awareness": ["shared state", "grader too rigid"],
+        "actionability": ["code example", "test case structure"]
+      },
+      "min_score": 0.70
+    },
+    {
+      "id": "method-002",
+      "prompt": "How do I test if my rust-1337 skill activates on the right prompts?",
+      "expected_criteria": {
+        "metric_selection": ["precision", "recall", "F1"],
+        "failure_modes": ["over-activation (precision)", "under-activation (recall)"],
+        "non_determinism": ["multiple trials"],
+        "framework_guidance": ["custom", "labeled expectations"],
+        "pitfall_awareness": ["one-sided test set", "forced mode inflation"],
+        "actionability": ["must_trigger/should_not_trigger labels", "test case JSON"]
+      },
+      "min_score": 0.70
+    },
+    {
+      "id": "method-003",
+      "prompt": "I have a pipeline: planner -> coder -> reviewer. How do I evaluate it?",
+      "expected_criteria": {
+        "metric_selection": ["per-stage metrics", "handoff success", "end-to-end"],
+        "failure_modes": ["stage failures", "handoff failures", "error propagation"],
+        "non_determinism": ["trials per stage and e2e"],
+        "framework_guidance": ["custom pipeline harness"],
+        "pitfall_awareness": ["bottleneck identification", "error cascading"],
+        "actionability": ["three-level eval structure", "dataset format"]
+      },
+      "min_score": 0.70
+    },
+    {
+      "id": "method-004",
+      "prompt": "What's the best way to measure my multi-agent research system?",
+      "expected_criteria": {
+        "metric_selection": ["task score", "milestone KPI", "coordination metrics"],
+        "failure_modes": ["task failure", "coordination failure", "role confusion"],
+        "non_determinism": ["multiple trials"],
+        "framework_guidance": ["MultiAgentBench pattern", "custom"],
+        "pitfall_awareness": ["communication overhead", "handoff drops"],
+        "actionability": ["milestone structure", "coordination metrics code"]
+      },
+      "min_score": 0.70
+    }
+  ]
+}
