@@ -38,6 +38,7 @@ Single metrics lie. You need to measure BOTH failure modes.
 | **Computer Use** | Code (screenshot, state inspection) | GUI state, file system | WebArena, OSWorld |
 | **Skills** | Code (activation) + Model (methodology) | F1 + adherence rubric | Custom |
 | **Multi-Agent** | Multi (milestones + coordination) | Task score, handoff success | MultiAgentBench |
+| **Pipeline** | Per-stage + handoffs + end-to-end | Stage success, bottleneck | Custom |
 
 ## Non-Determinism Metrics
 
@@ -201,6 +202,12 @@ MULTI-AGENT
   Roles: Role adherence, work duplication
   Advanced: Theory of Mind (ToM) scenarios
 
+PIPELINE (Sequential A → B → C)
+  Level 1: Single-agent metrics per stage
+  Level 2: Handoff quality between stages
+  Level 3: End-to-end pipeline metrics
+  Key: Find bottleneck stage, error propagation
+
 ITERATIVE (Ralph Pattern)
   When: Deciding retry loop vs better prompts
   Metrics: iterations_to_pass, recovery_rate, feedback_sensitivity
@@ -232,6 +239,7 @@ OBSERVABILITY
 |----------|------|
 | agent, task completion, pass@k | [agents.md](references/agents.md) |
 | multi-agent, coordination, handoff | [multi-agent.md](references/multi-agent.md) |
+| pipeline, sequential, stage, chain | [multi-agent.md](references/multi-agent.md#pipeline-evaluation-chainsequential) |
 | iterative, retry, recovery, ralph | [iterative.md](references/iterative.md) |
 | skill, activation, trigger | [skills.md](references/skills.md) |
 | methodology, behavioral, adherence | [methodology.md](references/methodology.md) |

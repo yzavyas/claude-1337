@@ -36,6 +36,198 @@ Orchestrator     Sequential      Hierarchical     Peer-to-peer
 | Tree | Hierarchical delegation | Deep chains slow |
 | Graph | Flexible collaboration | Coordination chaos |
 
+## Pipeline Evaluation (Chain/Sequential)
+
+Sequential agent pipelines (A → B → C) are common but don't need full coordination metrics.
+
+### When to Use Pipeline vs Multi-Agent Metrics
+
+| Pattern | Example | Eval Approach |
+|---------|---------|---------------|
+| **Pipeline** | Planner → Executor → Reviewer | Per-stage + handoffs + end-to-end |
+| **Tool-as-Agent** | Agent A calls Agent B as tool | Single-agent (A is primary) |
+| **Coordinated** | A ↔ B (back-and-forth) | Full multi-agent metrics |
+| **Parallel** | A \|\| B (concurrent) | Multi-agent + parallel efficiency |
+
+### Three-Level Pipeline Eval
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  LEVEL 3: END-TO-END                                    │
+│  ┌─────────┐    ┌─────────┐    ┌─────────┐             │
+│  │ Agent A │───▶│ Agent B │───▶│ Agent C │             │
+│  │ (plan)  │    │ (execute)│   │ (review)│             │
+│  └─────────┘    └─────────┘    └─────────┘             │
+│       │              │              │                   │
+│  LEVEL 1:       LEVEL 1:       LEVEL 1:                │
+│  Single-agent   Single-agent   Single-agent            │
+│                                                         │
+│       └──── LEVEL 2: Handoff Quality ────┘             │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Level 1: Per-Stage Metrics
+
+Evaluate each agent in isolation:
+
+```python
+def eval_pipeline_stages(pipeline, test_cases):
+    """Evaluate each stage independently."""
+    stage_results = {}
+
+    for stage in pipeline.stages:
+        stage_cases = extract_stage_cases(test_cases, stage.name)
+
+        stage_results[stage.name] = {
+            "task_completion": eval_task_completion(stage, stage_cases),
+            "tool_correctness": eval_tool_correctness(stage, stage_cases),
+            "pass@1": eval_pass_at_1(stage, stage_cases)
+        }
+
+    return stage_results
+```
+
+### Level 2: Handoff Metrics
+
+Did output of Stage N work as input for Stage N+1?
+
+| Metric | Formula | Question |
+|--------|---------|----------|
+| **Handoff Success** | Valid handoffs / total | Does output connect? |
+| **Schema Compliance** | Valid schemas / total | Correct format? |
+| **Information Loss** | Missing fields / expected | Data preserved? |
+| **Error Propagation** | Downstream failures from upstream | Do errors cascade? |
+
+```python
+def eval_handoffs(pipeline, test_cases):
+    """Evaluate handoff quality between stages."""
+    results = []
+
+    for case in test_cases:
+        handoff_results = []
+        prev_output = case.input
+
+        for i, stage in enumerate(pipeline.stages):
+            output = stage.run(prev_output)
+
+            if i < len(pipeline.stages) - 1:
+                next_stage = pipeline.stages[i + 1]
+
+                handoff_results.append({
+                    "from": stage.name,
+                    "to": next_stage.name,
+                    "output_valid": is_valid_output(output, stage.output_schema),
+                    "input_valid": is_valid_input(output, next_stage.input_schema),
+                    "handoff_success": can_accept(next_stage, output)
+                })
+
+            prev_output = output
+
+        results.append({
+            "case": case.id,
+            "handoffs": handoff_results,
+            "all_handoffs_success": all(h["handoff_success"] for h in handoff_results)
+        })
+
+    return {
+        "handoff_success_rate": mean(r["all_handoffs_success"] for r in results),
+        "per_handoff": aggregate_by_handoff(results)
+    }
+```
+
+### Level 3: End-to-End Metrics
+
+The whole pipeline as one unit:
+
+```python
+def eval_pipeline_e2e(pipeline, test_cases, n_trials=5):
+    """Evaluate complete pipeline end-to-end."""
+    results = []
+
+    for case in test_cases:
+        trial_results = []
+
+        for trial in range(n_trials):
+            # Run full pipeline
+            trace = pipeline.run(case.input)
+
+            trial_results.append({
+                "success": verify_output(trace.final_output, case.expected),
+                "stages_completed": trace.stages_completed,
+                "total_tokens": trace.total_tokens,
+                "total_latency_ms": trace.total_latency_ms,
+                "failure_stage": trace.failure_stage if not trace.success else None
+            })
+
+        results.append({
+            "case": case.id,
+            "pass@1": trial_results[0]["success"],
+            "pass@k": any(t["success"] for t in trial_results),
+            "success_rate": mean(t["success"] for t in trial_results),
+            "avg_tokens": mean(t["total_tokens"] for t in trial_results),
+            "avg_latency_ms": mean(t["total_latency_ms"] for t in trial_results)
+        })
+
+    return aggregate_pipeline_results(results)
+```
+
+### Pipeline-Specific Metrics
+
+| Metric | Formula | Question |
+|--------|---------|----------|
+| **Stage Success Rate** | Per-stage pass / total | Which stage fails most? |
+| **Bottleneck Stage** | Max(latency or tokens) | Where to optimize? |
+| **Error Origin** | First failure stage | Root cause location |
+| **Recovery Potential** | Failures recoverable downstream | Can later stages fix? |
+
+```python
+def identify_bottleneck(pipeline_results):
+    """Find the slowest or most expensive stage."""
+    stage_stats = {}
+
+    for result in pipeline_results:
+        for stage, metrics in result["stage_metrics"].items():
+            if stage not in stage_stats:
+                stage_stats[stage] = {"latencies": [], "tokens": [], "failures": 0}
+
+            stage_stats[stage]["latencies"].append(metrics["latency_ms"])
+            stage_stats[stage]["tokens"].append(metrics["tokens"])
+            if not metrics["success"]:
+                stage_stats[stage]["failures"] += 1
+
+    return {
+        "latency_bottleneck": max(stage_stats, key=lambda s: mean(stage_stats[s]["latencies"])),
+        "token_bottleneck": max(stage_stats, key=lambda s: mean(stage_stats[s]["tokens"])),
+        "failure_bottleneck": max(stage_stats, key=lambda s: stage_stats[s]["failures"])
+    }
+```
+
+### Pipeline Dataset Structure
+
+```json
+{
+  "name": "code-review-pipeline-v1",
+  "target": "pipeline",
+  "stages": [
+    {"name": "analyzer", "input_schema": "code", "output_schema": "analysis"},
+    {"name": "reviewer", "input_schema": "analysis", "output_schema": "review"},
+    {"name": "suggester", "input_schema": "review", "output_schema": "suggestions"}
+  ],
+  "cases": [
+    {
+      "id": "pipeline-001",
+      "input": {"code": "def foo(): pass"},
+      "expected_final": {"suggestions": ["Add docstring", "Add type hints"]},
+      "stage_expectations": {
+        "analyzer": {"must_detect": ["missing_docstring"]},
+        "reviewer": {"must_flag": "documentation"},
+        "suggester": {"min_suggestions": 1}
+      }
+    }
+  ]
+}
+```
+
 ## Core Metrics
 
 ### Task Achievement
