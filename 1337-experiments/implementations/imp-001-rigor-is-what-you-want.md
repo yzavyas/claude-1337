@@ -7,7 +7,7 @@
 
 ## Overview
 
-Implementation plan for the methodology comparison experiment. Tests whether spec-driven development frameworks improve outcomes over baseline Claude, and whether collaborative intelligence outperforms both.
+Implementation plan for measuring the effectiveness of spec-driven development frameworks (BMAD, GSD, spec-kit) compared to baseline Claude.
 
 ## Design
 
@@ -17,20 +17,19 @@ Implementation plan for the methodology comparison experiment. Tests whether spe
 |-----------|-------------|
 | `baseline` | Pure Claude, no methodology |
 | `speckit` | GitHub's 7-step process (Constitution→Implement) |
-| `gsd` | Get Shit Done context engineering |
-| `bmad` | 21 agents, scale-adaptive workflows |
-| `collaborative` | Understand → discourse → agency pattern |
+| `gsd` | Get Shit Done (PROJECT/ROADMAP/STATE/PLAN) |
+| `bmad` | BMAD Method (21 agents, scale-adaptive) |
 
 ### Task Corpus
 
 Stratified by complexity:
 
-| Category | Example | Expected Differentiator |
-|----------|---------|------------------------|
+| Category | Example | Hypothesis |
+|----------|---------|------------|
 | `trivial` | Fix typo | Methodology overhead hurts |
-| `simple` | Add endpoint | Baseline competence |
-| `multi-step` | Add auth flow | Planning depth |
-| `architecture` | Refactor service | Structural thinking |
+| `simple` | Add endpoint | Minimal difference |
+| `multi-step` | Add auth flow | Methodologies may help |
+| `architecture` | Refactor service | Methodologies should help |
 | `ambiguous` | "Make it faster" | Clarification value |
 
 ### Metrics
@@ -57,8 +56,7 @@ experiments/lep-001-rigor-is-what-you-want/
 ├── methodologies/            # Crystallized methodology prompts
 │   ├── speckit.md
 │   ├── gsd.md
-│   ├── bmad.md
-│   └── collaborative.md
+│   └── bmad.md
 ├── corpus/                   # Task definitions + test suites
 │   └── tasks.json
 └── results/                  # Output
@@ -66,11 +64,13 @@ experiments/lep-001-rigor-is-what-you-want/
 
 ### Methodology Loading
 
-Each methodology crystallized into a system prompt that can be loaded for the Claude Agent SDK:
+Each methodology crystallized into a system prompt:
 
 ```python
-def load_methodology(name: str) -> str:
+def load_methodology(name: str) -> str | None:
     """Load methodology prompt for condition."""
+    if name == "baseline":
+        return None
     path = METHODOLOGIES_DIR / f"{name}.md"
     return path.read_text()
 
@@ -93,7 +93,7 @@ async def run_task(task: Task, methodology: str | None) -> Result:
 ### Phase 1: Infrastructure
 
 - [ ] Create experiment package structure
-- [ ] Port methodology skill files (speckit, gsd, bmad) from earlier work
+- [ ] Crystallize methodology prompts (speckit, gsd, bmad)
 - [ ] Implement task corpus loader
 - [ ] Implement condition runner
 
@@ -142,8 +142,8 @@ async def run_task(task: Task, methodology: str | None) -> Result:
 
 ## Open Questions
 
-1. **Collaborative condition**: How to operationalize "understand → discourse → agency" in automated experiment? May need different design (human-in-loop eval?).
+1. **Task selection**: Source from existing benchmarks (SWE-bench) or create custom? Custom gives control, existing gives comparability.
 
-2. **Task selection**: Source from existing benchmarks (SWE-bench) or create custom? Custom gives control, existing gives comparability.
+2. **Model coverage**: Run on Sonnet only, or also Haiku/Opus to check if results generalize?
 
-3. **Model coverage**: Run on Sonnet only, or also Haiku/Opus to check if results generalize?
+3. **Methodology fairness**: How to ensure each framework is represented fairly as a prompt? May need review by framework authors.
