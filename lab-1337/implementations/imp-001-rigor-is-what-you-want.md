@@ -7,7 +7,7 @@
 
 ## Overview
 
-Implementation plan for measuring the effectiveness of spec-driven development frameworks (BMAD, GSD, spec-kit) compared to baseline Claude.
+Implementation plan for proving methodology effectiveness is measurable via the Ralph Iteration Effect experiment.
 
 ## Design
 
@@ -15,135 +15,131 @@ Implementation plan for measuring the effectiveness of spec-driven development f
 
 | Condition | Description |
 |-----------|-------------|
-| `baseline` | Pure Claude, no methodology |
-| `speckit` | GitHub's 7-step process (Constitution→Implement) |
-| `gsd` | Get Shit Done (PROJECT/ROADMAP/STATE/PLAN) |
-| `bmad` | BMAD Method (21 agents, scale-adaptive) |
+| `single` | One API call, no iteration |
+| `ralph-3` | Up to 3 iterations with self-review |
+| `ralph-5` | Up to 5 iterations with self-review |
 
-### Task Corpus
+### Task
 
-Stratified by complexity:
+Palindrome checker - simple, verifiable, fair.
 
-| Category | Example | Hypothesis |
-|----------|---------|------------|
-| `trivial` | Fix typo | Methodology overhead hurts |
-| `simple` | Add endpoint | Minimal difference |
-| `multi-step` | Add auth flow | Methodologies may help |
-| `architecture` | Refactor service | Methodologies should help |
-| `ambiguous` | "Make it faster" | Clarification value |
+```python
+def is_palindrome(s: str) -> bool:
+    """Check if string is palindrome, ignoring case and non-alphanumeric."""
+    ...
+```
+
+### Test Suite (Ground Truth)
+
+```python
+TEST_CASES = [
+    ("A man, a plan, a canal: Panama", True),
+    ("race a car", False),
+    ("Was it a car or a cat I saw?", True),
+    ("", True),
+    ("a", True),
+    ("ab", False),
+    ("Madam", True),
+    ("No 'x' in Nixon", True),
+    ("hello", False),
+    ("12321", True),
+]
+```
 
 ### Metrics
 
 | Metric | Type | Description |
 |--------|------|-------------|
-| `pass@k` | completion | Task succeeds in k attempts |
-| `pass^k` | reliability | Task succeeds in ALL k attempts |
-| `code_quality` | LLM-judge | Maintainability, structure |
-| `tokens_used` | efficiency | Cost measurement |
-| `recovery_rate` | robustness | (pass@3 - pass@1) / (1 - pass@1) |
+| `correctness` | binary | Passes all 10 test cases |
+| `iterations_used` | count | How many iterations until completion/exit |
+| `tokens_total` | count | Total tokens across all iterations |
+| `success_rate` | ratio | Passes / total runs per condition |
 
 ### Architecture
 
 ```
-experiments/lep-001-rigor-is-what-you-want/
-├── src/
-│   └── rigor_experiment/
-│       ├── __main__.py       # CLI entrypoint
-│       ├── conditions.py     # Methodology loaders
-│       ├── tasks.py          # Task corpus
-│       ├── runner.py         # Experiment orchestration
-│       └── metrics.py        # Measurement & analysis
-├── methodologies/            # Crystallized methodology prompts
-│   ├── speckit.md
-│   ├── gsd.md
-│   └── bmad.md
-├── corpus/                   # Task definitions + test suites
-│   └── tasks.json
-└── results/                  # Output
-```
-
-### Methodology Loading
-
-Each methodology crystallized into a system prompt:
-
-```python
-def load_methodology(name: str) -> str | None:
-    """Load methodology prompt for condition."""
-    if name == "baseline":
-        return None
-    path = METHODOLOGIES_DIR / f"{name}.md"
-    return path.read_text()
-
-async def run_task(task: Task, methodology: str | None) -> Result:
-    """Run single task with optional methodology."""
-    messages = [{"role": "user", "content": task.prompt}]
-
-    client = anthropic.Anthropic()
-    response = await client.messages.create(
-        model="claude-sonnet-4-20250514",
-        system=methodology,  # None for baseline
-        messages=messages,
-        max_tokens=8192,
-    )
-    # ...
+experiments/ralph-iteration-effect/
+├── src/ralph_iteration_effect/
+│   ├── __init__.py
+│   ├── __main__.py       # CLI entrypoint
+│   └── experiment.py     # Core experiment logic
+├── results/              # Output JSON files
+├── pyproject.toml
+└── README.md
 ```
 
 ## Implementation
 
-### Phase 1: Infrastructure
+### Phase 1: Infrastructure (Done)
 
-- [ ] Create experiment package structure
-- [ ] Crystallize methodology prompts (speckit, gsd, bmad)
-- [ ] Implement task corpus loader
-- [ ] Implement condition runner
+- [x] Create experiment package structure
+- [x] Implement single-shot runner
+- [x] Implement ralph-style iteration runner
+- [x] Add test suite for verification
+- [x] CLI with progress display
 
-### Phase 2: Task Corpus
+### Phase 2: Execution
 
-- [ ] Define 5+ tasks per category
-- [ ] Create test suites for each task (ground truth)
-- [ ] Validate tasks work with baseline Claude
+- [ ] Run pilot (3 runs per condition) - verify metrics collection
+- [ ] Run full experiment (5+ runs per condition)
+- [ ] Collect results JSON
 
-### Phase 3: Metrics
+### Phase 3: Analysis
 
-- [ ] Implement pass@k calculation
-- [ ] Implement LLM-as-judge for code quality
-- [ ] Add token/time tracking
-- [ ] Report generation
+- [ ] Calculate success rates per condition
+- [ ] Compare token costs
+- [ ] Statistical significance (if sample size allows)
+- [ ] Generate summary report
 
-### Phase 4: Execution
+### Phase 4: Publication
 
-- [ ] Run pilot (1 task, all conditions, 3 runs)
-- [ ] Validate metrics collection
-- [ ] Run full experiment
-- [ ] Generate report
+- [ ] Write findings document
+- [ ] Update LEP-001 status to implemented
+- [ ] Publish to results/
 
-## Testing Strategy
+## Running the Experiment
 
-- Unit tests for corpus loading, metric calculation
-- Integration test: single task through full pipeline
-- Pilot run before full execution
+```bash
+# From lab-1337 directory
+cd experiments/ralph-iteration-effect
+
+# Dry run (show config)
+uv run python -m ralph_iteration_effect --dry-run
+
+# Pilot (3 runs)
+uv run python -m ralph_iteration_effect --runs 3
+
+# Full experiment (5 runs)
+uv run python -m ralph_iteration_effect --runs 5 -o results/full-run.json
+```
 
 ## Dependencies
 
-- `anthropic` - Claude Agent SDK
+- `anthropic` - Claude API
 - `pydantic` - Data models
 - `rich` - CLI output
-- `pandas` - Results analysis
-- `plotly` - Visualization
+- `click` - CLI framework
 
 ## Risks
 
 | Risk | Mitigation |
 |------|------------|
-| High API cost | Start with pilot, estimate full cost |
-| Task corpus bias | Multiple reviewers, stratified sampling |
-| Methodology loading variance | Fixed prompts, version control |
-| Model stochasticity | Multiple runs per condition (5+) |
+| API rate limits | Add retry logic, space requests |
+| Cost overrun | Start with pilot, estimate full cost |
+| Model stochasticity | Multiple runs (5+) per condition |
+| Task too easy | If 100% pass rate, task doesn't discriminate |
+
+## Success Criteria
+
+The experiment succeeds if we observe **measurable difference** between conditions:
+- Success rate varies by condition, OR
+- Token cost varies meaningfully, OR
+- Clear "no difference" finding (also valuable)
+
+Failure = inconclusive data that doesn't inform methodology choices.
 
 ## Open Questions
 
-1. **Task selection**: Source from existing benchmarks (SWE-bench) or create custom? Custom gives control, existing gives comparability.
-
-2. **Model coverage**: Run on Sonnet only, or also Haiku/Opus to check if results generalize?
-
-3. **Methodology fairness**: How to ensure each framework is represented fairly as a prompt? May need review by framework authors.
+1. **Sample size**: Is 5 runs enough for statistical confidence?
+2. **Task difficulty**: If single-shot hits 100%, does iteration matter?
+3. **Model choice**: Run on Sonnet only, or also Haiku to check generalization?
