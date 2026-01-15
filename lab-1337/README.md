@@ -35,7 +35,7 @@ Marketing. Hype. Framework promotion. "Top 10" lists.
 ## Structure
 
 ```
-1337-experiments/
+lab-1337/
 ├── proposals/          # LEPs - Lab Enhancement Proposals
 ├── implementations/    # IMPs - Implementation Plans
 ├── experiments/        # Each experiment is its own package
