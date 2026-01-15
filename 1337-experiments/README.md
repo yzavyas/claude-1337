@@ -49,7 +49,7 @@ Marketing. Hype. Framework promotion. "Top 10" lists.
 uv sync
 
 # List experiments
-lab-1337 list
+lab-1337 experiments
 
 # Run an experiment
 lab-1337 run ralph-iteration-effect
@@ -60,7 +60,28 @@ lab-1337 results ralph-iteration-effect
 
 ## Proposals
 
-Lab Enhancement Proposals (LEPs) follow Rust RFC format:
+Lab Enhancement Proposals (LEPs) follow [Rust RFC format](https://rust-lang.github.io/rfcs/).
+
+```bash
+# Create new proposal
+lab-1337 proposal new "My experiment idea"
+
+# List all proposals
+lab-1337 proposal list
+
+# Show specific proposal
+lab-1337 proposal show 001
+
+# Update status (draft → discussion → fcp → accepted)
+lab-1337 proposal status 001 discussion
+lab-1337 proposal fcp 001
+lab-1337 proposal accept 001
+
+# Mark as implemented
+lab-1337 proposal implemented 001 --tracking "experiments/my-experiment"
+```
+
+Current proposals:
 
 - [LEP-001: Rigor is What You Want](proposals/lep-001-rigor-is-what-you-want.md)
 
