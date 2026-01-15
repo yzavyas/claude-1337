@@ -5,19 +5,20 @@
 - **Status**: Draft
 - **Created**: 2026-01-15
 - **Authors**: Collaborative Intelligence Session
+- **Experiment**: [ralph-iteration-effect](../experiments/ralph-iteration-effect/)
 
 ## Summary
 
-Measure the effectiveness of spec-driven development frameworks (BMAD, GSD, spec-kit) compared to baseline Claude on coding tasks.
+Prove that methodology effectiveness can be measured with hard data, not vibes.
 
 ## Motivation
 
 In the Agentic Era, talk is cheap. Everyone has opinions about what works:
 
-- "BMAD is the best because it has 21 specialized agents"
-- "GSD solves context rot"
-- "spec-kit is from GitHub so it must be good"
-- "Just vibe code, frameworks are overhead"
+- "Iteration improves output quality"
+- "Single-shot is fine, iteration is overhead"
+- "Just vibe code, process is bureaucracy"
+- "Structure is essential for complex tasks"
 
 None of this is evidence. It's tribalism.
 
@@ -30,106 +31,131 @@ The human condition works against us here:
 
 But the cost of being wrong has never been higher.
 
-## The Question
+## The Meta-Question
 
-> Do spec-driven development frameworks improve outcomes over baseline Claude?
+> Can we measure methodology effectiveness at all?
 
-The spec-driven discourse assumes more structure = better outcomes. But there's reason to doubt:
+Before debating which methodology is best, we need to prove:
+1. Methodology differences produce measurable signal
+2. That signal is reproducible across runs
+3. The measurement approach yields actionable data
 
-1. Detailed specs may trigger compliance mode, not reasoning mode
-2. Over-specification removes AI agency - mandate without motivation
-3. The coordination cost of maintaining specs may exceed their benefit
+This is the foundation. Without it, every methodology debate is just opinions.
 
-This is testable. We should test it.
+## Proof of Concept: Ralph Iteration Effect
 
-## Proposed Experiment
+The simplest possible methodology question:
 
-### Conditions
+> Does iteration improve outcomes?
+
+Two conditions:
+- **Single-shot**: One attempt, done
+- **Ralph-style**: Multiple iterations with self-review
+
+If we can't measure THIS difference, we can't measure anything.
+
+### Why Ralph?
+
+1. **Binary comparison** - Only two conditions (not four frameworks)
+2. **Clear mechanism** - Iteration is well-defined
+3. **Existing claim** - "Ralph improves output" is widely believed
+4. **Testable** - Ground truth via test suite
+
+### Experiment Design
 
 | Condition | Description |
 |-----------|-------------|
-| **baseline** | Pure Claude, no methodology |
-| **spec-kit** | GitHub's 7-step process (Constitution→Implement) |
-| **gsd** | Get Shit Done (PROJECT/ROADMAP/STATE/PLAN) |
-| **bmad** | BMAD Method (21 agents, scale-adaptive) |
+| `single` | One shot - submit task, get response, done |
+| `ralph-3` | Up to 3 iterations with self-review |
+| `ralph-5` | Up to 5 iterations with self-review |
 
-### Tasks
+### Task
 
-Stratified by complexity:
+Simple coding task with verifiable correctness:
 
-| Category | Example | Hypothesis |
-|----------|---------|------------|
-| Trivial | Fix typo | Methodology overhead hurts |
-| Simple | Add endpoint | Minimal difference |
-| Multi-step | Add auth flow | Methodologies may help |
-| Architecture | Refactor service | Methodologies should help |
-| Ambiguous | "Make it faster" | Clarification value |
+> "Write a Python function that checks if a string is a valid palindrome, ignoring case and non-alphanumeric characters."
+
+Why this task:
+- **Verifiable**: Test suite provides ground truth
+- **Non-trivial**: Edge cases exist
+- **Quick**: Doesn't burn tokens on context
+- **Fair**: No methodology has special advantage
 
 ### Metrics
 
-| Metric | Type | Description |
-|--------|------|-------------|
-| `pass@k` | completion | Task succeeds in k attempts |
-| `pass^k` | reliability | Task succeeds in ALL k attempts |
-| `code_quality` | LLM-judge | Maintainability, structure |
-| `tokens_used` | efficiency | Cost |
-| `recovery_rate` | robustness | Can it fix its mistakes? |
+| Metric | Type | What it measures |
+|--------|------|------------------|
+| `correctness` | binary | Passes all test cases |
+| `iterations_used` | count | Cost of iteration |
+| `tokens_total` | count | Total resource consumption |
+| `success_rate` | ratio | Reliability across runs |
 
 ### Protocol
 
 ```
-For each task T:
-    For each methodology M in [baseline, speckit, gsd, bmad]:
-        For run in range(5):  # Handle stochasticity
-            1. Fresh environment (no leakage)
-            2. Load methodology M as system prompt
-            3. Execute task T
-            4. Run test suite (ground truth)
-            5. LLM-judge quality (blind to methodology)
-            6. Record metrics
+For each condition C in [single, ralph-3, ralph-5]:
+    For run in range(5):  # Handle stochasticity
+        1. Fresh API call (no conversation history)
+        2. Execute with condition C
+        3. Run test suite (ground truth)
+        4. Record metrics
 ```
 
 ## Hypotheses
 
-**H0** (null): Spec-driven frameworks produce equivalent outcomes to baseline.
+**H0** (null): Iteration produces equivalent outcomes to single-shot.
 
-**H1**: Spec-driven frameworks improve outcomes (higher pass@k, better quality).
+**H1**: Iteration improves outcomes (higher success rate).
 
-**H2**: Spec-driven frameworks hurt outcomes (overhead costs exceed benefits).
+**H2**: Iteration wastes resources (same success, more tokens).
 
-**H3**: Effect is task-dependent (helps on complex, hurts on simple).
+**H3**: Iteration helps only when single-shot fails (recovery mechanism).
 
-## Unresolved Questions
+## Success Criteria
 
-1. **Task selection**: Source from existing benchmarks (SWE-bench) or create custom?
+LEP-001 succeeds if we get **clear signal**:
 
-2. **Methodology crystallization**: How to fairly represent each framework as a prompt?
+| Outcome | What it proves |
+|---------|----------------|
+| H1 confirmed | Iteration helps, we can measure it |
+| H2 confirmed | Iteration doesn't help, we can measure it |
+| H3 confirmed | Nuanced effect, we can measure it |
+| No signal | Methodology effects may be unmeasurable (important finding) |
 
-3. **Generalizability**: Results may be model-specific. Run on multiple models?
+Any of these is success. The point is evidence, not vindication.
 
-4. **Cost**: Full experiment could be expensive. Start with pilot?
+## What This Enables
+
+If LEP-001 succeeds:
+
+- **LEP-002**: Spec-driven frameworks (BMAD, GSD, spec-kit) vs baseline
+- **LEP-003**: Prompt engineering patterns
+- **LEP-004**: Agent architectures
+- ...
+
+Each builds on proven measurement capability.
+
+## Implementation Status
+
+- [x] Experiment design
+- [x] Test harness (`experiment.py`)
+- [x] CLI runner (`__main__.py`)
+- [x] Metrics collection
+- [ ] Run experiment
+- [ ] Analyze results
+- [ ] Publish findings
 
 ## Prior Art
 
 - **SWE-bench**: Agent evaluation on real GitHub issues
 - **HumanEval**: Code generation benchmarks
 - **LMSYS Arena**: Model comparison via human preference
+- [Ralph Wiggum - Awesome Claude](https://awesomeclaude.ai/ralph-wiggum)
+- [Brief History of Ralph - HumanLayer](https://www.humanlayer.dev/blog/brief-history-of-ralph)
 
-None of these specifically test development methodologies.
-
-## Expected Outcome
-
-One of:
-
-1. **Spec-driven wins**: Structure helps, we learn which framework helps most
-2. **Baseline wins**: Overhead hurts, keep it simple
-3. **Context-dependent**: Different approaches for different task types
-
-Any of these is valuable. The point is evidence, not vindication.
+None of these specifically test iteration as a methodology pattern.
 
 ## References
 
-- [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD)
-- [Get Shit Done](https://github.com/glittercowboy/get-shit-done)
-- [spec-kit](https://github.com/github/spec-kit)
-- Feynman, R. "Cargo Cult Science" (1974)
+- Feynman, R. "Cargo Cult Science" (1974) - Don't fool yourself
+- Scientific method - Hypothesize, test, observe, refine
