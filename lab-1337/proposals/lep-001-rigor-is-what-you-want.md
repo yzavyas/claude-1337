@@ -2,10 +2,11 @@
 
 (you just don't know it yet)
 
-- **Status**: Draft
+- **Status**: Implemented
 - **Created**: 2026-01-15
 - **Authors**: Collaborative Intelligence Session
-- **Experiment**: [ralph-iteration-effect](../experiments/ralph-iteration-effect/)
+- **Experiment**: [lep-001-rigor-is-what-you-want](../experiments/lep-001-rigor-is-what-you-want/)
+- **Findings**: [lep-001-findings.md](../results/lep-001-findings.md)
 
 ## Summary
 
@@ -141,9 +142,23 @@ Each builds on proven measurement capability.
 - [x] Test harness (`experiment.py`)
 - [x] CLI runner (`__main__.py`)
 - [x] Metrics collection
-- [ ] Run experiment
-- [ ] Analyze results
-- [ ] Publish findings
+- [x] Run experiment (2026-01-15)
+- [x] Analyze results
+- [x] Publish findings
+
+## Results Summary
+
+| Condition | Success Rate | Avg Tokens | Avg Iterations |
+|-----------|-------------|------------|----------------|
+| single | 100% (5/5) | 181 | 1.0 |
+| ralph-3 | 100% (5/5) | 378 | 1.4 |
+| ralph-5 | 100% (5/5) | 385 | 1.8 |
+
+**Finding**: H0 supported for correctness, H2 partially supported (iteration uses ~2x tokens for same success rate).
+
+**Conclusion**: Measurement works. Task exhibited ceiling effect (100% success across conditions). Future experiments need harder tasks to observe methodology differences.
+
+See [full findings](../results/lep-001-findings.md) for detailed analysis.
 
 ## Prior Art
 

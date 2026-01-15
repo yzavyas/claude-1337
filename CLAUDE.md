@@ -335,6 +335,144 @@ The catalog at `/catalog/` reads from these files dynamically.
 
 ---
 
+## Lab-1337: Experiments Lab
+
+The evidence generation arm of claude-1337. Produces hard data for methodology decisions.
+
+**Location:** `lab-1337/`
+
+**Philosophy:** Evidence, not opinions. Every methodology claim should be testable.
+
+### Enhancement Lifecycle (ELC)
+
+```
+LEP (Proposal) → IMP (Implementation Plan) → Experiment → Results
+```
+
+| Artifact | Purpose | Format |
+|----------|---------|--------|
+| **LEP** | What and why | Rust RFC-style proposal |
+| **IMP** | How | Design and implementation plan |
+| **Experiment** | Execution | Python package (workspace member) |
+| **Results** | Findings | JSON + analysis |
+
+Naming enforces linkage: `lep-001-*`, `imp-001-*`, `experiments/lep-001-*` auto-connect by number.
+
+### LEP Status Lifecycle
+
+```
+draft → discussion → fcp → accepted → implemented
+                      ↘ rejected
+                      ↘ postponed
+```
+
+| Status | Meaning |
+|--------|---------|
+| `draft` | Initial creation, not yet ready for review |
+| `discussion` | Open for feedback and iteration |
+| `fcp` | Final Comment Period - last call before decision |
+| `accepted` | Approved for implementation |
+| `rejected` | Not proceeding |
+| `postponed` | Deferred (can reopen to discussion) |
+| `implemented` | Experiment complete, results published |
+
+### Structure
+
+```
+lab-1337/
+├── proposals/          # LEPs (lep-NNN-slug.md)
+├── implementations/    # IMPs (imp-NNN-slug.md)
+├── experiments/        # Each experiment is a workspace member
+│   └── lep-NNN-slug/
+│       ├── pyproject.toml
+│       ├── README.md
+│       └── src/lep_nnn_slug/
+│           ├── __init__.py
+│           ├── __main__.py    # CLI entrypoint
+│           └── experiment.py  # Core logic
+├── results/            # Published findings
+└── src/lab_1337/
+    ├── cli.py          # CLI entrypoint
+    ├── core/           # Experiment infrastructure
+    └── elc/            # Enhancement Lifecycle management
+```
+
+### CLI Reference
+
+**Setup:**
+```bash
+cd lab-1337
+uv sync              # Install dependencies
+lab-1337 status      # Check overall lab status
+```
+
+**Proposals (LEPs):**
+```bash
+lab-1337 proposal new "Title"        # Create LEP from template
+lab-1337 proposal list               # List all LEPs
+lab-1337 proposal show 001           # View specific LEP
+lab-1337 proposal status 001 discussion  # Move to discussion
+lab-1337 proposal fcp 001            # Enter Final Comment Period
+lab-1337 proposal accept 001         # Accept (prompts IMP creation)
+```
+
+**Implementation Plans (IMPs):**
+```bash
+lab-1337 imp new 001                 # Create IMP for LEP-001
+lab-1337 imp list                    # List all IMPs
+lab-1337 imp show 001                # View IMP
+```
+
+**Experiments:**
+```bash
+lab-1337 experiment new 001          # Scaffold experiment from LEP
+lab-1337 experiment list             # List available experiments
+lab-1337 run <experiment-name>       # Run experiment
+lab-1337 results <experiment-name>   # View results
+```
+
+### Workspace Configuration
+
+Lab-1337 is a uv workspace. Experiments are workspace members:
+
+```toml
+# lab-1337/pyproject.toml
+[tool.uv.workspace]
+members = ["experiments/*"]
+```
+
+Each experiment has its own `pyproject.toml` and can declare dependencies. Run experiments with:
+```bash
+# From experiment directory
+uv run python -m <module_name>
+
+# Or via lab CLI (from lab-1337/)
+lab-1337 run <experiment-name>
+```
+
+### Creating an Experiment
+
+**Standard workflow:**
+1. Create LEP: `lab-1337 proposal new "My Hypothesis"`
+2. Get feedback, move through lifecycle: `discussion` → `fcp` → `accepted`
+3. Create IMP: `lab-1337 imp new 001`
+4. Scaffold experiment: `lab-1337 experiment new 001`
+5. Implement the experiment logic
+6. Run: `lab-1337 run lep-001-my-hypothesis`
+7. Analyze results, update LEP status to `implemented`
+
+**For Claude Agent SDK experiments:**
+- Experiments requiring Claude API calls should use the Agent SDK
+- Add `claude-agent-sdk` to experiment dependencies
+- Follow Agent SDK patterns (see agent-sdk-dev skill)
+
+### Current Work
+
+- **LEP-001**: "Rigor is What You Want" - proving methodology effectiveness is measurable
+- Proof of concept: Ralph Iteration Effect (does iteration improve outcomes?)
+
+---
+
 ## Five Extension Modalities
 
 | modality | purpose | what it extends |

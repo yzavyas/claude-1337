@@ -1,0 +1,25 @@
+[project]
+name = "lep-001-rigor-is-what-you-want"
+version = "0.1.0"
+description = "Prove methodology effectiveness is measurable via Ralph Iteration Effect"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "claude-agent-sdk>=0.1.0",
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+    "click>=8.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lep_001_rigor_is_what_you_want"]
