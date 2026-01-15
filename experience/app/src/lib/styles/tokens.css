@@ -1,139 +1,204 @@
-/* Design Tokens - GiTS Cyberpunk */
+/*
+ * claude-1337 Design Tokens
+ *
+ * Reasoning so clean it radiates confidence.
+ * Restrained. Precise. Earned.
+ *
+ * Foundation: OKLCH color space, Geist typography, fluid scaling
+ */
 
 :root {
-	/* === Color Palette (hex, from legacy app) === */
+	/* ─────────────────────────────────────────────
+	 * Typography
+	 * Commands attention. Clear hierarchy. Nothing decorative.
+	 *
+	 * Geist: High x-height, short descenders, angular terminals
+	 * Source: https://vercel.com/font
+	 * ───────────────────────────────────────────── */
+	--font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+	--font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-	/* Backgrounds */
-	--color-bg-deep: #0a0f14;
-	--color-bg-surface: #111820;
-	--color-bg-elevated: #151d26;
-	--color-bg-hover: #1a2530;
+	/* Fluid type scale - Major Third (1.25)
+	 * clamp(min, preferred, max) for smooth scaling
+	 * Source: https://www.fluid-type-scale.com/ */
+	--text-xs: clamp(0.75rem, 0.7rem + 0.15vw, 0.875rem);
+	--text-sm: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
+	--text-base: clamp(1rem, 0.9rem + 0.25vw, 1.125rem);
+	--text-lg: clamp(1.125rem, 1rem + 0.35vw, 1.25rem);
+	--text-xl: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+	--text-2xl: clamp(1.5rem, 1.3rem + 0.75vw, 2rem);
+	--text-3xl: clamp(1.875rem, 1.5rem + 1vw, 2.5rem);
+	--text-4xl: clamp(2.25rem, 1.8rem + 1.5vw, 3.5rem);
+	--text-5xl: clamp(3rem, 2.2rem + 2vw, 4.5rem);
 
-	/* Text - cyan tinted */
-	--color-text-primary: #e0f2fe;
-	--color-text-secondary: #7dd3fc;
-	--color-text-tertiary: #38bdf8;
-	--color-text-muted: #0ea5e9;
-
-	/* Accents */
-	--color-accent: #22d3ee;
-	--color-accent-hover: #67e8f9;
-	--color-accent-muted: rgba(34, 211, 238, 0.15);
-	--color-accent-positive: #4ade80;
-	--color-accent-negative: #f87171;
-	--color-accent-data: #7dd3fc;
-	--color-accent-link: #22d3ee;
-	--color-accent-link-hover: #67e8f9;
-
-	/* Semantic */
-	--color-border: #1a2530;
-	--color-border-subtle: #151d26;
-	--color-border-strong: #223040;
-	--color-success: #4ade80;
-
-	/* Gradients */
-	--gradient-text: linear-gradient(135deg, #e0f2fe 0%, #22d3ee 100%);
-	--gradient-surface: linear-gradient(180deg, #111820 0%, #0a0f14 100%);
-	--gradient-glow: radial-gradient(ellipse at center, rgba(34, 211, 238, 0.15), transparent 70%);
-
-	/* === Typography === */
-
-	/* Font families */
-	--font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
-	--font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
-	--font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
-
-	/* Font sizes - fluid with clamp */
-	--text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
-	--text-sm: clamp(0.8125rem, 0.75rem + 0.3vw, 0.875rem);
-	--text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
-	--text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
-	--text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
-	--text-2xl: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
-	--text-3xl: clamp(2rem, 1.7rem + 1.2vw, 2.75rem);
-	--text-4xl: clamp(2.5rem, 2rem + 2vw, 4rem);
-
-	/* Line heights */
+	/* Leading - context-based
+	 * Large headings tight, body relaxed */
 	--leading-none: 1;
-	--leading-tight: 1.2;
-	--leading-snug: 1.4;
+	--leading-tight: 1.15;
+	--leading-snug: 1.3;
 	--leading-normal: 1.6;
-	--leading-relaxed: 1.75;
-	--leading-loose: 2;
+	--leading-relaxed: 1.8;
 
-	/* Letter spacing */
+	/* Tracking
+	 * Tight for large headings, normal body, wide for all-caps */
 	--tracking-tighter: -0.03em;
 	--tracking-tight: -0.015em;
 	--tracking-normal: 0;
-	--tracking-wide: 0.015em;
-	--tracking-wider: 0.03em;
+	--tracking-wide: 0.02em;
+	--tracking-wider: 0.05em;
 
-	/* Font weights */
-	--font-normal: 400;
-	--font-medium: 500;
-	--font-semibold: 600;
-	--font-bold: 700;
+	/* Measure (line length)
+	 * 45-75ch optimal, 66ch ideal (Bringhurst) */
+	--measure-narrow: 45ch;
+	--measure-normal: 65ch;
+	--measure-wide: 75ch;
 
-	/* === Spacing === */
-	--space-1: 0.25rem;
-	--space-2: 0.5rem;
-	--space-3: 0.75rem;
-	--space-4: 1rem;
-	--space-5: 1.25rem;
-	--space-6: 1.5rem;
-	--space-8: 2rem;
-	--space-10: 2.5rem;
-	--space-12: 3rem;
-	--space-16: 4rem;
-	--space-20: 5rem;
-	--space-24: 6rem;
-	--space-32: 8rem;
-	--space-40: 10rem;
-	--space-48: 12rem;
-	--space-64: 16rem;
+	/* ─────────────────────────────────────────────
+	 * Color - OKLCH
+	 * Restrained. Precision over personality.
+	 *
+	 * Monochrome foundation + surgical accent
+	 * Source: https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl
+	 * ───────────────────────────────────────────── */
 
-	/* === Layout === */
-	--content-width: 680px;
-	--content-width-wide: 900px;
-	--content-width-full: 1200px;
-	--section-padding: var(--space-24);
-	--section-padding-mobile: var(--space-16);
+	/* Ink - text hierarchy */
+	--ink-primary: oklch(8% 0 0);          /* Near black */
+	--ink-secondary: oklch(35% 0 0);       /* Body text */
+	--ink-tertiary: oklch(50% 0 0);        /* Muted */
+	--ink-subtle: oklch(65% 0 0);          /* Very muted */
 
-	/* === Animation === */
+	/* Surface - backgrounds */
+	--surface-base: oklch(99% 0 0);        /* Near white */
+	--surface-elevated: oklch(100% 0 0);   /* Pure white */
+	--surface-sunken: oklch(96% 0 0);      /* Code blocks */
+	--surface-subtle: oklch(98% 0 0);      /* Hover states */
+
+	/* Border */
+	--border-subtle: oklch(92% 0 0);       /* Barely visible */
+	--border-default: oklch(85% 0 0);      /* Normal borders */
+	--border-strong: oklch(70% 0 0);       /* Emphasis */
+	--border-focus: oklch(8% 0 0);         /* Focus rings */
+
+	/* Accent - used sparingly, earned */
+	--accent: oklch(8% 0 0);               /* Matches ink-primary */
+	--accent-hover: oklch(25% 0 0);        /* Hover state */
+
+	/* ─────────────────────────────────────────────
+	 * Craft Canvas - Paper texture, artisan feel
+	 * Light, warm. Formation happens on quality paper.
+	 * ───────────────────────────────────────────── */
+	--craft-paper: oklch(96% 0.01 90);      /* Warm cream paper */
+	--craft-surface: oklch(98% 0.005 90);   /* Lighter cream */
+
+	/* Kintsugi Gold - beauty in connection */
+	--gold: oklch(65% 0.14 75);             /* Warm gold, darker for light bg */
+	--gold-hover: oklch(60% 0.16 70);       /* Hover state */
+	--gold-subtle: oklch(75% 0.08 80);      /* Muted gold */
+
+	/* Depth Blue - from the tree animation */
+	--depth-blue: oklch(45% 0.12 250);      /* Deep blue */
+	--depth-blue-light: oklch(55% 0.10 250); /* Lighter blue */
+
+	/* Text on light canvas */
+	--craft-text-primary: oklch(15% 0.01 250);   /* Near black with blue hint */
+	--craft-text-secondary: oklch(35% 0.02 250); /* Dark gray-blue */
+	--craft-text-tertiary: oklch(50% 0.02 250);  /* Muted */
+
+	/* ─────────────────────────────────────────────
+	 * Space
+	 * Confident negative space. The pause matters.
+	 *
+	 * 8-point grid (4px base)
+	 * ───────────────────────────────────────────── */
+	--space-1: 0.25rem;    /* 4px */
+	--space-2: 0.5rem;     /* 8px */
+	--space-3: 0.75rem;    /* 12px */
+	--space-4: 1rem;       /* 16px */
+	--space-5: 1.25rem;    /* 20px */
+	--space-6: 1.5rem;     /* 24px */
+	--space-8: 2rem;       /* 32px */
+	--space-10: 2.5rem;    /* 40px */
+	--space-12: 3rem;      /* 48px */
+	--space-16: 4rem;      /* 64px */
+	--space-20: 5rem;      /* 80px */
+	--space-24: 6rem;      /* 96px */
+	--space-32: 8rem;      /* 128px */
+
+	/* ─────────────────────────────────────────────
+	 * Layout
+	 * ───────────────────────────────────────────── */
+	--max-width-prose: var(--measure-normal);
+	--max-width-content: 72rem;
+	--max-width-wide: 90rem;
+
+	/* ─────────────────────────────────────────────
+	 * Motion
+	 * Purposeful. Rhythm as meaning.
+	 *
+	 * Duration: 100-200ms micro, 200-400ms UI, 400-800ms reveals
+	 * Asymmetric: enter slower than exit
+	 * Source: NNg, Material Design
+	 * ───────────────────────────────────────────── */
+
+	/* Duration */
 	--duration-instant: 100ms;
-	--duration-fast: 200ms;
-	--duration-normal: 300ms;
-	--duration-slow: 500ms;
-	--duration-slower: 800ms;
+	--duration-fast: 150ms;
+	--duration-normal: 250ms;
+	--duration-slow: 400ms;
+	--duration-reveal: 600ms;
 
-	/* Easing - GSAP equivalents for CSS */
-	--ease-out: cubic-bezier(0.33, 1, 0.68, 1);
-	--ease-in: cubic-bezier(0.32, 0, 0.67, 0);
-	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-	--ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+	/* Easing
+	 * ease-out for enter, ease-in for exit */
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);      /* Enter */
+	--ease-in: cubic-bezier(0.7, 0, 0.84, 0);       /* Exit */
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* Position changes */
 
-	/* === Z-index === */
-	--z-base: 0;
-	--z-sticky: 100;
-	--z-fixed: 200;
-	--z-overlay: 300;
-	--z-modal: 400;
+	/* CSS Spring approximation via linear()
+	 * Source: https://linear-easing-generator.netlify.app/ */
+	--ease-spring: linear(
+		0, 0.006, 0.025, 0.057, 0.103, 0.163, 0.236, 0.319,
+		0.41, 0.506, 0.604, 0.702, 0.796, 0.883, 0.962,
+		1.029, 1.083, 1.123, 1.147, 1.154, 1.145, 1.121,
+		1.085, 1.04, 0.99, 0.938, 0.888, 0.844, 0.807,
+		0.78, 0.763, 0.757, 0.761, 0.775, 0.797, 0.825,
+		0.857, 0.891, 0.924, 0.955, 0.983, 1.005, 1.023,
+		1.036, 1.043, 1.045, 1.042, 1.034, 1.023, 1.008, 1
+	);
 
-	/* === Borders === */
+	/* ─────────────────────────────────────────────
+	 * Effects
+	 * ───────────────────────────────────────────── */
 	--radius-sm: 4px;
 	--radius-md: 8px;
 	--radius-lg: 12px;
 	--radius-xl: 16px;
 	--radius-full: 9999px;
+
+	/* Shadows - layered for realism
+	 * Source: design-systems.md */
+	--shadow-sm: 0 1px 2px oklch(0% 0 0 / 5%);
+	--shadow-md:
+		0 1px 1px oklch(0% 0 0 / 4%),
+		0 2px 4px oklch(0% 0 0 / 4%),
+		0 4px 8px oklch(0% 0 0 / 3%);
+	--shadow-lg:
+		0 2px 4px oklch(0% 0 0 / 3%),
+		0 4px 8px oklch(0% 0 0 / 3%),
+		0 8px 16px oklch(0% 0 0 / 3%),
+		0 16px 32px oklch(0% 0 0 / 2%);
 }
 
-/* Reduced motion preference */
+/* ─────────────────────────────────────────────
+ * Reduced Motion
+ * Never completely remove - reduce intensity
+ * Source: motion-design.md
+ * ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
 	:root {
 		--duration-instant: 0ms;
 		--duration-fast: 0ms;
 		--duration-normal: 0ms;
-		--duration-slow: 0ms;
-		--duration-slower: 0ms;
+		--duration-slow: 100ms;
+		--duration-reveal: 100ms;
 	}
 }

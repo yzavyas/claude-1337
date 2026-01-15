@@ -6,7 +6,6 @@
 
 	// Rewrite internal links in the HTML output to include base path
 	function rewriteLinks(html: string): string {
-		// Replace href="/..." with href="{base}/..."
 		return html.replace(/href="\/(?!\/)/g, `href="${base}/`);
 	}
 
@@ -39,13 +38,12 @@
 
 <svelte:head>
 	<title>{data.title} — claude-1337</title>
-	<meta name="description" content="{data.title}" />
 </svelte:head>
 
-<main class="content-page">
+<div class="content-page">
 	{#if breadcrumbs.length > 0}
 		<nav class="breadcrumb">
-			{#each breadcrumbs as crumb, i}
+			{#each breadcrumbs as crumb}
 				<a href={crumb.href}>{crumb.label}</a>
 				<span class="separator">/</span>
 			{/each}
@@ -53,223 +51,224 @@
 		</nav>
 	{/if}
 
-	<article class="content">
+	<article class="prose">
 		{@html htmlContent}
 	</article>
 
 	{#if breadcrumbs.length > 0}
-		<footer class="page-footer">
+		<footer>
 			<a href={breadcrumbs[breadcrumbs.length - 1]?.href || base + '/'} class="back-link">
-				← Back
+				<span class="arrow">&larr;</span>
+				<span>Back</span>
 			</a>
 		</footer>
 	{/if}
-</main>
+</div>
 
 <style>
 	.content-page {
-		min-height: 100vh;
-		padding: 120px var(--space-6) var(--space-12);
-		max-width: 800px;
+		padding: var(--space-8) var(--space-4);
+		max-width: var(--max-width-prose);
 		margin: 0 auto;
 	}
 
+	/* Breadcrumb navigation */
 	.breadcrumb {
 		display: flex;
-		align-items: center;
 		flex-wrap: wrap;
+		align-items: center;
 		gap: var(--space-2);
-		font-family: var(--font-mono);
 		font-size: var(--text-sm);
 		margin-bottom: var(--space-8);
+		color: var(--ink-tertiary);
 	}
 
 	.breadcrumb a {
-		color: var(--color-accent);
-		text-decoration: none;
+		color: var(--ink-secondary);
 	}
 
 	.breadcrumb a:hover {
-		text-decoration: underline;
+		color: var(--ink-primary);
 	}
 
 	.separator {
-		color: var(--color-text-muted);
+		color: var(--ink-subtle);
 	}
 
 	.current {
-		color: var(--color-text-secondary);
+		color: var(--ink-primary);
+		font-weight: 500;
 	}
 
-	.content {
-		line-height: var(--leading-relaxed);
-	}
-
-	.content :global(h1) {
-		font-family: var(--font-display);
+	/* Prose styles for markdown content */
+	.prose :global(h1) {
 		font-size: var(--text-3xl);
-		font-weight: var(--font-medium);
-		color: var(--color-text-primary);
-		margin-bottom: var(--space-2);
+		font-weight: 500;
+		letter-spacing: var(--tracking-tight);
+		margin-bottom: var(--space-4);
 	}
 
-	.content :global(h1 + p) {
-		font-size: var(--text-lg);
-		color: var(--color-text-tertiary);
-		margin-bottom: var(--space-8);
-	}
-
-	.content :global(h2) {
-		font-family: var(--font-display);
-		font-size: var(--text-xl);
-		font-weight: var(--font-medium);
-		color: var(--color-text-primary);
+	.prose :global(h2) {
+		font-size: var(--text-2xl);
+		font-weight: 500;
+		letter-spacing: var(--tracking-tight);
 		margin-top: var(--space-10);
 		margin-bottom: var(--space-4);
-		padding-top: var(--space-4);
-		border-top: 1px solid var(--color-border);
+		padding-top: var(--space-6);
+		border-top: 1px solid var(--border-subtle);
 	}
 
-	.content :global(h3) {
-		font-family: var(--font-display);
-		font-size: var(--text-lg);
-		font-weight: var(--font-medium);
-		color: var(--color-text-primary);
-		margin-top: var(--space-6);
+	.prose :global(h3) {
+		font-size: var(--text-xl);
+		font-weight: 500;
+		margin-top: var(--space-8);
 		margin-bottom: var(--space-3);
 	}
 
-	.content :global(p) {
-		color: var(--color-text-secondary);
+	.prose :global(h4) {
+		font-size: var(--text-lg);
+		font-weight: 500;
+		margin-top: var(--space-6);
+		margin-bottom: var(--space-2);
+	}
+
+	.prose :global(p) {
 		margin-bottom: var(--space-4);
+		color: var(--ink-secondary);
+		max-width: var(--measure-normal);
 	}
 
-	.content :global(hr) {
-		border: none;
-		border-top: 1px solid var(--color-border);
-		margin: var(--space-8) 0;
+	.prose :global(strong) {
+		font-weight: 600;
+		color: var(--ink-primary);
 	}
 
-	.content :global(table) {
+	.prose :global(em) {
+		font-style: italic;
+	}
+
+	/* Lists */
+	.prose :global(ul),
+	.prose :global(ol) {
+		margin-bottom: var(--space-4);
+		padding-left: var(--space-6);
+	}
+
+	.prose :global(li) {
+		margin-bottom: var(--space-2);
+		color: var(--ink-secondary);
+	}
+
+	.prose :global(li::marker) {
+		color: var(--ink-tertiary);
+	}
+
+	/* Tables */
+	.prose :global(table) {
 		width: 100%;
 		border-collapse: collapse;
 		margin: var(--space-6) 0;
 		font-size: var(--text-sm);
 	}
 
-	.content :global(th) {
+	.prose :global(th),
+	.prose :global(td) {
+		padding: var(--space-3) var(--space-4);
+		border-bottom: 1px solid var(--border-subtle);
 		text-align: left;
-		padding: var(--space-3);
-		border-bottom: 2px solid var(--color-border);
+	}
+
+	.prose :global(th) {
+		font-weight: 600;
+		color: var(--ink-primary);
+		background: var(--surface-subtle);
+	}
+
+	.prose :global(td) {
+		color: var(--ink-secondary);
+	}
+
+	/* Code */
+	.prose :global(code) {
 		font-family: var(--font-mono);
-		font-weight: var(--font-semibold);
-		color: var(--color-text-primary);
-		background: var(--color-bg-elevated);
-	}
-
-	.content :global(td) {
-		padding: var(--space-3);
-		border-bottom: 1px solid var(--color-border);
-		color: var(--color-text-secondary);
-	}
-
-	.content :global(tr:hover td) {
-		background: var(--color-bg-surface);
-	}
-
-	.content :global(strong) {
-		color: var(--color-text-primary);
-		font-weight: var(--font-semibold);
-	}
-
-	.content :global(em) {
-		font-style: italic;
-	}
-
-	.content :global(code) {
-		font-family: var(--font-mono);
-		font-size: 0.9em;
-		background: var(--color-bg-surface);
-		padding: 0.1em 0.3em;
+		font-size: 0.875em;
+		background: var(--surface-sunken);
+		padding: 0.15em 0.4em;
 		border-radius: var(--radius-sm);
 	}
 
-	.content :global(pre) {
-		background: var(--color-bg-elevated);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
+	.prose :global(pre) {
+		background: var(--surface-sunken);
 		padding: var(--space-4);
 		overflow-x: auto;
 		margin: var(--space-6) 0;
+		border-radius: var(--radius-md);
+		font-size: var(--text-sm);
 	}
 
-	.content :global(pre code) {
+	.prose :global(pre code) {
 		background: none;
 		padding: 0;
+		font-size: inherit;
 	}
 
-	.content :global(blockquote) {
-		border-left: 3px solid var(--color-accent);
+	/* Blockquotes */
+	.prose :global(blockquote) {
+		border-left: 3px solid var(--border-strong);
 		padding-left: var(--space-4);
 		margin: var(--space-6) 0;
-		color: var(--color-text-tertiary);
+		color: var(--ink-tertiary);
 		font-style: italic;
 	}
 
-	.content :global(ul),
-	.content :global(ol) {
-		margin: var(--space-4) 0;
-		padding-left: var(--space-6);
-		color: var(--color-text-secondary);
+	.prose :global(blockquote p) {
+		color: inherit;
 	}
 
-	.content :global(li) {
-		margin-bottom: var(--space-2);
-	}
-
-	.content :global(a) {
-		color: var(--color-accent);
+	/* Links */
+	.prose :global(a) {
+		color: var(--ink-primary);
 		text-decoration: underline;
 		text-underline-offset: 2px;
+		text-decoration-thickness: 1px;
 	}
 
-	.content :global(a:hover) {
-		color: var(--color-accent-hover);
+	.prose :global(a:hover) {
+		text-decoration-thickness: 2px;
 	}
 
-	.page-footer {
+	/* Horizontal rules */
+	.prose :global(hr) {
+		border: none;
+		border-top: 1px solid var(--border-subtle);
+		margin: var(--space-8) 0;
+	}
+
+	/* Footer */
+	footer {
 		margin-top: var(--space-12);
 		padding-top: var(--space-6);
-		border-top: 1px solid var(--color-border);
+		border-top: 1px solid var(--border-subtle);
 	}
 
 	.back-link {
-		font-family: var(--font-mono);
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
 		font-size: var(--text-sm);
-		color: var(--color-accent);
-		text-decoration: none;
+		color: var(--ink-secondary);
+		transition: color var(--duration-fast) var(--ease-out);
 	}
 
 	.back-link:hover {
-		text-decoration: underline;
+		color: var(--ink-primary);
 	}
 
-	@media (max-width: 640px) {
-		.content-page {
-			padding-top: var(--space-12);
-		}
+	.back-link .arrow {
+		transition: transform var(--duration-normal) var(--ease-spring);
+	}
 
-		.content :global(h1) {
-			font-size: var(--text-2xl);
-		}
-
-		.content :global(table) {
-			font-size: var(--text-xs);
-		}
-
-		.content :global(th),
-		.content :global(td) {
-			padding: var(--space-2);
-		}
+	.back-link:hover .arrow {
+		transform: translateX(-4px);
 	}
 </style>

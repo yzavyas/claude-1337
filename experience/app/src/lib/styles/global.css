@@ -1,64 +1,86 @@
-/* Global Styles */
+/*
+ * Global Styles
+ * The craft shows in the clarity.
+ */
 
 @import './tokens.css';
 
-/* Fonts */
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/jetbrains-mono';
-@import '@fontsource-variable/space-grotesk';
+/* ─────────────────────────────────────────────
+ * Font Loading - Geist Variable
+ *
+ * Single file for all weights (100-900)
+ * font-display: swap for instant render
+ * Source: https://vercel.com/font
+ * ───────────────────────────────────────────── */
+@font-face {
+	font-family: 'Geist';
+	src: url('https://cdn.jsdelivr.net/npm/geist@1.0.0/dist/fonts/geist-sans/Geist-Variable.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
 
-/* === Reset === */
-*, *::before, *::after {
+@font-face {
+	font-family: 'Geist Mono';
+	src: url('https://cdn.jsdelivr.net/npm/geist@1.0.0/dist/fonts/geist-mono/GeistMono-Variable.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* ─────────────────────────────────────────────
+ * Reset - Minimal, purposeful
+ * ───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
 
 html {
+	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;
 	scroll-behavior: smooth;
 }
 
-/* When Lenis is active, disable native scroll behavior */
-html.lenis, html.lenis body {
-	height: auto;
-}
-
-.lenis.lenis-smooth {
-	scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-	overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-	overflow: hidden;
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
 
 body {
-	min-height: 100vh;
 	font-family: var(--font-sans);
 	font-size: var(--text-base);
-	font-weight: var(--font-normal);
 	line-height: var(--leading-normal);
-	color: var(--color-text-primary);
-	background-color: var(--color-bg-deep);
+	color: var(--ink-primary);
+	background: var(--surface-base);
 }
 
-/* === Typography Base === */
-h1, h2, h3, h4, h5, h6 {
-	font-family: var(--font-display);
-	font-weight: var(--font-semibold);
+/* ─────────────────────────────────────────────
+ * Typography Defaults
+ * Clear hierarchy. Nothing decorative.
+ * ───────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
 	line-height: var(--leading-tight);
 	letter-spacing: var(--tracking-tight);
-	color: var(--color-text-primary);
+	color: var(--ink-primary);
 }
 
 h1 {
 	font-size: var(--text-4xl);
+	font-weight: 400;
+	letter-spacing: var(--tracking-tighter);
 }
 
 h2 {
@@ -74,119 +96,77 @@ h4 {
 }
 
 p {
-	line-height: var(--leading-relaxed);
-	color: var(--color-text-secondary);
+	color: var(--ink-secondary);
+	max-width: var(--measure-normal);
 }
 
-strong {
-	font-weight: var(--font-semibold);
-	color: var(--color-text-primary);
+/* Large text (taglines, intros) */
+.text-lg {
+	font-size: var(--text-lg);
+	line-height: var(--leading-snug);
 }
 
-em {
-	font-style: italic;
-}
-
-small {
+/* Small text (captions, meta) */
+.text-sm {
 	font-size: var(--text-sm);
+	line-height: var(--leading-snug);
 }
 
-/* === Links === */
+/* ─────────────────────────────────────────────
+ * Links
+ * ───────────────────────────────────────────── */
 a {
-	color: var(--color-accent-link);
+	color: var(--ink-primary);
 	text-decoration: none;
-	transition: color var(--duration-fast) var(--ease-out);
+	transition:
+		color var(--duration-fast) var(--ease-out),
+		opacity var(--duration-fast) var(--ease-out);
 }
 
 a:hover {
-	color: var(--color-accent-link-hover);
+	color: var(--ink-secondary);
 }
 
-/* === Code === */
+/* ─────────────────────────────────────────────
+ * Code
+ * ───────────────────────────────────────────── */
 code {
 	font-family: var(--font-mono);
 	font-size: 0.9em;
+	background: var(--surface-sunken);
 	padding: 0.15em 0.4em;
-	background-color: var(--color-bg-elevated);
 	border-radius: var(--radius-sm);
 }
 
 pre {
 	font-family: var(--font-mono);
 	font-size: var(--text-sm);
-	line-height: var(--leading-normal);
+	line-height: 1.5;
+	background: var(--surface-sunken);
 	padding: var(--space-4);
-	background-color: var(--color-bg-surface);
 	border-radius: var(--radius-md);
 	overflow-x: auto;
 }
 
 pre code {
-	padding: 0;
 	background: none;
+	padding: 0;
+	font-size: inherit;
 }
 
-/* === Selection === */
-::selection {
-	background-color: oklch(60% 0.12 250 / 0.3);
-	color: var(--color-text-primary);
-}
-
-/* === Focus === */
+/* ─────────────────────────────────────────────
+ * Focus States
+ * Accessible, minimal
+ * ───────────────────────────────────────────── */
 :focus-visible {
-	outline: 2px solid var(--color-accent-link);
+	outline: 2px solid var(--border-focus);
 	outline-offset: 2px;
 }
 
-/* === Scrollbar (Webkit) === */
-::-webkit-scrollbar {
-	width: 8px;
-	height: 8px;
-}
-
-::-webkit-scrollbar-track {
-	background: var(--color-bg-surface);
-}
-
-::-webkit-scrollbar-thumb {
-	background: var(--color-border);
-	border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: var(--color-text-muted);
-}
-
-/* === Utility Classes === */
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
-}
-
-.content-width {
-	max-width: var(--content-width);
-	margin-inline: auto;
-	padding-inline: var(--space-6);
-}
-
-.content-width-wide {
-	max-width: var(--content-width-wide);
-	margin-inline: auto;
-	padding-inline: var(--space-6);
-}
-
-/* === Monospace Numbers === */
-.tabular-nums {
-	font-variant-numeric: tabular-nums;
-}
-
-.mono {
-	font-family: var(--font-mono);
+/* ─────────────────────────────────────────────
+ * Selection
+ * ───────────────────────────────────────────── */
+::selection {
+	background: var(--ink-primary);
+	color: var(--surface-base);
 }
