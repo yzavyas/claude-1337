@@ -9,6 +9,8 @@ import click
 from rich.console import Console
 from rich.table import Table
 
+from lab_1337.proposals import proposal
+
 console = Console()
 
 EXPERIMENTS_DIR = Path(__file__).parent.parent.parent / "experiments"
@@ -48,8 +50,12 @@ def main():
     pass
 
 
-@main.command()
-def list():
+# Register subcommand groups
+main.add_command(proposal)
+
+
+@main.command("experiments")
+def list_experiments():
     """List available experiments."""
     experiments = get_experiments()
 
