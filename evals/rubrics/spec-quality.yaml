@@ -1,0 +1,114 @@
+# Specification Quality Rubric for LLM-as-Judge Evaluation
+#
+# Used to evaluate specifications produced by methodologies that generate specs.
+# Only applies to: spec-kit, GSD, BMAD (not baseline)
+
+name: spec-quality
+version: "1.0.0"
+description: |
+  Rubric for evaluating specification quality.
+  Good specs lead to better implementations.
+
+judge_model: "claude-sonnet-4-20250514"
+judge_temperature: 0.0
+
+applies_to:
+  - speckit
+  - gsd
+  - bmad
+
+# System prompt for the judge
+judge_system_prompt: |
+  You are evaluating specification quality. Score each criterion 0-1.
+  A good specification is complete, unambiguous, and actionable.
+  Focus on the spec itself, not whether it was followed.
+
+criteria:
+  - name: completeness
+    weight: 0.30
+    description: "Does the spec cover all requirements?"
+    scoring:
+      0.0: "Missing major requirements or edge cases"
+      0.5: "Covers main requirements but missing details"
+      1.0: "Comprehensive coverage of requirements and edge cases"
+    prompt: |
+      Is this specification complete?
+      Does it cover all requirements from the task? Are edge cases addressed?
+      Score 0-1.
+
+  - name: clarity
+    weight: 0.25
+    description: "Is the spec unambiguous?"
+    scoring:
+      0.0: "Vague, could be interpreted multiple ways"
+      0.5: "Mostly clear but some ambiguous parts"
+      1.0: "Precise, unambiguous, no room for misinterpretation"
+    prompt: |
+      Is this specification clear and unambiguous?
+      Could different developers interpret it differently?
+      Score 0-1.
+
+  - name: actionability
+    weight: 0.25
+    description: "Can you implement from this spec alone?"
+    scoring:
+      0.0: "Too abstract, needs significant clarification"
+      0.5: "Implementable but requires some inference"
+      1.0: "Directly implementable with no gaps"
+    prompt: |
+      Is this specification actionable?
+      Could a developer implement the feature from this spec alone?
+      Score 0-1.
+
+  - name: traceability
+    weight: 0.20
+    description: "Are decisions traceable to requirements?"
+    scoring:
+      0.0: "Technical decisions without justification"
+      0.5: "Some decisions explained, others not"
+      1.0: "All decisions traceable to requirements"
+    prompt: |
+      Are technical decisions in this spec traceable to requirements?
+      Is there a clear "why" for each choice?
+      Score 0-1.
+
+# Aggregation
+aggregation: weighted_average
+
+# Thresholds
+thresholds:
+  excellent: 0.85
+  good: 0.70
+  acceptable: 0.50
+  poor: 0.0
+
+# Judge prompt template
+judge_prompt_template: |
+  Evaluate the following specification for quality.
+
+  ## Original Task
+  {task_prompt}
+
+  ## Specification Produced
+  ```
+  {spec}
+  ```
+
+  ## Evaluation Criteria
+  Score each criterion 0.0 to 1.0:
+
+  1. **Completeness** (weight: 30%): Does it cover all requirements?
+  2. **Clarity** (weight: 25%): Is it unambiguous?
+  3. **Actionability** (weight: 25%): Can you implement from it?
+  4. **Traceability** (weight: 20%): Are decisions justified?
+
+  Respond with JSON:
+  ```json
+  {
+    "completeness": 0.X,
+    "clarity": 0.X,
+    "actionability": 0.X,
+    "traceability": 0.X,
+    "reasoning": "Brief explanation of scores"
+  }
+  ```
