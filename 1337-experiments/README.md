@@ -36,52 +36,73 @@ Marketing. Hype. Framework promotion. "Top 10" lists.
 
 ```
 1337-experiments/
-├── proposals/          # LEPs - Lab Enhancement Proposals (Rust RFC style)
+├── proposals/          # LEPs - Lab Enhancement Proposals
+├── implementations/    # IMPs - Implementation Plans
 ├── experiments/        # Each experiment is its own package
 ├── results/            # Published findings
-└── src/lab_1337/       # CLI and shared infrastructure
+└── src/lab_1337/
+    ├── elc/            # Enhancement Lifecycle management
+    ├── core/           # Experiment infrastructure
+    └── cli.py          # CLI entrypoint
 ```
 
-## Usage
+## Enhancement Lifecycle (ELC)
+
+Full lifecycle from idea to evidence:
+
+```
+LEP (Proposal) → IMP (Implementation Plan) → Experiment → Results
+```
+
+Naming convention enforces linkage: `lep-001-*`, `imp-001-*`, `experiments/lep-001-*` are automatically connected by number.
+
+### Quick Start
 
 ```bash
 # Install
 uv sync
 
-# List experiments
-lab-1337 experiments
-
-# Run an experiment
-lab-1337 run ralph-iteration-effect
-
-# View results
-lab-1337 results ralph-iteration-effect
+# Check lab status
+lab-1337 status
 ```
 
-## Proposals
+### Proposals (LEPs)
 
-Lab Enhancement Proposals (LEPs) follow [Rust RFC format](https://rust-lang.github.io/rfcs/).
+[Rust RFC format](https://rust-lang.github.io/rfcs/) - what and why.
 
 ```bash
-# Create new proposal
-lab-1337 proposal new "My experiment idea"
-
-# List all proposals
-lab-1337 proposal list
-
-# Show specific proposal
-lab-1337 proposal show 001
-
-# Update status (draft → discussion → fcp → accepted)
-lab-1337 proposal status 001 discussion
-lab-1337 proposal fcp 001
-lab-1337 proposal accept 001
-
-# Mark as implemented
-lab-1337 proposal implemented 001 --tracking "experiments/my-experiment"
+lab-1337 proposal new "My experiment idea"    # Create from template
+lab-1337 proposal list                        # Show all proposals
+lab-1337 proposal show 001                    # View proposal
+lab-1337 proposal status 001 discussion       # Start discussion
+lab-1337 proposal fcp 001                     # Final Comment Period
+lab-1337 proposal accept 001                  # Accept (prompts IMP creation)
 ```
 
-Current proposals:
+**Lifecycle**: draft → discussion → fcp → accepted/rejected/postponed → implemented
+
+### Implementation Plans (IMPs)
+
+The how - design and tasks.
+
+```bash
+lab-1337 imp new 001                          # Create IMP for LEP-001
+lab-1337 imp list                             # Show all IMPs
+lab-1337 imp show 001                         # View IMP
+```
+
+### Experiments
+
+Executable packages linked to LEPs.
+
+```bash
+lab-1337 experiment new 001                   # Scaffold from LEP-001
+lab-1337 experiment list                      # Show all experiments
+lab-1337 run lep-001-my-experiment            # Run experiment
+lab-1337 results lep-001-my-experiment        # View results
+```
+
+## Current Work
 
 - [LEP-001: Rigor is What You Want](proposals/lep-001-rigor-is-what-you-want.md)
 
