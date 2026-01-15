@@ -61,11 +61,12 @@ install_plugin() {
   echo "  === $plugin_name ==="
 
   # Install skills
+  # Each plugin has one skill - use plugin name directly for cleaner naming
   if [ -d "$plugin_dir/skills" ]; then
     for skill_dir in "$plugin_dir/skills"/*/; do
       if [ -d "$skill_dir" ]; then
         skill_name=$(basename "$skill_dir")
-        target_name="${plugin_name}--${skill_name}"
+        target_name="$plugin_name"  # Use plugin name, not plugin--skill
         target_dir="$CLAUDE_DIR/skills/$target_name"
 
         echo "    skill: $skill_name → $target_name"
