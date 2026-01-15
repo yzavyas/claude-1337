@@ -211,6 +211,29 @@ Hooks that silently block or enforce without consent violate collaborative agenc
 
 **Mistake-proofing (poka-yoke)**: Catch errors where they originate, not downstream.
 
+### Non-Conformist by Design (added 2026-01-14)
+
+Extensions that offer templates converge. Extensions that teach process diverge.
+
+| Selective (Converges) | Generative (Diverges) |
+|-----------------------|-----------------------|
+| "Pick style A, B, or C" | "What approach fits your context?" |
+| Templates to apply | Framework to discover |
+| Menu of options | Dialogue to articulate |
+| Everyone gets similar output | Each user develops unique voice |
+
+**The homogenization trap:** When AI tools offer categorical choices, everyone picks from the same menu. Output converges toward sameness.
+
+**The generative alternative:** Help users discover and crystallize their *own* approach. The skill teaches the process, not the product.
+
+**Crystallization pattern:**
+```
+skill helps user discover → user articulates their approach →
+approach becomes local skill → collaboration uses that vocabulary
+```
+
+The published skill is the fishing rod. Each user catches their own fish.
+
 ---
 
 ## Why This Matters (Ethos)

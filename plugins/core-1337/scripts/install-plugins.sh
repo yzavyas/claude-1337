@@ -1,12 +1,14 @@
 #!/bin/bash
-# Copies selected 1337 plugins to ~/.claude/plugins/ for direct use
-# This bypasses the marketplace system entirely
+# Installs claude-1337 plugins as user-defined components in ~/.claude/
+#
+# This bypasses the plugin system by copying skills/, agents/, commands/, hooks/
+# directly to ~/.claude/ as user-defined components.
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PLUGINS_DIR="$SCRIPT_DIR/plugins"
-TARGET_DIR="$HOME/.claude/plugins"
+PLUGINS_DIR="$SCRIPT_DIR/../../"  # Go up to plugins/
+CLAUDE_DIR="$HOME/.claude"
 
 # Available plugins
 PLUGINS=(
@@ -23,6 +25,8 @@ PLUGINS=(
 
 usage() {
   echo "Usage: $0 [options] [plugin...]"
+  echo ""
+  echo "Installs claude-1337 plugins as user-defined components in ~/.claude/"
   echo ""
   echo "Options:"
   echo "  -a, --all      Install all plugins"
@@ -46,30 +50,74 @@ list_plugins() {
 }
 
 install_plugin() {
-  local name="$1"
-  local source="$PLUGINS_DIR/$name"
-  local target="$TARGET_DIR/$name"
+  local plugin_name="$1"
+  local plugin_dir="$PLUGINS_DIR/$plugin_name"
 
-  if [ ! -d "$source" ]; then
-    echo "Error: Plugin '$name' not found at $source"
+  if [ ! -d "$plugin_dir" ]; then
+    echo "Error: Plugin '$plugin_name' not found at $plugin_dir"
     return 1
   fi
 
-  # Create target directory
-  mkdir -p "$TARGET_DIR"
+  echo "  === $plugin_name ==="
 
-  # Remove existing if present
-  if [ -d "$target" ]; then
-    echo "  Updating $name..."
-    rm -rf "$target"
-  else
-    echo "  Installing $name..."
+  # Install skills
+  if [ -d "$plugin_dir/skills" ]; then
+    for skill_dir in "$plugin_dir/skills"/*/; do
+      if [ -d "$skill_dir" ]; then
+        skill_name=$(basename "$skill_dir")
+        target_name="${plugin_name}--${skill_name}"
+        target_dir="$CLAUDE_DIR/skills/$target_name"
+
+        echo "    skill: $skill_name → $target_name"
+        rm -rf "$target_dir"
+        cp -r "$skill_dir" "$target_dir"
+      fi
+    done
   fi
 
-  # Copy plugin
-  cp -r "$source" "$target"
+  # Install agents
+  if [ -d "$plugin_dir/agents" ]; then
+    for agent_file in "$plugin_dir/agents"/*.md; do
+      if [ -f "$agent_file" ]; then
+        agent_name=$(basename "$agent_file" .md)
+        target_name="${plugin_name}--${agent_name}.md"
+        target_file="$CLAUDE_DIR/agents/$target_name"
 
-  echo "  ✓ $name installed to $target"
+        echo "    agent: $agent_name → $target_name"
+        cp "$agent_file" "$target_file"
+      fi
+    done
+  fi
+
+  # Install commands
+  if [ -d "$plugin_dir/commands" ]; then
+    for cmd_file in "$plugin_dir/commands"/*.md; do
+      if [ -f "$cmd_file" ]; then
+        cmd_name=$(basename "$cmd_file" .md)
+        target_name="${plugin_name}--${cmd_name}.md"
+        target_file="$CLAUDE_DIR/commands/$target_name"
+
+        echo "    command: $cmd_name → $target_name"
+        cp "$cmd_file" "$target_file"
+      fi
+    done
+  fi
+
+  # Install hooks
+  if [ -d "$plugin_dir/hooks" ]; then
+    shopt -s nullglob
+    for hook_file in "$plugin_dir/hooks"/*.json "$plugin_dir/hooks"/*.md; do
+      if [ -f "$hook_file" ]; then
+        hook_name=$(basename "$hook_file")
+        target_name="${plugin_name}--${hook_name}"
+        target_file="$CLAUDE_DIR/hooks/$target_name"
+
+        echo "    hook: $hook_name → $target_name"
+        cp "$hook_file" "$target_file"
+      fi
+    done
+    shopt -u nullglob
+  fi
 }
 
 # Parse arguments
@@ -153,16 +201,28 @@ if [ ${#SELECTED[@]} -eq 0 ]; then
   exit 1
 fi
 
+# Create target directories
+mkdir -p "$CLAUDE_DIR/skills"
+mkdir -p "$CLAUDE_DIR/agents"
+mkdir -p "$CLAUDE_DIR/commands"
+mkdir -p "$CLAUDE_DIR/hooks"
+
 # Install
 echo ""
-echo "Installing to $TARGET_DIR:"
+echo "Installing to $CLAUDE_DIR as user-defined components:"
 echo ""
 
 for plugin in "${SELECTED[@]}"; do
   install_plugin "$plugin"
+  echo ""
 done
 
+echo "=== Installation Complete ==="
 echo ""
-echo "Done. Restart Claude Code to load plugins."
+echo "Components installed to:"
+echo "  ~/.claude/skills/"
+echo "  ~/.claude/agents/"
+echo "  ~/.claude/commands/"
+echo "  ~/.claude/hooks/"
 echo ""
-echo "To verify: ls $TARGET_DIR"
+echo "Restart Claude Code to load components."

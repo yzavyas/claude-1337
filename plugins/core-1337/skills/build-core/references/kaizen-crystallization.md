@@ -176,6 +176,37 @@ This is how complementary collaboration works:
 
 ---
 
+## Non-Conformist by Design
+
+Extensions that offer templates converge. Extensions that teach process diverge.
+
+| Selective (Converges) | Generative (Diverges) |
+|-----------------------|-----------------------|
+| "Pick style A, B, or C" | "What influences move you?" |
+| Templates to apply | Framework to discover |
+| Menu of options | Dialogue to articulate |
+| Everyone gets similar output | Each user develops unique voice |
+
+**The homogenization trap:** When AI tools offer categorical choices ("atmospherist", "brutalist", "corporate Memphis"), everyone picks from the same menu. Output converges toward sameness.
+
+**The generative alternative:** Help users discover and crystallize their *own* aesthetic vocabulary, influences, and synthesis. The skill teaches the process, not the product.
+
+| Wrong | Right |
+|-------|-------|
+| Skill prescribes aesthetic | Skill helps user discover their aesthetic |
+| Template library | Discovery framework |
+| "Use this style" | "What style is in you?" |
+
+**Crystallization pattern:**
+```
+skill helps user discover → user articulates their influences →
+influences become local skill → collaboration uses that vocabulary
+```
+
+The published skill is the fishing rod. Each user catches their own fish.
+
+---
+
 ## Key Phrases
 
 - "Does this make the next enhancement easier or harder?"
@@ -184,6 +215,8 @@ This is how complementary collaboration works:
 - "The system is the crystallized wisdom"
 - "Structure over will"
 - "Solve the category, not the instance"
+- "Generative over selective"
+- "Teach the process, not the product"
 
 ---
 

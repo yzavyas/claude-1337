@@ -7,6 +7,8 @@ description: Svelte-first frontend experience engineering. Use when building int
 
 Svelte-first patterns for interactive frontend experiences. Uses bun, not npm.
 
+**Before visual implementation:** Aesthetic direction should be established. If unclear, invoke the **artist** agent to conduct discovery. The designer and architect need direction to work from.
+
 Claims cite sources inline [Author Year] or in the Sources section.
 
 ---
@@ -245,35 +247,106 @@ See `references/cognitive-design.md` for full research.
 
 **Interaction:** Minimal microcopy, visible focus states, edge-case content lengths.
 
-## Aesthetic Agents
+## Aesthetic Discovery (Non-Conformist by Design)
 
-Modes of expression, not personas. Each represents an archetypal design approach.
+Categorical aesthetic agents converge output. Instead: help users discover and articulate their own visual voice.
 
-| Agent | Essence | Use When |
-|-------|---------|----------|
-| **symmetrist** | Geometric precision | Formal, authoritative |
-| **atmospherist** | Vast scale, mood | Immersive, cinematic |
-| **whimsicalist** | Pastels, handcraft | Playful, charming |
-| **shadowist** | Dark, tension | Dramatic, premium |
-| **brutalist** | Raw, honest | Artistic, anti-corporate |
-| **editorialist** | Typography-forward | Content-driven, longform |
+### The Collaboration Model
 
-Invoke by name, blend archetypes, or learn the principles. Full definitions in `agents/`.
+| Role | Who | What |
+|------|-----|------|
+| Creative direction | Human | Spark, synthesis, "I want it to feel like X meets Y" |
+| Articulation support | artist agent | Help explore/express intent, show references, ask questions |
+| Evidence | labcoat agent | "For that audience, research shows..." |
+| Structure | front-end-architect agent | "That interaction needs this component pattern" |
+| Execution | expert-* agents | "Here's how to build that in Svelte/GSAP/etc" |
+
+### Discovering Your Aesthetic
+
+The skill doesn't prescribe style. It helps users crystallize their own influences through a structured interview process (see `assets/aesthetic-interview.md`):
+
+1. **Influences** - Surface what has moved you (films, games, art, spaces)
+2. **Qualities** - Extract underlying patterns (density, temperature, precision, energy)
+3. **Context** - Ground in the specific project and constraints
+4. **Synthesis** - Build vocabulary and reference shorthand
+5. **Crystallization** - Optionally persist as personal skill using plugin-dev/extension-builder
+
+**Example influences** (demonstration, not prescription):
+- Film: Blade Runner, Kubrick's geometric dread, Villeneuve's restrained atmosphere
+- Anime: Ghibli warmth → Death Note tension → Ghost in the Shell density
+- Games: BOTW's invitation vs Elden Ring's hostility (same openness, different emotional register)
+- Web: The Boat (SBS), Wix space exploration
+
+### Agents
+
+Four collaborative agents - each with values-based construction and references to internalize:
+
+| Agent | Role |
+|-------|------|
+| **artist** | Facilitate aesthetic discovery through dialogue - surfaces influences, builds vocabulary |
+| **experience-designer** | Implement aesthetic vision - typography, color, spacing, visual craft |
+| **experience-architect** | Technical architecture - components, state, animation structure, performance |
+| **experience-labcoat** | Experience science - UX research, behavioral evidence, validation |
+
+The artist + human discover direction. The designer implements it. The architect structures it. The labcoat validates it.
 
 ## References
 
-| File | Content |
-|------|---------|
+Technical knowledge domains - agents internalize relevant references before working.
+
+**Fundamentals:**
+
+| Reference | Content |
+|-----------|---------|
+| `references/html.md` | Semantic structure, accessibility, ARIA, document architecture |
+| `references/css.md` | Modern CSS, layout, custom properties, container queries, layers |
+| `references/javascript.md` | Language patterns, async, performance, Web APIs |
+
+**Svelte Ecosystem:**
+
+| Reference | Content |
+|-----------|---------|
 | `references/svelte-patterns.md` | Svelte 5 runes, SvelteKit, Threlte 8 |
-| `references/motion-design.md` | GSAP, CSS animations, timing functions |
-| `references/scrollytelling.md` | ScrollTrigger, Scrollama, Lenis patterns |
-| `references/3d-experiences.md` | Three.js, Threlte 8, WebGL performance |
-| `references/graphics-primitives.md` | SVG, Canvas, sprites, PixiJS |
-| `references/data-visualization.md` | D3, Layer Cake, uPlot, high-performance viz |
-| `references/headless-ui.md` | Melt UI, Bits UI, shadcn-svelte |
+
+**Visual Implementation:**
+
+| Reference | Content |
+|-----------|---------|
 | `references/typography.md` | Fluid type, variable fonts, type scales |
 | `references/color-systems.md` | OKLCH, accessible palettes, dark mode |
 | `references/design-systems.md` | Tokens, Tailwind, CSS-in-JS decisions |
+
+**Motion & Animation:**
+
+| Reference | Content |
+|-----------|---------|
+| `references/motion-design.md` | GSAP, CSS animations, timing functions |
+| `references/scrollytelling.md` | ScrollTrigger, Scrollama, Lenis patterns |
+
+**Graphics & 3D:**
+
+| Reference | Content |
+|-----------|---------|
+| `references/3d-experiences.md` | Three.js, Threlte 8, WebGL performance |
+| `references/graphics-primitives.md` | SVG, Canvas, sprites, PixiJS |
+| `references/data-visualization.md` | D3, Layer Cake, uPlot, high-performance viz |
+
+**Components & UI:**
+
+| Reference | Content |
+|-----------|---------|
 | `references/component-patterns.md` | Compound, composition patterns |
+| `references/headless-ui.md` | Melt UI, Bits UI, shadcn-svelte |
+
+**Cognitive & Sources:**
+
+| Reference | Content |
+|-----------|---------|
 | `references/cognitive-design.md` | Attention, load, timing, audience targeting |
 | `references/sources.md` | Full citations for all claims |
+
+**Assets:**
+
+| Asset | Content |
+|-------|---------|
+| `assets/aesthetic-interview.md` | Interview template for aesthetic discovery process |

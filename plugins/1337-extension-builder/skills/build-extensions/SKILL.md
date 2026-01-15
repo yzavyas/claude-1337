@@ -94,6 +94,35 @@ Catch errors where they originate.
 - Surface uncertainty at decision points
 - Include "watch out for" sections
 
+### Non-Conformist by Design
+
+Extensions that offer templates converge. Extensions that teach process diverge.
+
+| Selective (Converges) | Generative (Diverges) |
+|-----------------------|-----------------------|
+| "Pick style A, B, or C" | "What approach fits your context?" |
+| Templates to apply | Framework to discover |
+| Menu of options | Dialogue to articulate |
+| Everyone gets similar output | Each user develops unique voice |
+
+**The homogenization trap:** When AI tools offer categorical choices, everyone picks from the same menu. Output converges toward sameness.
+
+**The generative alternative:** Help users discover and crystallize their *own* approach. The skill teaches the process, not the product.
+
+| Wrong | Right |
+|-------|-------|
+| Skill prescribes THE answer | Skill helps user find THEIR answer |
+| Template library | Discovery framework |
+| "Use this pattern" | "Here's how to find the right pattern" |
+
+**Crystallization pattern:**
+```
+skill helps user discover → user articulates their approach →
+approach becomes local skill → collaboration uses that vocabulary
+```
+
+The published skill is the fishing rod. Each user catches their own fish.
+
 ### Observability
 
 Make extension behavior visible and controllable by default.
@@ -311,6 +340,11 @@ Before shipping:
 - [ ] Expert finds this useful
 - [ ] User MORE capable after using
 - [ ] Passes the pit of success test
+
+### Non-Conformist
+- [ ] Teaches process, not product
+- [ ] Users develop their own approach
+- [ ] No categorical templates that converge
 
 ---
 
