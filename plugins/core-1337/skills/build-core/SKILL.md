@@ -332,3 +332,4 @@ See [kaizen-crystallization.md](references/kaizen-crystallization.md).
 | Reasoning verification | [reasoning-verification.md](references/reasoning-verification.md) |
 | Writing quality | [writing-antipatterns.md](references/writing-antipatterns.md) |
 | Research foundations | [research-foundations.md](references/research-foundations.md) |
+| Principles examples | [principles-and-patterns-examples.md](references/principles-and-patterns-examples.md) |
