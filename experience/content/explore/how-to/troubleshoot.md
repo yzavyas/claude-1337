@@ -17,7 +17,7 @@ After adding the marketplace:
 Run the install script:
 
 ```bash
-~/.claude/plugins/marketplaces/claude-1337/install-workaround.sh
+~/.claude/plugins/marketplaces/claude-1337/plugins/core-1337/scripts/install-workaround.sh
 ```
 
 This adds a session-start hook that tells Claude Code where to find the plugins.

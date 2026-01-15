@@ -9,8 +9,6 @@ on:
       - 'README.md'
       - 'LICENSE'
       - '.gitignore'
-      - 'workaround-hooks.json'
-      - 'install-workaround.sh'
 
 permissions:
   contents: write
@@ -40,8 +38,6 @@ jobs:
           git checkout dev -- .gitignore
           git checkout dev -- LICENSE
           git checkout dev -- README.md
-          git checkout dev -- workaround-hooks.json
-          git checkout dev -- install-workaround.sh
 
       - name: Commit and push
         run: |
