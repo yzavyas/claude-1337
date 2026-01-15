@@ -1,0 +1,20 @@
+{
+	"/": [
+		"src/routes/+layout.ts",
+		"src/routes/+layout.ts"
+	],
+	"/catalog": [
+		"src/routes/catalog/+page.ts",
+		"src/routes/+layout.ts"
+	],
+	"/ethos": [
+		"src/routes/+layout.ts"
+	],
+	"/reference": [
+		"src/routes/+layout.ts"
+	],
+	"/[...path]": [
+		"src/routes/[...path]/+page.server.ts",
+		"src/routes/+layout.ts"
+	]
+}

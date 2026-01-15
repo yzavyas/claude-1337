@@ -21,7 +21,7 @@ Known issues: [#14815](https://github.com/anthropics/claude-code/issues/14815), 
 Workaround:
 
 ```bash
-~/.claude/plugins/marketplaces/claude-1337/install-workaround.sh
+~/.claude/plugins/marketplaces/claude-1337/plugins/core-1337/scripts/install-workaround.sh
 ```
 
 ## Contributing
