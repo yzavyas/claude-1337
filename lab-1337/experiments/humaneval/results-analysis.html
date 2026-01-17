@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HumanEval Benchmark Analysis: Ralph Iteration Effect</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      line-height: 1.65;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      color: #1a1a1a;
+      background: #fafafa;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #111;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e0e0e0;
+      color: #222;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem;
+      color: #333;
+    }
+
+    p { margin: 0.75rem 0; }
+
+    .meta {
+      color: #666;
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-box {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border-left: 4px solid #5c6bc0;
+    }
+
+    .summary-box p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .metric-card {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      border: 1px solid #eee;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .metric-value.highlight { color: #2e7d32; }
+    .metric-value.secondary { color: #1565c0; }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.25rem;
+    }
+
+    .metric-delta {
+      font-size: 0.875rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background: #f5f5f5;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #555;
+    }
+
+    tr:hover { background: #fafafa; }
+
+    .status-pass {
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    .status-fail {
+      color: #c62828;
+      font-weight: 600;
+    }
+
+    .verified-badge {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    .uncertain-badge {
+      display: inline-block;
+      background: #fff3e0;
+      color: #ef6c00;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    .cove-note {
+      background: #fffde7;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      border-left: 4px solid #fbc02d;
+      font-size: 0.9rem;
+    }
+
+    .cove-note strong { color: #f57f17; }
+
+    .limitation-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .limitation-list li {
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      position: relative;
+    }
+
+    .limitation-list li::before {
+      content: "⚠";
+      position: absolute;
+      left: 0;
+      color: #ff9800;
+    }
+
+    code {
+      background: #f5f5f5;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: "SF Mono", Consolas, monospace;
+      font-size: 0.85rem;
+    }
+
+    .raw-data {
+      background: #263238;
+      color: #eceff1;
+      padding: 1.25rem;
+      border-radius: 8px;
+      font-family: "SF Mono", Consolas, monospace;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      color: #666;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>HumanEval Benchmark Analysis</h1>
+  <p class="meta">Ralph Iteration Effect &bull; Claude Haiku &bull; 50 Problems &bull; 2026-01-15</p>
+
+  <div class="summary-box">
+    <p><strong>Bottom Line:</strong> Ralph-style iteration achieved <strong>100% pass rate</strong> vs 94% for single-shot, recovering all 3 failures. Cost: ~9x tokens. However, 2 of 3 recovered problems passed on the first ralph attempt, suggesting structured output (file writing) may independently improve reliability.</p>
+  </div>
+
+  <h2>Key Metrics</h2>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-value secondary">94%</div>
+      <div class="metric-label">Single-Shot Pass</div>
+      <div class="metric-delta">47/50 problems</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value highlight">100%</div>
+      <div class="metric-label">Ralph-Style Pass</div>
+      <div class="metric-delta">50/50 problems</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">8.9x</div>
+      <div class="metric-label">Token Cost</div>
+      <div class="metric-delta">1,699 vs 190 avg</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">1.26</div>
+      <div class="metric-label">Avg Iterations</div>
+      <div class="metric-delta">74% first-try</div>
+    </div>
+  </div>
+
+  <h2>Verified Claims</h2>
+
+  <h3><span class="verified-badge">VERIFIED</span> Ralph recovers single-shot failures</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Problem</th>
+        <th>Single-Shot</th>
+        <th>Ralph-Style</th>
+        <th>Iterations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>HumanEval/24</td>
+        <td class="status-fail">FAIL</td>
+        <td class="status-pass">PASS</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>HumanEval/32</td>
+        <td class="status-fail">FAIL</td>
+        <td class="status-pass">PASS</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>HumanEval/41</td>
+        <td class="status-fail">FAIL</td>
+        <td class="status-pass">PASS</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Evidence:</strong> Cross-checked each result in raw data. All three single-shot failures have corresponding ralph-style passes.</p>
+
+  <h3><span class="verified-badge">VERIFIED</span> Token cost is approximately 9x</h3>
+  <p>Single-shot average: 189.92 tokens. Ralph-style average: 1698.76 tokens. Ratio: 8.94x</p>
+
+  <h3><span class="verified-badge">VERIFIED</span> No problems required maximum iterations</h3>
+  <p>All ralph-style results show iterations ≤ 2. Maximum allowed was 3.</p>
+
+  <h2>Uncertain Claims</h2>
+
+  <h3><span class="uncertain-badge">UNCERTAIN</span> Iteration is the primary improvement mechanism</h3>
+
+  <div class="cove-note">
+    <strong>Observation:</strong> 2 of 3 recovered problems (HumanEval/24, HumanEval/41) passed ralph-style on the <em>first iteration</em>. This suggests structured output (file writing) may produce more reliable code than raw text generation, independent of iteration.
+  </div>
+
+  <p><strong>What would confirm this:</strong> Run single-shot with file-writing tools (no iteration). Compare to raw text single-shot. If file-writing single-shot outperforms raw text, hypothesis confirmed.</p>
+
+  <h2>Iteration Distribution</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Iterations Needed</th>
+        <th>Count</th>
+        <th>Percentage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 (first try)</td>
+        <td>37</td>
+        <td>74%</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>13</td>
+        <td>26%</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>0</td>
+        <td>0%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>COVE Verification Notes</h2>
+
+  <h3>Phase 2 - Verification Questions</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Did single-shot fail the 3 claimed problems?</td>
+        <td>Yes. Verified <code>passed=false</code> for each.</td>
+      </tr>
+      <tr>
+        <td>Did ralph-style introduce any NEW failures?</td>
+        <td>No. All 50 ralph-style results show <code>passed=true</code>.</td>
+      </tr>
+      <tr>
+        <td>Is the 9x token claim accurate?</td>
+        <td>Yes. 1698.76 / 189.92 = 8.94x</td>
+      </tr>
+      <tr>
+        <td>What would contradict "iteration helps"?</td>
+        <td>Ralph failures on problems single-shot passed. Did not occur.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Phase 3 - Fresh Read Observations</h3>
+  <ol>
+    <li>HumanEval/32 had the highest single-shot token count among failures (719 vs 311-345), suggesting inherent difficulty.</li>
+    <li>No problem hit the max iteration limit (3), suggesting the cap is sufficient.</li>
+    <li>Duration correlation: ralph-style took ~8.7x longer, matching token ratio.</li>
+  </ol>
+
+  <h2>Limitations</h2>
+
+  <ul class="limitation-list">
+    <li><strong>Sample size:</strong> 50 of 164 problems. May not generalize.</li>
+    <li><strong>Single model:</strong> Only Claude Haiku tested.</li>
+    <li><strong>Confounded variables:</strong> Cannot separate structured output effect from iteration.</li>
+    <li><strong>No error analysis:</strong> Did not examine root causes of failures.</li>
+    <li><strong>Determinism:</strong> Single run. Multiple runs needed for confidence intervals.</li>
+  </ul>
+
+  <h2>Raw Data Summary</h2>
+
+  <div class="raw-data">
+Total problems: 50
+Single-shot: 47 passed, 3 failed
+Ralph-style: 50 passed, 0 failed
+
+Single-shot failures: HumanEval/24, HumanEval/32, HumanEval/41
+
+Token totals:
+  Single-shot: 9,496 tokens
+  Ralph-style: 84,938 tokens
+
+Duration totals:
+  Single-shot: 72,155 ms (~72 sec)
+  Ralph-style: 628,161 ms (~10.5 min)
+  </div>
+
+  <footer>
+    Analysis generated using COVE (Chain of Verification) methodology.<br>
+    Lab-1337 &bull; claude-1337 Project
+  </footer>
+</body>
+</html>

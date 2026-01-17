@@ -1,0 +1,23 @@
+# Scenario: API-Level Iteration with Opus
+# Tests: Does iteration help a stronger model?
+
+name: api-iteration-opus
+description: Test API multi-turn iteration with Opus model
+
+hypothesis: |
+  If Ralph iteration helps, it should help more capable models
+  that can better understand and fix their previous mistakes.
+
+model: opus
+
+tasks:
+  - interval-merging  # Easy baseline
+  - text-justify      # Harder task
+
+agents:
+  - single-shot       # Baseline - no iteration
+  - ralph-iteration   # Same prompt repeated
+
+runs_per_agent: 3
+
+results_dir: results/

@@ -1,0 +1,154 @@
+{
+  "runs": [
+    {
+      "agent": "single-shot",
+      "run_number": 1,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 439,
+      "tokens_total": 440,
+      "cost_usd": 0.0208773,
+      "duration_ms": 2478,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:14:48.604782"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 537,
+      "tokens_total": 538,
+      "cost_usd": 0.010287500000000002,
+      "duration_ms": 3503,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:14:53.548457"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 3,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 476,
+      "tokens_total": 477,
+      "cost_usd": 0.0061755,
+      "duration_ms": 2764,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:14:57.474626"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 1,
+      "correctness": false,
+      "iterations_used": 3,
+      "tokens_input": 18,
+      "tokens_output": 4253,
+      "tokens_total": 4271,
+      "cost_usd": 0.16180025,
+      "duration_ms": 24439,
+      "evaluation": {
+        "passed": 0,
+        "failed": 20,
+        "total": 20,
+        "correctness": false,
+        "errors": [
+          "Execution failed:   File \"/var/folders/4x/7mk_97dd1535dd4w_q0306wm0000gn/T/tmploczr40w.py\", line 2\n    I see the issue - my commentary text is being included in the file. Let me write only the function code:I apologize for the permission issues. Let me provide the complete corrected function that addresses the test failures:\n      ^^^\nSyntaxError: invalid syntax\n"
+        ]
+      },
+      "timestamp": "2026-01-15T19:15:22.793221"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 3,
+      "tokens_input": 8,
+      "tokens_output": 4099,
+      "tokens_total": 4107,
+      "cost_usd": 0.21424559999999998,
+      "duration_ms": 24992,
+      "evaluation": {
+        "passed": 0,
+        "failed": 20,
+        "total": 20,
+        "correctness": false,
+        "errors": [
+          "Execution failed:   File \"/var/folders/4x/7mk_97dd1535dd4w_q0306wm0000gn/T/tmpxpih8u05.py\", line 2\n    The error shows that my docstring comments are being interpreted as code syntax errors. I included comments in the docstring that use arrow syntax which Python is treating as invalid. Let me provide a clean implementation without those problematic comments:\n        ^^^^^\nSyntaxError: invalid syntax\n"
+        ]
+      },
+      "timestamp": "2026-01-15T19:15:48.663185"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 3,
+      "correctness": false,
+      "iterations_used": 3,
+      "tokens_input": 13,
+      "tokens_output": 3729,
+      "tokens_total": 3742,
+      "cost_usd": 0.15698665,
+      "duration_ms": 20360,
+      "evaluation": {
+        "passed": 0,
+        "failed": 20,
+        "total": 20,
+        "correctness": false,
+        "errors": [
+          "Execution failed:   File \"/var/folders/4x/7mk_97dd1535dd4w_q0306wm0000gn/T/tmpym43y8iv.py\", line 2\n    I see the problem - my response text is being included in the file. Let me provide ONLY the code in a code block:\n      ^^^\nSyntaxError: invalid syntax\n"
+        ]
+      },
+      "timestamp": "2026-01-15T19:16:09.870659"
+    }
+  ],
+  "summary": {
+    "single-shot": {
+      "runs": 3,
+      "successes": 0,
+      "failures": 3,
+      "success_rate": 0.0,
+      "avg_tokens": 485.0,
+      "avg_iterations": 1.0,
+      "total_cost_usd": 0.03734030000000001
+    },
+    "test-feedback": {
+      "runs": 3,
+      "successes": 0,
+      "failures": 3,
+      "success_rate": 0.0,
+      "avg_tokens": 4040.0,
+      "avg_iterations": 3.0,
+      "total_cost_usd": 0.5330325
+    }
+  },
+  "metadata": {
+    "timestamp": "2026-01-15T19:16:09.874520",
+    "total_runs": 6,
+    "agents": [
+      "test-feedback",
+      "single-shot"
+    ],
+    "task": "text-justify",
+    "model": "haiku"
+  }
+}

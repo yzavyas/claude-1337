@@ -1,0 +1,46 @@
+# Scenario: Official Ralph Loop Methodology
+# Tests: Does file-based iteration with same prompt help?
+# STATUS: NOT YET IMPLEMENTED - requires different experiment design
+
+name: ralph-file-iteration
+description: Test the official Ralph Loop plugin methodology
+
+hypothesis: |
+  Ralph's file-based iteration (same prompt repeated, model reads
+  its own file changes) may work better than conversation-based
+  iteration because:
+  - Fresh context each iteration (no context pollution)
+  - Model sees concrete artifacts (files) not abstract feedback
+  - Matches how developers actually iterate (write, test, fix)
+
+model: sonnet  # Start with Sonnet
+
+# This scenario requires different infrastructure:
+# - Full Claude Code session (not isolated API calls)
+# - Ralph Loop plugin active
+# - File-producing tasks (not just return values)
+# - Measurement via hooks
+
+tasks:
+  - TBD  # Need file-based tasks
+
+agents:
+  - ralph-loop  # The actual plugin
+
+runs_per_agent: 5
+
+# Requirements for implementation
+implementation_notes: |
+  1. Create task that produces files (e.g., "implement a REST API")
+  2. Set up harness that:
+     - Runs Claude Code session
+     - Activates ralph-loop plugin
+     - Measures iterations to completion
+     - Evaluates final file state
+  3. Compare to single-shot file production
+
+  This is fundamentally different from current harness - may warrant
+  a separate experiment (LEP-001b) rather than forcing into LEP-001.
+
+status: planned
+findings: null
