@@ -1,0 +1,30 @@
+# Scenario: API-Level Iteration with Haiku
+# Tests: Does conversation-based iteration help/hurt?
+
+name: api-iteration-haiku
+description: Test API multi-turn iteration with Haiku model
+
+hypothesis: |
+  Multi-turn API conversation with test feedback should help
+  the model fix errors by seeing what went wrong.
+
+model: haiku
+
+tasks:
+  - interval-merging  # Easy baseline (expect ~100%)
+  - text-justify      # Harder task (expect ~60%)
+
+agents:
+  - single-shot       # Baseline - no iteration
+  - ralph-iteration   # Same prompt repeated
+
+runs_per_agent: 3
+
+# Results location
+results_dir: results/
+
+# What we found
+findings: |
+  - Single-shot outperformed test-feedback on easy task
+  - Iteration made harder task worse (12/20 → 0/20)
+  - Haiku may lack capability to iterate effectively

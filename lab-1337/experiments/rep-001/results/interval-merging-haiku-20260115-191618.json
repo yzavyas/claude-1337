@@ -1,0 +1,150 @@
+{
+  "runs": [
+    {
+      "agent": "single-shot",
+      "run_number": 1,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 211,
+      "tokens_total": 212,
+      "cost_usd": 0.003151,
+      "duration_ms": 1614,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:16:21.576166"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 2,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 117,
+      "tokens_total": 118,
+      "cost_usd": 0.0020876000000000002,
+      "duration_ms": 1042,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:16:23.774595"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 3,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 125,
+      "tokens_total": 126,
+      "cost_usd": 0.0021276000000000003,
+      "duration_ms": 1161,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:16:26.149792"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 1,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 6,
+      "tokens_output": 616,
+      "tokens_total": 622,
+      "cost_usd": 0.0094429,
+      "duration_ms": 3781,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:16:30.789288"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 3,
+      "tokens_input": 13,
+      "tokens_output": 1536,
+      "tokens_total": 1549,
+      "cost_usd": 0.14427435,
+      "duration_ms": 11417,
+      "evaluation": {
+        "passed": 0,
+        "failed": 22,
+        "total": 22,
+        "correctness": false,
+        "errors": [
+          "Execution failed:   File \"/var/folders/4x/7mk_97dd1535dd4w_q0306wm0000gn/T/tmporq3mw0u.py\", line 2\n    I see the problem - the test harness is including my explanation text. Let me provide ONLY the function with no additional text:\n      ^^^\nSyntaxError: invalid syntax\n"
+        ]
+      },
+      "timestamp": "2026-01-15T19:16:43.060769"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 3,
+      "correctness": true,
+      "iterations_used": 3,
+      "tokens_input": 8,
+      "tokens_output": 1110,
+      "tokens_total": 1118,
+      "cost_usd": 0.10076210000000002,
+      "duration_ms": 7403,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:16:51.320310"
+    }
+  ],
+  "summary": {
+    "single-shot": {
+      "runs": 3,
+      "successes": 3,
+      "failures": 0,
+      "success_rate": 1.0,
+      "avg_tokens": 152.0,
+      "avg_iterations": 1.0,
+      "total_cost_usd": 0.007366200000000001
+    },
+    "test-feedback": {
+      "runs": 3,
+      "successes": 2,
+      "failures": 1,
+      "success_rate": 0.6666666666666666,
+      "avg_tokens": 1096.3333333333333,
+      "avg_iterations": 2.3333333333333335,
+      "total_cost_usd": 0.25447935
+    }
+  },
+  "metadata": {
+    "timestamp": "2026-01-15T19:16:51.323898",
+    "total_runs": 6,
+    "agents": [
+      "test-feedback",
+      "single-shot"
+    ],
+    "task": "interval-merging",
+    "model": "haiku"
+  }
+}

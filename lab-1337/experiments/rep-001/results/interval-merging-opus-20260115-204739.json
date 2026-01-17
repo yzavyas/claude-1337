@@ -1,0 +1,148 @@
+{
+  "runs": [
+    {
+      "agent": "single-shot",
+      "run_number": 1,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 140,
+      "tokens_total": 141,
+      "cost_usd": 0.11188924999999998,
+      "duration_ms": 3510,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T20:46:57.056294"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 2,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 140,
+      "tokens_total": 141,
+      "cost_usd": 0.017242399999999998,
+      "duration_ms": 3542,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T20:47:01.474873"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 3,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 141,
+      "tokens_total": 142,
+      "cost_usd": 0.0152874,
+      "duration_ms": 3945,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T20:47:06.261469"
+    },
+    {
+      "agent": "ralph-iteration",
+      "run_number": 1,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 447,
+      "tokens_total": 448,
+      "cost_usd": 0.08506245000000001,
+      "duration_ms": 10507,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T20:47:17.820089"
+    },
+    {
+      "agent": "ralph-iteration",
+      "run_number": 2,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 449,
+      "tokens_total": 450,
+      "cost_usd": 0.09339195,
+      "duration_ms": 10119,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T20:47:28.937898"
+    },
+    {
+      "agent": "ralph-iteration",
+      "run_number": 3,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 326,
+      "tokens_total": 327,
+      "cost_usd": 0.0889597,
+      "duration_ms": 9173,
+      "evaluation": {
+        "passed": 22,
+        "failed": 0,
+        "total": 22,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T20:47:39.036240"
+    }
+  ],
+  "summary": {
+    "single-shot": {
+      "runs": 3,
+      "successes": 3,
+      "failures": 0,
+      "success_rate": 1.0,
+      "avg_tokens": 141.33333333333334,
+      "avg_iterations": 1.0,
+      "total_cost_usd": 0.14441905
+    },
+    "ralph-iteration": {
+      "runs": 3,
+      "successes": 3,
+      "failures": 0,
+      "success_rate": 1.0,
+      "avg_tokens": 408.3333333333333,
+      "avg_iterations": 1.0,
+      "total_cost_usd": 0.2674141
+    }
+  },
+  "metadata": {
+    "timestamp": "2026-01-15T20:47:39.038163",
+    "total_runs": 6,
+    "agents": [
+      "ralph-iteration",
+      "single-shot"
+    ],
+    "task": "interval-merging",
+    "model": "opus"
+  }
+}

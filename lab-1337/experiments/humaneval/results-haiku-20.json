@@ -1,0 +1,384 @@
+{
+  "timestamp": "2026-01-15T21:27:22.637134",
+  "model": "haiku",
+  "num_problems": 20,
+  "max_iterations": 3,
+  "summary": {
+    "single-shot": {
+      "total": 20,
+      "passed": 20,
+      "pass_rate": 1.0,
+      "avg_tokens": 171.6,
+      "avg_iterations": 1.0
+    },
+    "ralph-style": {
+      "total": 20,
+      "passed": 15,
+      "pass_rate": 0.75,
+      "avg_tokens": 3016.95,
+      "avg_iterations": 1.85
+    }
+  },
+  "results": [
+    {
+      "task_id": "HumanEval/0",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 192,
+      "duration_ms": 1377,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/0",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 1223,
+      "duration_ms": 13613,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 260,
+      "duration_ms": 1577,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 2450,
+      "duration_ms": 25260,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 106,
+      "duration_ms": 928,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "strategy": "ralph-style",
+      "passed": false,
+      "iterations": 3,
+      "tokens": 4303,
+      "duration_ms": 175236,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 165,
+      "duration_ms": 1065,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 3221,
+      "duration_ms": 165092,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 167,
+      "duration_ms": 1411,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 1433,
+      "duration_ms": 14566,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 174,
+      "duration_ms": 1398,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 1195,
+      "duration_ms": 12911,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 254,
+      "duration_ms": 2054,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 2,
+      "tokens": 4230,
+      "duration_ms": 36245,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 130,
+      "duration_ms": 1493,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "strategy": "ralph-style",
+      "passed": false,
+      "iterations": 3,
+      "tokens": 3488,
+      "duration_ms": 38248,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 175,
+      "duration_ms": 1240,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "strategy": "ralph-style",
+      "passed": false,
+      "iterations": 3,
+      "tokens": 4764,
+      "duration_ms": 45349,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 180,
+      "duration_ms": 1170,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 2,
+      "tokens": 4682,
+      "duration_ms": 172712,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/10",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 272,
+      "duration_ms": 1858,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/10",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 2,
+      "tokens": 4621,
+      "duration_ms": 44418,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/11",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 121,
+      "duration_ms": 1021,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/11",
+      "strategy": "ralph-style",
+      "passed": false,
+      "iterations": 3,
+      "tokens": 4414,
+      "duration_ms": 48809,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/12",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 145,
+      "duration_ms": 1097,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/12",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 2,
+      "tokens": 2593,
+      "duration_ms": 30178,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/13",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 106,
+      "duration_ms": 1190,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/13",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 2,
+      "tokens": 3026,
+      "duration_ms": 30222,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/14",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 96,
+      "duration_ms": 1500,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/14",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 2,
+      "tokens": 2661,
+      "duration_ms": 26671,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/15",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 106,
+      "duration_ms": 1038,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/15",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 924,
+      "duration_ms": 12656,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/16",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 92,
+      "duration_ms": 1370,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/16",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 1928,
+      "duration_ms": 148582,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/17",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 250,
+      "duration_ms": 1448,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/17",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 1098,
+      "duration_ms": 11892,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/18",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 177,
+      "duration_ms": 1139,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/18",
+      "strategy": "ralph-style",
+      "passed": true,
+      "iterations": 2,
+      "tokens": 2211,
+      "duration_ms": 22849,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/19",
+      "strategy": "single-shot",
+      "passed": true,
+      "iterations": 1,
+      "tokens": 264,
+      "duration_ms": 1627,
+      "error": null
+    },
+    {
+      "task_id": "HumanEval/19",
+      "strategy": "ralph-style",
+      "passed": false,
+      "iterations": 3,
+      "tokens": 5874,
+      "duration_ms": 48359,
+      "error": null
+    }
+  ]
+}

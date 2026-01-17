@@ -1,0 +1,327 @@
+{
+  "runs": [
+    {
+      "condition": "single",
+      "run_number": 1,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 177,
+      "tokens_total": 181,
+      "cost_usd": 0.0546885,
+      "duration_ms": 6273,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:19:25.952878"
+    },
+    {
+      "condition": "single",
+      "run_number": 2,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 177,
+      "tokens_total": 181,
+      "cost_usd": 0.0578085,
+      "duration_ms": 6048,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:19:33.455614"
+    },
+    {
+      "condition": "single",
+      "run_number": 3,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 177,
+      "tokens_total": 181,
+      "cost_usd": 0.05551349999999999,
+      "duration_ms": 6039,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:19:40.848815"
+    },
+    {
+      "condition": "single",
+      "run_number": 4,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 177,
+      "tokens_total": 181,
+      "cost_usd": 0.0554285,
+      "duration_ms": 6272,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:19:48.302703"
+    },
+    {
+      "condition": "single",
+      "run_number": 5,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 177,
+      "tokens_total": 181,
+      "cost_usd": 0.0552735,
+      "duration_ms": 6306,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:19:56.272496"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 1,
+      "correctness": true,
+      "iterations_used": 2,
+      "tokens_input": 4,
+      "tokens_output": 391,
+      "tokens_total": 395,
+      "cost_usd": 0.061139250000000006,
+      "duration_ms": 8169,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:20:12.129181"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 2,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 363,
+      "tokens_total": 367,
+      "cost_usd": 0.061032,
+      "duration_ms": 7406,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:20:20.418836"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 3,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 365,
+      "tokens_total": 369,
+      "cost_usd": 0.06093799999999999,
+      "duration_ms": 8113,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:20:29.421884"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 4,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 363,
+      "tokens_total": 367,
+      "cost_usd": 0.0615165,
+      "duration_ms": 8322,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:20:38.599685"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 5,
+      "correctness": true,
+      "iterations_used": 2,
+      "tokens_input": 4,
+      "tokens_output": 387,
+      "tokens_total": 391,
+      "cost_usd": 0.06211925,
+      "duration_ms": 10307,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:20:56.893063"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 1,
+      "correctness": true,
+      "iterations_used": 2,
+      "tokens_input": 4,
+      "tokens_output": 372,
+      "tokens_total": 376,
+      "cost_usd": 0.0587355,
+      "duration_ms": 7900,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:21:12.767393"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 2,
+      "correctness": true,
+      "iterations_used": 2,
+      "tokens_input": 4,
+      "tokens_output": 388,
+      "tokens_total": 392,
+      "cost_usd": 0.060774,
+      "duration_ms": 8270,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:21:28.746739"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 3,
+      "correctness": true,
+      "iterations_used": 1,
+      "tokens_input": 4,
+      "tokens_output": 357,
+      "tokens_total": 361,
+      "cost_usd": 0.057050500000000004,
+      "duration_ms": 7766,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:21:37.374285"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 4,
+      "correctness": true,
+      "iterations_used": 2,
+      "tokens_input": 4,
+      "tokens_output": 406,
+      "tokens_total": 410,
+      "cost_usd": 0.07366249999999999,
+      "duration_ms": 8475,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:21:54.409192"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 5,
+      "correctness": true,
+      "iterations_used": 2,
+      "tokens_input": 4,
+      "tokens_output": 380,
+      "tokens_total": 384,
+      "cost_usd": 0.0602225,
+      "duration_ms": 8399,
+      "evaluation": {
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "correctness": true,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T15:22:10.134380"
+    }
+  ],
+  "summary": {
+    "single": {
+      "runs": 5,
+      "successes": 5,
+      "failures": 0,
+      "success_rate": 1.0,
+      "avg_tokens": 181.0,
+      "avg_iterations": 1.0,
+      "total_cost_usd": 0.27871250000000003
+    },
+    "ralph-3": {
+      "runs": 5,
+      "successes": 5,
+      "failures": 0,
+      "success_rate": 1.0,
+      "avg_tokens": 377.8,
+      "avg_iterations": 1.4,
+      "total_cost_usd": 0.306745
+    },
+    "ralph-5": {
+      "runs": 5,
+      "successes": 5,
+      "failures": 0,
+      "success_rate": 1.0,
+      "avg_tokens": 384.6,
+      "avg_iterations": 1.8,
+      "total_cost_usd": 0.310445
+    }
+  },
+  "metadata": {
+    "timestamp": "2026-01-15T15:22:10.140467",
+    "total_runs": 15,
+    "conditions": [
+      "single",
+      "ralph-3",
+      "ralph-5"
+    ]
+  }
+}

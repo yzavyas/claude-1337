@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment Analysis: results-haiku-50</title>
+  <style>
+    :root {
+      --color-verified: #2e7d32;
+      --color-verified-bg: #e8f5e9;
+      --color-uncertain: #ef6c00;
+      --color-uncertain-bg: #fff3e0;
+      --color-text: #1a1a1a;
+      --color-text-secondary: #666;
+      --color-bg: #fafafa;
+      --color-card: white;
+      --color-border: #e0e0e0;
+      --color-summary-bg: #e3f2fd;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+
+    header {
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .summary {
+      background: var(--color-summary-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .summary p {
+      margin: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      background: var(--color-border);
+      vertical-align: middle;
+    }
+
+    .badge.verified {
+      background: var(--color-verified-bg);
+      color: var(--color-verified);
+    }
+
+    .badge.uncertain {
+      background: var(--color-uncertain-bg);
+      color: var(--color-uncertain);
+    }
+
+    .claim {
+      background: var(--color-card);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .evidence {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    .budget {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 0.25rem;
+    }
+
+    .uncertain-note {
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .evidence-details {
+      margin: 2rem 0;
+      padding: 1rem;
+      background: var(--color-card);
+      border-radius: 8px;
+    }
+
+    .evidence-details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+
+    .evidence-details ul {
+      margin-top: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    .evidence-details li {
+      margin: 0.5rem 0;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    section ul {
+      padding-left: 1.5rem;
+    }
+
+    section li {
+      margin: 0.5rem 0;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 1rem;
+      }
+      .claim {
+        box-shadow: none;
+        border: 1px solid var(--color-border);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Experiment Analysis: results-haiku-50</h1>
+    <p class="meta">Generated: 2026-01-15T22:29:53.186035 | Verified with qwen2.5:7b-instruct</p>
+  </header>
+
+  <section class="summary">
+    <p>Ralph-style achieved 100% pass rate vs 94% for single-shot, recovering 3 failures at 8.9x token cost.</p>
+  </section>
+
+  <section class="verified">
+    <h2>Verified Claims</h2>
+    
+        <div class="claim">
+          <h3><span class="badge verified">VERIFIED</span> Single-shot achieved 94% pass rate (47/50 problems)</h3>
+          <div class="evidence">Evidence: S1</div>
+          <div class="budget">Budget Gap: -1.4 bits</div>
+        </div>
+        
+        <div class="claim">
+          <h3><span class="badge verified">VERIFIED</span> Ralph-style achieved 100% pass rate (50/50 problems)</h3>
+          <div class="evidence">Evidence: S2</div>
+          <div class="budget">Budget Gap: -1.3 bits</div>
+        </div>
+        
+  </section>
+
+  
+        <section class="uncertain">
+          <h2>What Remains Uncertain</h2>
+          <p class="uncertain-note">These claims have high budget gaps, meaning the evidence doesn't directly support them.</p>
+          
+        <div class="claim">
+          <h3><span class="badge verified">VERIFIED</span> Ralph-style recovered 3 problems that single-shot failed: HumanEval/24, HumanEval/32, HumanEval/41</h3>
+          <div class="evidence">Evidence: S3, S4</div>
+          <div class="budget">Budget Gap: -20.5 bits</div>
+        </div>
+        
+        <div class="claim">
+          <h3><span class="badge uncertain">UNCERTAIN</span> Ralph-style uses 8.9x more tokens than single-shot</h3>
+          <div class="evidence">Evidence: S1, S2</div>
+          <div class="budget">Budget Gap: 12.0 bits</div>
+        </div>
+        
+        <div class="claim">
+          <h3><span class="badge uncertain">UNCERTAIN</span> 2 of 3 recovered problems passed on first ralph-style attempt (iterations=1)</h3>
+          <div class="evidence">Evidence: S4</div>
+          <div class="budget">Budget Gap: 11.5 bits</div>
+        </div>
+        
+        </section>
+        
+
+  
+        <details class="evidence-details">
+          <summary>Evidence Spans</summary>
+          <ul><li><strong>S0:</strong> Benchmark metadata: model=haiku, num_problems=50, max_iterations=3</li><li><strong>S1:</strong> Single-shot summary: total=50, passed=47, pass_rate=0.94, avg_tokens=189.92</li><li><strong>S2:</strong> Ralph-style summary: total=50, passed=50, pass_rate=1.0, avg_tokens=1698.76, avg_iterations=1.26</li><li><strong>S3:</strong> Single-shot failures: ['HumanEval/24', 'HumanEval/32', 'HumanEval/41']</li><li><strong>S4:</strong> Ralph recoveries: [{'task_id': 'HumanEval/24', 'iterations': 1, 'tokens': 1144}, {'task_id': 'HumanEval/32', 'iterations': 2, 'tokens': 5512}, {'task_id': 'HumanEval/41', 'iterations': 1, 'tokens': 1836}]</li></ul>
+        </details>
+        
+
+  <section class='notes'><h2>Verification Notes</h2><ul><li>Strawberry audit: 3 claims verified, 3 uncertain</li></ul></section>
+
+  <section class='limitations'><h2>Limitations</h2><ul><li>Sample size: 50 problems</li><li>Single model: haiku</li><li>Single run per strategy (no confidence intervals)</li></ul></section>
+
+  <footer>
+    Verified with Strawberry | Lab-1337
+  </footer>
+</body>
+</html>

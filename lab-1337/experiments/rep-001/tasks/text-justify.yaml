@@ -1,0 +1,141 @@
+name: text-justify
+description: |
+  Justify text to a specified width - like the 'fmt' command.
+  This is NOT the standard LeetCode "text justification" problem.
+  Has tricky edge cases around word breaking and hyphenation.
+
+function_name: justify_text
+
+prompt: |
+  Write a Python function that justifies text to a specified width.
+
+  Requirements:
+  - Function name: justify_text
+  - Takes text (str) and width (int)
+  - Returns a list of justified lines
+  - Words are separated by spaces (collapse multiple spaces)
+  - Lines should be padded with extra spaces between words to reach width
+  - The LAST line should be left-justified, not full-justified
+  - Single-word lines should be left-justified (padded on right)
+  - If a word is longer than width, it should NOT be broken (just overflow)
+  - Empty input returns empty list
+  - Extra spaces should be distributed left-to-right
+
+  Examples:
+  - justify_text("The quick brown fox", 16) -> ["The  quick brown", "fox             "]
+  - justify_text("Hi there", 10) -> ["Hi   there"]
+  - justify_text("Word", 10) -> ["Word      "] (last line, left-justified)
+  - justify_text("", 10) -> []
+
+  Provide ONLY the Python function, no tests or examples.
+
+review_prompt: |
+  Review your implementation carefully. Common bugs in text justification:
+
+  1. Does the LAST line get left-justified (not full-justified)?
+  2. Does a single-word line get left-justified?
+  3. Are extra spaces distributed left-to-right (not evenly)?
+  4. Do you handle empty input?
+  5. Do you handle words longer than the width (should NOT break)?
+  6. Do you collapse multiple spaces in input?
+  7. Does a line with only one word get padded on the right?
+
+  Think through these cases:
+  - "a b c d e" width 7: spaces should go between words left-to-right
+  - "word" width 10: single word, should be "word      " (padded right)
+  - "last line" as final line: should NOT be full-justified
+
+  If you find any issues, provide a CORRECTED implementation.
+  If the implementation handles all cases correctly, respond with "IMPLEMENTATION VERIFIED" and the code.
+
+test_cases:
+  # Basic justification
+  - input: ["The quick brown fox", 16]
+    expected: ["The  quick brown", "fox             "]
+    description: Basic multi-line with last line left-justified
+
+  - input: ["Hi there", 10]
+    expected: ["Hi   there"]
+    description: Single line with padding
+
+  # Empty and edge cases
+  - input: ["", 10]
+    expected: []
+    description: Empty input
+
+  - input: ["  ", 10]
+    expected: []
+    description: Only whitespace input
+
+  - input: ["word", 10]
+    expected: ["word      "]
+    description: Single word (last line, left-justified)
+
+  # Last line behavior
+  - input: ["one two three four", 10]
+    expected: ["one    two", "three four"]
+    description: Last line left-justified not full-justified
+
+  - input: ["a b c d", 5]
+    expected: ["a b c", "d    "]
+    description: Last line is single word
+
+  # Single word lines
+  - input: ["hello world foo", 5]
+    expected: ["hello", "world", "foo  "]
+    description: Each word on its own line
+
+  # Space distribution (left to right)
+  - input: ["a b c", 7]
+    expected: ["a  b  c"]
+    description: Distribute spaces evenly when possible
+
+  - input: ["a b c d", 9]
+    expected: ["a  b c d"]
+    description: Extra space goes left first
+
+  # Multiple spaces in input
+  - input: ["hello    world", 15]
+    expected: ["hello     world"]
+    description: Collapse multiple spaces, then justify
+
+  - input: ["a   b   c", 7]
+    expected: ["a  b  c"]
+    description: Multiple input spaces collapsed
+
+  # Long words
+  - input: ["superlongword", 5]
+    expected: ["superlongword"]
+    description: Word longer than width, do not break
+
+  - input: ["hi superlongword bye", 10]
+    expected: ["hi        ", "superlongword", "bye       "]
+    description: Mix of normal and long words
+
+  # Various widths
+  - input: ["a b", 3]
+    expected: ["a b"]
+    description: Exact fit
+
+  - input: ["a b", 4]
+    expected: ["a  b"]
+    description: One extra space
+
+  - input: ["a b", 5]
+    expected: ["a   b"]
+    description: Two extra spaces
+
+  # Multi-line with varying word counts
+  - input: ["the quick brown fox jumps", 12]
+    expected: ["the    quick", "brown    fox", "jumps       "]
+    description: Multiple full-justified lines, last left-justified
+
+  # Edge case: width of 1
+  - input: ["a b c", 1]
+    expected: ["a", "b", "c"]
+    description: Width of 1, each char on own line
+
+  # Trailing/leading spaces in input
+  - input: ["  hello world  ", 15]
+    expected: ["hello     world"]
+    description: Input has leading/trailing spaces
