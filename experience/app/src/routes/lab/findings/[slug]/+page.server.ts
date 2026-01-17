@@ -1,8 +1,21 @@
-import { readFile } from 'fs/promises';
+import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { error } from '@sveltejs/kit';
 
 const LAB_ROOT = join(process.cwd(), '../../lab-1337');
+
+// Pre-render all findings at build time
+export async function entries() {
+	try {
+		const findingsDir = join(LAB_ROOT, 'findings');
+		const files = await readdir(findingsDir);
+		return files
+			.filter(f => f.startsWith('rep-') && f.endsWith('-findings.md'))
+			.map(f => ({ slug: f.replace('.md', '') }));
+	} catch {
+		return [];
+	}
+}
 
 interface FindingsData {
 	slug: string;

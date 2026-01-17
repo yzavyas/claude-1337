@@ -1,8 +1,21 @@
-import { readFile } from 'fs/promises';
+import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { error } from '@sveltejs/kit';
 
 const LAB_ROOT = join(process.cwd(), '../../lab-1337');
+
+// Pre-render all proposals at build time
+export async function entries() {
+	try {
+		const repsDir = join(LAB_ROOT, 'reps');
+		const files = await readdir(repsDir);
+		return files
+			.filter(f => f.startsWith('rep-') && f.endsWith('.md'))
+			.map(f => ({ slug: f.replace('.md', '') }));
+	} catch {
+		return [];
+	}
+}
 
 type REPStatus = 'draft' | 'discussion' | 'fcp' | 'accepted' | 'rejected' | 'postponed' | 'implemented';
 

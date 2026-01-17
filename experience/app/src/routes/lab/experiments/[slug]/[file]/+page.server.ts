@@ -1,8 +1,29 @@
-import { readFile } from 'fs/promises';
+import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { error } from '@sveltejs/kit';
 
 const LAB_ROOT = join(process.cwd(), '../../lab-1337');
+
+// Pre-render all analysis files at build time
+export async function entries() {
+	const results: { slug: string; file: string }[] = [];
+	try {
+		const expDir = join(LAB_ROOT, 'experiments');
+		const experiments = await readdir(expDir, { withFileTypes: true });
+
+		for (const exp of experiments) {
+			if (!exp.isDirectory()) continue;
+			const files = await readdir(join(expDir, exp.name));
+			const analysisFiles = files.filter(f => f.endsWith('-analysis.md'));
+			for (const file of analysisFiles) {
+				results.push({ slug: exp.name, file });
+			}
+		}
+	} catch {
+		// Ignore errors during entry generation
+	}
+	return results;
+}
 
 export async function load({ params }) {
 	const { slug, file } = params;

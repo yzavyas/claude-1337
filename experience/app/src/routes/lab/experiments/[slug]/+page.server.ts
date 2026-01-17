@@ -4,6 +4,19 @@ import { error } from '@sveltejs/kit';
 
 const LAB_ROOT = join(process.cwd(), '../../lab-1337');
 
+// Pre-render all experiments at build time
+export async function entries() {
+	try {
+		const expDir = join(LAB_ROOT, 'experiments');
+		const items = await readdir(expDir, { withFileTypes: true });
+		return items
+			.filter(d => d.isDirectory())
+			.map(d => ({ slug: d.name }));
+	} catch {
+		return [];
+	}
+}
+
 interface ExperimentResult {
 	name: string;
 	model: string;
