@@ -1,0 +1,217 @@
+{
+  "runs": [
+    {
+      "condition": "single",
+      "run_number": 1,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 2,
+      "tokens_output": 464,
+      "tokens_total": 466,
+      "cost_usd": 0.0038266999999999997,
+      "duration_ms": 2734,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:24:48.138018"
+    },
+    {
+      "condition": "single",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 8,
+      "tokens_output": 932,
+      "tokens_total": 940,
+      "cost_usd": 0.0346777,
+      "duration_ms": 5379,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:24:54.744983"
+    },
+    {
+      "condition": "single",
+      "run_number": 3,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 8,
+      "tokens_output": 1030,
+      "tokens_total": 1038,
+      "cost_usd": 0.0288368,
+      "duration_ms": 5392,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:25:01.352341"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 1,
+      "correctness": false,
+      "iterations_used": 2,
+      "tokens_input": 8,
+      "tokens_output": 1710,
+      "tokens_total": 1718,
+      "cost_usd": 0.051738799999999995,
+      "duration_ms": 9571,
+      "evaluation": {
+        "passed": 2,
+        "failed": 18,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:25:21.176041"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 2,
+      "tokens_input": 8,
+      "tokens_output": 1407,
+      "tokens_total": 1415,
+      "cost_usd": 0.036998300000000005,
+      "duration_ms": 8453,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:25:40.519052"
+    },
+    {
+      "condition": "ralph-3",
+      "run_number": 3,
+      "correctness": false,
+      "iterations_used": 2,
+      "tokens_input": 8,
+      "tokens_output": 1486,
+      "tokens_total": 1494,
+      "cost_usd": 0.0523213,
+      "duration_ms": 8563,
+      "evaluation": {
+        "passed": 2,
+        "failed": 18,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:25:58.774835"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 1,
+      "correctness": false,
+      "iterations_used": 2,
+      "tokens_input": 8,
+      "tokens_output": 1540,
+      "tokens_total": 1548,
+      "cost_usd": 0.05523005,
+      "duration_ms": 9206,
+      "evaluation": {
+        "passed": 2,
+        "failed": 18,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:26:16.792483"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 2,
+      "tokens_input": 8,
+      "tokens_output": 1412,
+      "tokens_total": 1420,
+      "cost_usd": 0.0397838,
+      "duration_ms": 8892,
+      "evaluation": {
+        "passed": 2,
+        "failed": 18,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T17:26:40.298048"
+    },
+    {
+      "condition": "ralph-5",
+      "run_number": 3,
+      "correctness": false,
+      "iterations_used": 2,
+      "tokens_input": 8,
+      "tokens_output": 1658,
+      "tokens_total": 1666,
+      "cost_usd": 0.0417258,
+      "duration_ms": 8205,
+      "evaluation": {
+        "passed": 0,
+        "failed": 20,
+        "total": 20,
+        "correctness": false,
+        "errors": [
+          "Could not extract justify_text function from code"
+        ]
+      },
+      "timestamp": "2026-01-15T17:26:57.988187"
+    }
+  ],
+  "summary": {
+    "single": {
+      "runs": 3,
+      "successes": 0,
+      "failures": 3,
+      "success_rate": 0.0,
+      "avg_tokens": 814.6666666666666,
+      "avg_iterations": 1.0,
+      "total_cost_usd": 0.0673412
+    },
+    "ralph-3": {
+      "runs": 3,
+      "successes": 0,
+      "failures": 3,
+      "success_rate": 0.0,
+      "avg_tokens": 1542.3333333333333,
+      "avg_iterations": 2.0,
+      "total_cost_usd": 0.1410584
+    },
+    "ralph-5": {
+      "runs": 3,
+      "successes": 0,
+      "failures": 3,
+      "success_rate": 0.0,
+      "avg_tokens": 1544.6666666666667,
+      "avg_iterations": 2.0,
+      "total_cost_usd": 0.13673965000000002
+    }
+  },
+  "metadata": {
+    "timestamp": "2026-01-15T17:26:57.993430",
+    "total_runs": 9,
+    "conditions": [
+      "ralph-5",
+      "ralph-3",
+      "single"
+    ],
+    "task": "text-justify",
+    "model": "haiku"
+  }
+}

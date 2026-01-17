@@ -1,0 +1,148 @@
+{
+  "runs": [
+    {
+      "agent": "single-shot",
+      "run_number": 1,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 445,
+      "tokens_total": 446,
+      "cost_usd": 0.15705695000000003,
+      "duration_ms": 6142,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:35:55.724803"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 473,
+      "tokens_total": 474,
+      "cost_usd": 0.02801965,
+      "duration_ms": 6643,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:36:03.637114"
+    },
+    {
+      "agent": "single-shot",
+      "run_number": 3,
+      "correctness": false,
+      "iterations_used": 1,
+      "tokens_input": 1,
+      "tokens_output": 445,
+      "tokens_total": 446,
+      "cost_usd": 0.0377132,
+      "duration_ms": 6184,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:36:11.030759"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 1,
+      "correctness": false,
+      "iterations_used": 3,
+      "tokens_input": 5,
+      "tokens_output": 2547,
+      "tokens_total": 2552,
+      "cost_usd": 0.51168685,
+      "duration_ms": 29143,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:36:41.090043"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 2,
+      "correctness": false,
+      "iterations_used": 3,
+      "tokens_input": 5,
+      "tokens_output": 2175,
+      "tokens_total": 2180,
+      "cost_usd": 0.33247560000000004,
+      "duration_ms": 25510,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:37:07.560715"
+    },
+    {
+      "agent": "test-feedback",
+      "run_number": 3,
+      "correctness": false,
+      "iterations_used": 3,
+      "tokens_input": 5,
+      "tokens_output": 2517,
+      "tokens_total": 2522,
+      "cost_usd": 0.3767591,
+      "duration_ms": 28731,
+      "evaluation": {
+        "passed": 12,
+        "failed": 8,
+        "total": 20,
+        "correctness": false,
+        "errors": []
+      },
+      "timestamp": "2026-01-15T19:37:37.186987"
+    }
+  ],
+  "summary": {
+    "single-shot": {
+      "runs": 3,
+      "successes": 0,
+      "failures": 3,
+      "success_rate": 0.0,
+      "avg_tokens": 455.3333333333333,
+      "avg_iterations": 1.0,
+      "total_cost_usd": 0.22278980000000004
+    },
+    "test-feedback": {
+      "runs": 3,
+      "successes": 0,
+      "failures": 3,
+      "success_rate": 0.0,
+      "avg_tokens": 2418.0,
+      "avg_iterations": 3.0,
+      "total_cost_usd": 1.22092155
+    }
+  },
+  "metadata": {
+    "timestamp": "2026-01-15T19:37:37.190569",
+    "total_runs": 6,
+    "agents": [
+      "single-shot",
+      "test-feedback"
+    ],
+    "task": "text-justify",
+    "model": "opus"
+  }
+}
