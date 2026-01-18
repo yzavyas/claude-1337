@@ -7,12 +7,12 @@
 | `--stylize` / `--s` | 0-1000 | 0-1000 | Artistic interpretation |
 | `--chaos` / `--c` | 0-100 | 0-100 | Variation between 4 images |
 | `--no` | ✅ | ✅ | Exclude elements |
-| `::` weighting | ✅ | ❌ | Multi-prompt weighting |
+| `::` weighting | ✅ | ⚠️ Changed | Multi-prompt weighting |
 | `--iw` | 0-2 | 0-3 | Image prompt weight |
 | `--sref` | ✅ | ✅ (improved) | Style reference |
 | `--sw` | 0-1000 | 0-1000 | Style weight |
-| `--cref` | ✅ | ✅ | Character reference |
-| `--cw` | 0-100 | 0-100 | Character weight |
+| `--cref` | ✅ | ❌ Deprecated | Character reference (V6 only) |
+| `--cw` | 0-100 | N/A | Character weight (V6 only) |
 | `--oref` | ❌ | ✅ | Omni reference (new) |
 | `--ow` | ❌ | 1-1000 | Omni weight (new) |
 | `--draft` | ❌ | ✅ | Fast mode (10x, half cost) |
@@ -78,9 +78,11 @@ Strength of style reference influence.
 
 ---
 
-## Character Weight (--cw)
+## Character Weight (--cw) — V6 ONLY
 
-What to preserve from character reference.
+⚠️ **Deprecated in V7.** Use `--oref` + `--ow` instead.
+
+What to preserve from character reference (V6 only).
 
 | Value | Preserves |
 |-------|-----------|
@@ -88,6 +90,8 @@ What to preserve from character reference.
 | 25 | Face + hair |
 | 50 | Face + hair + partial clothing |
 | 100 (default) | Everything |
+
+**V7 Migration:** `--cref url --cw 50` → `--oref url --ow 100-200`
 
 ---
 

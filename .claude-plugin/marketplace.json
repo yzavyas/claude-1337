@@ -252,9 +252,9 @@
       ]
     },
     {
-      "name": "content-1337",
-      "source": "./plugins/content-1337",
-      "description": "Visual content creation guidance. Use when: Midjourney prompting, choosing image/video generation models, troubleshooting AI art, reference types, style transfer.",
+      "name": "visuals-1337",
+      "source": "./plugins/visuals-1337",
+      "description": "AI image and video generation. Use when: Midjourney prompting, choosing image/video models, troubleshooting AI art, reference types, style transfer, text-in-image.",
       "version": "0.1.0",
       "author": {
         "name": "yzavyas",
@@ -268,13 +268,14 @@
         "image-generation",
         "video-generation",
         "ai-art",
-        "content-creation",
-        "dall-e",
-        "stable-diffusion",
+        "visuals",
+        "flux",
+        "ideogram",
         "runway",
-        "kling"
+        "kling",
+        "text-in-image"
       ],
-      "category": "content",
+      "category": "visuals",
       "strict": false,
       "skills": [
         "./skills"

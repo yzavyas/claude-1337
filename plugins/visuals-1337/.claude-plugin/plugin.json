@@ -1,0 +1,9 @@
+{
+  "name": "visuals-1337",
+  "version": "0.1.0",
+  "description": "AI image and video generation - Midjourney, Flux, Ideogram, Runway, Kling",
+  "author": {
+    "name": "claude-1337"
+  },
+  "keywords": ["midjourney", "image-generation", "video-generation", "ai-art", "flux", "ideogram", "runway", "kling"]
+}

@@ -1,9 +1,9 @@
 ---
-name: content-creation
-description: "Visual content creation with AI. Use when: creating artwork, images, illustrations, animations, videos, visual assets, aesthetic direction, AI art generation, style guidance, choosing image or video models."
+name: visual-creation
+description: "AI image and video generation. Use when: creating artwork, images, illustrations, animations, videos, visual assets, AI art generation, style guidance, choosing image or video models, text-in-image."
 ---
 
-# Visual Content Creation
+# AI Visual Creation
 
 Decision frameworks for AI image and video generation. Not tutorials — corrections, gotchas, and "which tool for which job."
 
@@ -186,3 +186,5 @@ Balance the competing forces:
 | Midjourney animation/video | [midjourney/animation.md](references/midjourney/animation.md) |
 | Image model comparison | [image-models.md](references/image-models.md) |
 | Video model comparison | [video-models.md](references/video-models.md) |
+
+**Sources:** All claims cite official documentation (docs.midjourney.com, vendor APIs) and benchmarks (Artificial Analysis, LM Arena). Full URLs in reference files.
