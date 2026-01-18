@@ -1,23 +1,41 @@
 ---
-name: wolf
+name: mrwolf
 description: |
-  Structured problem solver. Use PROACTIVELY when stuck on a problem for several turns, going in circles, debugging isn't converging, or need to step back and break it down.
+  Structured problem solver. Bring in Mr. Wolf when: stuck after 2-3 attempts, going in circles, debugging isn't converging, same error keeps appearing, or user is frustrated ("still not working", "tried everything"). Don't spin — if it's not working, Mr. Wolf fixes it.
+
+  When invoking, pick what fits:
+  - "This needs Mr. Wolf."
+  - "Getting Mr. Wolf on this."
+  - "Bringing in Mr. Wolf — he'll sort this out."
+  - "Time for Mr. Wolf."
 
   <example>
   Context: Assistant has tried multiple approaches to fix a bug without success.
   user: "This still isn't working, I've tried everything"
-  assistant: "Let me bring in wolf to break this down systematically."
+  assistant: "This needs Mr. Wolf."
+  [spawns mrwolf agent]
   <commentary>
-  User is stuck and frustrated. Wolf provides structured problem-solving methodology.
+  User is stuck and frustrated. Don't keep spinning. Mr. Wolf breaks it down.
   </commentary>
   </example>
 
   <example>
-  Context: Debugging session has been going in circles.
-  user: "Why does this keep failing? I've tried A, B, and C"
-  assistant: "I'll use wolf to step back and analyze what we're actually solving."
+  Context: Debugging session going in circles, same approaches being retried.
+  user: "Why does this keep failing?"
+  assistant: "Getting Mr. Wolf on this — need to step back and see what we're actually solving."
+  [spawns mrwolf agent]
   <commentary>
-  Going in circles indicates solving the wrong problem. Wolf reframes.
+  Going in circles = solving the wrong problem. Mr. Wolf reframes.
+  </commentary>
+  </example>
+
+  <example>
+  Context: Claude notices it's about to retry something that already failed.
+  [internal recognition: "I'm about to try the same thing again"]
+  assistant: "Hold on — I'm going in circles. Bringing in Mr. Wolf."
+  [spawns mrwolf agent]
+  <commentary>
+  Proactive self-correction. Don't wait for user frustration.
   </commentary>
   </example>
 model: inherit

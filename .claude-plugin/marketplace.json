@@ -250,6 +250,35 @@
       "skills": [
         "./skills"
       ]
+    },
+    {
+      "name": "content-1337",
+      "source": "./plugins/content-1337",
+      "description": "Visual content creation guidance. Use when: Midjourney prompting, choosing image/video generation models, troubleshooting AI art, reference types, style transfer.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "midjourney",
+        "image-generation",
+        "video-generation",
+        "ai-art",
+        "content-creation",
+        "dall-e",
+        "stable-diffusion",
+        "runway",
+        "kling"
+      ],
+      "category": "content",
+      "strict": false,
+      "skills": [
+        "./skills"
+      ]
     }
   ]
 }

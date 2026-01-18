@@ -1,0 +1,9 @@
+{
+  "name": "content-1337",
+  "version": "0.1.0",
+  "description": "Visual content creation guidance - Midjourney, image generation, video generation",
+  "author": {
+    "name": "claude-1337"
+  },
+  "keywords": ["midjourney", "image-generation", "video-generation", "content-creation", "ai-art"]
+}

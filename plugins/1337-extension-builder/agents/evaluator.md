@@ -73,7 +73,8 @@ Every plugin must pass ALL six gates from `1337-extension-builder`:
 | Commands | Recommended | `command`, `command_execute` |
 
 Also check:
-- Hooks suggest, don't block (user retains choice)
+- Validation hooks suggest, don't block (user retains choice)
+- Action-triggering hooks use directive language (cause action)
 - Opt-out mechanism documented (for hooks)
 - No silent enforcement
 
