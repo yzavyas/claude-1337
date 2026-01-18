@@ -83,6 +83,7 @@ Also check:
 | Check | Pass | Fail |
 |-------|------|------|
 | Description has "Use when:" | Specific triggers | Vague description |
+| Intent-driven activation | User goals/outcomes | Tool names only |
 | Triggers on right prompts | Domain-specific terms | Generic activation |
 | Doesn't over-activate | Precise scope | Fires on everything |
 

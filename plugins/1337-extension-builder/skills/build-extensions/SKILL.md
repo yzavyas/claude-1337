@@ -245,6 +245,33 @@ description: "What it does. Use when: specific triggers."
 
 The description is the trigger. Claude reads this to decide when to load. Be specific about "Use when:".
 
+### Intent-Driven Activation
+
+**Trigger on user intent, not tool names.**
+
+| Wrong | Right |
+|-------|-------|
+| "Use when: Midjourney prompting" | "Use when: creating artwork, images, visual assets" |
+| "Use when: using pytest" | "Use when: writing tests, test-driven development" |
+| "Use when: running kubectl" | "Use when: deploying to Kubernetes, managing clusters" |
+
+**Why this matters:**
+- Users think in goals ("I need an image"), not tools ("I need Midjourney")
+- Intent-driven activation catches synonyms and related tasks
+- Tool-specific activation misses obvious use cases
+
+**The pattern:**
+```
+[Domain/activity] + [user goals/outcomes]
+NOT
+[Tool name] + [tool-specific actions]
+```
+
+**Good examples:**
+- "Visual content creation with AI. Use when: creating artwork, images, illustrations, animations, videos, aesthetic direction."
+- "Engineering excellence for builders. Use when: writing code, making technical decisions, refactoring, reviewing."
+- "Rust production patterns. Use when: building Rust CLI, backend, frontend, or native apps."
+
 **Body** (required):
 1. Brief intro (1-2 sentences)
 2. Why this approach (practical motivation, not academic)
@@ -350,6 +377,7 @@ Before shipping:
 
 ### Activation
 - [ ] Description has "Use when:"
+- [ ] Triggers on intent (user goals), not tool names
 - [ ] Triggers on right prompts
 - [ ] Doesn't over-activate
 
