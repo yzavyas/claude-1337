@@ -1,0 +1,16 @@
+{
+  "name": "arch-guild",
+  "version": "0.1.0",
+  "description": "Architectural reasoning with The Guild. Use when: reviewing architecture, evaluating design, checking production readiness, scaffolding services, making boundary decisions.",
+  "author": {
+    "name": "Yash Vyas"
+  },
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "design",
+    "operations",
+    "council",
+    "hexagonal"
+  ]
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "input": "Should I use Redis or in-memory HashMap for caching?",
+    "expected_skill": "architecture",
+    "expected_agents": ["lamport", "erlang", "vector"],
+    "rationale": "Distributed caching decision triggers consistency (Lamport), capacity (Erlang), and DoS (Vector) concerns"
+  },
+  {
+    "input": "What should I name this service?",
+    "expected_skill": "design",
+    "expected_agents": ["karman", "ace"],
+    "rationale": "Naming is ontological (Karman) and DX (Ace)"
+  },
+  {
+    "input": "Is this service ready for production?",
+    "expected_skill": "operations",
+    "expected_agents": ["taleb", "ixian"],
+    "rationale": "Production readiness is resilience (Taleb) with mandatory validation (Ixian)"
+  },
+  {
+    "input": "Review this architecture for a payment system",
+    "expected_skill": "architecture",
+    "expected_agents": ["dijkstra", "vector", "lamport"],
+    "rationale": "Payment is critical path (Dijkstra), security-sensitive (Vector), likely distributed (Lamport)"
+  },
+  {
+    "input": "Help me scaffold a new service",
+    "expected_skill": "architecture",
+    "expected_agents": null,
+    "rationale": "Scaffolding triggers architecture skill (hexagonal is a reference within it)"
+  },
+  {
+    "input": "Convene the full guild on this proposal",
+    "expected_skill": "architecture",
+    "expected_agents": ["k", "karman", "burner", "lamport", "erlang", "vector", "ace", "ixian"],
+    "rationale": "Full guild explicitly requested"
+  },
+  {
+    "input": "Quick guild review of this change",
+    "expected_skill": "architecture",
+    "expected_agents": ["k", "karman", "burner", "lamport", "erlang", "vector", "ace"],
+    "rationale": "Quick mode = 7 Masters only"
+  },
+  {
+    "input": "Focus guild on security for this API",
+    "expected_skill": "architecture",
+    "expected_agents": ["vector", "dijkstra"],
+    "rationale": "Security focus triggers Vector and Dijkstra"
+  },
+  {
+    "input": "Design an API for user management",
+    "expected_skill": "design",
+    "expected_agents": ["karman", "ace", "burner"],
+    "rationale": "API design triggers design skill with naming (Karman), DX (Ace), and boundaries (Burner)"
+  },
+  {
+    "input": "What's the best way to handle event-driven communication?",
+    "expected_skill": "architecture",
+    "expected_agents": ["lamport", "erlang"],
+    "rationale": "Event-driven is now a reference within architecture, triggers consistency (Lamport) and flow (Erlang)"
+  },
+  {
+    "input": "Run chaos experiments on our service",
+    "expected_skill": "operations",
+    "expected_agents": ["taleb"],
+    "rationale": "Chaos engineering triggers operations skill with Taleb for resilience analysis"
+  },
+  {
+    "input": "Sort this list of numbers",
+    "expected_skill": null,
+    "expected_agents": null,
+    "rationale": "Simple task, no arch-guild skills should activate"
+  },
+  {
+    "input": "This function has a weird sleep(100) in it. Can we remove it?",
+    "expected_skill": "architecture",
+    "expected_agents": ["chesterton"],
+    "rationale": "Legacy code investigation triggers Chesterton for historical context"
+  },
+  {
+    "input": "We iterate through all users and for each, query their orders",
+    "expected_skill": "design",
+    "expected_agents": ["knuth"],
+    "rationale": "Nested iteration performance concern triggers Knuth for complexity analysis"
+  },
+  {
+    "input": "K says ship it, Dijkstra says block it - what do we do?",
+    "expected_skill": "architecture",
+    "expected_agents": ["lotfi"],
+    "rationale": "Agent deadlock triggers Lotfi for fuzzy trade-off scoring"
+  }
+]
