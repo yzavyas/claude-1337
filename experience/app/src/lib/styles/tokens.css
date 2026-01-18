@@ -1,133 +1,450 @@
-/* Design Tokens - GiTS Cyberpunk */
+/* =============================================================
+   Design Tokens — Craft Aesthetic
+
+   A warm, inviting design system inspired by:
+   - Paper and craft materials (warm cream backgrounds)
+   - Kintsugi gold (beauty in connection and repair)
+   - Academic reading quality (long-form comfort)
+   - Geist typography (modern clarity)
+
+   Three-layer architecture:
+   1. Primitives — raw values
+   2. Semantic — meaningful aliases
+   3. Component — specific usage
+   ============================================================= */
 
 :root {
-	/* === Color Palette (hex, from legacy app) === */
+	/* ===========================================
+	   LAYER 1: PRIMITIVES
+	   Raw values — never use directly in components
+	   =========================================== */
 
-	/* Backgrounds */
-	--color-bg-deep: #0a0f14;
-	--color-bg-surface: #111820;
-	--color-bg-elevated: #151d26;
-	--color-bg-hover: #1a2530;
+	/* --- Craft Paper Palette (OKLCH for perceptual uniformity) --- */
 
-	/* Text - cyan tinted */
-	--color-text-primary: #e0f2fe;
-	--color-text-secondary: #7dd3fc;
-	--color-text-tertiary: #38bdf8;
-	--color-text-muted: #0ea5e9;
+	/* Warm cream backgrounds — the paper foundation */
+	--primitive-cream-50: oklch(99% 0.008 85);   /* Lightest cream, almost white */
+	--primitive-cream-100: oklch(97.5% 0.012 85); /* Primary background */
+	--primitive-cream-200: oklch(95% 0.015 80);   /* Subtle surface */
+	--primitive-cream-300: oklch(92% 0.018 78);   /* Elevated surface */
+	--primitive-cream-400: oklch(88% 0.02 76);    /* Hover states */
 
-	/* Accents */
-	--color-accent: #22d3ee;
-	--color-accent-hover: #67e8f9;
-	--color-accent-muted: rgba(34, 211, 238, 0.15);
-	--color-accent-positive: #4ade80;
-	--color-accent-negative: #f87171;
-	--color-accent-data: #7dd3fc;
-	--color-accent-link: #22d3ee;
-	--color-accent-link-hover: #67e8f9;
+	/* Warm neutrals — ink on paper */
+	--primitive-stone-100: oklch(90% 0.01 70);
+	--primitive-stone-200: oklch(80% 0.012 65);
+	--primitive-stone-300: oklch(65% 0.015 60);
+	--primitive-stone-400: oklch(50% 0.018 55);
+	--primitive-stone-500: oklch(40% 0.02 50);
+	--primitive-stone-600: oklch(32% 0.022 48);
+	--primitive-stone-700: oklch(25% 0.02 45);
+	--primitive-stone-800: oklch(20% 0.018 42);
+	--primitive-stone-900: oklch(15% 0.015 40);
 
-	/* Semantic */
-	--color-border: #1a2530;
-	--color-border-subtle: #151d26;
-	--color-border-strong: #223040;
-	--color-success: #4ade80;
+	/* Kintsugi Gold — accent for connections and importance */
+	--primitive-gold-50: oklch(96% 0.04 85);
+	--primitive-gold-100: oklch(92% 0.06 80);
+	--primitive-gold-200: oklch(85% 0.1 75);
+	--primitive-gold-300: oklch(78% 0.14 70);
+	--primitive-gold-400: oklch(72% 0.16 65);     /* Primary accent */
+	--primitive-gold-500: oklch(65% 0.17 60);     /* Hover accent */
+	--primitive-gold-600: oklch(55% 0.15 55);
+	--primitive-gold-700: oklch(45% 0.12 50);
 
-	/* Gradients */
-	--gradient-text: linear-gradient(135deg, #e0f2fe 0%, #22d3ee 100%);
-	--gradient-surface: linear-gradient(180deg, #111820 0%, #0a0f14 100%);
-	--gradient-glow: radial-gradient(ellipse at center, rgba(34, 211, 238, 0.15), transparent 70%);
+	/* Status colors — warm and approachable, not clinical */
+	--primitive-sage-400: oklch(60% 0.12 145);    /* Success/implemented */
+	--primitive-sage-500: oklch(50% 0.14 145);
+	--primitive-terracotta-400: oklch(60% 0.15 35); /* Warning/in-progress */
+	--primitive-terracotta-500: oklch(50% 0.17 35);
+	--primitive-rust-400: oklch(55% 0.16 25);     /* Error/rejected */
+	--primitive-rust-500: oklch(45% 0.18 25);
+	--primitive-slate-400: oklch(55% 0.04 250);   /* Neutral/draft */
+	--primitive-slate-500: oklch(45% 0.05 250);
+	--primitive-plum-400: oklch(55% 0.12 310);    /* Discussion/fcp */
+	--primitive-plum-500: oklch(45% 0.14 310);
+	--primitive-ocean-400: oklch(55% 0.12 230);   /* Accepted */
+	--primitive-ocean-500: oklch(45% 0.14 230);
 
-	/* === Typography === */
+	/* --- Typography Primitives --- */
 
 	/* Font families */
-	--font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
-	--font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
-	--font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+	--primitive-font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+	--primitive-font-serif: 'Charter', 'Bitstream Charter', 'Sitka Text', Georgia, serif;
+	--primitive-font-mono: 'Geist Mono', ui-monospace, 'Cascadia Code', monospace;
 
-	/* Font sizes - fluid with clamp */
-	--text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
-	--text-sm: clamp(0.8125rem, 0.75rem + 0.3vw, 0.875rem);
-	--text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
-	--text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
-	--text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
-	--text-2xl: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
-	--text-3xl: clamp(2rem, 1.7rem + 1.2vw, 2.75rem);
-	--text-4xl: clamp(2.5rem, 2rem + 2vw, 4rem);
-
-	/* Line heights */
-	--leading-none: 1;
-	--leading-tight: 1.2;
-	--leading-snug: 1.4;
-	--leading-normal: 1.6;
-	--leading-relaxed: 1.75;
-	--leading-loose: 2;
-
-	/* Letter spacing */
-	--tracking-tighter: -0.03em;
-	--tracking-tight: -0.015em;
-	--tracking-normal: 0;
-	--tracking-wide: 0.015em;
-	--tracking-wider: 0.03em;
+	/* Type scale — Perfect Fourth (1.333) for editorial feel */
+	--primitive-text-xs: clamp(0.7rem, 0.65rem + 0.15vw, 0.75rem);
+	--primitive-text-sm: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
+	--primitive-text-base: clamp(1rem, 0.95rem + 0.15vw, 1.0625rem);
+	--primitive-text-lg: clamp(1.125rem, 1.05rem + 0.25vw, 1.1875rem);
+	--primitive-text-xl: clamp(1.333rem, 1.2rem + 0.4vw, 1.5rem);
+	--primitive-text-2xl: clamp(1.777rem, 1.5rem + 0.75vw, 2rem);
+	--primitive-text-3xl: clamp(2.369rem, 1.9rem + 1.2vw, 2.75rem);
+	--primitive-text-4xl: clamp(3.157rem, 2.4rem + 1.8vw, 3.75rem);
 
 	/* Font weights */
-	--font-normal: 400;
-	--font-medium: 500;
-	--font-semibold: 600;
-	--font-bold: 700;
+	--primitive-weight-normal: 400;
+	--primitive-weight-medium: 500;
+	--primitive-weight-semibold: 600;
+	--primitive-weight-bold: 700;
 
-	/* === Spacing === */
-	--space-1: 0.25rem;
-	--space-2: 0.5rem;
-	--space-3: 0.75rem;
-	--space-4: 1rem;
-	--space-5: 1.25rem;
-	--space-6: 1.5rem;
-	--space-8: 2rem;
-	--space-10: 2.5rem;
-	--space-12: 3rem;
-	--space-16: 4rem;
-	--space-20: 5rem;
-	--space-24: 6rem;
-	--space-32: 8rem;
-	--space-40: 10rem;
-	--space-48: 12rem;
-	--space-64: 16rem;
+	/* Line heights */
+	--primitive-leading-none: 1;
+	--primitive-leading-tight: 1.15;
+	--primitive-leading-snug: 1.3;
+	--primitive-leading-normal: 1.5;
+	--primitive-leading-relaxed: 1.65;
+	--primitive-leading-loose: 1.8;
 
-	/* === Layout === */
-	--content-width: 680px;
-	--content-width-wide: 900px;
+	/* Letter spacing */
+	--primitive-tracking-tighter: -0.03em;
+	--primitive-tracking-tight: -0.015em;
+	--primitive-tracking-normal: 0;
+	--primitive-tracking-wide: 0.02em;
+	--primitive-tracking-wider: 0.05em;
+	--primitive-tracking-widest: 0.1em;
+
+	/* --- Spacing Primitives (8px base) --- */
+	--primitive-space-0: 0;
+	--primitive-space-px: 1px;
+	--primitive-space-0-5: 0.125rem;  /* 2px */
+	--primitive-space-1: 0.25rem;     /* 4px */
+	--primitive-space-1-5: 0.375rem;  /* 6px */
+	--primitive-space-2: 0.5rem;      /* 8px — base unit */
+	--primitive-space-2-5: 0.625rem;  /* 10px */
+	--primitive-space-3: 0.75rem;     /* 12px */
+	--primitive-space-4: 1rem;        /* 16px */
+	--primitive-space-5: 1.25rem;     /* 20px */
+	--primitive-space-6: 1.5rem;      /* 24px */
+	--primitive-space-8: 2rem;        /* 32px */
+	--primitive-space-10: 2.5rem;     /* 40px */
+	--primitive-space-12: 3rem;       /* 48px */
+	--primitive-space-14: 3.5rem;     /* 56px */
+	--primitive-space-16: 4rem;       /* 64px */
+	--primitive-space-20: 5rem;       /* 80px */
+	--primitive-space-24: 6rem;       /* 96px */
+	--primitive-space-32: 8rem;       /* 128px */
+
+	/* --- Border Radius --- */
+	--primitive-radius-none: 0;
+	--primitive-radius-sm: 0.25rem;   /* 4px — subtle */
+	--primitive-radius-md: 0.5rem;    /* 8px — default */
+	--primitive-radius-lg: 0.75rem;   /* 12px — cards */
+	--primitive-radius-xl: 1rem;      /* 16px — prominent */
+	--primitive-radius-2xl: 1.25rem;  /* 20px — large surfaces */
+	--primitive-radius-full: 9999px;  /* Pills */
+
+	/* --- Shadows (warm-tinted for craft feel) --- */
+	--primitive-shadow-color: 35 30% 15%;
+	--primitive-shadow-xs: 0 1px 2px hsl(var(--primitive-shadow-color) / 4%);
+	--primitive-shadow-sm:
+		0 1px 2px hsl(var(--primitive-shadow-color) / 5%),
+		0 2px 4px hsl(var(--primitive-shadow-color) / 5%);
+	--primitive-shadow-md:
+		0 2px 4px hsl(var(--primitive-shadow-color) / 4%),
+		0 4px 8px hsl(var(--primitive-shadow-color) / 6%),
+		0 8px 16px hsl(var(--primitive-shadow-color) / 4%);
+	--primitive-shadow-lg:
+		0 4px 8px hsl(var(--primitive-shadow-color) / 4%),
+		0 8px 16px hsl(var(--primitive-shadow-color) / 6%),
+		0 16px 32px hsl(var(--primitive-shadow-color) / 8%);
+	--primitive-shadow-xl:
+		0 8px 16px hsl(var(--primitive-shadow-color) / 5%),
+		0 16px 32px hsl(var(--primitive-shadow-color) / 8%),
+		0 32px 64px hsl(var(--primitive-shadow-color) / 10%);
+
+	/* --- Animation --- */
+	--primitive-duration-instant: 75ms;
+	--primitive-duration-fast: 150ms;
+	--primitive-duration-normal: 250ms;
+	--primitive-duration-slow: 400ms;
+	--primitive-duration-slower: 600ms;
+
+	/* Easing — slightly softer for warmth */
+	--primitive-ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+	--primitive-ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+	--primitive-ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+	--primitive-ease-bounce: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+	/* --- Z-Index --- */
+	--primitive-z-base: 0;
+	--primitive-z-raised: 10;
+	--primitive-z-dropdown: 50;
+	--primitive-z-sticky: 100;
+	--primitive-z-fixed: 200;
+	--primitive-z-overlay: 300;
+	--primitive-z-modal: 400;
+	--primitive-z-toast: 500;
+
+
+	/* ===========================================
+	   LAYER 2: SEMANTIC ALIASES
+	   Meaningful names — theme-switchable
+	   =========================================== */
+
+	/* --- Backgrounds --- */
+	--color-bg: var(--primitive-cream-100);
+	--color-bg-subtle: var(--primitive-cream-50);
+	--color-bg-surface: var(--primitive-cream-200);
+	--color-bg-elevated: var(--primitive-cream-300);
+	--color-bg-hover: var(--primitive-cream-400);
+	--color-bg-inset: var(--primitive-cream-300);
+
+	/* --- Text --- */
+	--color-text: var(--primitive-stone-800);
+	--color-text-secondary: var(--primitive-stone-600);
+	--color-text-tertiary: var(--primitive-stone-500);
+	--color-text-muted: var(--primitive-stone-400);
+	--color-text-inverse: var(--primitive-cream-50);
+
+	/* --- Borders --- */
+	--color-border: var(--primitive-stone-200);
+	--color-border-subtle: var(--primitive-stone-100);
+	--color-border-strong: var(--primitive-stone-300);
+
+	/* --- Accent (Kintsugi Gold) --- */
+	--color-accent: var(--primitive-gold-400);
+	--color-accent-hover: var(--primitive-gold-500);
+	--color-accent-muted: var(--primitive-gold-100);
+	--color-accent-subtle: var(--primitive-gold-50);
+	--color-accent-text: var(--primitive-gold-600);
+
+	/* --- Links --- */
+	--color-link: var(--primitive-gold-500);
+	--color-link-hover: var(--primitive-gold-600);
+	--color-link-visited: var(--primitive-gold-700);
+
+	/* --- Status Colors --- */
+	--color-status-draft: var(--primitive-slate-400);
+	--color-status-draft-bg: oklch(92% 0.02 250);
+	--color-status-discussion: var(--primitive-plum-400);
+	--color-status-discussion-bg: oklch(94% 0.04 310);
+	--color-status-fcp: var(--primitive-terracotta-400);
+	--color-status-fcp-bg: oklch(94% 0.05 35);
+	--color-status-accepted: var(--primitive-ocean-400);
+	--color-status-accepted-bg: oklch(94% 0.04 230);
+	--color-status-rejected: var(--primitive-rust-400);
+	--color-status-rejected-bg: oklch(94% 0.05 25);
+	--color-status-postponed: var(--primitive-stone-400);
+	--color-status-postponed-bg: oklch(92% 0.01 70);
+	--color-status-implemented: var(--primitive-sage-400);
+	--color-status-implemented-bg: oklch(94% 0.04 145);
+
+	/* --- Feedback --- */
+	--color-success: var(--primitive-sage-500);
+	--color-success-bg: oklch(96% 0.03 145);
+	--color-warning: var(--primitive-terracotta-500);
+	--color-warning-bg: oklch(96% 0.04 35);
+	--color-error: var(--primitive-rust-500);
+	--color-error-bg: oklch(96% 0.04 25);
+	--color-info: var(--primitive-ocean-500);
+	--color-info-bg: oklch(96% 0.03 230);
+
+	/* --- Data Visualization (Ethos Scrollytelling) --- */
+	--color-text-primary: var(--color-text);
+	--color-accent-positive: var(--primitive-sage-400);    /* Complementary path - growth */
+	--color-accent-negative: var(--primitive-rust-400);    /* Substitutive path - atrophy */
+	--color-bg-deep: var(--primitive-stone-800);           /* High contrast background */
+
+	/* --- Typography Semantic --- */
+	--font-body: var(--primitive-font-sans);
+	--font-heading: var(--primitive-font-sans);
+	--font-display: var(--primitive-font-sans);  /* Alias for heading - hero/display text */
+	--font-reading: var(--primitive-font-serif);
+	--font-mono: var(--primitive-font-mono);
+
+	/* Text sizes (semantic) */
+	--text-xs: var(--primitive-text-xs);
+	--text-sm: var(--primitive-text-sm);
+	--text-base: var(--primitive-text-base);
+	--text-lg: var(--primitive-text-lg);
+	--text-xl: var(--primitive-text-xl);
+	--text-2xl: var(--primitive-text-2xl);
+	--text-3xl: var(--primitive-text-3xl);
+	--text-4xl: var(--primitive-text-4xl);
+
+	/* Weights */
+	--font-normal: var(--primitive-weight-normal);
+	--font-medium: var(--primitive-weight-medium);
+	--font-semibold: var(--primitive-weight-semibold);
+	--font-bold: var(--primitive-weight-bold);
+
+	/* Line heights */
+	--leading-none: var(--primitive-leading-none);
+	--leading-tight: var(--primitive-leading-tight);
+	--leading-snug: var(--primitive-leading-snug);
+	--leading-normal: var(--primitive-leading-normal);
+	--leading-relaxed: var(--primitive-leading-relaxed);
+	--leading-loose: var(--primitive-leading-loose);
+
+	/* Tracking */
+	--tracking-tighter: var(--primitive-tracking-tighter);
+	--tracking-tight: var(--primitive-tracking-tight);
+	--tracking-normal: var(--primitive-tracking-normal);
+	--tracking-wide: var(--primitive-tracking-wide);
+	--tracking-wider: var(--primitive-tracking-wider);
+	--tracking-widest: var(--primitive-tracking-widest);
+
+	/* --- Spacing Semantic --- */
+	--space-0: var(--primitive-space-0);
+	--space-px: var(--primitive-space-px);
+	--space-0-5: var(--primitive-space-0-5);
+	--space-1: var(--primitive-space-1);
+	--space-1-5: var(--primitive-space-1-5);
+	--space-2: var(--primitive-space-2);
+	--space-2-5: var(--primitive-space-2-5);
+	--space-3: var(--primitive-space-3);
+	--space-4: var(--primitive-space-4);
+	--space-5: var(--primitive-space-5);
+	--space-6: var(--primitive-space-6);
+	--space-8: var(--primitive-space-8);
+	--space-10: var(--primitive-space-10);
+	--space-12: var(--primitive-space-12);
+	--space-14: var(--primitive-space-14);
+	--space-16: var(--primitive-space-16);
+	--space-20: var(--primitive-space-20);
+	--space-24: var(--primitive-space-24);
+	--space-32: var(--primitive-space-32);
+
+	/* --- Border Radius Semantic --- */
+	--radius-none: var(--primitive-radius-none);
+	--radius-sm: var(--primitive-radius-sm);
+	--radius-md: var(--primitive-radius-md);
+	--radius-lg: var(--primitive-radius-lg);
+	--radius-xl: var(--primitive-radius-xl);
+	--radius-2xl: var(--primitive-radius-2xl);
+	--radius-full: var(--primitive-radius-full);
+
+	/* --- Shadows Semantic --- */
+	--shadow-xs: var(--primitive-shadow-xs);
+	--shadow-sm: var(--primitive-shadow-sm);
+	--shadow-md: var(--primitive-shadow-md);
+	--shadow-lg: var(--primitive-shadow-lg);
+	--shadow-xl: var(--primitive-shadow-xl);
+
+	/* --- Animation Semantic --- */
+	--duration-instant: var(--primitive-duration-instant);
+	--duration-fast: var(--primitive-duration-fast);
+	--duration-normal: var(--primitive-duration-normal);
+	--duration-slow: var(--primitive-duration-slow);
+	--duration-slower: var(--primitive-duration-slower);
+
+	--ease-out: var(--primitive-ease-out);
+	--ease-in: var(--primitive-ease-in);
+	--ease-in-out: var(--primitive-ease-in-out);
+	--ease-bounce: var(--primitive-ease-bounce);
+
+	/* --- Z-Index Semantic --- */
+	--z-base: var(--primitive-z-base);
+	--z-raised: var(--primitive-z-raised);
+	--z-dropdown: var(--primitive-z-dropdown);
+	--z-sticky: var(--primitive-z-sticky);
+	--z-fixed: var(--primitive-z-fixed);
+	--z-overlay: var(--primitive-z-overlay);
+	--z-modal: var(--primitive-z-modal);
+	--z-toast: var(--primitive-z-toast);
+
+
+	/* ===========================================
+	   LAYER 3: COMPONENT TOKENS
+	   Specific component usage
+	   =========================================== */
+
+	/* --- Layout --- */
+	--content-width: 65ch;
+	--content-width-wide: 85ch;
 	--content-width-full: 1200px;
-	--section-padding: var(--space-24);
-	--section-padding-mobile: var(--space-16);
+	--page-padding-x: var(--space-6);
+	--page-padding-y: var(--space-8);
+	--section-spacing: var(--space-16);
 
-	/* === Animation === */
-	--duration-instant: 100ms;
-	--duration-fast: 200ms;
-	--duration-normal: 300ms;
-	--duration-slow: 500ms;
-	--duration-slower: 800ms;
+	/* --- Navigation --- */
+	--nav-height: 56px;
+	--nav-bg: var(--color-bg);
+	--nav-border: var(--color-border-subtle);
+	--nav-link-color: var(--color-text-secondary);
+	--nav-link-hover: var(--color-text);
+	--nav-link-active: var(--color-accent);
 
-	/* Easing - GSAP equivalents for CSS */
-	--ease-out: cubic-bezier(0.33, 1, 0.68, 1);
-	--ease-in: cubic-bezier(0.32, 0, 0.67, 0);
-	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-	--ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+	/* --- Cards --- */
+	--card-bg: var(--color-bg-surface);
+	--card-border: var(--color-border);
+	--card-border-hover: var(--color-accent);
+	--card-radius: var(--radius-lg);
+	--card-padding: var(--space-6);
+	--card-shadow: var(--shadow-sm);
+	--card-shadow-hover: var(--shadow-md);
 
-	/* === Z-index === */
-	--z-base: 0;
-	--z-sticky: 100;
-	--z-fixed: 200;
-	--z-overlay: 300;
-	--z-modal: 400;
+	/* --- Buttons --- */
+	--button-radius: var(--radius-md);
+	--button-padding-x: var(--space-5);
+	--button-padding-y: var(--space-2-5);
+	--button-font: var(--font-body);
+	--button-weight: var(--font-medium);
 
-	/* === Borders === */
-	--radius-sm: 4px;
-	--radius-md: 8px;
-	--radius-lg: 12px;
-	--radius-xl: 16px;
-	--radius-full: 9999px;
+	/* Primary button */
+	--button-primary-bg: var(--color-accent);
+	--button-primary-bg-hover: var(--color-accent-hover);
+	--button-primary-text: var(--primitive-stone-900);
+
+	/* Secondary button */
+	--button-secondary-bg: transparent;
+	--button-secondary-border: var(--color-border-strong);
+	--button-secondary-text: var(--color-text-secondary);
+
+	/* --- Badges/Pills --- */
+	--badge-radius: var(--radius-full);
+	--badge-padding-x: var(--space-2-5);
+	--badge-padding-y: var(--space-1);
+	--badge-font-size: var(--text-xs);
+	--badge-font: var(--font-mono);
+	--badge-tracking: var(--tracking-wide);
+
+	/* --- Forms --- */
+	--input-bg: var(--color-bg);
+	--input-border: var(--color-border);
+	--input-border-focus: var(--color-accent);
+	--input-radius: var(--radius-md);
+	--input-padding-x: var(--space-3);
+	--input-padding-y: var(--space-2-5);
+
+	/* --- Article/Reading --- */
+	--article-measure: 65ch;
+	--article-font-body: var(--font-reading);
+	--article-font-heading: var(--font-heading);
+	--article-line-height: var(--leading-relaxed);
+	--article-paragraph-spacing: var(--space-5);
+	--article-heading-spacing: var(--space-8);
+
+	/* --- Code --- */
+	--code-bg: var(--color-bg-inset);
+	--code-border: var(--color-border-subtle);
+	--code-text: var(--primitive-stone-700);
+	--code-radius: var(--radius-sm);
+	--code-padding-inline: var(--space-1-5);
+	--code-font: var(--font-mono);
+	--code-font-size: 0.9em;
+
+	/* --- Blockquotes --- */
+	--blockquote-border: var(--color-accent);
+	--blockquote-bg: var(--color-accent-subtle);
+	--blockquote-text: var(--color-text-secondary);
+	--blockquote-padding: var(--space-4);
+
+	/* --- Tables --- */
+	--table-border: var(--color-border);
+	--table-header-bg: var(--color-bg-surface);
+	--table-row-hover: var(--color-bg-hover);
+	--table-cell-padding: var(--space-3) var(--space-4);
+
+	/* --- Focus States --- */
+	--focus-ring-color: var(--color-accent);
+	--focus-ring-offset: 2px;
+	--focus-ring-width: 2px;
 }
 
-/* Reduced motion preference */
+
+/* ===========================================
+   REDUCED MOTION
+   =========================================== */
 @media (prefers-reduced-motion: reduce) {
 	:root {
 		--duration-instant: 0ms;

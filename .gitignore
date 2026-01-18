@@ -58,3 +58,4 @@ dist/
 build/
 *.egg-info/
 .svelte-kit/
+.playwright-mcp/

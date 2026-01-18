@@ -38,26 +38,27 @@
 		<h2>Why these factors matter</h2>
 
 		<p class="lead">
-			Theory suggests why transparency and control work.
+			Why do transparency and control matter? One study found a mechanism.
 		</p>
 
 		<div class="finding">
 			<p>
-				One study found mastery-oriented users — those who approach AI as a learning scaffold
-				rather than answer oracle — were <strong class="highlight">35.7 times</strong> more likely
-				to maintain critical thinking.
+				Students who treated AI as a learning tool — something to question and learn from —
+				maintained critical thinking. Students who treated it as an answer machine didn't.
+				The difference: <strong class="highlight">35.7x</strong> more likely to stay sharp.
 			</p>
 		</div>
 
 		<div class="caveat">
 			<p>
-				The sample is from a research bank, not a top-tier venue. The effect size is extraordinary.
-				The mechanism fits the validated findings.
+				This comes from ACU Research Bank — not a top journal yet.
+				But the 35.7x effect is huge, and it matches what validated studies predict.
+				Treat as suggestive, not proven.
 			</p>
 		</div>
 
 		<blockquote class="insight">
-			<p>How you approach AI may matter more than which AI you use.</p>
+			<p>Your mindset may matter more than the model.</p>
 		</blockquote>
 
 		<table class="orientation-table">

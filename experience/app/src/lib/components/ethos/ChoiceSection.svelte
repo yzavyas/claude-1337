@@ -167,7 +167,7 @@
 
 		<div class="closing-text">
 			<p class="conclusion">
-				The β = −0.69 correlation isn't a one-time effect. It's a trajectory.
+				Every interaction either builds capability or erodes it. Small differences compound.
 			</p>
 			<p class="final-insight">
 				These extensions are designed for the upper path.
@@ -179,7 +179,7 @@
 				<span class="cta-text">Browse Extensions</span>
 				<span class="cta-arrow">→</span>
 			</a>
-			<a href="{base}/reference/" class="cta-link secondary">
+			<a href="{base}/explore/reference/research/" class="cta-link secondary">
 				<span class="cta-text">View Research</span>
 			</a>
 		</div>

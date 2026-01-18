@@ -1,8 +1,8 @@
 # claude-1337
 
-Cognitive extensions for effective collaborative intelligence.
+Research-backed frameworks that shape how Claude thinks.
 
-AI collaboration usually fails — unless it's designed around transparency and control. These extensions are.
+Most extensions are curated markdown — decision frameworks, gotchas, patterns with sources. They load into context and influence Claude's output. You can read every word, fork anything, verify every claim.
 
 ## Install
 
@@ -30,15 +30,7 @@ Review the installed plugins - they contain skills, agents, and hooks that may b
 
 See [Catalog](/catalog/) for all available extensions.
 
-| Type | What it extends |
-|------|-----------------|
-| **skill** | What Claude knows |
-| **hook** | Session behavior |
-| **agent** | Reasoning delegation |
-| **command** | Repeatable workflows |
-| **mcp** | External systems |
-
 ## Learn more
 
-- [How to Contribute](/explore/how-to/contribute)
-- [Ethos](/explore/explanation/ethos)
+- [Why This Approach](/ethos/) — research-backed rationale
+- [Research Library](/library/) — source papers

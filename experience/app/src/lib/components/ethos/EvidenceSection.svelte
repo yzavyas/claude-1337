@@ -7,9 +7,9 @@
 	let cleanup: (() => void) | null = null;
 
 	const findings = [
-		{ label: 'Transparency', value: 0.415, isNegative: false, stat: 'β = 0.415' },
-		{ label: 'Process Control', value: 0.507, isNegative: false, stat: 'β = 0.507' },
-		{ label: 'Engagement', value: 0.555, isNegative: true, stat: 'b = −0.555' }
+		{ label: 'Transparency', value: 0.415, isNegative: false, stat: 'Strong effect' },
+		{ label: 'Process Control', value: 0.507, isNegative: false, stat: 'Strongest effect' },
+		{ label: 'Engagement', value: 0.555, isNegative: true, stat: 'Negative effect' }
 	];
 
 	// Normalize values for bar widths (max value determines 100%)
@@ -101,7 +101,7 @@
 		<div class="evidence-intro">
 			<h2>What makes collaboration work</h2>
 			<p class="intro-text">
-				Blaurock et al. meta-analyzed 106 studies on AI collaboration. What predicted good outcomes:
+				Blaurock et al. analyzed 106 studies asking: what makes AI collaboration work? Three factors showed strong effects:
 			</p>
 		</div>
 
@@ -110,7 +110,7 @@
 				<div class="effect-bar effect-bar-{index}" class:negative={finding.isNegative}>
 					<div class="bar-header">
 						<span class="bar-label">{finding.label}</span>
-						<span class="stat-value mono">{finding.stat}</span>
+						<span class="stat-value">{finding.stat}</span>
 					</div>
 					<div class="bar-track">
 						<div
@@ -121,14 +121,14 @@
 						></div>
 					</div>
 					{#if finding.isNegative}
-						<p class="bar-note">Engagement features correlate with <em>worse</em> outcomes for frequent users</p>
+						<p class="bar-note">When the AI asks questions, frequent users performed <em>worse</em></p>
 					{/if}
 				</div>
 			{/each}
 		</div>
 
 		<blockquote class="pull-quote">
-			<p>"Show reasoning and give control. Don't ask questions."</p>
+			<p>"Show your work. Let them steer. Don't interrupt with questions."</p>
 			<cite>— Synthesized from Blaurock et al. (2024), Journal of Service Research</cite>
 		</blockquote>
 
@@ -255,9 +255,6 @@
 	}
 
 
-	.mono {
-		font-family: var(--font-mono);
-	}
 
 	/* Mobile */
 	@media (max-width: 640px) {

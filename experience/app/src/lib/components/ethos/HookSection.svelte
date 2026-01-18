@@ -108,7 +108,7 @@
 		</p>
 
 		<p class="mechanism">
-			AI shifts work from generation to verification. Writing feels easier. Catching errors in mostly-correct code takes longer.
+			You spend less time writing, more time checking. The AI writes fast. Finding bugs in plausible-but-wrong code is slow.
 		</p>
 	</div>
 </section>
