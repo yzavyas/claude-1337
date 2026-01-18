@@ -1,67 +1,122 @@
-# Video Generation Models: Decision Framework (2025-2026)
+# Video Generation Models: Decision Framework (January 2026)
 
 ## Quick Decision Matrix
 
 | Use Case | Best Choice | Why | Backup |
 |----------|-------------|-----|--------|
-| **Highest Quality** | Runway Gen-4.5 | 1,247 ELO benchmark leader | Google Veo 3.1 |
-| **Image-to-Video** | Runway Gen-4.5 | Best style preservation | Luma Ray3 |
-| **Text-to-Video** | Runway Gen-4.5 | Complex prompt handling | Kling 2.6 |
-| **With Audio Sync** | Kling 2.6 | Only simultaneous audio-visual | Hailuo 2.3 |
-| **Longest Duration** | Kling 2.6 | 3 minutes native | Runway |
-| **Best Motion** | Runway Gen-4.5 | Physics accuracy | Kling 2.6 |
-| **Character Consistency** | Kling O1 | Unified multimodal solves this | Kling 2.6 |
-| **Camera Control** | Higgsfield Cinema | Professional cinematography | Kling 2.6 |
-| **Professional Color** | Luma Ray3 | Native HDR, 16-bit EXR | Runway |
-| **Budget** | Hailuo 2.3 | Best cost-effectiveness | Kling 2.3 |
-| **Free/Open Source** | HunyuanVideo | Beats Gen-3 quality | Stable Video Diffusion |
+| **Highest Quality** | Runway Gen-4.5 | 1,247 ELO benchmark leader | Seedance 1.0 |
+| **With Audio Sync** | Kling 2.6 | Only simultaneous audio-visual | Google Veo 3.1 |
+| **Longest Duration** | Kling 2.0 | Up to 2-3 minutes | Runway multi-shot |
+| **Character Consistency** | Kling O1 | Unified multimodal memory | Runway Gen-4.5 |
+| **Professional Color (HDR)** | Luma Ray3 | Only native HDR, 16-bit EXR | Runway |
+| **Budget** | Hailuo 2.3 / Pika Free | Best cost-effectiveness | HunyuanVideo |
+| **Free/Open Source** | HunyuanVideo | 13B params, beats Gen-3 | LTX-2 |
+| **Fastest Generation** | Seedance 1.0 Pro | 5-sec 1080p in 41.4 sec | Pika 2.2 |
+| **Creative Effects** | Pika 2.5 | Pikaswaps, Pikaframes | Runway |
+| **Enterprise** | Runway Gen-4.5 | Character consistency, physics | Google Veo 3.1 |
+
+---
+
+## Audio Generation Capabilities
+
+**The "silent film era" is over.** Native audio is now a competitive differentiator.
+
+| Model | Native Audio | Dialogue | Sound FX | Music | Notes |
+|-------|-------------|----------|----------|-------|-------|
+| **Kling 2.6** | ✅ | ✅ | ✅ | ✅ (singing, rap) | Only simultaneous A/V |
+| **Google Veo 3.1** | ✅ | ✅ | ✅ | Limited | Spatial audio, lip-sync |
+| **OpenAI Sora 2** | ✅ | ✅ | ✅ | Limited | US/Canada only |
+| **Runway Gen-4.5** | ✅ (Dec 2025) | ✅ | ✅ | Limited | Added post-launch |
+| **Luma Ray3** | Separate | Limited | Limited | No | Not native |
+| **Hailuo/MiniMax** | Separate models | ✅ | ✅ | ✅ | Speech-02, Music-02 |
+| **Pika** | ❌ | ❌ | ❌ | ❌ | Silent |
+| **Stable Video** | ❌ | ❌ | ❌ | ❌ | Silent |
+| **HunyuanVideo** | Avatar only | Limited | ❌ | ❌ | HunyuanVideo-Avatar |
+| **Seedance 1.0** | ❌ | ❌ | ❌ | ❌ | Silent |
 
 ---
 
 ## Model Profiles
 
 ### Runway Gen-4.5 (December 2025)
-**Strengths:** Benchmark leader, physics accuracy, complex prompts, character/location consistency
-**Weaknesses:** Premium pricing, no native audio
-**Best for:** Professional productions, complex narratives
-**Duration:** Extended sequences
+**Strengths:** #1 benchmark (1,247 ELO), superior physics, character consistency, multi-shot sequencing
+**Weaknesses:** Premium pricing (25 credits/sec), no Turbo mode
+**Best for:** Professional productions, complex narratives, physics-heavy scenes
+**Duration:** 10 sec (extendable to 1 min with multi-shot)
+**Audio:** Added December 11, 2025 - dialogue, sound FX, ambient
+**Pricing:** $12-$95/mo subscription, ~$0.48/sec at Standard tier
 
 ### Kling 2.6 (December 2025)
-**Strengths:** Simultaneous audio-visual generation (unique!), custom voice, 3 min duration, 40% faster
-**Weaknesses:** Less established for Hollywood-grade work
-**Best for:** Content creators, character-driven narratives, audio-sync needs
-**Duration:** Up to 3 minutes
-**Pricing:** $0.25-$2.80/video
+**Strengths:** ONLY simultaneous audio-visual generation, voice + SFX + ambient in one pass, 3 min duration
+**Weaknesses:** 10-sec audio limit, primarily China-focused
+**Best for:** Music videos, character stories, audio-sync content
+**Duration:** 5-10 sec with audio, up to 3 min without
+**Audio:** Native - speech, dialogue, singing, rap, ambient, SFX
+**Pricing:** $0.07-$0.14/sec API
 
-### Kling O1 (Multimodal)
-**Strengths:** First unified multimodal video model, solves character consistency
-**Best for:** Character consistency across scenes
+### Google Veo 3.1 (October 2025)
+**Strengths:** Best audio integration, spatial audio, lip-sync, vertical video (9:16), HDR
+**Weaknesses:** 8-sec generation limit, no published rate card
+**Best for:** Social content, narrative with dialogue
+**Duration:** 8 sec (chainable to 1 min+)
+**Audio:** Native - footsteps matching surfaces, environmental ambience, dialogue
+**Pricing:** $0.10-$0.75/sec Vertex AI
 
-### Luma Ray3
-**Strengths:** Only native HDR pipeline, 16-bit EXR export, keyframe guidance, character preservation
-**Weaknesses:** 10 sec baseline, quality degrades >30 sec
-**Best for:** Professional color workflows, VFX integration
-**Pricing:** $0.17-$1.62/video
+### OpenAI Sora 2 (September 2025)
+**Strengths:** High realism, Disney partnership (200+ characters), video remixing
+**Weaknesses:** US/Canada only, no Team/Enterprise access, $200/mo Pro tier
+**Best for:** Cinematic content, storyboarding
+**Duration:** 12-25 sec (Pro), 4-12 sec (standard)
+**Audio:** Native - dialogue, sound FX, ambient
+**Pricing:** $20/mo Plus, $200/mo Pro
 
-### Google Veo 3.1
-**Strengths:** Physics-based motion, identity consistency, multi-scene narrative
-**Best for:** Narrative-driven content
-**Pricing:** $0.30-$0.50/second
+### Luma Ray3 (2025)
+**Strengths:** ONLY native HDR pipeline, 16-bit EXR export, reasoning video model
+**Weaknesses:** Quality degrades >30 sec, credit-hungry for HDR
+**Best for:** Professional VFX, color-critical work
+**Duration:** 5-20 sec
+**Audio:** Separate feature
+**Pricing:** $9.99-$29.99/mo subscription
 
-### Hailuo 2.3 (MiniMax)
-**Strengths:** Most cost-effective, director controls, audio integration
-**Best for:** Budget-conscious creators
-**60M+ users**
+### Seedance 1.0 Pro (ByteDance, June 2025)
+**Strengths:** #1 Artificial Analysis benchmark, FASTEST (5-sec 1080p in 41.4 sec)
+**Weaknesses:** 5-sec limit, ByteDance ecosystem integration
+**Best for:** Rapid iteration, high volume
+**Duration:** 5 sec
+**Audio:** None
+**Pricing:** $0.50/generation (5-sec 1080p)
 
-### OpenAI Sora 2
-**Strengths:** OpenAI ecosystem, storyboarding
-**Weaknesses:** Limited availability (invite-only), geographic restrictions
-**Pricing:** $20/mo (Plus) or $200/mo (Pro)
+### Hailuo 02 / MiniMax (2025)
+**Strengths:** #2 benchmark, 2.5x faster training, anime/illustration styles
+**Weaknesses:** 6-sec free limit, 30-sec queue
+**Best for:** Budget-conscious, stylized content
+**Duration:** Up to 10 sec at 1080p
+**Audio:** Separate models (Speech-02, Music-02)
+**Pricing:** $9.99-$94.99/mo, $0.28/video API
 
-### Stable Video Diffusion (Open Source)
-**Strengths:** Free, local deployment, customizable
-**Weaknesses:** Lower quality, technical setup required
-**Best for:** Research, indie projects, local processing
+### Pika 2.5 (2026)
+**Strengths:** Pikaswaps (object replacement), Pikaframes (image transitions), timeline editor
+**Weaknesses:** No API (select partners only), 480p free tier
+**Best for:** Creative effects, object replacement, motion design
+**Duration:** 10-12 sec
+**Audio:** None
+**Pricing:** $8-$76/mo
+
+### HunyuanVideo (Tencent, December 2024)
+**Strengths:** Largest open-source (13B params), beats Gen-3 in blind tests, free
+**Weaknesses:** Geographic licensing (no EU/UK/SK commercial), technical setup
+**Best for:** Research, self-hosted, budget
+**Duration:** Variable (GPU-dependent)
+**Audio:** HunyuanVideo-Avatar only
+**Pricing:** Free (self-hosted), $0.075-$0.40/video API
+
+### Stable Video Diffusion
+**Strengths:** Open source, SV4D 2.0 for 4D generation
+**Weaknesses:** ≤4 sec, no text prompts, discontinued from Stability API
+**Best for:** Novel view synthesis, 4D research
+**Duration:** 4 sec (14-25 frames)
+**Audio:** None
+**Pricing:** Free (open source)
 
 ---
 
@@ -69,26 +124,42 @@
 
 | Model | Max Duration | Quality Degradation |
 |-------|--------------|---------------------|
-| Kling 2.6 | 3 minutes | Minimal |
-| Runway Gen-4.5 | Extended | Maintained |
-| Hailuo 2.3 | 2-3 minutes | Reasonable |
-| Luma Ray3 | 30 seconds | Significant beyond |
-| Google Veo 3.1 | Variable | Moderate |
+| **Kling 2.0** | 2-3 minutes | Minimal |
+| **Runway Gen-4.5** | 1 minute (multi-shot) | Maintained |
+| **Veo 3.1** | 1 minute+ (chained) | Moderate |
+| **Sora 2 Pro** | 25 seconds | Maintained |
+| **Luma Ray3** | 20 seconds | Significant >30 sec |
+| **Pika 2.1** | 12 seconds | Maintained |
+| **Hailuo 02** | 10 seconds | Maintained |
+| **Seedance 1.0** | 5 seconds | N/A (short) |
+| **Stable Video** | 4 seconds | N/A (short) |
 
 ---
 
 ## Pricing Comparison
 
-| Model | Pricing | Cost |
-|-------|---------|------|
-| Runway Gen-4.5 | Premium | (Professional tier) |
-| Kling 2.6 | Per-video | $0.25-$2.80 |
-| Hailuo 2.3 | Per-video | ~$0.25-$2.80 |
-| Sora 2 | Subscription | $20-$200/mo |
-| Luma Ray2 | Per-video | $0.50-$1.62 |
-| Luma Ray2 Flash | Per-video | $0.17-$0.54 |
-| Google Veo 3.1 | Per-second | $0.30-$0.50/sec |
-| Stable Video | Free | $0 |
+| Model | Type | Cost |
+|-------|------|------|
+| **HunyuanVideo** | Open source | Free / $0.075/sec API |
+| **Kling** | API | $0.07-$0.14/sec |
+| **Seedance 1.0** | Per-video | $0.10/sec ($0.50/5-sec) |
+| **Sora 2** | API | $0.10-$0.50/sec |
+| **Veo 3.1 Fast** | API | ~$0.10/sec (no audio) |
+| **Veo 3.1** | API | ~$0.40-$0.75/sec (with audio) |
+| **Runway Gen-4.5** | Subscription | ~$0.48/sec (25 credits/sec) |
+| **Luma Ray3** | Subscription | $9.99-$29.99/mo |
+| **Pika** | Subscription | $8-$76/mo |
+| **Stable Video** | Open source | Free |
+
+---
+
+## Open Source Options
+
+| Model | License | Commercial Use |
+|-------|---------|----------------|
+| **HunyuanVideo** | Tencent | Free if <100M MAU (no EU/UK/SK) |
+| **Stable Video** | Stability AI Community | Free if <$1M revenue |
+| **LTX-2** (Lightricks) | Open source | Yes |
 
 ---
 
@@ -96,14 +167,15 @@
 
 | Feature | Leader |
 |---------|--------|
-| Overall Quality | Runway Gen-4.5 |
-| Audio-Visual Sync | Kling 2.6 (only one) |
-| Character Consistency | Kling O1 |
-| HDR/Professional Color | Luma Ray3 (only one) |
-| Duration | Kling 2.6 (3 min) |
-| Cost-Effectiveness | Hailuo 2.3 |
-| Camera Control | Higgsfield Cinema |
-| Open Source | HunyuanVideo |
+| **Overall Quality** | Runway Gen-4.5 (1,247 ELO) |
+| **Audio-Visual Sync** | Kling 2.6 (only simultaneous) |
+| **Character Consistency** | Kling O1 / Runway Gen-4.5 |
+| **HDR/Pro Color** | Luma Ray3 (only native HDR) |
+| **Duration** | Kling 2.0 (3 min) |
+| **Speed** | Seedance 1.0 (41.4 sec) |
+| **Cost-Effectiveness** | Hailuo 2.3 |
+| **Open Source** | HunyuanVideo |
+| **Creative Effects** | Pika (Pikaswaps/Pikaframes) |
 
 ---
 
@@ -111,20 +183,61 @@
 
 | Project Type | Primary | Secondary |
 |--------------|---------|-----------|
-| Narrative Film | Runway Gen-4.5 | Google Veo 3.1 |
-| Character Stories | Kling O1/2.6 | Runway |
-| Music Videos | Kling 2.6 (audio sync) | — |
-| Professional VFX | Luma Ray3 (HDR) | Runway |
-| Social Content | Hailuo 2.3 | Kling 2.3 |
-| Research/Custom | Stable Video Diffusion | HunyuanVideo |
-| Enterprise | Runway Gen-4.5 | Luma Ray3 |
+| **Narrative Film** | Runway Gen-4.5 | Google Veo 3.1 |
+| **Music Videos** | Kling 2.6 (audio sync) | Runway |
+| **Character Stories** | Kling O1/2.6 | Runway |
+| **Professional VFX** | Luma Ray3 (HDR) | Runway |
+| **Social Content** | Hailuo 2.3 | Pika Free |
+| **Research/Custom** | HunyuanVideo | LTX-2 |
+| **Enterprise** | Runway Gen-4.5 | Veo 3.1 |
+| **Rapid Prototyping** | Seedance 1.0 Pro | Pika Draft |
 
 ---
 
-## 2025-2026 Trends
+## Key Trends (January 2026)
 
-1. **Audio-visual integration is now expected** (Kling 2.6 leads)
-2. **Character consistency solved** (Kling O1 unified model)
-3. **Camera control professionalizing** (Higgsfield Cinema)
-4. **Duration expanding** (3 min without quality collapse)
-5. **Open source catching up** (HunyuanVideo beats Gen-3)
+1. **Audio is table stakes** — Kling 2.6, Veo 3, Sora 2, Runway all have native audio
+2. **Duration expanding** — From seconds to minutes via multi-shot and scene extension
+3. **4K becoming standard** — Most commercial models support 4K output
+4. **Physics still challenging** — Hand dexterity, complex interactions remain weak
+5. **Geographic fragmentation** — China models (Kling, Hailuo, Seedance) competitive with US
+6. **Open source catching up** — HunyuanVideo rivals commercial quality
+7. **Vertical video native** — Platforms adding 9:16 for social media (Veo 3.1)
+8. **Reasoning-based generation** — Luma Ray3 pioneering "thinking" video models
+
+---
+
+## Known Limitations (All Models)
+
+Research shows consistent weaknesses across models:
+
+| Challenge | Status |
+|-----------|--------|
+| **Hand movement/dexterity** | Still challenging across all models |
+| **Finger articulation** | Weak, especially continuous shots |
+| **Fabric interaction** | Inconsistent |
+| **Temporal precision** | Breaking down in long sequences |
+| **Complex interactions** | Trade realism for coherence |
+
+**Static scenes** are the comfort zone — all models score higher when no interaction required.
+
+---
+
+## Sources
+
+**Official Documentation:**
+- [Runway Gen-4.5](https://runwayml.com/research/introducing-runway-gen-4.5)
+- [Kling AI](https://www.klingai.com/)
+- [Google Veo](https://deepmind.google/models/veo/)
+- [OpenAI Sora](https://openai.com/sora)
+- [Luma Labs](https://lumalabs.ai/)
+- [ByteDance Seedance](https://seed.bytedance.com/en/seedance)
+- [MiniMax/Hailuo](https://www.minimax.io/)
+- [Pika](https://pikartai.com/)
+- [HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo)
+- [Stability AI](https://stability.ai/)
+
+**Research & Benchmarks:**
+- [Artificial Analysis Video Benchmark](https://artificialanalysis.ai/)
+- [VentureBeat AI Coverage](https://venturebeat.com/ai/)
+- [TechCrunch AI](https://techcrunch.com/category/artificial-intelligence/)

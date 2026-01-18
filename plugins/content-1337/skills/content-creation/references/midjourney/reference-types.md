@@ -1,13 +1,17 @@
 # Midjourney Reference Types: Decision Framework
 
+**Updated:** January 2026
+
 ## Quick Reference
 
-| Reference | Preserves | Changes | Parameter | Range |
-|-----------|-----------|---------|-----------|-------|
-| **Image Prompt** | Composition, layout, general aesthetic | Details, colors, style via text | `--iw` | 0-3 |
-| **Style Ref (--sref)** | Color palette, mood, rendering technique | Subject, composition | `--sw` | 0-1000 |
-| **Character Ref (--cref)** | Face, hair, body shape | Clothing, pose, setting | `--cw` | 0-100 |
-| **Omni Ref (--oref)** | Exact object/character appearance | Everything else | `--ow` | 1-1000 |
+| Reference | Preserves | Changes | Parameter | Range | V7? |
+|-----------|-----------|---------|-----------|-------|-----|
+| **Image Prompt** | Composition, layout | Details via text | `--iw` | 0-3 | ✅ |
+| **Style Ref** | Color palette, mood | Subject entirely | `--sref`, `--sw` | 0-1000 | ✅ |
+| **Character Ref** | Face, hair, body | Clothing, pose | `--cref`, `--cw` | 0-100 | **V6 only** |
+| **Omni Ref** | Exact object/character | Everything else | `--oref`, `--ow` | 0-1000 | **V7 only** |
+
+⚠️ **V7 Migration:** `--cref` is deprecated. Use `--oref` instead (works for characters AND objects).
 
 ---
 
@@ -50,9 +54,11 @@
 
 ---
 
-## 3. Character Reference (--cref)
+## 3. Character Reference (--cref) — V6 ONLY
 
-**Use when:** Same character across multiple scenes/outfits/poses.
+⚠️ **Not available in V7.** Use `--oref` (Omni Reference) instead.
+
+**Use when:** Same character across multiple scenes/outfits/poses (V6 only).
 
 **CRITICAL:** Works best with Midjourney-generated images, NOT real photos.
 
@@ -65,7 +71,11 @@
 
 **Cannot preserve:** Specific freckles, small logos, fine tattoo details, intricate accessories.
 
-**Best for:** Character consistency, comics, storytelling.
+**V7 Migration:**
+```
+V6: --cref [url] --cw 50
+V7: --oref [url] --ow 100-200
+```
 
 ---
 
