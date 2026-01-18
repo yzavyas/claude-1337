@@ -1,6 +1,6 @@
 ---
 name: content-creation
-description: "Visual content creation with AI. Use when: Midjourney prompting, choosing image/video generation models, troubleshooting AI art, reference types, style transfer."
+description: "Visual content creation with AI. Use when: creating artwork, images, illustrations, animations, videos, visual assets, aesthetic direction, AI art generation, style guidance, choosing image or video models."
 ---
 
 # Visual Content Creation
