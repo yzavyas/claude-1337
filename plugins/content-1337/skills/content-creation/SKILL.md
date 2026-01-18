@@ -134,6 +134,7 @@ Decision frameworks for AI image and video generation. Not tutorials — correct
 2. Match aspect ratio (input 1:1 → output --ar 1:1)
 3. Add `--style raw` for tighter adherence
 4. Lower --stylize (30-50) for more literal interpretation
+5. **If still failing:** Switch to Gemini/Imagen 3 — it actually understands shapes through multimodal reasoning
 
 ### "It keeps making it symmetric"
 

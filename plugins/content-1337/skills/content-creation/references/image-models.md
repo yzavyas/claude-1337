@@ -12,6 +12,7 @@
 | **Speed Priority** | SDXL | 13 sec/image, low VRAM | Ideogram |
 | **Quality Priority** | Flux.1 | Best overall (2025 benchmark) | Midjourney v7 |
 | **Commercial Use** | DALL-E 3 | Clear licensing, reliable | Adobe Firefly |
+| **Exact Shape Preservation** | Gemini/Imagen 3 | Multimodal understanding, precise control | Ideogram |
 | **Budget (API)** | Flux Kontext Dev | $0.015/image | SDXL |
 
 ---
@@ -23,6 +24,13 @@
 **Weaknesses:** Text rendering (99% gibberish), subscription required
 **Best for:** Art, portraits, concept art, marketing imagery
 **Pricing:** $10-$120/month
+
+### Gemini/Imagen 3 (Google)
+**Strengths:** Multimodal understanding, excellent shape preservation, precise spatial control, integrated with Gemini reasoning
+**Weaknesses:** API waitlist, less artistic "soul" than Midjourney
+**Best for:** Exact shape reproduction, technical accuracy, when you need the AI to "understand" what you're asking for
+**Pricing:** Google AI Studio (free tier), Vertex AI pricing
+**Key insight:** When Midjourney keeps giving you symmetric mandalas instead of your asymmetric shape, try Gemini — its multimodal reasoning actually understands what a "glider pattern" is.
 
 ### DALL-E 3 (OpenAI)
 **Strengths:** Best prompt accuracy, decent text, fast, clear licensing
@@ -74,6 +82,7 @@
 |-------|------|------|
 | Midjourney | Subscription | $10-$120/mo |
 | DALL-E 3 | Sub + Free | $20/mo + Free tier |
+| Gemini/Imagen 3 | API + Free | Free tier in AI Studio, Vertex pricing |
 | SDXL | API | $0.006-$0.03/img |
 | SD 3.5 | API | $0.03-$0.06/img |
 | Flux Kontext | API | $0.015-$0.04/img |
