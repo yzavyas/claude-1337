@@ -35,8 +35,8 @@
     "displayName": "Experience Engineering",
     "category": "frontend"
   },
-  "content-1337": {
-    "displayName": "Visual Content Creation",
-    "category": "content"
+  "visuals-1337": {
+    "displayName": "AI Visuals",
+    "category": "visuals"
   }
 }
