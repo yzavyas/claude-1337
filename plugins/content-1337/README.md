@@ -8,11 +8,12 @@ Decision frameworks for Midjourney, image generation models, and video generatio
 
 ## When It Activates
 
-- Midjourney prompting questions
+- Creating artwork, images, illustrations, visual assets
+- Producing animations or videos with AI
+- Aesthetic direction and style guidance
 - Choosing between image/video generation models
-- Troubleshooting AI art issues
+- Troubleshooting AI art issues (symmetry, shape preservation, etc.)
 - Reference type selection (--sref vs --cref vs --oref)
-- Style transfer and character consistency
 
 ## Key Content
 
