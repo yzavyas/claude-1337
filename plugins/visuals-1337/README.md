@@ -1,6 +1,6 @@
-# content-1337
+# visuals-1337
 
-Visual content creation guidance for AI image and video generation.
+AI image and video generation guidance.
 
 ## What This Is
 
@@ -18,7 +18,7 @@ Decision frameworks for Midjourney, image generation models, and video generatio
 ## Key Content
 
 ### Midjourney Gotchas
-- V7 breaking changes (multi-prompt `::` syntax removed)
+- V7 breaking changes (multi-prompt `::` behavior changed, `--cref` deprecated)
 - Reference type decision tree
 - Parameter version compatibility
 - Common failures and fixes
@@ -30,7 +30,7 @@ Decision frameworks for Midjourney, image generation models, and video generatio
 ## Structure
 
 ```
-skills/content-creation/
+skills/visual-creation/
 ├── SKILL.md                    # Decision frameworks (< 200 lines)
 └── references/
     ├── midjourney/
