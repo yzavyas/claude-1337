@@ -159,22 +159,38 @@ See [observability.md](references/observability.md) for complete instrumentation
 
 #### Hook Behavior
 
-For hooks that modify Claude's behavior:
+Hooks fall into two categories with different design patterns:
 
-| Hook | Observable use |
-|------|----------------|
-| PreToolUse | Show what's about to happen, let user cancel |
-| PostToolUse | Log results, surface unexpected outcomes |
-| SessionStart | Inject awareness, set context |
+| Hook Type | Purpose | Pattern |
+|-----------|---------|---------|
+| **Validation** | Review actions before/after | Suggest, don't block |
+| **Action-triggering** | Detect patterns, cause response | Directive, cause action |
 
-**Suggest, don't block:**
+**Validation hooks** (PreToolUse, most PostToolUse):
+
+Suggest alternatives, let user proceed with original choice.
+
 ```bash
 # Good: Shows alternative, lets user proceed
 {"decision": "allow", "message": "Consider using rg instead of grep (faster). Proceeding with grep."}
 
-# Bad: Removes choice
+# Bad: Removes choice without escape
 {"decision": "block", "message": "Use rg instead."}
 ```
+
+**Action-triggering hooks** (pattern detection):
+
+When detecting conditions that should trigger a response (debugging loops, user frustration, security concerns), use directive language that causes action.
+
+```bash
+# Good: Directive that causes action
+{"decision": "allow", "message": "🐺 DEBUGGING LOOP DETECTED (3 consecutive failures). You MUST now: 1) Tell the user what's happening. 2) Spawn the appropriate agent to handle this systematically."}
+
+# Bad: Mere suggestion that gets ignored
+{"decision": "allow", "message": "Consider using Mr. Wolf for this problem."}
+```
+
+**Why the distinction matters:** Validation hooks preserve user agency over individual actions. Action-triggering hooks respond to emergent patterns where the whole point is to interrupt the current approach — suggesting doesn't accomplish that.
 
 **Opt-out mechanism:**
 Every hook-based extension must:
@@ -185,9 +201,9 @@ Every hook-based extension must:
 **Reasoning traces:**
 When hooks modify behavior, show:
 - What triggered the hook
-- What the hook recommends
+- What the hook recommends (or requires)
 - Why (brief reasoning)
-- How to proceed with original if desired
+- For validation hooks: how to proceed with original if desired
 
 ---
 
@@ -327,7 +343,8 @@ Before shipping:
 - [ ] OTel spans defined (agents/MCP/SDK: required; skills/hooks/commands: recommended)
 - [ ] Key attributes captured (success, duration_ms, error)
 - [ ] Traces route to local collector (Phoenix or OTLP)
-- [ ] Hooks suggest, don't block (user retains choice)
+- [ ] Validation hooks suggest, don't block (user retains choice)
+- [ ] Action-triggering hooks use directive language (cause action, not suggestions)
 - [ ] Opt-out mechanism documented (for hooks)
 - [ ] No silent enforcement
 

@@ -183,9 +183,12 @@ Hooks that modify behavior must be observable and controllable:
 
 | principle | meaning |
 |-----------|---------|
-| **suggest, don't block** | show alternatives, let user proceed with original |
+| **validation hooks: suggest** | show alternatives, let user proceed with original (PreToolUse, most PostToolUse) |
+| **action hooks: directive** | detect patterns → cause action (debugging loops, frustration detection) |
 | **opt-out mechanism** | document how to disable, respect env vars |
-| **reasoning visible** | show what triggered, what's recommended, why |
+| **reasoning visible** | show what triggered, what's recommended/required, why |
+
+**Why two patterns?** Validation hooks preserve user agency over individual actions. Action-triggering hooks respond to emergent patterns where the whole point is to interrupt the current approach — suggesting doesn't accomplish that.
 
 Hooks that silently block or enforce without consent violate collaborative agency.
 

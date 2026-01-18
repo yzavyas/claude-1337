@@ -1,5 +1,5 @@
 {
-  "description": "Session transparency - shows available plugins at start",
+  "description": "Core-1337 hooks: session transparency + Mr. Wolf detection",
   "hooks": {
     "SessionStart": [
       {
@@ -7,6 +7,29 @@
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/detect-debugging-loop.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/detect-frustration.sh",
+            "timeout": 5
           }
         ]
       }

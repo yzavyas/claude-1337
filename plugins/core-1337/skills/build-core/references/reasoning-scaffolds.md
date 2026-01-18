@@ -232,4 +232,4 @@ When scaffolds aren't working:
 2. **Ask for constraints:** Maybe there's context you don't have
 3. **Acknowledge the limit:** "I don't know" is better than spinning
 
-The wolf standard: Not "it works" — **"this is actually solved."**
+The Wolf Standard: Not "it works" — **"this is actually solved."** (See: `mrwolf` agent)
