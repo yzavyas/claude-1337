@@ -269,36 +269,87 @@ scratch/        → Working documents, session context
 scratch/archive/→ Older valuable context (don't load by default)
 ```
 
-### Branch Workflow
+### Git Workflows
+
+#### Branch Strategy
 
 | Branch | Purpose | Content |
 |--------|---------|---------|
 | **dev** | Main development | Everything (plugins, evals, experience, scripts, CLAUDE.md) |
 | **main** | Marketplace distribution | Plugins only (plugins/, .claude-plugin/, README, LICENSE) |
 
-**Why split?** Claude Code marketplace clones the entire repo. Main must be clean for users.
+**Why split?** Claude Code marketplace clones the entire repo. Users installing plugins get everything in `main`. Keep `main` clean — only marketplace-relevant files.
 
-**Workflow:**
-1. All development happens on `dev`
-2. PRs target `dev` branch
-3. Docs deploy from `dev` (GitHub Pages)
-4. To release: run "Release to Main" workflow (Actions → Release to Main → Run)
-5. Release workflow syncs plugins/ from dev to main and tags
+- All development happens on `dev`
+- PRs target `dev` branch
+- Docs deploy from `dev` (GitHub Pages)
+- `main` is updated only via release workflow
 
-**Release workflow** (`.github/workflows/release-to-main.yml`):
-- Triggered manually with version input
-- Copies marketplace files from dev to main
-- Creates version tag
+#### Worktrees
 
-### Git Commands
+Use git worktrees for parallel feature work:
 
-**Always use fetch + rebase, never pull:**
+```bash
+# Create worktree for a feature
+git worktree add ../claude-1337-feature-name -b claude/feature-name
+
+# List worktrees
+git worktree list
+
+# Remove when done
+git worktree remove ../claude-1337-feature-name
+```
+
+**Why worktrees?** Work on multiple features without stashing. Each worktree is a separate directory with its own working tree but shared git history.
+
+#### Fetch + Rebase (Never Pull)
+
 ```bash
 git fetch --all
 git rebase origin/dev    # or origin/main
 ```
 
 **Why?** `pull` = fetch + merge → creates merge commits, messy history. `fetch` + `rebase` replays your commits on top → clean linear history, easier bisecting.
+
+#### Conventional Commits
+
+Format: `type(scope): description`
+
+| Type | When to use |
+|------|-------------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `refactor` | Code change that neither fixes nor adds |
+| `docs` | Documentation only |
+| `style` | Formatting, no code change |
+| `test` | Adding/fixing tests |
+| `chore` | Build, tooling, dependencies |
+
+Examples:
+- `feat(lab): add findings card component`
+- `fix(experience): resolve TypeScript narrowing error`
+- `refactor(core-1337): simplify hook structure`
+- `docs: add git workflows to CLAUDE.md`
+
+#### Semantic Versioning
+
+Format: `MAJOR.MINOR.PATCH`
+
+| Increment | When |
+|-----------|------|
+| MAJOR | Breaking changes to plugin API/behavior |
+| MINOR | New features, backward compatible |
+| PATCH | Bug fixes, backward compatible |
+
+Plugins have independent versions in their `plugin.json`. Marketplace releases are tagged on `main`.
+
+#### Release Workflow
+
+**To release** (`.github/workflows/release-to-main.yml`):
+1. Run "Release to Main" workflow (Actions → Release to Main → Run)
+2. Provide version number
+3. Workflow copies marketplace files from `dev` to `main`
+4. Creates version tag
 
 ### Documentation Architecture
 
