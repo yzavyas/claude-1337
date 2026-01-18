@@ -11,16 +11,16 @@
 	const allFindings = $derived(data.papers.filter(p => p.status === 'published'));
 	const allProposals = $derived(data.papers.filter(p => p.status !== 'published'));
 
-	// Apply keyword filter
+	// Apply keyword filter (non-null assertion safe after truthy check)
 	const findings = $derived(
 		activeKeyword
-			? allFindings.filter(p => p.keywords.includes(activeKeyword))
+			? allFindings.filter(p => p.keywords.includes(activeKeyword!))
 			: allFindings
 	);
 
 	const proposals = $derived(
 		activeKeyword
-			? allProposals.filter(p => p.keywords.includes(activeKeyword))
+			? allProposals.filter(p => p.keywords.includes(activeKeyword!))
 			: allProposals
 	);
 
