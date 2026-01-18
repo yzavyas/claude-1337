@@ -290,6 +290,16 @@ scratch/archive/→ Older valuable context (don't load by default)
 - Copies marketplace files from dev to main
 - Creates version tag
 
+### Git Commands
+
+**Always use fetch + rebase, never pull:**
+```bash
+git fetch --all
+git rebase origin/dev    # or origin/main
+```
+
+**Why?** `pull` = fetch + merge → creates merge commits, messy history. `fetch` + `rebase` replays your commits on top → clean linear history, easier bisecting.
+
 ### Documentation Architecture
 
 | Component type | Documentation |
