@@ -10,22 +10,22 @@
 		{
 			name: 'Collaborative agency',
 			description:
-				'Both human and AI retain agency. Transparency requires AI that shows its work. Control requires AI that can be directed.'
+				'Both human and AI retain agency. You see the reasoning. You can redirect. You stay in control.'
 		},
 		{
 			name: 'Bidirectional learning',
 			description:
-				'The human learns, not just consumes. Reciprocity predicts good outcomes. Passive consumption predicts atrophy.'
+				'The human grows, not just consumes. Each interaction leaves you more capable, not more dependent.'
 		},
 		{
 			name: 'Transparent abstractions',
 			description:
-				'Extensions should be readable, forkable, verifiable. Transparency works. Black boxes don\'t.'
+				'Extensions are readable text, not black boxes. You can fork them, modify them, understand them.'
 		},
 		{
-			name: 'Compounding engineering',
+			name: 'Compounding value',
 			description:
-				'Each solution makes the next one faster. Write it down, build on it. (Every.to)'
+				'Each solution makes the next one easier. What you learn today becomes a foundation for tomorrow.'
 		}
 	];
 
@@ -77,7 +77,7 @@
 	<div class="content">
 		<div class="principles-header">
 			<h2>Design principles</h2>
-			<p class="lead">From the research, four principles for extension design.</p>
+			<p class="lead">These principles guide how we build cognitive extensions.</p>
 		</div>
 
 		<ol class="principles-list">

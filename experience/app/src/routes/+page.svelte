@@ -1,80 +1,81 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import CopyCommand from '$lib/components/CopyCommand.svelte';
 
-	let copied = $state(false);
 	const installCommand = '/plugin marketplace add yzavyas/claude-1337';
-
-	async function copyCommand() {
-		await navigator.clipboard.writeText(installCommand);
-		copied = true;
-		setTimeout(() => copied = false, 2000);
-	}
 </script>
 
 <svelte:head>
-	<title>Cognitive Extensions — claude-1337</title>
+	<title>claude-1337 — Extensions that make you better</title>
 </svelte:head>
+
+<nav class="landing-nav">
+	<a href="{base}/" class="nav-brand">claude-1337</a>
+	<div class="nav-links">
+		<a href="{base}/catalog/">Catalog</a>
+		<a href="{base}/lab/">Lab</a>
+		<a href="{base}/library/">Library</a>
+		<a href="{base}/ethos/">Ethos</a>
+		<a href="https://github.com/yzavyas/claude-1337" target="_blank" rel="noopener">GitHub ↗</a>
+		<a href="https://github.com/yzavyas/claude-1337/discussions" target="_blank" rel="noopener">Forum ↗</a>
+	</div>
+</nav>
 
 <main class="landing">
 	<section class="hero">
 		<div class="badge">
-			<span class="badge-dot"></span>
+			<span class="badge-dot" aria-hidden="true"></span>
 			<span class="badge-text">marketplace</span>
 		</div>
 
-		<p class="headline-intro">Cognitive extensions for</p>
-		<h1 class="headline">
-			<span class="headline-primary">Effective Collaborative Intelligence</span>
-		</h1>
+		<h1 class="headline">Extensions that make you better</h1>
 
 		<p class="description">
-			Collaboration that compounds capability.
+			Research-backed frameworks that shape how Claude thinks.<br />
+			Readable. Forkable. Yours to verify.
 		</p>
 
-		<div class="actions">
-			<a href="{base}/ethos/" class="primary-action">
-				<span>Understand the approach</span>
-				<span class="arrow">→</span>
-			</a>
+		<div class="install">
+			<CopyCommand command={installCommand} />
+			<p class="install-note">
+				Run in Claude Code, then browse with <code>/plugin</code>
+			</p>
+			<div class="troubleshoot">
+				<p class="troubleshoot-label">Known issues</p>
+				<p class="troubleshoot-links">
+					<a href="https://github.com/anthropics/claude-code/issues/14815" target="_blank" rel="noopener">#14815</a>,
+					<a href="https://github.com/anthropics/claude-code/issues/14061" target="_blank" rel="noopener">#14061</a>,
+					<a href="https://github.com/anthropics/claude-code/issues/15369" target="_blank" rel="noopener">#15369</a>
+				</p>
+				<p class="troubleshoot-links">
+					Workaround → <a href="{base}/explore/how-to/troubleshoot">How-To</a>
+				</p>
+			</div>
+		</div>
+
+		<div class="secondary-actions">
+			<a href="{base}/catalog/">Browse extensions</a>
+			<span class="separator" aria-hidden="true">·</span>
+			<a href="{base}/ethos/">Why this approach</a>
 		</div>
 	</section>
-
-	<section class="install">
-		<h2 class="install-heading">Add to Claude Code</h2>
-		<button class="install-command" onclick={copyCommand}>
-			<span class="command-code">{installCommand}</span>
-			<span class="copy-hint">{copied ? 'Copied!' : 'copy'}</span>
-		</button>
-		<p class="install-note">Then browse and install individual plugins with <code>/plugin</code></p>
-
-		<div class="troubleshoot">
-			<p class="troubleshoot-label">Known issues</p>
-			<p class="troubleshoot-links">
-				<a href="https://github.com/anthropics/claude-code/issues/14815">#14815</a>,
-				<a href="https://github.com/anthropics/claude-code/issues/14061">#14061</a>,
-				<a href="https://github.com/anthropics/claude-code/issues/15369">#15369</a>
-			</p>
-			<p class="troubleshoot-links">
-				Workaround → <a href="{base}/explore/how-to/troubleshoot">How-To</a>
-			</p>
-		</div>
-	</section>
-
-	<div class="secondary-link">
-		<a href="{base}/catalog/">Browse extensions</a>
-	</div>
 </main>
 
 <style>
 	.landing {
 		min-height: 100vh;
-		padding: 100px var(--space-6) var(--space-12);
+		min-height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: var(--space-6);
+		background: var(--color-bg);
 	}
 
 	.hero {
-		max-width: var(--content-width);
+		max-width: 560px;
 		text-align: center;
-		margin: 0 auto var(--space-16);
+		margin: 0 auto;
 	}
 
 	.badge {
@@ -86,25 +87,13 @@
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-full);
 		margin-bottom: var(--space-8);
-		animation: fadeIn 600ms ease;
-	}
-
-	@keyframes fadeIn {
-		from { opacity: 0; transform: translateY(12px); }
-		to { opacity: 1; transform: translateY(0); }
 	}
 
 	.badge-dot {
 		width: 6px;
 		height: 6px;
-		background: var(--color-success);
+		background: var(--color-accent);
 		border-radius: 50%;
-		animation: pulse 2s ease-in-out infinite;
-	}
-
-	@keyframes pulse {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0.5; }
 	}
 
 	.badge-text {
@@ -115,138 +104,30 @@
 		letter-spacing: 0.1em;
 	}
 
-	.headline-intro {
-		font-family: var(--font-mono);
-		font-size: var(--text-sm);
-		color: var(--color-text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.15em;
-		margin-bottom: var(--space-3);
-		animation: fadeIn 600ms ease 50ms both;
-	}
-
 	.headline {
-		margin-bottom: var(--space-6);
-		animation: fadeIn 600ms ease 100ms both;
-	}
-
-	.headline-primary {
-		display: block;
-		font-family: var(--font-display);
+		font-family: var(--font-heading);
 		font-size: var(--text-4xl);
 		font-weight: var(--font-medium);
 		letter-spacing: var(--tracking-tighter);
 		line-height: var(--leading-tight);
 		color: var(--color-text-primary);
+		margin-bottom: var(--space-4);
 	}
 
 	.description {
 		font-size: var(--text-lg);
 		color: var(--color-text-secondary);
-		max-width: 480px;
-		margin: 0 auto var(--space-10);
 		line-height: var(--leading-relaxed);
-		animation: fadeIn 600ms ease 200ms both;
+		margin-bottom: var(--space-8);
 	}
 
-	.actions {
-		animation: fadeIn 600ms ease 300ms both;
-		margin-bottom: var(--space-16);
-	}
-
-	.primary-action {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		padding: var(--space-3) var(--space-6);
-		background: var(--color-accent);
-		border-radius: var(--radius-md);
-		color: var(--color-bg-deep);
-		font-weight: var(--font-medium);
-		font-family: var(--font-mono);
-		font-size: var(--text-sm);
-		text-decoration: none;
-		transition:
-			background var(--duration-fast) var(--ease-out),
-			transform var(--duration-fast) var(--ease-out);
-	}
-
-	.primary-action:hover {
-		background: var(--color-accent-hover);
-		transform: translateY(-2px);
-	}
-
-	.primary-action .arrow {
-		transition: transform var(--duration-fast) var(--ease-out);
-	}
-
-	.primary-action:hover .arrow {
-		transform: translateX(4px);
-	}
-
-	/* Install Section */
 	.install {
-		max-width: 560px;
-		margin: 0 auto var(--space-16);
-		animation: fadeIn 600ms ease 400ms both;
-		text-align: center;
-	}
-
-	.install-heading {
-		font-family: var(--font-mono);
-		font-size: var(--text-sm);
-		font-weight: var(--font-medium);
-		color: var(--color-text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		margin-bottom: var(--space-4);
-	}
-
-	.install-command {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--space-4);
-		width: 100%;
-		padding: var(--space-3) var(--space-4);
-		background: var(--color-bg-elevated);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		margin-bottom: var(--space-3);
-		cursor: pointer;
-		transition:
-			border-color var(--duration-fast) var(--ease-out),
-			background var(--duration-fast) var(--ease-out);
-	}
-
-	.install-command:hover {
-		border-color: var(--color-accent);
-		background: var(--color-bg-surface);
-	}
-
-	.install-command:active {
-		transform: scale(0.98);
-	}
-
-	.command-code {
-		font-family: var(--font-mono);
-		font-size: var(--text-sm);
-		color: var(--color-text-secondary);
-	}
-
-	.copy-hint {
-		font-size: var(--text-xs);
-		color: var(--color-text-muted);
-		opacity: 0;
-		transition: opacity var(--duration-fast) var(--ease-out);
-	}
-
-	.install-command:hover .copy-hint {
-		opacity: 1;
+		margin-bottom: var(--space-8);
 	}
 
 	.install-note {
-		font-size: var(--text-xs);
+		margin-top: var(--space-3);
+		font-size: var(--text-sm);
 		color: var(--color-text-muted);
 	}
 
@@ -282,30 +163,101 @@
 		color: var(--color-accent);
 	}
 
-	.secondary-link {
-		text-align: center;
-		animation: fadeIn 600ms ease 500ms both;
-	}
-
-	.secondary-link a {
+	.secondary-actions {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: var(--space-3);
 		font-family: var(--font-mono);
 		font-size: var(--text-sm);
-		color: var(--color-text-muted);
+	}
+
+	.secondary-actions a {
+		color: var(--color-text-secondary);
 		text-decoration: none;
 		transition: color var(--duration-fast) var(--ease-out);
 	}
 
-	.secondary-link a:hover {
+	.secondary-actions a:hover {
+		color: var(--color-accent);
+	}
+
+	.separator {
+		color: var(--color-text-muted);
+	}
+
+	/* Landing Nav */
+	.landing-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: var(--space-3) var(--space-6);
+		background: var(--color-bg);
+		border-bottom: 1px solid var(--color-border);
+		z-index: 100;
+	}
+
+	.nav-brand {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: var(--font-semibold);
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.nav-brand:hover {
+		color: var(--color-accent);
+	}
+
+	.nav-links {
+		display: flex;
+		gap: var(--space-6);
+	}
+
+	.nav-links a {
+		font-size: var(--text-sm);
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		transition: color var(--duration-fast) var(--ease-out);
+	}
+
+	.nav-links a:hover {
 		color: var(--color-accent);
 	}
 
 	/* Mobile */
 	@media (max-width: 640px) {
-		.headline-primary {
-			font-size: var(--text-3xl);
+		.landing {
+			padding: var(--space-4);
 		}
 
-		.command-code {
+		.headline {
+			font-size: var(--text-2xl);
+		}
+
+		.secondary-actions {
+			flex-direction: column;
+			gap: var(--space-2);
+		}
+
+		.separator {
+			display: none;
+		}
+
+		.landing-nav {
+			padding: var(--space-2) var(--space-4);
+		}
+
+		.nav-links {
+			gap: var(--space-4);
+		}
+
+		.nav-links a,
+		.nav-brand {
 			font-size: var(--text-xs);
 		}
 	}

@@ -15,8 +15,8 @@
 		},
 		{
 			name: 'Constitutive',
-			role: 'Enables impossible-alone capability',
-			outcome: 'New capability emerges',
+			role: 'Learns, guides new capability',
+			outcome: 'Does what was impossible alone',
 			highlight: false
 		},
 		{
@@ -154,8 +154,8 @@
 		</div>
 
 		<div class="bastani-proof">
-			<h3>The Bastani Proof</h3>
-			<p class="proof-setup">Same AI. Same students. Different design.</p>
+			<h3>Proof: Design determines outcome</h3>
+			<p class="proof-setup">Harvard researchers gave students the same AI tutor. The only difference was how it was designed.</p>
 
 			<div class="comparison">
 				<div class="comparison-row">
@@ -171,7 +171,7 @@
 
 				<div class="comparison-row">
 					<div class="comparison-label">
-						<span class="label-text">Scaffolded access</span>
+						<span class="label-text">Guided step-by-step</span>
 					</div>
 					<div class="comparison-bar neutral">
 						<div class="fill"></div>
@@ -182,10 +182,10 @@
 			</div>
 
 			<p class="proof-conclusion">
-				The tool didn't change. The interaction pattern did.
+				Same AI. Same students. Design made the difference.
 			</p>
 
-			<p class="source">Bastani et al. (2025), PNAS</p>
+			<p class="source">Bastani et al. (2025), PNAS — randomized controlled trial, n=1,000+</p>
 		</div>
 	</div>
 </section>

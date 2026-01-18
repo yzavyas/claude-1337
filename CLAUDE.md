@@ -498,21 +498,55 @@ Skills live in `plugins/`. Check `<available_skills>` for what's currently insta
 
 ---
 
-## Experience App (Docs Site)
+## Experience App
 
-The human-facing documentation site lives in `experience/app/`. It's a SvelteKit app.
+A **collaborative intelligence space** — for silicon and biology alike.
 
-**Location:** `experience/app/`
+Consume. Contribute. Collaborate. Contemplate. Explore.
 
-**Commands** (run from `experience/app/`):
+**Location:** `experience/app/` (SvelteKit, static adapter for GitHub Pages)
+
+### Vision: Four Pillars
+
+| Pillar | What it is | Route | Content Source |
+|--------|------------|-------|----------------|
+| **Marketplace** | Cognitive extensions catalog | `/catalog` | `plugins/` |
+| **Lab** | Research & experimentation | `/lab` | `lab-1337/` |
+| **Library** | Knowledge compendium | `/library` | `experience/content/explore/reference/` + `lab-1337/findings/` |
+| **Forum** | Discourse & collaboration | External | GitHub Discussions |
+
+**Home** (`/`) is a gateway to all four pillars.
+
+### Aesthetic Direction: Craft
+
+**Craft / Paper / Warmth** — not techy, not cyberpunk.
+
+- Warm cream paper backgrounds (`--craft-paper`)
+- Kintsugi gold accents (beauty in connection)
+- Geist typography (clean, modern)
+- Light mode, inviting
+- Academic reading quality for long-form
+
+Design tokens: `experience/app/src/lib/styles/tokens.css`
+
+### User Journeys
+
+| Journey | Path |
+|---------|------|
+| **The Curious** | Arrives → Browses library → Reads a finding → Follows references → Goes deeper |
+| **The Builder** | Has an idea → Reads existing REPs → Drafts a proposal → Submits for discussion |
+| **The Collaborator** | Sees a draft REP → Joins discussion → Provides feedback → Shapes the outcome |
+| **The Pragmatist** | Needs a tool → Browses catalog → Installs plugin → Gets work done |
+
+### Commands
+
 ```bash
-bun install          # Install dependencies (first time)
-bun run dev          # Start dev server (usually http://localhost:5173)
+cd experience/app
+bun install          # Install dependencies
+bun run dev          # Dev server (localhost:5173)
 bun run build        # Production build
 bun run check        # TypeScript + Svelte type checking
 ```
-
-**Tests:** `uv run python tests/pages.py` (Playwright, run from `experience/app/`)
 
 ### Content-Driven Routing
 
@@ -525,11 +559,10 @@ experience/content/
 │   ├── reference/
 │   │   ├── index.md                → /explore/reference
 │   │   └── research/
-│   │       ├── index.md            → /explore/reference/research
 │   │       └── effective-skill-design.md  → /explore/reference/research/effective-skill-design
 ```
 
-**Why this matters:** Transparent abstraction. Content authors work with plaintext markdown. The routing is automatic, not configured.
+**Transparent abstraction:** Content authors work with plaintext markdown. Routing is automatic.
 
 ### Content Authoring
 
@@ -539,7 +572,7 @@ experience/content/
 | **Content is web pages, not files** | Links use URL paths (`/explore/reference`), not file paths (`./reference.md`) |
 | **Internal links are absolute** | Start with `/` — the app rewrites them for the base path |
 
-Build warnings catch violations — if a link 404s during `bun run build`, fix it or it's a broken link on the site.
+Build warnings catch broken links during `bun run build`.
 
 ---
 

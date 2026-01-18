@@ -1,6 +1,6 @@
 # Why This Approach
 
-METR ran an RCT with 16 experienced developers on mature codebases. AI tools made them 19% slower. They predicted being 24% faster.
+METR ran a randomized controlled trial with 16 experienced developers on mature codebases. AI tools made them 19% slower. They predicted being 24% faster.
 
 That 43-point perception gap isn't an anomaly. It's the starting point for understanding how AI collaboration goes wrong - and what makes it go right.
 
@@ -14,7 +14,7 @@ Trust in AI coding accuracy dropped from 43% to 33% in one year (Stack Overflow 
 
 The illusion has a mechanism. AI shifts work from generation to verification. Coding feels easier because the hard part - writing from scratch - is gone. But the new hard part - catching subtle errors in mostly-correct code - takes longer and demands more sustained attention.
 
-Seniors spend 4.3 minutes verifying each AI suggestion. Juniors spend 1.2 minutes. Seniors ship 2.5x more AI code to production despite lower trust. They can verify; juniors can't (Fastly 2025).
+30% of seniors edit AI output enough to offset time savings vs 17% of juniors. Seniors ship 2.5x more AI code to production despite lower trust. They can verify; juniors can't (Fastly 2025).
 
 ---
 
@@ -24,10 +24,10 @@ Beyond productivity, there's capability.
 
 | Study | Finding | Timeframe |
 |-------|---------|-----------|
-| Lee CHI 2025 | Higher AI confidence → less critical thinking (β = -0.69, p<.001) | Cross-sectional |
+| Lee CHI 2025 | Higher AI confidence → less critical thinking (strong negative correlation) | Cross-sectional |
 | Budzyń Lancet 2025 | 20% skill degradation in endoscopists after AI removal | 3 months |
 | Kosmyna MIT 2025 | 83% couldn't recall content from AI-assisted writing | Immediate |
-| Bastani PNAS 2025 | Unrestricted AI access → -17% exam performance | Single course |
+| Bastani PNAS 2025 | Unrestricted AI access → 17% worse exam performance | Single course |
 
 The Budzyń study is the clearest. Endoscopists used AI-assisted polyp detection for 3 months. When the AI was removed, their detection rate had dropped from 28.4% to 22.4%. The skill atrophied measurably.
 
@@ -39,17 +39,17 @@ GitClear analyzed 211 million lines of code (2020-2024). Since AI adoption: 8x i
 
 ## What makes collaboration work
 
-Blaurock et al. (Journal of Service Research, 2024) meta-analyzed 106 AI collaboration studies. What predicted good outcomes:
+Blaurock et al. (Journal of Service Research, 2024) studied collaborative intelligence through interviews and two experiments with 654 professionals. What predicted good outcomes:
 
-| Factor | Effect Size | Direction |
-|--------|-------------|-----------|
-| Transparency | β = 0.415 | User sees AI reasoning → better outcomes |
-| Process control | β = 0.507 | User shapes how AI works → better outcomes |
+| Factor | Effect | What it means |
+|--------|--------|---------------|
+| Transparency | Strong positive | User sees AI reasoning → better outcomes |
+| Process control | Strongest positive | User shapes how AI works → better outcomes |
 | Outcome control | Strong positive | User shapes what AI produces → better outcomes |
 | Reciprocity | Strong positive | User grows through collaboration → better outcomes |
-| Engagement features | b = -0.555 | AI asks questions → worse for frequent users |
+| Engagement features | Significant negative | AI asks questions → worse for frequent users |
 
-The engagement finding surprised people. Making AI conversational was supposed to build trust. Instead it correlates with worse outcomes, especially for heavy users.
+The engagement finding surprised people. Making AI conversational was supposed to build trust. Instead, for frequent AI users, engagement features significantly hurt perceived service quality.
 
 The pattern: showing reasoning and giving control work. Prompting for interaction doesn't.
 
@@ -109,7 +109,7 @@ Why this matters: patterns established now get scaled up.
 
 If the foundation is complementary - engineers learning, guiding, growing through collaboration - capability compounds. Each cycle builds on the last.
 
-If the foundation is substitutive - engineers checking out, consuming, offloading without understanding - atrophy compounds. The β = -0.69 correlation isn't a one-time effect. It's a trajectory.
+If the foundation is substitutive - engineers checking out, consuming, offloading without understanding - atrophy compounds. The strong negative correlation between AI confidence and critical thinking isn't a one-time effect. It's a trajectory.
 
 AI capability is increasing faster than our frameworks for using it well. The METR finding (experienced developers slower with AI on mature codebases) suggests even sophisticated users struggle to integrate AI effectively. The tools are ahead of the practices.
 
@@ -121,7 +121,7 @@ Extensions designed now shape whether engineers in five years are more capable t
 
 From the research, four principles for extension design:
 
-**Collaborative agency**: Both human and AI retain agency. Transparency (β = 0.415) requires AI that shows its work. Control (β = 0.507) requires AI that can be directed.
+**Collaborative agency**: Both human and AI retain agency. Transparency requires AI that shows its work. Control requires AI that can be directed. Both showed strong positive effects in the research.
 
 **Bidirectional learning**: The human learns, not just consumes. Reciprocity predicts good outcomes. Passive consumption predicts atrophy.
 
@@ -136,22 +136,22 @@ The goal: make the user more capable, not more dependent.
 ## Sources
 
 **Productivity**
-- METR (2025). RCT, n=16 experienced developers. 19% actual slowdown, 24% predicted speedup.
+- METR (2025). Randomized controlled trial, 16 experienced developers. 19% actual slowdown, 24% predicted speedup.
 - Stack Overflow Developer Survey (2024-2025). Trust accuracy: 43% → 33%. Adoption: 76% → 84%.
-- Fastly (2025). n=791. Seniors 4.3 min per verification, juniors 1.2 min.
+- Fastly (2025). Survey of 791 developers. 30% seniors offset time savings with edits vs 17% juniors; seniors ship 2.5x more AI code.
 
 **Cognitive effects**
-- Lee, H.P. et al. (2025). AI Confidence and Critical Thinking. CHI. β = -0.69.
-- Kosmyna, N. et al. (2025). AI-Assisted Writing and Memory. MIT. 83% recall failure, neural measures.
-- Bastani, H. et al. (2025). Scaffolded vs Unrestricted AI in Education. PNAS. -17% effect.
+- Lee, H.P. et al. (2025). AI Confidence and Critical Thinking. CHI. Strong negative correlation.
+- Kosmyna, N. et al. (2025). AI-Assisted Writing and Memory. MIT. 83% recall failure.
+- Bastani, H. et al. (2025). Scaffolded vs Unrestricted AI in Education. PNAS. 17% performance drop.
 - Bansal, G. et al. (2021). Explanations and Overreliance. CHI. Explanations increase reliance on incorrect AI.
 
 **Skill degradation**
-- Budzyń, B. et al. (2025). Endoscopic Skill After AI Exposure. Lancet. 28.4% → 22.4% ADR after 3-month crossover.
+- Budzyń, B. et al. (2025). Endoscopic Skill After AI Exposure. Lancet. Detection rate dropped 28.4% → 22.4% after 3 months with AI.
 - GitClear (2024). 211M lines analyzed. 8x code duplication, refactoring 25% → 10%.
 
 **Collaboration design**
-- Blaurock, M. et al. (2024). AI-Based Service Experience Contingencies. Journal of Service Research. Meta-analysis, 106 studies.
+- Blaurock, M. et al. (2024). Designing Collaborative Intelligence Systems. Journal of Service Research. Two experiments with 654 professionals.
 
 **Trust and verification**
 - DORA Report (2024). 7.2% delivery stability decrease per 25% AI adoption.

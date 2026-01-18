@@ -1,13 +1,20 @@
-/* Global Styles */
+/* =============================================================
+   Global Styles — Craft Aesthetic
+
+   Warm, inviting, academically readable.
+   Paper-like backgrounds with kintsugi gold accents.
+   ============================================================= */
 
 @import './tokens.css';
 
-/* Fonts */
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/jetbrains-mono';
-@import '@fontsource-variable/space-grotesk';
+/* Fonts — Geist for modern clarity, Charter for reading */
+@import '@fontsource/geist-sans';
+@import '@fontsource/geist-mono';
 
-/* === Reset === */
+/* ============================================
+   CSS Reset (Modern, Minimal)
+   ============================================ */
+
 *, *::before, *::after {
 	box-sizing: border-box;
 	margin: 0;
@@ -18,10 +25,13 @@ html {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;
-	scroll-behavior: smooth;
+	/* Native scroll - instant response, better for reading */
+	/* scroll-behavior: smooth; — disabled, causes lag */
+	/* Prevent font size inflation on mobile */
+	-webkit-text-size-adjust: 100%;
 }
 
-/* When Lenis is active, disable native scroll behavior */
+/* When Lenis smooth scroll is active */
 html.lenis, html.lenis body {
 	height: auto;
 }
@@ -38,39 +48,63 @@ html.lenis, html.lenis body {
 	overflow: hidden;
 }
 
+
+/* ============================================
+   Body — The Paper Foundation
+   ============================================ */
+
 body {
 	min-height: 100vh;
-	font-family: var(--font-sans);
+	font-family: var(--font-body);
 	font-size: var(--text-base);
 	font-weight: var(--font-normal);
 	line-height: var(--leading-normal);
-	color: var(--color-text-primary);
-	background-color: var(--color-bg-deep);
+	color: var(--color-text);
+	background-color: var(--color-bg);
 }
 
-/* === Typography Base === */
+
+/* ============================================
+   Typography — Hierarchy and Rhythm
+   ============================================ */
+
 h1, h2, h3, h4, h5, h6 {
-	font-family: var(--font-display);
+	font-family: var(--font-heading);
 	font-weight: var(--font-semibold);
 	line-height: var(--leading-tight);
-	letter-spacing: var(--tracking-tight);
-	color: var(--color-text-primary);
+	color: var(--color-text);
 }
 
+/* Optical adjustments: larger headings need tighter tracking */
 h1 {
 	font-size: var(--text-4xl);
+	letter-spacing: var(--tracking-tighter);
 }
 
 h2 {
 	font-size: var(--text-3xl);
+	letter-spacing: var(--tracking-tight);
 }
 
 h3 {
 	font-size: var(--text-2xl);
+	letter-spacing: var(--tracking-tight);
 }
 
 h4 {
 	font-size: var(--text-xl);
+	letter-spacing: var(--tracking-normal);
+}
+
+h5 {
+	font-size: var(--text-lg);
+	letter-spacing: var(--tracking-normal);
+}
+
+h6 {
+	font-size: var(--text-base);
+	font-weight: var(--font-semibold);
+	letter-spacing: var(--tracking-normal);
 }
 
 p {
@@ -78,12 +112,12 @@ p {
 	color: var(--color-text-secondary);
 }
 
-strong {
+strong, b {
 	font-weight: var(--font-semibold);
-	color: var(--color-text-primary);
+	color: var(--color-text);
 }
 
-em {
+em, i {
 	font-style: italic;
 }
 
@@ -91,32 +125,65 @@ small {
 	font-size: var(--text-sm);
 }
 
-/* === Links === */
+
+/* ============================================
+   Links — Kintsugi Gold Connection
+   ============================================ */
+
 a {
-	color: var(--color-accent-link);
+	color: var(--color-link);
 	text-decoration: none;
 	transition: color var(--duration-fast) var(--ease-out);
 }
 
 a:hover {
-	color: var(--color-accent-link-hover);
+	color: var(--color-link-hover);
 }
 
-/* === Code === */
-code {
-	font-family: var(--font-mono);
-	font-size: 0.9em;
-	padding: 0.15em 0.4em;
-	background-color: var(--color-bg-elevated);
+a:focus-visible {
+	outline: var(--focus-ring-width) solid var(--focus-ring-color);
+	outline-offset: var(--focus-ring-offset);
 	border-radius: var(--radius-sm);
 }
 
+/* Underline style for inline links in prose */
+.prose a,
+article a:not([class]) {
+	text-decoration: underline;
+	text-decoration-color: var(--color-accent-muted);
+	text-underline-offset: 3px;
+	transition:
+		color var(--duration-fast) var(--ease-out),
+		text-decoration-color var(--duration-fast) var(--ease-out);
+}
+
+.prose a:hover,
+article a:not([class]):hover {
+	text-decoration-color: var(--color-link-hover);
+}
+
+
+/* ============================================
+   Code — Monospace on Paper
+   ============================================ */
+
+code {
+	font-family: var(--code-font);
+	font-size: var(--code-font-size);
+	padding: 0.1em var(--code-padding-inline);
+	background-color: var(--code-bg);
+	border: 1px solid var(--code-border);
+	border-radius: var(--code-radius);
+	color: var(--code-text);
+}
+
 pre {
-	font-family: var(--font-mono);
+	font-family: var(--code-font);
 	font-size: var(--text-sm);
 	line-height: var(--leading-normal);
 	padding: var(--space-4);
-	background-color: var(--color-bg-surface);
+	background-color: var(--code-bg);
+	border: 1px solid var(--code-border);
 	border-radius: var(--radius-md);
 	overflow-x: auto;
 }
@@ -124,24 +191,43 @@ pre {
 pre code {
 	padding: 0;
 	background: none;
+	border: none;
+	font-size: inherit;
 }
 
-/* === Selection === */
+
+/* ============================================
+   Selection — Warm Gold Highlight
+   ============================================ */
+
 ::selection {
-	background-color: oklch(60% 0.12 250 / 0.3);
-	color: var(--color-text-primary);
+	background-color: var(--color-accent-muted);
+	color: var(--color-text);
 }
 
-/* === Focus === */
+
+/* ============================================
+   Focus States — Accessible and On-Brand
+   ============================================ */
+
 :focus-visible {
-	outline: 2px solid var(--color-accent-link);
-	outline-offset: 2px;
+	outline: var(--focus-ring-width) solid var(--focus-ring-color);
+	outline-offset: var(--focus-ring-offset);
 }
 
-/* === Scrollbar (Webkit) === */
+/* Remove focus ring for mouse users */
+:focus:not(:focus-visible) {
+	outline: none;
+}
+
+
+/* ============================================
+   Scrollbar — Subtle Craft Feel
+   ============================================ */
+
 ::-webkit-scrollbar {
-	width: 8px;
-	height: 8px;
+	width: 10px;
+	height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -149,15 +235,150 @@ pre code {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--color-border);
+	background: var(--color-border-strong);
 	border-radius: var(--radius-full);
+	border: 2px solid var(--color-bg-surface);
 }
 
 ::-webkit-scrollbar-thumb:hover {
 	background: var(--color-text-muted);
 }
 
-/* === Utility Classes === */
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-border-strong) var(--color-bg-surface);
+}
+
+
+/* ============================================
+   Tables — Academic Readability
+   ============================================ */
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--text-sm);
+}
+
+th, td {
+	padding: var(--table-cell-padding);
+	text-align: left;
+	border-bottom: 1px solid var(--table-border);
+}
+
+th {
+	font-weight: var(--font-semibold);
+	color: var(--color-text);
+	background-color: var(--table-header-bg);
+}
+
+tr:hover td {
+	background-color: var(--table-row-hover);
+}
+
+
+/* ============================================
+   Blockquotes — Callout Style
+   ============================================ */
+
+blockquote {
+	padding: var(--blockquote-padding);
+	padding-left: var(--space-5);
+	margin: var(--space-5) 0;
+	background-color: var(--blockquote-bg);
+	border-left: 3px solid var(--blockquote-border);
+	border-radius: 0 var(--radius-md) var(--radius-md) 0;
+	color: var(--blockquote-text);
+	font-style: italic;
+}
+
+blockquote p {
+	color: inherit;
+}
+
+blockquote cite {
+	display: block;
+	margin-top: var(--space-2);
+	font-size: var(--text-sm);
+	font-style: normal;
+	color: var(--color-text-muted);
+}
+
+
+/* ============================================
+   Lists
+   ============================================ */
+
+ul, ol {
+	padding-left: var(--space-5);
+}
+
+li {
+	margin-bottom: var(--space-1);
+	line-height: var(--leading-relaxed);
+}
+
+li::marker {
+	color: var(--color-text-muted);
+}
+
+
+/* ============================================
+   Horizontal Rule — Subtle Divider
+   ============================================ */
+
+hr {
+	border: none;
+	height: 1px;
+	background-color: var(--color-border);
+	margin: var(--space-8) 0;
+}
+
+
+/* ============================================
+   Images and Media
+   ============================================ */
+
+img, picture, video, canvas, svg {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+figure {
+	margin: var(--space-6) 0;
+}
+
+figcaption {
+	margin-top: var(--space-2);
+	font-size: var(--text-sm);
+	color: var(--color-text-muted);
+	text-align: center;
+}
+
+
+/* ============================================
+   Form Elements Reset
+   ============================================ */
+
+button, input, select, textarea {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+	background: none;
+	border: none;
+}
+
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* Screen reader only */
 .sr-only {
 	position: absolute;
 	width: 1px;
@@ -170,23 +391,151 @@ pre code {
 	border: 0;
 }
 
+/* Content widths */
 .content-width {
 	max-width: var(--content-width);
 	margin-inline: auto;
-	padding-inline: var(--space-6);
+	padding-inline: var(--page-padding-x);
 }
 
 .content-width-wide {
 	max-width: var(--content-width-wide);
 	margin-inline: auto;
-	padding-inline: var(--space-6);
+	padding-inline: var(--page-padding-x);
 }
 
-/* === Monospace Numbers === */
+.content-width-full {
+	max-width: var(--content-width-full);
+	margin-inline: auto;
+	padding-inline: var(--page-padding-x);
+}
+
+/* Typography utilities */
 .tabular-nums {
 	font-variant-numeric: tabular-nums;
 }
 
 .mono {
 	font-family: var(--font-mono);
+}
+
+.font-serif {
+	font-family: var(--font-reading);
+}
+
+/* Text colors */
+.text-muted {
+	color: var(--color-text-muted);
+}
+
+.text-secondary {
+	color: var(--color-text-secondary);
+}
+
+.text-accent {
+	color: var(--color-accent);
+}
+
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+	body {
+		background: white;
+		color: black;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: underline;
+	}
+
+	@page {
+		margin: 2cm;
+	}
+}
+
+
+/* ============================================
+   Reveal Animations — Scroll-Triggered
+   ============================================ */
+
+/* CSS Scroll-Timeline (Chrome 115+) */
+@supports (animation-timeline: view()) {
+	.reveal-css {
+		animation: reveal-in linear both;
+		animation-timeline: view();
+		animation-range: entry 0% entry 80%;
+	}
+
+	@keyframes reveal-in {
+		from {
+			opacity: 0;
+			transform: translateY(var(--reveal-y, 30px));
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+/* Intersection Observer Fallback */
+.reveal-fallback {
+	opacity: 0;
+	transform: translateY(var(--reveal-y, 30px));
+	transition:
+		opacity var(--reveal-duration, 600ms) var(--ease-out),
+		transform var(--reveal-duration, 600ms) var(--ease-out);
+}
+
+.reveal-fallback.revealed {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	.reveal-css,
+	.reveal-fallback {
+		animation: none !important;
+		transition: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}
+
+
+/* ============================================
+   View Transitions (Chromium 96%+)
+   ============================================ */
+
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 200ms;
+	animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(root) {
+	animation-name: fade-out;
+}
+
+::view-transition-new(root) {
+	animation-name: fade-in;
+}
+
+@keyframes fade-out {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
+
+@keyframes fade-in {
+	from { opacity: 0; }
+	to { opacity: 1; }
 }

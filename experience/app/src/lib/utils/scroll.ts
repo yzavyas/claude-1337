@@ -18,26 +18,33 @@ if (browser) {
 let lenis: Lenis | null = null;
 
 /**
- * Initialize smooth scroll with Lenis
+ * Initialize scroll infrastructure
+ * Lenis disabled by default - native scroll is better for reading-focused sites
  * Call once in root layout
  */
-export function initSmoothScroll(): Lenis | null {
+export function initSmoothScroll(options?: { enableLenis?: boolean }): Lenis | null {
 	if (!browser) return null;
 
-	// Check for reduced motion preference
-	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	// Set ScrollTrigger defaults for animations
+	ScrollTrigger.defaults({
+		toggleActions: 'play none none reverse'
+	});
 
-	if (prefersReducedMotion) {
-		// Still set up ScrollTrigger but without Lenis
-		ScrollTrigger.defaults({
-			toggleActions: 'play none none reverse'
-		});
+	// Lenis disabled by default - causes laggy feel on content sites
+	// Enable only for pages with scroll-driven animations
+	if (!options?.enableLenis) {
 		return null;
 	}
 
-	// Create Lenis instance
+	// Check for reduced motion preference
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (prefersReducedMotion) {
+		return null;
+	}
+
+	// Create Lenis instance with snappier settings if enabled
 	lenis = new Lenis({
-		lerp: 0.1,
+		lerp: 0.15, // Snappier than 0.1
 		smoothWheel: true,
 		wheelMultiplier: 1
 	});
@@ -52,11 +59,6 @@ export function initSmoothScroll(): Lenis | null {
 
 	// Disable GSAP's native lag smoothing to let Lenis handle it
 	gsap.ticker.lagSmoothing(0);
-
-	// Set ScrollTrigger defaults
-	ScrollTrigger.defaults({
-		toggleActions: 'play none none reverse'
-	});
 
 	return lenis;
 }
