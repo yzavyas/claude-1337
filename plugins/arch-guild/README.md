@@ -34,7 +34,7 @@ These agents review every architectural decision.
 
 | Agent | Domain | Core Question |
 |-------|--------|---------------|
-| **K** | Economic/Strategic | Does this pay rent? Cathedral vs shed? |
+| **K** | Strategic | What forces are at play? What move creates options? |
 | **Karman** | Ontological/Naming | Does code model match business reality? |
 | **Burner** | Structural/Boundaries | Are dependencies clean? Do they point inward? |
 | **Lamport** | Temporal/Distributed | What happens with latency, partitions, eventual consistency? |

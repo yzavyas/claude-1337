@@ -2,7 +2,39 @@
 
 Templates, best practices, and observability for skill extensions.
 
-Source: [Claude Code - Agent Skills](https://code.claude.com/docs/en/skills.md)
+Sources:
+- [Claude Code - Agent Skills](https://code.claude.com/docs/en/skills.md)
+- [AgentSkills.io - Open Standard](https://agentskills.io/specification)
+
+---
+
+## Open Standard (agentskills.io)
+
+Agent Skills is an **open standard format** for giving AI agents new capabilities. Maintained by Anthropic and the broader ecosystem.
+
+### Required Fields
+
+| Field | Type | Constraints |
+|-------|------|-------------|
+| `name` | string | 1-64 chars, lowercase alphanumeric + hyphens, no `--`, must not start/end with `-`, must match parent directory name |
+| `description` | string | **1-1024 chars**, describe what skill does AND when to use it, include specific keywords for agent identification |
+
+### Optional Fields
+
+| Field | Type | Constraints |
+|-------|------|-------------|
+| `license` | string | License name or reference to bundled license file |
+| `compatibility` | string | 1-500 chars, environment requirements (product, system packages, network access) |
+| `metadata` | object | Key-value mapping (string → string), use unique keys |
+| `allowed-tools` | string | Space-delimited list of pre-approved tools (experimental) |
+
+### Validation
+
+```bash
+skills-ref validate ./my-skill
+```
+
+Validates SKILL.md frontmatter syntax, field constraints, and directory structure.
 
 ---
 
