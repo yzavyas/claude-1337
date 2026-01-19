@@ -152,8 +152,11 @@ class SWEBenchGraderAdapter:
     ) -> GradeResult:
         """Grade a solution against the task.
 
+        Since Claude works directly in the workspace, changes are already applied.
+        We just need to run tests on the modified state.
+
         Args:
-            solution: The patch or code changes to apply.
+            solution: The git diff (for logging/verification purposes).
             task: The task being solved.
 
         Returns:
@@ -166,13 +169,14 @@ class SWEBenchGraderAdapter:
                 error="Task not set up. Call setup() first.",
             )
 
-        # Apply the patch/solution
-        apply_result = await self._apply_solution(solution, task_dir)
-        if not apply_result.success:
+        # NOTE: Claude already made changes to the workspace, so we DON'T
+        # apply the patch. The solution param is just for verification/logging.
+        # If no solution was captured, Claude didn't make any changes.
+        if not solution or not solution.strip():
             return GradeResult(
                 passed=False,
-                error=f"Failed to apply solution: {apply_result.error}",
-                message="Patch application failed",
+                error="No changes made to the codebase",
+                message="Empty solution (no git diff)",
             )
 
         # Run fail_to_pass tests (should pass after fix)
@@ -231,40 +235,6 @@ class SWEBenchGraderAdapter:
         task_dir = self._task_dirs.pop(task.id, None)
         if task_dir and task_dir.exists():
             shutil.rmtree(task_dir)
-
-    async def _apply_solution(self, solution: str, repo_dir: Path) -> "ApplyResult":
-        """Apply the solution to the repo.
-
-        Tries multiple methods:
-        1. git apply (if it looks like a patch)
-        2. Direct file write (if it looks like code)
-        """
-        # Try as git patch first
-        if solution.strip().startswith("diff ") or solution.strip().startswith("---"):
-            patch_file = repo_dir / "solution.patch"
-            patch_file.write_text(solution)
-
-            result = await self._run_command(
-                ["git", "apply", "--check", str(patch_file)],
-                cwd=repo_dir,
-            )
-
-            if result.returncode == 0:
-                # Patch is valid, apply it
-                result = await self._run_command(
-                    ["git", "apply", str(patch_file)],
-                    cwd=repo_dir,
-                )
-                if result.returncode == 0:
-                    return ApplyResult(success=True)
-                return ApplyResult(success=False, error=result.stderr)
-
-        # If not a patch or patch failed, try to detect file path and content
-        # This is a fallback - real solutions should be patches
-        return ApplyResult(
-            success=False,
-            error="Solution does not appear to be a valid git patch. Expected 'diff' or '---' header.",
-        )
 
     async def _run_tests(
         self,
@@ -359,13 +329,6 @@ class CommandResult:
         self.returncode = returncode
         self.stdout = stdout
         self.stderr = stderr
-
-
-class ApplyResult:
-    """Result of applying a solution."""
-    def __init__(self, success: bool, error: str = ""):
-        self.success = success
-        self.error = error
 
 
 class TestResult:
