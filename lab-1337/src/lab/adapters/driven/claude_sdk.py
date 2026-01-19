@@ -47,6 +47,7 @@ class ClaudeSDKAdapter:
             permission_mode=config.permission_mode,
             allowed_tools=list(config.allowed_tools),
             system_prompt=config.system_prompt if config.system_prompt else None,
+            cwd=config.cwd if config.cwd else None,
         )
 
         # Collect results from the streaming query
@@ -150,6 +151,7 @@ If the solution is correct, respond with "SOLUTION_VERIFIED".
             permission_mode=config.permission_mode,
             allowed_tools=list(config.allowed_tools),
             system_prompt=config.system_prompt if config.system_prompt else None,
+            cwd=config.cwd if config.cwd else None,
         )
 
         async for message in query(prompt=prompt, options=options):

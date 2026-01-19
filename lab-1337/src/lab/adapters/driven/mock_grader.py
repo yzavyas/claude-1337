@@ -109,9 +109,13 @@ class MockGraderAdapter:
                 error=f"Unknown strategy: {self.strategy}",
             )
 
-    async def setup(self, task: Task) -> None:
+    async def setup(self, task: Task) -> str | None:
         """No setup needed for mock grader."""
-        pass
+        return None
+
+    async def get_solution(self, task: Task) -> str:
+        """Mock grader doesn't capture solutions."""
+        return ""
 
     async def teardown(self, task: Task) -> None:
         """No teardown needed for mock grader."""

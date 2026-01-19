@@ -30,6 +30,9 @@ class LLMConfig(BaseModel):
     # System prompt (condition framing for Claude agents)
     system_prompt: str = ""
 
+    # Working directory for Claude to execute in
+    cwd: str | None = None
+
     # Tool permissions (for Claude SDK)
     allowed_tools: tuple[str, ...] = ("Read", "Write", "Bash", "Glob", "Grep")
     permission_mode: str = "acceptEdits"

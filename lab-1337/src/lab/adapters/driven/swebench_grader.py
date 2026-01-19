@@ -9,11 +9,19 @@ argument lists - no command injection risk.
 
 import asyncio
 import shutil
-import tempfile
 from pathlib import Path
 
 from lab.domain.models import Task
 from lab.ports.driven.grader import GraderPort, GradeResult
+
+
+def get_cache_dir() -> Path:
+    """Get the cache directory following XDG spec.
+
+    Uses ~/.cache/lab-1337/swebench by default.
+    """
+    cache_home = Path.home() / ".cache"
+    return cache_home / "lab-1337" / "swebench"
 
 
 class SWEBenchGraderAdapter:
@@ -30,21 +38,22 @@ class SWEBenchGraderAdapter:
         self,
         workspace_dir: Path | None = None,
         timeout: int = 300,  # 5 min default
-        keep_workspace: bool = False,
+        keep_workspace: bool = True,  # Default to keeping for debugging
     ):
         """Initialize the grader.
 
         Args:
-            workspace_dir: Where to clone repos. Defaults to temp dir.
+            workspace_dir: Where to clone repos. Defaults to ~/.cache/lab-1337/swebench
             timeout: Test execution timeout in seconds.
             keep_workspace: Keep workspace after grading (for debugging).
         """
-        self.workspace_dir = workspace_dir or Path(tempfile.mkdtemp(prefix="swebench_"))
+        self.workspace_dir = workspace_dir or get_cache_dir()
+        self.workspace_dir.mkdir(parents=True, exist_ok=True)
         self.timeout = timeout
         self.keep_workspace = keep_workspace
         self._task_dirs: dict[str, Path] = {}
 
-    async def setup(self, task: Task) -> None:
+    async def setup(self, task: Task) -> str | None:
         """Clone the repo at base_commit.
 
         Uses shallow clone + fetch for efficiency:
@@ -55,7 +64,7 @@ class SWEBenchGraderAdapter:
         This is faster than full clone for large repos like astropy.
         """
         if not task.repo or not task.base_commit:
-            return  # Not a SWE-bench task
+            return None  # Not a SWE-bench task
 
         task_dir = self.workspace_dir / task.id
         if task_dir.exists():
@@ -98,6 +107,19 @@ class SWEBenchGraderAdapter:
         await self._install_deps(task_dir)
 
         self._task_dirs[task.id] = task_dir
+        return str(task_dir)  # Return working directory for Claude
+
+    async def get_solution(self, task: Task) -> str:
+        """Get git diff from the working directory after Claude made changes."""
+        task_dir = self._task_dirs.get(task.id)
+        if not task_dir:
+            return ""
+
+        result = await self._run_command(
+            ["git", "diff"],
+            cwd=task_dir,
+        )
+        return result.stdout if result.returncode == 0 else ""
 
     async def _install_deps(self, repo_dir: Path) -> None:
         """Install Python dependencies (best effort)."""

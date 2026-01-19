@@ -25,13 +25,17 @@ class PromptBuilder:
         if task.repo:
             parts.append(f"**Repository:** {task.repo}\n")
 
-        parts.append(f"**Issue ID:** {task.id}\n")
-        parts.append("")
+        parts.append(f"**Issue ID:** {task.id}\n\n")
         parts.append(task.prompt)
 
         if task.hints:
-            parts.append("\n\n## Additional Context\n")
+            parts.append("\n\n## Hints\n")
             parts.append(task.hints)
+
+        # Instructions for Claude
+        parts.append("\n\n## Instructions\n")
+        parts.append("Read the relevant code, understand the issue, and make the fix.\n")
+        parts.append("Use the Read and Write tools to examine and modify the source files.\n")
 
         return "".join(parts)
 
