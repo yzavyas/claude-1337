@@ -1,6 +1,6 @@
-# 1337 Experiments Lab
+# Lab 1337
 
-Rigorous experiments for the agentic era.
+Research, experimentation and design for effective collaborative intelligence through cognitive extensions.
 
 ## Mission
 

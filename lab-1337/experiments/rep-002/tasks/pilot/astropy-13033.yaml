@@ -1,0 +1,51 @@
+# SWE-bench Verified: astropy__astropy-13033
+# TimeSeries exception message formatting
+
+instance_id: astropy__astropy-13033
+repo: astropy/astropy
+base_commit: 298ccb478e6bf092953bca67a3d29dc6c35f6752
+
+problem_statement: |
+  TimeSeries: misleading exception message when required column check fails
+
+  For a `TimeSeries` object with additional required columns (beyond just `time`),
+  when you try to remove a required column, the exception message is misleading.
+
+  Example:
+  ```python
+  from astropy.timeseries import TimeSeries
+
+  class MyTimeSeries(TimeSeries):
+      _required_columns = ['time', 'flux']
+
+  ts = MyTimeSeries(time=[1, 2, 3], flux=[1, 2, 3])
+  ts.remove_column('flux')
+  ```
+
+  This raises:
+  ```
+  ValueError: TimeSeries object is invalid - expected 'time' as the first columns
+  but found 'time'
+  ```
+
+  The message should say something like:
+  ```
+  ValueError: TimeSeries object is invalid - expected ['time', 'flux'] as the
+  first columns but found 'time'
+  ```
+
+hints_text: |
+  The issue is in the error message formatting when required columns are missing.
+  Look at how the column names are being converted to strings in the validation.
+
+fail_to_pass:
+  - astropy/timeseries/tests/test_timeseries.py::test_required_columns_exception_message
+
+pass_to_pass:
+  - astropy/timeseries/tests/test_timeseries.py::test_required_columns
+  - astropy/timeseries/tests/test_common_timeseries.py
+
+difficulty: easy
+estimated_time: "15-30 min"
+files_affected:
+  - astropy/timeseries/core.py

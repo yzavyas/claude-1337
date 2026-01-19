@@ -399,9 +399,9 @@ The catalog at `/catalog/` reads from these files dynamically.
 
 ---
 
-## Lab-1337: Experiments Lab
+## Lab 1337
 
-The evidence generation arm of claude-1337. Produces hard data for methodology decisions.
+Research, experimentation and design for effective collaborative intelligence through cognitive extensions.
 
 **Location:** `lab-1337/`
 
@@ -496,6 +496,60 @@ Use the skill for understanding methodology. Use the agent for executing experim
 |-----|--------|---------|
 | REP-001 | Implemented | Iteration improves outcomes (86.6% → 98.8%) |
 | REP-002 | Draft | Mandates vs motivations in agentic systems |
+
+### Domain Terminology
+
+Lab-1337 uses experimental methodology terminology, not software engineering terms:
+
+| Term | Definition | Example |
+|------|------------|---------|
+| **Experiment** | A scientific investigation with hypothesis | `rep-002/` - testing mandates vs motivations |
+| **Condition** | The independent variable being tested | `motivation.md`, `mandate-template.md` |
+| **Dataset** | Collection of tasks with shared evaluation | SWE-bench lite, HumanEval, custom |
+| **Task** | A problem for the agent to solve | `astropy-13033.yaml` - a SWE-bench issue |
+| **Batch** | An execution configuration | `pilot.yaml` - 2 tasks × 2 conditions × 3 runs |
+| **Run** | One execution of task + condition + attempt | astropy-13033 under motivation, attempt 1 |
+
+**Hierarchy:**
+```
+Experiment
+├── Conditions (what we vary)
+├── Dataset → Tasks (problems to solve)
+└── Batches (execution configs)
+    └── Runs (task × condition × attempt)
+```
+
+Full ontology in `lab-1337/scratch/domain-ontology.md`.
+
+**Batch scaling:**
+| Batch | Purpose | Typical Scale |
+|-------|---------|---------------|
+| `pilot` | Validate harness works | 2 tasks × 2 conditions × 3 runs |
+| `signal` | Detect if there's an effect | More tasks, 5 runs each |
+| `full` | Statistical significance | All tasks, 50+ runs each |
+
+### REP-002: Mandates vs Motivations
+
+Tests whether prescribing HOW (mandate) helps or hurts vs explaining WHY (motivation).
+
+**Conditions (5 total):**
+
+| Condition | Type | What it provides |
+|-----------|------|------------------|
+| `baseline` | Control | WHAT only - pure Claude |
+| `motivation` | Principles | WHAT + WHY + CONSTRAINTS (Claude decides HOW) |
+| `mandate-template` | Mandate | + HOW via required template artifacts |
+| `mandate-structure` | Mandate | + HOW via required file structure (GSD-style) |
+| `mandate-role` | Mandate | + HOW via prescribed expert persona |
+
+**Key insight:** All conditions share the same WHAT + WHY + CONSTRAINTS. The only difference is whether/how HOW is prescribed. This isolates the variable being tested.
+
+**Hypotheses:**
+- H0: No difference
+- H1: Mandate wins (structure helps)
+- H2: Motivation wins (agency enables judgment)
+- H3: Task-dependent (different tasks favor different approaches)
+- H4: Baseline wins (methodology overhead hurts)
 
 ---
 
