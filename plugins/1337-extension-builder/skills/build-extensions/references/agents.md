@@ -2,6 +2,26 @@
 
 Specialized subagents for autonomous task handling. Location: `agents/name.md`
 
+Source: [Claude Code - Sub-agents](https://code.claude.com/docs/en/sub-agents.md)
+
+---
+
+## Official Schema (Claude Code)
+
+| Field | Type | Required | Constraints |
+|-------|------|----------|-------------|
+| `name` | string | **Yes** | Lowercase letters and hyphens only, no spaces |
+| `description` | string | **Yes** | Guides Claude's delegation decisions, include examples |
+| `model` | string | No | `inherit`, `sonnet`, `opus`, `haiku` (default: `sonnet`) |
+| `color` | string | No | UI background color for visual identification |
+| `tools` | string/array | No | Tools agent can use (default: inherit from parent) |
+| `disallowedTools` | string/array | No | Tools to explicitly deny |
+| `skills` | string/array | No | Skills injected fully at startup |
+| `hooks` | object | No | Lifecycle hooks (PreToolUse, PostToolUse, Stop) |
+| `permissionMode` | string | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan` |
+
+**Key insight:** Examples go IN the description using YAML multiline (`|`). The description is the trigger.
+
 ---
 
 ## Template
@@ -9,17 +29,26 @@ Specialized subagents for autonomous task handling. Location: `agents/name.md`
 ```markdown
 ---
 name: agent-identifier
-description: Use this agent when [triggering conditions]. Examples:
+description: |
+  [Role description]. Use when: [triggering conditions].
 
-<example>
-Context: [Situation description]
-user: "[User request]"
-assistant: "[How assistant should respond]"
-<commentary>
-[Why this agent should be triggered]
-</commentary>
-</example>
+  <example>
+  Context: [Situation description]
+  user: "[User request]"
+  assistant: "[How assistant should respond]"
+  <commentary>
+  [Why this agent should be triggered]
+  </commentary>
+  </example>
 
+  <example>
+  Context: [Another situation]
+  user: "[Another request]"
+  assistant: "[Response]"
+  <commentary>
+  [Why triggered]
+  </commentary>
+  </example>
 model: inherit
 color: blue
 tools: ["Read", "Grep", "Glob"]
@@ -77,30 +106,33 @@ name: ag          # too short
 **Critical field** - determines when Claude triggers the agent.
 
 Must include:
-1. Triggering conditions ("Use this agent when...")
+1. Role + triggering conditions ("[Role]. Use when: [triggers]")
 2. Multiple `<example>` blocks showing usage
 3. `<commentary>` explaining why agent triggers
 
+**Use YAML multiline (`|`) for examples:**
+
 ```yaml
-description: Use this agent when you need to review code for adherence to project guidelines. Examples:
+description: |
+  Code review specialist. Use when: reviewing code, checking quality, validating implementations.
 
-<example>
-Context: The user has just implemented a new feature.
-user: "Can you check if everything looks good?"
-assistant: "I'll use the Task tool to launch the code-reviewer agent."
-<commentary>
-Since the user wants validation, use the code-reviewer agent.
-</commentary>
-</example>
+  <example>
+  Context: The user has just implemented a new feature.
+  user: "Can you check if everything looks good?"
+  assistant: "I'll use the Task tool to launch the code-reviewer agent."
+  <commentary>
+  Since the user wants validation, use the code-reviewer agent.
+  </commentary>
+  </example>
 
-<example>
-Context: The assistant has just written new code.
-user: "Please create a function to validate emails"
-assistant: [writes code, then] "Now I'll review this implementation."
-<commentary>
-Proactively use after writing new code to catch issues early.
-</commentary>
-</example>
+  <example>
+  Context: The assistant has just written new code.
+  user: "Please create a function to validate emails"
+  assistant: [writes code, then] "Now I'll review this implementation."
+  <commentary>
+  Proactively use after writing new code to catch issues early.
+  </commentary>
+  </example>
 ```
 
 ### model
@@ -234,17 +266,17 @@ Provide results in this format:
 ```markdown
 ---
 name: code-complexity-analyzer
-description: Use this agent when you need to analyze code complexity or identify refactoring opportunities. Examples:
+description: |
+  Code complexity analyst. Use when: analyzing maintainability, identifying refactoring opportunities, finding complexity issues.
 
-<example>
-Context: User is reviewing a large module.
-user: "This module seems hard to maintain. What should I refactor?"
-assistant: "I'll analyze the code complexity to identify refactoring targets."
-<commentary>
-Use complexity analyzer to find maintainability issues systematically.
-</commentary>
-</example>
-
+  <example>
+  Context: User is reviewing a large module.
+  user: "This module seems hard to maintain. What should I refactor?"
+  assistant: "I'll analyze the code complexity to identify refactoring targets."
+  <commentary>
+  Use complexity analyzer to find maintainability issues systematically.
+  </commentary>
+  </example>
 model: inherit
 color: cyan
 tools: ["Read", "Grep", "Glob"]
@@ -277,17 +309,17 @@ Focus on actionable improvements, not exhaustive metrics.
 ```markdown
 ---
 name: best-practices-researcher
-description: Use this agent when you need to find current best practices for a technology or pattern. Examples:
+description: |
+  Best practices researcher. Use when: finding current guidance, researching patterns, verifying approaches.
 
-<example>
-Context: User is implementing authentication.
-user: "What's the current best practice for JWT refresh tokens?"
-assistant: "I'll research current JWT refresh token best practices."
-<commentary>
-Research agent finds authoritative, current guidance.
-</commentary>
-</example>
-
+  <example>
+  Context: User is implementing authentication.
+  user: "What's the current best practice for JWT refresh tokens?"
+  assistant: "I'll research current JWT refresh token best practices."
+  <commentary>
+  Research agent finds authoritative, current guidance.
+  </commentary>
+  </example>
 model: sonnet
 color: blue
 tools: ["WebFetch", "WebSearch", "Read"]
