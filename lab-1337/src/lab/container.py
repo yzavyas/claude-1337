@@ -27,6 +27,7 @@ from lab.adapters.driven.console_tracer import ConsoleTracerAdapter, NoOpTracerA
 from lab.adapters.driven.filesystem import StreamingFileAdapter
 from lab.adapters.driven.mock_grader import MockGraderAdapter
 from lab.adapters.driven.swebench_grader import SWEBenchGraderAdapter
+from lab.adapters.driven.function_grader import FunctionGraderAdapter
 
 from lab.ports.driven.llm import LLMPort
 from lab.ports.driven.grader import GraderPort
@@ -40,7 +41,7 @@ from lab.ports.driving.use_cases import (
 
 
 TracerType = Literal["phoenix", "console", "noop"]
-GraderType = Literal["mock", "swebench"]
+GraderType = Literal["mock", "swebench", "function"]
 
 
 class ContainerConfig(BaseModel):
@@ -146,6 +147,11 @@ class Container:
                 self._grader = SWEBenchGraderAdapter(
                     workspace_dir=self.config.swebench_workspace,
                     timeout=self.config.swebench_timeout,
+                )
+            elif self.config.grader == "function":
+                self._grader = FunctionGraderAdapter(
+                    timeout=30,
+                    keep_workspace=True,  # Keep for debugging
                 )
             else:
                 raise ValueError(f"Unknown grader type: {self.config.grader}")

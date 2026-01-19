@@ -627,7 +627,7 @@ def batch_show(ctx: click.Context, name: str, exp_name: Optional[str]):
 @click.option("-n", "--dry-run", is_flag=True, help="Show run plan without executing")
 @click.option("--resume", is_flag=True, help="Resume from previous partial run")
 @click.option("--tracer", type=click.Choice(["phoenix", "console", "noop"]), default="console", help="Tracing backend")
-@click.option("--grader", type=click.Choice(["mock", "swebench"]), default="swebench", help="Grading backend")
+@click.option("--grader", type=click.Choice(["mock", "swebench", "function"]), default="swebench", help="Grading backend")
 def batch_run(
     name: str,
     exp_name: Optional[str],
