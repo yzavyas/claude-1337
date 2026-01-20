@@ -37,15 +37,41 @@ log = logging.getLogger("lab")
 
 
 def get_lab_root() -> Path:
-    """Get the lab root directory."""
-    # Walk up from this file to find lab-1337/
+    """Get the lab root directory.
+
+    Resolution order:
+    1. LAB_ROOT environment variable (explicit override)
+    2. Current directory if it has experiments/ (user's project)
+    3. Walk up to find lab-1337/ (development mode)
+    4. Fall back to cwd
+    """
+    import os
+
+    # 1. Explicit env var
+    if env_root := os.environ.get("LAB_ROOT"):
+        return Path(env_root)
+
+    # 2. Cwd has experiments/ - user is in their project root
+    cwd = Path.cwd()
+    if (cwd / "experiments").is_dir():
+        return cwd
+
+    # 3. Walk up from cwd looking for experiments/ (user is inside project)
+    current = cwd
+    while current.parent != current:
+        if (current / "experiments").is_dir():
+            return current
+        current = current.parent
+
+    # 4. Dev mode: walk up from source file to find lab-1337/
     current = Path(__file__).parent
     while current.name != "lab-1337" and current.parent != current:
         current = current.parent
     if current.name == "lab-1337":
         return current
-    # Fallback: assume cwd is lab root or a subdirectory
-    return Path.cwd()
+
+    # 5. Last resort: cwd
+    return cwd
 
 
 def resolve_experiment(experiment: Optional[str]) -> Path:
