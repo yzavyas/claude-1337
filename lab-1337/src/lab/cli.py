@@ -653,7 +653,7 @@ def batch_show(ctx: click.Context, name: str, exp_name: Optional[str]):
 @click.option("-n", "--dry-run", is_flag=True, help="Show run plan without executing")
 @click.option("--resume", is_flag=True, help="Resume from previous partial run")
 @click.option("--tracer", type=click.Choice(["phoenix", "console", "noop"]), default="console", help="Tracing backend")
-@click.option("--grader", type=click.Choice(["mock", "swebench", "function"]), default="swebench", help="Grading backend")
+@click.option("--grader", type=click.Choice(["mock", "swebench", "swebench-docker", "function"]), default="swebench", help="Grading backend")
 def batch_run(
     name: str,
     exp_name: Optional[str],
@@ -770,26 +770,36 @@ def batch_validate(name: str, exp_name: Optional[str]):
         raise click.ClickException("Validation failed.")
 
     # Check conditions exist
-    conditions_dir = exp_path / "conditions"
-    for cond_name in config.get("conditions", []):
-        cond_path = conditions_dir / f"{cond_name}.md"
+    # Supports both short names (baseline) and full paths (conditions/baseline.md)
+    for cond_ref in config.get("conditions", []):
+        # Full path from experiment root
+        cond_path = exp_path / cond_ref
+        if not cond_path.exists():
+            # Try short name format: conditions/<name>.md
+            cond_path = exp_path / "conditions" / f"{cond_ref}.md"
         if cond_path.exists():
-            passes.append(f"Condition '{cond_name}' exists")
+            passes.append(f"Condition '{cond_ref}' exists")
         else:
-            errors.append(f"Missing condition: {cond_name}")
+            errors.append(f"Missing condition: {cond_ref}")
 
     # Check tasks exist
-    tasks_dir = exp_path / "tasks"
+    # Supports both short names and full paths
     for task_ref in config.get("tasks", []):
-        task_found = any([
-            (tasks_dir / f"{task_ref}.yaml").exists(),
-            (tasks_dir / task_ref).exists(),
-            list(tasks_dir.rglob(f"*{task_ref}*.yaml")),
-        ])
-        if task_found:
+        # Full path from experiment root
+        task_path = exp_path / task_ref
+        if task_path.exists():
             passes.append(f"Task '{task_ref}' exists")
         else:
-            errors.append(f"Missing task: {task_ref}")
+            # Try short name patterns
+            tasks_dir = exp_path / "tasks"
+            task_found = any([
+                (tasks_dir / f"{task_ref}.yaml").exists(),
+                list(tasks_dir.rglob(f"*{task_ref}*.yaml")),
+            ])
+            if task_found:
+                passes.append(f"Task '{task_ref}' exists")
+            else:
+                errors.append(f"Missing task: {task_ref}")
 
     # Report
     for p in passes:
