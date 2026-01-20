@@ -1,0 +1,47 @@
+# REP-002: Stratified Tasks - Ready to Run
+#
+# 6 tasks with working Docker images, stratified by ambiguity.
+# (4 tasks excluded due to image build failures: sympy, matplotlib, astropy×2)
+
+name: rep-002-stratified-ready
+
+# Grader configuration
+grader: swebench-docker  # Full Docker-based SWE-bench harness
+
+# Task selection - only tasks with working Docker images
+tasks:
+  # LOW AMBIGUITY (clear expected behavior) - 2 tasks
+  - tasks/swebench/pytest-dev__pytest-10051.yaml    # caplog conflict - specific behavior
+  - tasks/swebench/scikit-learn__scikit-learn-10297.yaml  # store_cv_values bug
+
+  # HIGH AMBIGUITY (requires judgment) - 4 tasks
+  - tasks/swebench/django__django-10097.yaml     # URLValidator - what chars are "invalid"?
+  - tasks/swebench/django__django-11848.yaml     # parse_http_date - spec interpretation
+  - tasks/swebench/django__django-10554.yaml     # Union queryset - ambiguous fix
+  - tasks/swebench/django__django-11087.yaml     # "optimize .delete()" - implementation choice
+
+# All 5 conditions
+conditions:
+  - conditions/baseline.md           # Control: WHAT only, pure Claude
+  - conditions/motivation.md         # Principles: WHAT + WHY + CONSTRAINTS
+  - conditions/mandate-template.md   # Mandate: + HOW via templates
+  - conditions/mandate-structure.md  # Mandate: + HOW via file structure
+  - conditions/mandate-role.md       # Mandate: + HOW via persona
+
+# Model and runs
+model: sonnet
+runs_per_condition: 3
+
+# No iteration for first pass
+iteration:
+  strategy: none
+  max_iterations: 1
+
+# Metadata
+metadata:
+  note: "Reduced from 10 to 6 tasks due to Docker image build failures"
+  excluded_tasks:
+    - sympy__sympy-13480
+    - matplotlib__matplotlib-20488
+    - astropy__astropy-13236
+    - astropy__astropy-13977
