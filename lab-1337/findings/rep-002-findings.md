@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | **Status** | 🔬 RUNNING |
-| **Progress** | 32/90 runs (35%) |
+| **Progress** | 37/90 runs (41%) |
 | **Started** | 2026-01-20 10:43 |
 | **ETA** | ~4 hours remaining |
 
@@ -57,23 +57,23 @@
 
 ### Current Data Snapshot
 
-**Overall**: 15/32 passed (47%)
+**Overall**: 15/37 passed (41%)
 
 #### By Task
 | Task | Pass Rate | Avg Tokens | Avg Duration | Observation |
 |------|-----------|------------|--------------|-------------|
 | pytest-dev__pytest-10051 | 0/15 (0%) | 1,578 | 229s | Floor — too hard |
 | scikit-learn__scikit-learn-10297 | 15/15 (100%) | 1,455 | 250s | Ceiling — too easy |
-| django__django-10097 | 0/2 (0%) | 1,784 | 405s | In progress |
+| django__django-10097 | 0/7 (0%) | — | — | 🔄 Running (another floor?) |
 
 #### By Condition (Efficiency & Effectiveness)
-| Condition | Pass Rate | Avg Tokens | Avg Duration | Token σ |
-|-----------|-----------|------------|--------------|---------|
-| baseline | 3/8 (38%) | 1,837 | 276s | 236 |
-| motivation | 3/6 (50%) | 1,364 | **205s** ⚡ | 356 |
-| mandate-template | 3/6 (50%) | 1,637 | 253s | 224 |
-| mandate-structure | 3/6 (50%) | **970** ⚡ | 270s | 219 |
-| mandate-role | 3/6 (50%) | 1,757 | 236s | 215 |
+| Condition | Pass Rate | Avg Tokens | Avg Duration | vs Baseline |
+|-----------|-----------|------------|--------------|-------------|
+| baseline | 3/9 (33%) | 1,874 | 297s | — |
+| motivation | 3/9 (33%) | 1,646 | 263s | -12% tokens |
+| mandate-template | 3/7 (43%) | 1,670 | 273s | -11% tokens |
+| mandate-structure | 3/6 (50%) | **969** ⚡ | 269s | **-48% tokens** |
+| mandate-role | 3/6 (50%) | 1,757 | **236s** ⚡ | -21% duration |
 
 #### Reliability (Consistency Across Attempts)
 | Metric | Value |
@@ -180,7 +180,7 @@ The remaining 4 tasks are labeled HIGH ambiguity. Key questions:
 
 ### Early Django Signal
 
-django__django-10097 (URLValidator): 0/2 on baseline so far. If this continues to 0% across conditions, it suggests another floor effect.
+django__django-10097 (URLValidator): **0/7 across baseline, motivation, and mandate-template** — this HIGH-ambiguity task is also hitting floor. Reinforces that ambiguity ≠ difficulty.
 
 ---
 
@@ -227,9 +227,9 @@ If SWE-bench tasks don't discriminate:
 
 | Metric | Value |
 |--------|-------|
-| Runs completed | 32/90 (35%) |
+| Runs completed | 37/90 (41%) |
 | Tasks fully evaluated | 2/6 |
-| Tasks partially evaluated | 1/6 |
+| Tasks partially evaluated | 1/6 (django-10097: 7/15) |
 | Tasks pending | 3/6 |
 | Key confound | Floor/ceiling effects |
 
@@ -247,4 +247,4 @@ tail -f /private/tmp/claude/.../tasks/be49baa.output
 ---
 
 *Interim findings — experiment in progress*
-*Last updated: 2026-01-20 12:20*
+*Last updated: 2026-01-20 13:45*
