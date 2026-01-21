@@ -2,7 +2,7 @@ import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { error } from '@sveltejs/kit';
 
-const LAB_ROOT = join(process.cwd(), '../../lab-1337');
+const LAB_ROOT = join(process.cwd(), '../../../lab-1337');
 
 // Pre-render all proposals at build time
 export async function entries() {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { marked } from 'marked';
+	import PassRateChart from '$lib/components/lab/PassRateChart.svelte';
 
 	let { data } = $props();
 
@@ -47,6 +48,12 @@
 		</div>
 	</header>
 
+	{#if data.chartData && data.chartData.length > 0}
+		<section class="chart-section">
+			<PassRateChart data={data.chartData} />
+		</section>
+	{/if}
+
 	<article class="findings-content markdown-content">
 		{@html htmlContent}
 	</article>
@@ -91,9 +98,13 @@
 	}
 
 	.findings-header {
-		margin-bottom: var(--space-8);
+		margin-bottom: var(--space-6);
 		padding-bottom: var(--space-6);
 		border-bottom: 2px solid var(--color-accent);
+	}
+
+	.chart-section {
+		margin-bottom: var(--space-8);
 	}
 
 	.meta-row {

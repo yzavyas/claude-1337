@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import CopyCommand from '$lib/components/CopyCommand.svelte';
+	import FlipTerm from '$lib/components/FlipTerm.svelte';
 
 	const installCommand = '/plugin marketplace add yzavyas/claude-1337';
 </script>
 
 <svelte:head>
-	<title>claude-1337 — Extensions that make you better</title>
+	<title>claude-1337 — Cognitive Extensions for Effective Collaborative Intelligence</title>
 </svelte:head>
 
 <nav class="landing-nav">
@@ -23,12 +24,11 @@
 
 <main class="landing">
 	<section class="hero">
-		<div class="badge">
-			<span class="badge-dot" aria-hidden="true"></span>
-			<span class="badge-text">marketplace</span>
-		</div>
-
-		<h1 class="headline">Extensions that make you better</h1>
+		<h1 class="headline">
+			<FlipTerm term="Cognitive Extensions" definition="External processes that become part of thinking" />
+			<FlipTerm term="for Effective" definition="for Complementary · Transparent · Reliable" />
+			<FlipTerm term="Collaborative Intelligence" definition="Human-AI cognitive partnership" />
+		</h1>
 
 		<p class="description">
 			Research-backed frameworks that shape how Claude thinks.<br />
@@ -76,32 +76,6 @@
 		max-width: 560px;
 		text-align: center;
 		margin: 0 auto;
-	}
-
-	.badge {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		padding: var(--space-1) var(--space-4);
-		background: var(--color-bg-surface);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-full);
-		margin-bottom: var(--space-8);
-	}
-
-	.badge-dot {
-		width: 6px;
-		height: 6px;
-		background: var(--color-accent);
-		border-radius: 50%;
-	}
-
-	.badge-text {
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		color: var(--color-text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
 	}
 
 	.headline {

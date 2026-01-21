@@ -1,7 +1,7 @@
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
-const LAB_ROOT = join(process.cwd(), '../../lab-1337');
+const LAB_ROOT = join(process.cwd(), '../../../lab-1337');
 
 interface ResearchPaper {
 	id: string;
