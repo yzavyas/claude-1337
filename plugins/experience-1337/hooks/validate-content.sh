@@ -1,5 +1,5 @@
 #!/bin/bash
-# Content validation hook for experience/content/ markdown files
+# Content validation hook for docs/experience/content/ markdown files
 # Suggests fixes without blocking - per collaborative agency principle
 
 # Read stdin once (tool input as JSON)
@@ -9,8 +9,8 @@ INPUT=$(cat)
 FILE_PATH=$(echo "$INPUT" | jq -r '.file_path // empty')
 CONTENT=$(echo "$INPUT" | jq -r '.content // empty')
 
-# Only validate files in experience/content/
-if [[ ! "$FILE_PATH" =~ experience/content/.*\.md$ ]]; then
+# Only validate files in docs/experience/content/
+if [[ ! "$FILE_PATH" =~ docs/experience/content/.*\.md$ ]]; then
     exit 0
 fi
 ISSUES=""

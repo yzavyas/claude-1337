@@ -264,7 +264,7 @@ The substance is the methodology and collaborative intelligence framework, not "
 ## Structure
 
 ```
-experience/     → Human-facing docs layer (Diataxis: tutorials/how-tos/explanations/references)
+docs/experience/     → Human-facing docs layer (Diataxis: tutorials/how-tos/explanations/references)
 plugins/        → The marketplace (skills, hooks, agents, commands)
 evals/          → Skill activation testing
 .claude/skills/ → Project-local skills (builder-1337, maintainer-1337)
@@ -359,7 +359,7 @@ Plugins have independent versions in their `plugin.json`. Marketplace releases a
 | Component type | Documentation |
 |----------------|---------------|
 | **Markdown-based** (skills, hooks, agents, commands) | Self-documenting via SKILL.md, hooks.json, etc. |
-| **Code-based** (MCP servers, agent apps, complex components) | Experience layer docs (`experience/content/`) |
+| **Code-based** (MCP servers, agent apps, complex components) | Experience layer docs (`docs/experience/content/`) |
 
 Markdown extensions ARE their own documentation. Experience layer docs exist for things that need separate explanation (implementation guides, architecture, non-markdown components).
 
@@ -622,7 +622,7 @@ A **collaborative intelligence space** — for silicon and biology alike.
 
 Consume. Contribute. Collaborate. Contemplate. Explore.
 
-**Location:** `experience/app/` (SvelteKit, static adapter for GitHub Pages)
+**Location:** `docs/experience/app/` (SvelteKit, static adapter for GitHub Pages)
 
 ### Vision: Four Pillars
 
@@ -630,7 +630,7 @@ Consume. Contribute. Collaborate. Contemplate. Explore.
 |--------|------------|-------|----------------|
 | **Marketplace** | Cognitive extensions catalog | `/catalog` | `plugins/` |
 | **Lab** | Research & experimentation | `/lab` | `lab-1337/` |
-| **Library** | Knowledge compendium | `/library` | `experience/content/explore/reference/` + `lab-1337/findings/` |
+| **Library** | Knowledge compendium | `/library` | `docs/experience/content/explore/reference/` + `lab-1337/findings/` |
 | **Forum** | Discourse & collaboration | External | GitHub Discussions |
 
 **Home** (`/`) is a gateway to all four pillars.
@@ -645,7 +645,7 @@ Consume. Contribute. Collaborate. Contemplate. Explore.
 - Light mode, inviting
 - Academic reading quality for long-form
 
-Design tokens: `experience/app/src/lib/styles/tokens.css`
+Design tokens: `docs/experience/app/src/lib/styles/tokens.css`
 
 ### User Journeys
 
@@ -659,7 +659,7 @@ Design tokens: `experience/app/src/lib/styles/tokens.css`
 ### Commands
 
 ```bash
-cd experience/app
+cd docs/experience/app
 bun install          # Install dependencies
 bun run dev          # Dev server (localhost:5173)
 bun run build        # Production build
@@ -668,10 +668,10 @@ bun run check        # TypeScript + Svelte type checking
 
 ### Content-Driven Routing
 
-**Principle:** The file system is the site structure. Drop a `.md` file in `experience/content/` and it becomes a web page. No routing configuration needed.
+**Principle:** The file system is the site structure. Drop a `.md` file in `docs/experience/content/` and it becomes a web page. No routing configuration needed.
 
 ```
-experience/content/
+docs/experience/content/
 ├── explore/
 │   ├── index.md                    → /explore
 │   ├── reference/
@@ -710,4 +710,4 @@ The goal is complementary extensions that make engineers better, not substitutiv
 
 ## Research Bibliography
 
-Full citations available at `experience/content/explore/reference/bibliography/index.md`.
+Full citations available at `docs/experience/content/explore/reference/bibliography/index.md`.
