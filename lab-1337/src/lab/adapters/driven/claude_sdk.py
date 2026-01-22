@@ -258,10 +258,15 @@ If the solution is correct, respond with "SOLUTION_VERIFIED".
                         yield block.text
 
     def _map_model(self, model: str) -> str:
-        """Map our model names to Claude SDK model names."""
+        """Map our model names to Claude SDK model names.
+
+        Model ID formats vary by generation:
+        - Claude 3.5: claude-3-5-{model}-{date}
+        - Claude 4: claude-{model}-4-{date}
+        """
         model_map = {
             "sonnet": "claude-sonnet-4-20250514",
             "opus": "claude-opus-4-20250514",
-            "haiku": "claude-haiku-3-5-20241022",
+            "haiku": "claude-3-5-haiku-20241022",  # Claude 3.5 Haiku uses different format
         }
         return model_map.get(model, model)
