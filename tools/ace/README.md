@@ -2,7 +2,7 @@
 
 **Agentic Capability Extensions** — CLI for managing extensions that enhance what AI agents can do.
 
-Part of [claude-1337](../README.md).
+Part of [claude-1337](../../README.md).
 
 ## What It Does
 
@@ -18,7 +18,7 @@ Extensions include:
 ## Install
 
 ```bash
-uv tool install "ace @ git+https://github.com/yzavyas/claude-1337#subdirectory=ace"
+uv tool install "ace @ git+https://github.com/yzavyas/claude-1337#subdirectory=tools/ace"
 ```
 
 ## Usage
