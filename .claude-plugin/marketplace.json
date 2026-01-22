@@ -250,6 +250,29 @@
       ],
       "category": "visuals",
       "strict": false
+    },
+    {
+      "name": "arch-guild",
+      "source": "./plugins/arch-guild",
+      "description": "Architectural reasoning with The Guild. 13 specialized agents with orthogonal perspectives for multi-viewpoint architecture review.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "architecture",
+        "design",
+        "multi-agent",
+        "review",
+        "hexagonal",
+        "operations"
+      ],
+      "category": "development",
+      "strict": false
     }
   ]
 }
