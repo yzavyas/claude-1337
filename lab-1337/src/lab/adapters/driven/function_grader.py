@@ -138,8 +138,15 @@ class FunctionGraderAdapter:
 
             impl_fn = getattr(module, fn_name)
 
-            # Run the grader
-            results = grader_fn(impl_fn)
+            # Run the grader (pass source code if grader accepts it)
+            import inspect
+            sig = inspect.signature(grader_fn)
+            if len(sig.parameters) >= 2:
+                # Grader accepts source code - pass it
+                results = grader_fn(impl_fn, solution)
+            else:
+                # Legacy grader - just pass the function
+                results = grader_fn(impl_fn)
 
             # Calculate overall score and pass/fail
             weighted_score = results.get("weighted_score", 0.0)

@@ -55,9 +55,7 @@ class GraderPort(Protocol):
     2. Get back pass/fail with optional score
 
     Implementations:
-    - SWEBenchGraderAdapter: Runs SWE-bench test harness
-    - TestRunnerAdapter: Runs pytest/unittest
-    - LLMJudgeAdapter: Uses LLM to grade
+    - FunctionGraderAdapter: Custom function-based grading
     - MockGraderAdapter: For testing
     """
 

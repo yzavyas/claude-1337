@@ -1,5 +1,9 @@
 # REP-002: Stratified Tasks - Mandate vs Motivation
 #
+# DEPRECATED: SWE-bench Docker grader has been removed.
+# These tasks are kept for reference but the scenario cannot be executed.
+# See v2-pilot.yaml for the function grader approach.
+#
 # 10 tasks from SWE-bench Verified, stratified by ambiguity:
 # - 5 low-ambiguity (clear bugs with specific expected behavior)
 # - 5 high-ambiguity (design judgment required)
@@ -11,7 +15,8 @@
 name: rep-002-stratified
 
 # Grader configuration
-grader: swebench-docker  # Full Docker-based SWE-bench harness
+# NOTE: swebench-docker grader removed - this scenario is deprecated
+grader: function  # Was: swebench-docker
 
 # Task selection - stratified by ambiguity
 # Format: tasks/<subdir>/<task-file>.yaml (relative to experiment root)
@@ -32,12 +37,14 @@ tasks:
   - tasks/swebench/astropy__astropy-13977.yaml   # "should X return..." - API design
   - tasks/swebench/django__django-11087.yaml     # "optimize .delete()" - implementation choice
 
-# Conditions to compare (baseline + 2 representative conditions)
+# Conditions to compare (all 5 conditions)
 # Format: conditions/<name>.md (relative to experiment root)
 conditions:
-  - conditions/baseline.md           # Pure Claude, no guidance
-  - conditions/motivation.md         # Principles + WHY (core-1337 style)
-  - conditions/mandate-template.md   # Rigid structure (template-driven)
+  - conditions/baseline.md           # Control: WHAT only, pure Claude
+  - conditions/motivation.md         # Principles: WHAT + WHY + CONSTRAINTS (Claude decides HOW)
+  - conditions/mandate-template.md   # Mandate: + HOW via required template artifacts
+  - conditions/mandate-structure.md  # Mandate: + HOW via required file structure (GSD-style)
+  - conditions/mandate-role.md       # Mandate: + HOW via prescribed expert persona
 
 # Model and runs
 model: sonnet

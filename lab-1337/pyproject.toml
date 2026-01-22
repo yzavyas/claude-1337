@@ -19,6 +19,8 @@ dependencies = [
     "swebench>=2.0.0",  # SWE-bench evaluation harness
     "arize-phoenix>=4.0.0",  # Local trace visualization
     "openinference-instrumentation-anthropic>=0.1.0",  # Auto-instrument Claude calls
+    "anthropic>=0.76.0",
+    "deepeval>=3.8.0",
 ]
 
 [project.optional-dependencies]

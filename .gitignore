@@ -1,8 +1,8 @@
 # Claude Code local config
 .claude/
 
-# Scratch directories for temporary work
-scratch/
+# Scratch directories for temporary work (all nesting levels)
+**/scratch/
 docs/experience/lab/
 
 # macOS

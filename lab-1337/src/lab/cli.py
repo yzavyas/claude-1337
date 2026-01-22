@@ -24,6 +24,7 @@ import yaml
 from rich.console import Console
 from rich.logging import RichHandler
 from rich.panel import Panel
+from rich.progress import Progress
 from rich.table import Table
 from rich.tree import Tree
 
@@ -1225,6 +1226,521 @@ def result_verify(file: str, model: str):
     verified = sum(1 for c in report.claims if c.verified)
     total = len(report.claims)
     console.print(f"\n[green]Verification complete:[/green] {verified}/{total} claims verified")
+
+
+# --- Judge Commands ---
+
+
+@cli.group()
+def judge():
+    """LLM-as-judge quality evaluation."""
+    pass
+
+
+@judge.command("evaluate")
+@click.argument("batch_name")
+@click.option("-e", "--experiment", "exp_name", help="Experiment name")
+@click.option("--model", default="claude-3-5-haiku-20241022", help="Judge model")
+@click.option("--limit", type=int, help="Limit number of runs to evaluate")
+@click.option("--blind", is_flag=True, default=True, help="Blind evaluation (strip condition name)")
+@click.pass_context
+def judge_evaluate(
+    ctx: click.Context,
+    batch_name: str,
+    exp_name: Optional[str],
+    model: str,
+    limit: Optional[int],
+    blind: bool,
+):
+    """Evaluate completed runs with LLM-as-judge.
+
+    Evaluates solution quality independent of pass/fail using a rubric
+    that emphasizes judgment under ambiguity.
+
+    Examples:
+        lab judge evaluate rep-002-pilot -e rep-002
+        lab judge evaluate rep-002-pilot -e rep-002 --limit 10
+    """
+    from .adapters.driven.llm_judge import LLMJudgeAdapter
+
+    exp_path = resolve_experiment(exp_name)
+    results_dir = exp_path / "results"
+
+    # Find the results file (could be .jsonl or directory pattern)
+    results_file = results_dir / f"{batch_name}_results.jsonl"
+    if not results_file.exists():
+        # Try alternative naming
+        results_file = results_dir / f"{batch_name}.jsonl"
+    if not results_file.exists():
+        # Try directory-based pattern (results/<batch>/results.jsonl)
+        results_file = results_dir / batch_name / "results.jsonl"
+    if not results_file.exists():
+        results_file = results_dir / "results.jsonl"
+    if not results_file.exists():
+        raise click.UsageError(f"No results file found for batch '{batch_name}'")
+
+    console.print(f"\n[bold cyan]LLM-as-Judge Evaluation[/bold cyan]")
+    console.print(f"Batch: {batch_name}")
+    console.print(f"Model: {model}")
+    console.print(f"Blind: {'Yes' if blind else 'No'}")
+    console.print("─" * 40)
+
+    # Load runs from JSONL
+    runs = []
+    with open(results_file) as f:
+        for line in f:
+            if line.strip():
+                runs.append(json.loads(line))
+
+    if limit:
+        runs = runs[:limit]
+
+    console.print(f"Evaluating {len(runs)} runs...\n")
+
+    # Load task descriptions for context
+    tasks_dir = exp_path / "tasks"
+
+    def get_task_description(task_id: str) -> str:
+        """Load task prompt by ID."""
+        for task_path in tasks_dir.rglob("*.yaml"):
+            with open(task_path) as f:
+                task_data = yaml.safe_load(f)
+            if task_data.get("id") == task_id or task_path.stem == task_id:
+                return task_data.get("prompt", task_data.get("problem_statement", ""))
+        return f"Task: {task_id}"
+
+    # Initialize judge
+    judge_adapter = LLMJudgeAdapter(model=model)
+
+    # Evaluate each run
+    async def run_evaluation():
+        results_with_scores = []
+        for i, run in enumerate(runs, 1):
+            task_id = run.get("task_id", "unknown")
+            condition = run.get("condition_name", "unknown")
+            attempt = run.get("attempt", 0)
+
+            # Status update
+            with console.status(f"[bold green]Evaluating {i}/{len(runs)}: {task_id}..."):
+                task_description = get_task_description(task_id)
+                solution = run.get("solution")
+                trace = run.get("conversation_trace")
+
+                # Check if we have data to evaluate
+                if not solution and not trace:
+                    console.print(f"  [yellow]⚠[/yellow] {task_id}/{condition}: No solution or trace (skipped)")
+                    continue
+
+                scores = await judge_adapter.evaluate(
+                    task_description=task_description,
+                    solution=solution,
+                    trace=trace,
+                )
+
+                # Store scores back
+                run["quality_scores"] = scores.to_dict()
+                results_with_scores.append((run, scores))
+
+                # Display result
+                pass_mark = "[green]✓[/green]" if run.get("passed") else "[red]✗[/red]"
+                console.print(
+                    f"  {pass_mark} {task_id}/{condition}#{attempt}: "
+                    f"quality={scores.normalized:.2f} "
+                    f"(judgment={scores.judgment_under_ambiguity}/3)"
+                )
+
+        return results_with_scores
+
+    results_with_scores = asyncio.run(run_evaluation())
+
+    # Summary statistics
+    if results_with_scores:
+        console.print("\n" + "─" * 40)
+        console.print("[bold]Summary by Condition[/bold]\n")
+
+        # Group by condition
+        by_condition: dict[str, list] = {}
+        for run, scores in results_with_scores:
+            cond = run.get("condition_name", "unknown")
+            if cond not in by_condition:
+                by_condition[cond] = []
+            by_condition[cond].append(scores)
+
+        table = Table()
+        table.add_column("CONDITION", style="cyan")
+        table.add_column("N", justify="right")
+        table.add_column("AVG QUALITY", justify="right")
+        table.add_column("AVG JUDGMENT", justify="right")
+        table.add_column("AVG WEIGHTED", justify="right")
+
+        for cond, scores_list in sorted(by_condition.items()):
+            n = len(scores_list)
+            avg_quality = sum(s.normalized for s in scores_list) / n
+            avg_judgment = sum(s.judgment_under_ambiguity for s in scores_list) / n
+            avg_weighted = sum(s.weighted_normalized for s in scores_list) / n
+
+            table.add_row(
+                cond,
+                str(n),
+                f"{avg_quality:.3f}",
+                f"{avg_judgment:.2f}",
+                f"{avg_weighted:.3f}",
+            )
+
+        console.print(table)
+
+        # Save enhanced results
+        output_file = results_dir / f"{batch_name}_judged.jsonl"
+        with open(output_file, "w") as f:
+            for run, _ in results_with_scores:
+                f.write(json.dumps(run) + "\n")
+
+        console.print(f"\n[green]Results saved:[/green] {output_file.relative_to(get_lab_root())}")
+
+    if ctx.obj.get("json"):
+        # JSON output mode
+        data = [
+            {
+                "task_id": run.get("task_id"),
+                "condition": run.get("condition_name"),
+                "attempt": run.get("attempt"),
+                "passed": run.get("passed"),
+                "quality_scores": run.get("quality_scores"),
+            }
+            for run, _ in results_with_scores
+        ]
+        console.print(json.dumps(data, indent=2))
+
+
+@judge.command("summary")
+@click.argument("file", type=click.Path(exists=True))
+@click.pass_context
+def judge_summary(ctx: click.Context, file: str):
+    """Show summary of judged results.
+
+    Examples:
+        lab judge summary results/rep-002-pilot_judged.jsonl
+    """
+    file_path = Path(file)
+
+    # Load judged runs
+    runs = []
+    with open(file_path) as f:
+        for line in f:
+            if line.strip():
+                runs.append(json.loads(line))
+
+    # Filter to runs with quality scores
+    judged_runs = [r for r in runs if r.get("quality_scores")]
+
+    if not judged_runs:
+        console.print("[yellow]No judged runs found in file.[/yellow]")
+        return
+
+    console.print(f"\n[bold cyan]Judge Summary: {file_path.name}[/bold cyan]")
+    console.print(f"Total judged: {len(judged_runs)}")
+    console.print("─" * 40)
+
+    # Group by condition
+    by_condition: dict[str, list] = {}
+    for run in judged_runs:
+        cond = run.get("condition_name", "unknown")
+        if cond not in by_condition:
+            by_condition[cond] = []
+        by_condition[cond].append(run)
+
+    if ctx.obj.get("json"):
+        data = {}
+        for cond, cond_runs in by_condition.items():
+            scores = [r["quality_scores"] for r in cond_runs]
+            data[cond] = {
+                "n": len(scores),
+                "avg_normalized": sum(s["normalized"] for s in scores) / len(scores),
+                "avg_weighted_normalized": sum(s["weighted_normalized"] for s in scores) / len(scores),
+                "avg_judgment_under_ambiguity": sum(s["judgment_under_ambiguity"] for s in scores) / len(scores),
+                "pass_rate": sum(1 for r in cond_runs if r.get("passed")) / len(cond_runs),
+            }
+        console.print(json.dumps(data, indent=2))
+        return
+
+    table = Table()
+    table.add_column("CONDITION", style="cyan")
+    table.add_column("N", justify="right")
+    table.add_column("PASS%", justify="right")
+    table.add_column("QUALITY", justify="right")
+    table.add_column("JUDGMENT", justify="right")
+    table.add_column("WEIGHTED", justify="right")
+
+    for cond, cond_runs in sorted(by_condition.items()):
+        n = len(cond_runs)
+        pass_rate = sum(1 for r in cond_runs if r.get("passed")) / n
+        scores = [r["quality_scores"] for r in cond_runs]
+        avg_quality = sum(s["normalized"] for s in scores) / n
+        avg_judgment = sum(s["judgment_under_ambiguity"] for s in scores) / n
+        avg_weighted = sum(s["weighted_normalized"] for s in scores) / n
+
+        table.add_row(
+            cond,
+            str(n),
+            f"{pass_rate*100:.0f}%",
+            f"{avg_quality:.3f}",
+            f"{avg_judgment:.2f}",
+            f"{avg_weighted:.3f}",
+        )
+
+    console.print(table)
+
+    # Detailed breakdown
+    console.print("\n[bold]Dimension Breakdown[/bold]\n")
+
+    dimensions = [
+        "problem_understanding",
+        "approach_selection",
+        "judgment_under_ambiguity",
+        "code_quality",
+        "reasoning_visibility",
+    ]
+
+    dim_table = Table()
+    dim_table.add_column("CONDITION", style="cyan")
+    for dim in dimensions:
+        short_name = "".join(w[0].upper() for w in dim.split("_"))
+        dim_table.add_column(short_name, justify="right")
+
+    for cond, cond_runs in sorted(by_condition.items()):
+        scores = [r["quality_scores"] for r in cond_runs]
+        avgs = []
+        for dim in dimensions:
+            avg = sum(s[dim] for s in scores) / len(scores)
+            avgs.append(f"{avg:.2f}")
+        dim_table.add_row(cond, *avgs)
+
+    console.print(dim_table)
+    console.print("\n[dim]Dimensions: PU=Problem Understanding, AS=Approach Selection, ")
+    console.print("JUA=Judgment Under Ambiguity, CQ=Code Quality, RV=Reasoning Visibility[/dim]")
+
+
+@judge.command("reliability")
+@click.argument("file", type=click.Path(exists=True))
+@click.option("-n", "--runs", default=5, help="Number of judge runs per solution")
+@click.option("--limit", type=int, help="Limit number of solutions to test")
+@click.option("-o", "--output", "output_path", type=click.Path(), help="Output JSON path")
+@click.pass_context
+def judge_reliability(
+    ctx: click.Context,
+    file: str,
+    runs: int,
+    limit: Optional[int],
+    output_path: Optional[str],
+):
+    """Check inter-rater reliability of LLM-as-judge.
+
+    Runs the judge multiple times on the same solutions and calculates
+    Intraclass Correlation Coefficient (ICC) for each dimension.
+
+    ICC interpretation:
+    - >= 0.75: Good reliability
+    - 0.60-0.74: Moderate (needs improvement)
+    - < 0.60: Poor (results are noise)
+
+    Examples:
+        lab judge reliability results/rep-002-v2-pilot_judged.jsonl
+        lab judge reliability results/pilot_judged.jsonl -n 10 --limit 3
+    """
+    from .adapters.driven.llm_judge import LLMJudgeAdapter
+
+    file_path = Path(file)
+
+    # Load judged runs (need solution + trace)
+    solutions = []
+    with open(file_path) as f:
+        for line in f:
+            if line.strip():
+                run = json.loads(line)
+                # Only include runs with solutions and traces
+                if run.get("solution") and run.get("conversation_trace"):
+                    solutions.append({
+                        "id": f"{run.get('condition_name', 'unknown')}_{run.get('attempt', 0)}",
+                        "task_id": run.get("task_id"),
+                        "solution": run.get("solution"),
+                        "trace": run.get("conversation_trace"),
+                    })
+
+    if not solutions:
+        console.print("[red]No solutions with traces found in file.[/red]")
+        return
+
+    if limit:
+        solutions = solutions[:limit]
+
+    console.print(f"\n[bold cyan]LLM-as-Judge Reliability Check[/bold cyan]")
+    console.print(f"Solutions: {len(solutions)}")
+    console.print(f"Runs per solution: {runs}")
+    console.print(f"Total judge calls: {len(solutions) * runs}")
+    console.print("─" * 40)
+
+    # Get task description (assume all same task for now)
+    task_id = solutions[0]["task_id"]
+    exp_path = file_path.parent.parent  # results/ -> experiment/
+    task_files = list(exp_path.glob(f"tasks/**/{task_id}*.yaml"))
+    task_description = f"Task: {task_id}"  # Fallback
+    if task_files:
+        import yaml
+        with open(task_files[0]) as f:
+            task_data = yaml.safe_load(f)
+            task_description = task_data.get("prompt", task_description)
+
+    judge = LLMJudgeAdapter()
+
+    async def run_reliability_check():
+        results = []  # List of {solution_id, run_idx, scores}
+
+        with Progress() as progress:
+            task = progress.add_task(
+                "[cyan]Running reliability check...",
+                total=len(solutions) * runs
+            )
+
+            for sol in solutions:
+                for run_idx in range(runs):
+                    scores = await judge.evaluate(
+                        task_description=task_description,
+                        solution=sol["solution"],
+                        trace=sol["trace"],
+                    )
+
+                    results.append({
+                        "solution_id": sol["id"],
+                        "run_idx": run_idx,
+                        "problem_understanding": scores.problem_understanding,
+                        "approach_selection": scores.approach_selection,
+                        "judgment_under_ambiguity": scores.judgment_under_ambiguity,
+                        "code_quality": scores.code_quality,
+                        "reasoning_visibility": scores.reasoning_visibility,
+                        "total": scores.total,
+                        "normalized": scores.normalized,
+                    })
+
+                    progress.advance(task)
+
+        return results
+
+    results = asyncio.run(run_reliability_check())
+
+    # Calculate ICC for each dimension
+    dimensions = [
+        "problem_understanding",
+        "approach_selection",
+        "judgment_under_ambiguity",
+        "code_quality",
+        "reasoning_visibility",
+        "total",
+        "normalized",
+    ]
+
+    def calculate_icc(data: list[dict], dimension: str) -> tuple[float, str]:
+        """Calculate ICC(2,1) - two-way random, single measures."""
+        import numpy as np
+
+        # Organize data into matrix: solutions x runs
+        solution_ids = list(set(r["solution_id"] for r in data))
+        n_solutions = len(solution_ids)
+        n_runs = runs
+
+        matrix = np.zeros((n_solutions, n_runs))
+        for i, sol_id in enumerate(solution_ids):
+            sol_scores = [r[dimension] for r in data if r["solution_id"] == sol_id]
+            matrix[i, :len(sol_scores)] = sol_scores[:n_runs]
+
+        # ICC(2,1) calculation
+        n, k = matrix.shape
+        mean_total = np.mean(matrix)
+
+        # Between-subjects sum of squares
+        row_means = np.mean(matrix, axis=1)
+        ss_between = k * np.sum((row_means - mean_total) ** 2)
+
+        # Within-subjects sum of squares
+        ss_within = np.sum((matrix - row_means[:, np.newaxis]) ** 2)
+
+        # Between-raters sum of squares
+        col_means = np.mean(matrix, axis=0)
+        ss_raters = n * np.sum((col_means - mean_total) ** 2)
+
+        # Error sum of squares
+        ss_error = ss_within - ss_raters
+
+        # Mean squares
+        ms_between = ss_between / (n - 1) if n > 1 else 0
+        ms_error = ss_error / ((n - 1) * (k - 1)) if (n > 1 and k > 1) else 1
+
+        # ICC(2,1)
+        if ms_between + (k - 1) * ms_error + (k / n) * (ms_error - ms_error) == 0:
+            icc = 0.0
+        else:
+            icc = (ms_between - ms_error) / (ms_between + (k - 1) * ms_error)
+
+        # Interpretation
+        if icc >= 0.75:
+            interp = "[green]Good[/green]"
+        elif icc >= 0.60:
+            interp = "[yellow]Moderate[/yellow]"
+        else:
+            interp = "[red]Poor[/red]"
+
+        return max(0, min(1, icc)), interp  # Clamp to [0, 1]
+
+    console.print("\n[bold]ICC Results by Dimension[/bold]\n")
+
+    table = Table()
+    table.add_column("DIMENSION", style="cyan")
+    table.add_column("ICC", justify="right")
+    table.add_column("RELIABILITY", justify="center")
+
+    icc_results = {}
+    for dim in dimensions:
+        icc, interp = calculate_icc(results, dim)
+        icc_results[dim] = icc
+        table.add_row(dim.replace("_", " ").title(), f"{icc:.3f}", interp)
+
+    console.print(table)
+
+    # Go/No-Go decision
+    avg_icc = sum(icc_results.values()) / len(icc_results)
+    key_dim_icc = icc_results["judgment_under_ambiguity"]
+
+    console.print("\n" + "─" * 40)
+    console.print(f"[bold]Average ICC:[/bold] {avg_icc:.3f}")
+    console.print(f"[bold]Key Dimension (Judgment) ICC:[/bold] {key_dim_icc:.3f}")
+
+    if key_dim_icc >= 0.75:
+        console.print("\n[bold green]✓ GO:[/bold green] Judge reliability is acceptable. Proceed to Phase 2.")
+    elif key_dim_icc >= 0.60:
+        console.print("\n[bold yellow]⚠ CAUTION:[/bold yellow] Moderate reliability. Consider improving rubric.")
+    else:
+        console.print("\n[bold red]✗ NO-GO:[/bold red] Poor reliability. Results are noise. Fix judge before proceeding.")
+
+    # Save detailed results
+    if output_path:
+        out_file = Path(output_path)
+    else:
+        out_file = file_path.parent / f"{file_path.stem}_reliability.json"
+
+    output_data = {
+        "solutions": len(solutions),
+        "runs_per_solution": runs,
+        "total_calls": len(results),
+        "icc_by_dimension": icc_results,
+        "average_icc": avg_icc,
+        "key_dimension_icc": key_dim_icc,
+        "go_decision": "GO" if key_dim_icc >= 0.75 else ("CAUTION" if key_dim_icc >= 0.60 else "NO-GO"),
+        "raw_results": results,
+    }
+
+    with open(out_file, "w") as f:
+        json.dump(output_data, f, indent=2)
+
+    console.print(f"\n[green]Results saved:[/green] {out_file}")
 
 
 # --- Report Commands ---

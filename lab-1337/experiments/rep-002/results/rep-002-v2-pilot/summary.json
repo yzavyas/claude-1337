@@ -1,0 +1,49 @@
+{
+  "batch_name": "rep-002-v2-pilot",
+  "timestamp": "2026-01-20T16:34:38.546416",
+  "total_runs": 6,
+  "completed_runs": 6,
+  "passed_runs": 6,
+  "by_condition": {
+    "baseline": {
+      "condition_name": "baseline",
+      "total_runs": 2,
+      "passed": 2,
+      "failed": 0,
+      "total_tokens": 7823,
+      "total_iterations": 4,
+      "total_duration_ms": 187738,
+      "pass_rate": 1.0,
+      "avg_tokens": 3911.5,
+      "avg_iterations": 2.0,
+      "avg_duration_ms": 93869.0
+    },
+    "motivation": {
+      "condition_name": "motivation",
+      "total_runs": 2,
+      "passed": 2,
+      "failed": 0,
+      "total_tokens": 8582,
+      "total_iterations": 4,
+      "total_duration_ms": 288925,
+      "pass_rate": 1.0,
+      "avg_tokens": 4291.0,
+      "avg_iterations": 2.0,
+      "avg_duration_ms": 144462.5
+    },
+    "mandate-template": {
+      "condition_name": "mandate-template",
+      "total_runs": 2,
+      "passed": 2,
+      "failed": 0,
+      "total_tokens": 11407,
+      "total_iterations": 4,
+      "total_duration_ms": 420588,
+      "pass_rate": 1.0,
+      "avg_tokens": 5703.5,
+      "avg_iterations": 2.0,
+      "avg_duration_ms": 210294.0
+    }
+  },
+  "pass_rate": 1.0
+}

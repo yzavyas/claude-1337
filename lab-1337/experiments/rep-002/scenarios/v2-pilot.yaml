@@ -1,0 +1,52 @@
+# REP-002 v2 Pilot: LLM-as-Judge Quality Evaluation
+#
+# Purpose: Test trace capture and LLM-as-judge evaluation pipeline
+#
+# Key changes from v1:
+# - Trace capture enabled (conversation_trace field populated)
+# - Solution storage (git diff / code stored)
+# - Ready for post-hoc LLM-as-judge evaluation
+#
+# Run: lab-1337 batch run v2-pilot -e rep-002 --grader function
+# Judge: lab-1337 judge evaluate rep-002-v2-pilot -e rep-002
+#
+name: rep-002-v2-pilot
+
+# Grader type (function grader for discriminating tasks)
+grader: function
+
+# Task selection - start with safe-calculator
+# Must use full paths from experiment root with extension
+tasks:
+  - tasks/discriminating/safe-calculator-task.yaml
+
+# Conditions to compare (reduced set for pilot)
+# Must use full paths from experiment root
+conditions:
+  - conditions/baseline.md
+  - conditions/motivation.md
+  - conditions/mandate-template.md
+
+# Model and runs
+model: sonnet
+runs_per_condition: 2  # Small pilot to test pipeline
+
+# Iteration - all get self-review to control for that variable
+iteration:
+  strategy: self-review
+  max_iterations: 2
+  review_prompt: |
+    Review your implementation:
+    1. Does it handle all basic arithmetic correctly?
+    2. Are there edge cases you haven't considered?
+    3. Is it robust and production-ready?
+
+# Expected outcome:
+#
+# Pass/fail may still hit ceiling on basic functionality.
+# LLM-as-judge will evaluate:
+# - judgment_under_ambiguity: Did Claude think about security?
+# - approach_selection: Parser vs Python interpreter?
+# - reasoning_visibility: Did Claude explain WHY?
+#
+# Hypothesis: motivation condition scores higher on judgment_under_ambiguity

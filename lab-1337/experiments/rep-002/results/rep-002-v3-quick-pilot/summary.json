@@ -1,0 +1,49 @@
+{
+  "batch_name": "rep-002-v3-quick-pilot",
+  "timestamp": "2026-01-21T00:31:12.190800",
+  "total_runs": 12,
+  "completed_runs": 12,
+  "passed_runs": 2,
+  "by_condition": {
+    "full-autonomy": {
+      "condition_name": "full-autonomy",
+      "total_runs": 4,
+      "passed": 1,
+      "failed": 3,
+      "total_tokens": 5439,
+      "total_iterations": 4,
+      "total_duration_ms": 233685,
+      "pass_rate": 0.25,
+      "avg_tokens": 1359.75,
+      "avg_iterations": 1.0,
+      "avg_duration_ms": 58421.25
+    },
+    "principle-guided": {
+      "condition_name": "principle-guided",
+      "total_runs": 4,
+      "passed": 1,
+      "failed": 3,
+      "total_tokens": 3736,
+      "total_iterations": 4,
+      "total_duration_ms": 92551,
+      "pass_rate": 0.25,
+      "avg_tokens": 934.0,
+      "avg_iterations": 1.0,
+      "avg_duration_ms": 23137.75
+    },
+    "highly-structured": {
+      "condition_name": "highly-structured",
+      "total_runs": 4,
+      "passed": 0,
+      "failed": 4,
+      "total_tokens": 3569,
+      "total_iterations": 4,
+      "total_duration_ms": 342969,
+      "pass_rate": 0.0,
+      "avg_tokens": 892.25,
+      "avg_iterations": 1.0,
+      "avg_duration_ms": 85742.25
+    }
+  },
+  "pass_rate": 0.16666666666666666
+}

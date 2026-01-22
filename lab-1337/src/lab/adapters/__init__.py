@@ -6,7 +6,7 @@ They're the "how" to the domain's "what".
 Driven adapters (secondary):
 - claude_sdk: LLMPort implementation using Claude Agent SDK
 - mock_grader: GraderPort implementation for testing
-- swebench_grader: GraderPort implementation for SWE-bench tasks
+- function_grader: GraderPort implementation for custom function graders
 - phoenix: TracerPort implementation using Phoenix/OTel
 - console_tracer: TracerPort implementation for console output
 - filesystem: StoragePort implementation using JSONL files
@@ -20,7 +20,7 @@ from .driven.phoenix import PhoenixTracerAdapter
 from .driven.console_tracer import ConsoleTracerAdapter, NoOpTracerAdapter
 from .driven.filesystem import StreamingFileAdapter
 from .driven.mock_grader import MockGraderAdapter
-from .driven.swebench_grader import SWEBenchGraderAdapter
+from .driven.function_grader import FunctionGraderAdapter
 
 __all__ = [
     "ClaudeSDKAdapter",
@@ -29,5 +29,5 @@ __all__ = [
     "NoOpTracerAdapter",
     "StreamingFileAdapter",
     "MockGraderAdapter",
-    "SWEBenchGraderAdapter",
+    "FunctionGraderAdapter",
 ]

@@ -1,0 +1,33 @@
+# REP-002: Safe Calculator Pilot
+#
+# Tests whether mandate vs motivation produces different
+# implementations on a security-sensitive task.
+#
+name: rep-002-safe-calc
+
+# Grader configuration
+grader: code  # "code" for code implementations, "swebench" for git patches
+
+# Task selection
+tasks:
+  - discriminating/safe-calculator-task
+
+# Conditions to compare
+conditions:
+  - baseline
+  - motivation
+  - mandate-template
+
+# Model and runs
+model: sonnet
+runs_per_condition: 3
+
+# Iteration - all get self-review to control for that variable
+iteration:
+  strategy: self-review
+  max_iterations: 2
+  review_prompt: |
+    Review your implementation:
+    1. Does it handle all basic arithmetic correctly?
+    2. Are there edge cases you haven't considered?
+    3. Is it robust and production-ready?

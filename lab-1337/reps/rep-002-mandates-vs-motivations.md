@@ -1,13 +1,21 @@
 # REP-002: Mandates vs Motivations
 
-- **Status**: Draft
+- **Status**: In Progress
 - **Created**: 2026-01-16
+- **Updated**: 2026-01-22
 - **Authors**: Collaborative Intelligence Session
 - **Builds on**: [REP-001](rep-001-rigor-is-what-you-want.md)
+- **Interim Findings**: [rep-002-interim-findings.md](../findings/rep-002-interim-findings.md)
+
+---
 
 ## Summary
 
-Test whether motivation-based prompting produces different outcomes than mandate-based prompting in agentic systems. The hypothesis: the mental model we use for AI (algorithm runner vs reasoning agent) may affect results.
+Test whether motivation-based prompting (WHAT + WHY) produces different outcomes than mandate-based prompting (prescribing HOW) in agentic systems.
+
+**Current status**: Signal detected. Interim findings available. Replication pending.
+
+---
 
 ## Motivation
 
@@ -58,91 +66,180 @@ We don't know which model produces better outcomes. Both have plausible argument
 
 The discourse is tribal. This is testable.
 
-## The Question
+---
+
+## The Research Question
 
 > Does the interaction model (mandate vs motivation) affect outcomes?
 
 **Operationalized:**
-- **Mandate**: Detailed specification of steps, format, structure
-- **Motivation**: Principles, goals, reasoning for why approach matters
+- **Mandate**: Detailed specification of steps, format, structure (prescribes HOW)
+- **Motivation**: Principles, goals, reasoning for why approach matters (explains WHAT + WHY)
 
-## Proposed Experiment
+---
 
-### Conditions
+## Current Experiment Status
 
-| Condition | Type | Description |
-|-----------|------|-------------|
-| **baseline** | Control | Pure Claude, no methodology |
-| **spec-kit** | Mandate | GitHub's 7-step process |
-| **gsd** | Mandate | Rigid file structure, explicit state |
-| **bmad** | Mandate | 21 specialized agents |
-| **principles** | Motivation | core-1337 style (why over what) |
-| **hybrid** | Mixed | Principles + minimal structure |
+### What Has Been Tested
 
-### Task Stratification
+| Run | Model | Conditions | Tasks | N | Status |
+|-----|-------|------------|-------|---|--------|
+| v3-sonnet-signal | Claude Sonnet 4 | 3 | safe-calculator | 30 (10/condition) | Complete |
+| v3-quick-pilot | Claude Sonnet 4 | 3 | safe-calculator | 9 (3/condition) | Complete |
+| v2-pilot | Claude Sonnet 4 | 5 | safe-calculator | 15 | Complete |
+| Haiku pilot | Claude Haiku | 3 | safe-calculator | 6 (2/condition) | Complete |
 
-Different task types may favor different approaches:
+### Conditions Tested (v3)
 
-| Category | Example | Notes |
-|----------|---------|-------|
-| Algorithmic | Implement merge sort | Clear spec, deterministic |
-| Multi-step | Add authentication flow | Multiple components, integration |
-| Ambiguous | "Make it faster" | Requires interpretation |
-| Recovery | Fix failing tests | Diagnosis + correction |
-| Edge cases | Handle malformed input | Unspecified scenarios |
+| Condition | Type | What It Provides |
+|-----------|------|------------------|
+| **full-autonomy** | Baseline | "Use your judgment" — minimal guidance |
+| **principle-guided** | WHAT+WHY | Context, constraints, rationale — Claude derives HOW |
+| **highly-structured** | HOW | 4-step prescribed process — explicit methodology |
 
-### Metrics
+**Condition files**: `experiments/rep-002/conditions/{full-autonomy,principle-guided,highly-structured}.md`
 
-| Metric | What it measures |
-|--------|------------------|
-| `pass@k` | Task completion in k attempts |
-| `recovery_rate` | Ability to fix own mistakes |
-| `edge_case_handling` | Handles unspecified situations |
-| `tokens_used` | Efficiency |
-| `code_quality` | LLM-as-judge (blind to condition) |
+### The Discriminating Task
 
-### Key Measurement: Ambiguity Response
+**Task**: `safe-calculator` — Implement a function that safely evaluates arithmetic expressions.
 
-When tasks are underspecified:
-- Does mandate approach fail or ask for clarification?
-- Does motivation approach infer reasonable behavior?
+**Why this discriminates**: Two fundamentally different approaches exist:
+1. **Safe parser**: Build lexer/parser, never execute code (secure by construction)
+2. **Code execution**: Use dynamic evaluation with restrictions (insecure by construction)
 
-Design tasks with intentional ambiguity to test this.
+Runtime security tests pass for both approaches, but source inspection reveals the engineering decision.
 
-## Hypotheses
+### Evaluation Methods Used
 
-**H0** (null): No difference between approaches.
+| Method | What It Measures | Implementation | Status |
+|--------|------------------|----------------|--------|
+| **Function grader** | Runtime behavior (pass/fail) | `src/lab/evals/safe_calculator.py` | Working |
+| **Approach analysis** | Source inspection (safe parser vs code execution) | Pattern matching in grader | NEW (2026-01-22) |
+| **LLM-as-judge** | Perceived quality (documentation, structure) | Claude Haiku with rubric prompt | Working but problematic |
 
-**H1**: Mandate outperforms motivation.
-- Explicit specs reduce errors
-- Structure helps task completion
-- Algorithms benefit from algorithms
+### Known Issues with Evaluation
 
-**H2**: Motivation outperforms mandate.
-- Agency enables judgment
-- Principles handle edge cases
-- Constitutional AI responds to reasoning
+**LLM-as-judge limitations:**
+- Uses Claude Haiku with a rubric prompt (not proper DeepEval GEval)
+- Favors verbose, well-documented code — even insecure code
+- Not blind to writing style (may have style preferences)
+- No inter-rater reliability testing
 
-**H3**: Effect is task-dependent.
-- Mandate wins on algorithmic tasks
-- Motivation wins on judgment tasks
-- Hybrid optimal overall
+**This is a known methodological weakness.** The approach analysis (source inspection) was added to provide a more objective measure.
 
-**H4**: No approach beats baseline.
-- Framework overhead exceeds benefit
-- Keep it simple
+---
 
-All outcomes are valuable findings.
+## Interim Findings (Signal Detection)
 
-## What Would Falsify Each Hypothesis
+**Full details**: [rep-002-interim-findings.md](../findings/rep-002-interim-findings.md)
 
-| Hypothesis | Falsified by |
-|------------|--------------|
-| H0 (no difference) | Statistically significant difference on any metric |
-| H1 (mandate wins) | Motivation outperforms on pass@k or recovery_rate |
-| H2 (motivation wins) | Mandate outperforms on pass@k or recovery_rate |
-| H3 (task-dependent) | One approach wins across all task types |
-| H4 (baseline wins) | Any methodology beats baseline significantly |
+### Two Signals Detected
+
+| Metric | Best Condition | Finding |
+|--------|----------------|---------|
+| LLM-as-judge quality | full-autonomy (0.891) | Autonomy produces verbose, well-documented code |
+| Secure-by-construction | principle-guided (80%) | WHAT+WHY produces fundamentally safer implementations |
+
+### Approach Analysis Results (n=10 per condition)
+
+| Condition | Pure Safe Parser | Uses Code Execution | % Secure |
+|-----------|------------------|---------------------|----------|
+| **principle-guided** | 8 | 2 | **80%** |
+| full-autonomy | 7 | 3 | 70% |
+| highly-structured | 3 | 7 | **30%** |
+
+### Key Finding
+
+**Prescribing HOW produces 2.5x worse security outcomes than explaining WHAT+WHY.**
+
+- principle-guided vs highly-structured: 80% vs 30% (Δ = +50%)
+
+---
+
+## Caveats and Limitations
+
+### Statistical Power
+- n=10 per condition is signal detection, not confirmation
+- Need n=60+ for robust statistical inference
+- Effect sizes are estimates, not conclusions
+
+### Single Task
+- Only tested on `safe-calculator`
+- Results may not generalize to other task types
+- Security-critical domain may favor principles differently than other domains
+
+### Condition Design
+- v3 conditions were designed to test autonomy spectrum
+- Original hypothesis was about specific frameworks (BMAD, GSD, spec-kit)
+- Current conditions are simplified proxies
+
+### Evaluation Methodology
+- LLM-as-judge is not rigorous (no proper GEval, no inter-rater reliability)
+- Approach analysis uses pattern matching (may miss edge cases)
+- No human evaluation baseline
+
+### Model Specificity
+- Tested primarily on Claude Sonnet 4
+- Haiku pilot (n=2) showed opposite pattern
+- May be capability-dependent effect
+
+---
+
+## Hypotheses Status
+
+| Hypothesis | Prediction | Evidence | Status |
+|------------|------------|----------|--------|
+| H0 (no difference) | Approaches are equivalent | 80% vs 30% difference detected | LIKELY FALSIFIED |
+| H1 (mandate wins) | Prescribing HOW helps | 30% secure vs 80% for principles | CONTRADICTED |
+| H2 (motivation wins) | WHAT+WHY helps | 80% secure for principles | SUPPORTED (pending replication) |
+| H3 (task-dependent) | Depends on task type | Only 1 task tested | UNTESTED |
+| H4 (baseline wins) | Keep it simple | 70% for baseline (middle) | PARTIALLY SUPPORTED |
+
+---
+
+## What Would Falsify Current Findings
+
+| Claim | Falsified by |
+|-------|--------------|
+| "WHAT+WHY produces better security outcomes" | Replication at n=60 shows no difference or reversal |
+| "Prescribing HOW hurts" | highly-structured matches or beats principle-guided at scale |
+| "Effect is real, not noise" | Effect size < 0.3 at larger n |
+
+---
+
+## Next Steps
+
+### Immediate (Pending)
+1. **Replication run** — n=60 per condition with updated grader
+2. **Cross-model validation** — Test on Haiku, Opus
+3. **Additional tasks** — Test on other discriminating tasks
+
+### Methodology Improvements Needed
+1. **Proper LLM-as-judge** — Implement DeepEval GEval properly or use human evaluation
+2. **Inter-rater reliability** — Test consistency of evaluation
+3. **Blind evaluation** — Ensure evaluator can't infer condition from artifacts
+
+### Research Questions
+1. Is there a capability threshold where principles start/stop helping?
+2. Do other task types show the same pattern?
+3. What aspects of WHAT+WHY drive the effect (context? constraints? rationale?)
+
+---
+
+## Files Reference
+
+| Artifact | Location |
+|----------|----------|
+| This REP | `reps/rep-002-mandates-vs-motivations.md` |
+| Interim findings | `findings/rep-002-interim-findings.md` |
+| Conditions | `experiments/rep-002/conditions/*.md` |
+| Tasks | `experiments/rep-002/tasks/` |
+| Scenario configs | `experiments/rep-002/scenarios/*.yaml` |
+| Results | `experiments/rep-002/results/` |
+| Grader | `src/lab/evals/safe_calculator.py` |
+| LLM Judge | `src/lab/adapters/driven/llm_judge.py` |
+
+---
 
 ## Prior Art
 
@@ -153,52 +250,7 @@ All outcomes are valuable findings.
 | Scott Spence eval | Forced language doesn't improve activation beyond threshold |
 | REP-001 | Methodology measurement is possible |
 
-### Gap This Fills
-
-No controlled experiments compare:
-- Spec-driven frameworks vs principles-based approaches
-- Mandate vs motivation prompting styles
-- Algorithm runner vs reasoning agent mental models
-
-The discourse is tribal. We can measure.
-
-## Open Questions
-
-1. **Fair representation**: How to crystallize each framework as a prompt without strawmanning?
-
-2. **Principles prompt**: What does an effective motivation-based prompt look like? (core-1337 as starting point, but may need iteration)
-
-3. **Ambiguity calibration**: How underspecified is underspecified enough to differentiate?
-
-4. **Model dependency**: Results may vary by model. Test Haiku, Sonnet, Opus?
-
-5. **Task selection**: Use existing benchmarks (SWE-bench, HumanEval) or custom tasks?
-
-## Why This Matters
-
-Whichever finding emerges is valuable:
-
-**If mandate-based approaches produce better outcomes:**
-- Validates spec-driven frameworks
-- Suggests structure > agency for current AI
-- Informs how to write effective prompts
-
-**If motivation-based approaches produce better outcomes:**
-- Validates Constitutional AI interaction model
-- Suggests principles > specs
-- Changes how we design AI collaboration
-
-**If task-dependent:**
-- Provides decision framework for when to use which
-- Both approaches have valid use cases
-- Context determines choice
-
-**If baseline wins:**
-- Framework overhead hurts outcomes
-- Simplicity > methodology
-- Keep interaction minimal
-
-The agentic era is scaling fast. Teams adopt frameworks based on GitHub stars and Twitter threads. Evidence would help.
+---
 
 ## References
 

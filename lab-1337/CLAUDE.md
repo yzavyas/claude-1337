@@ -17,7 +17,6 @@ lab-1337/
 │       ├── scenarios/      # Batch configurations
 │       └── results/        # Output data
 ├── findings/               # Published findings
-├── scripts/                # Utility scripts
 ├── agents/                 # Custom agents for analysis/reporting
 ├── src/lab/               # Core harness (hexagonal architecture)
 └── scratch/               # Working documents (gitignored)
@@ -55,9 +54,8 @@ The harness uses ports-and-adapters for clean separation:
                          ┌─────────────────┐          ┌─────────────────┐          ┌─────────────────┐
                          │   LLM ADAPTERS  │          │ GRADER ADAPTERS │          │ OTHER ADAPTERS  │
                          │  claude_sdk.py  │          │  mock_grader    │          │  filesystem.py  │
-                         │                 │          │  swebench       │          │  phoenix.py     │
-                         │                 │          │  swebench_docker│          │  console_tracer │
-                         │                 │          │  function       │          │                 │
+                         │                 │          │  function       │          │  phoenix.py     │
+                         │                 │          │                 │          │  console_tracer │
                          └─────────────────┘          └─────────────────┘          └─────────────────┘
 ```
 
@@ -69,7 +67,7 @@ The harness uses ports-and-adapters for clean separation:
 | `domain/services.py` | PromptBuilder (combines condition + task), RunSelector |
 | `ports/driving/use_cases.py` | RunExperimentUseCase - main orchestration |
 | `ports/driven/*.py` | Port interfaces (LLMPort, GraderPort, etc.) |
-| `adapters/driven/*.py` | Implementations (ClaudeSDK, SWEBenchDocker, etc.) |
+| `adapters/driven/*.py` | Implementations (ClaudeSDK, FunctionGrader, etc.) |
 | `container.py` | Dependency injection - wires adapters together |
 | `cli.py` | Domain-driven CLI (noun-verb pattern) |
 
@@ -144,59 +142,8 @@ lab-1337 observe phoenix                    # Launch Phoenix UI
 
 ```bash
 lab-1337 batch run pilot -e rep-002 --grader mock           # Random pass/fail
-lab-1337 batch run pilot -e rep-002 --grader swebench       # Local execution
-lab-1337 batch run pilot -e rep-002 --grader swebench-docker # Docker harness
-lab-1337 batch run pilot -e rep-002 --grader function       # Custom grader
+lab-1337 batch run pilot -e rep-002 --grader function       # Custom function grader
 ```
-
----
-
-## SWE-bench Docker Setup
-
-SWE-bench uses Docker containers with pre-built environments for reproducible evaluation.
-
-### Prerequisites
-
-1. **Docker runtime** (Colima recommended for Mac):
-```bash
-brew install colima docker
-colima start --memory 8 --cpu 4
-```
-
-2. **Verify Docker connection**:
-```bash
-docker info
-# Should show Colima socket
-```
-
-3. **Set Docker socket** (if not default):
-```bash
-export DOCKER_HOST=unix://$HOME/.colima/default/docker.sock
-```
-
-### Building Images
-
-SWE-bench requires three image layers:
-1. **Base images** - Ubuntu + Python version
-2. **Environment images** - Repo dependencies installed
-3. **Instance images** - Specific commit checked out
-
-```bash
-# Build images for experiment tasks
-DOCKER_HOST=unix://$HOME/.colima/default/docker.sock \
-  python scripts/build_swebench_images.py
-```
-
-**Warning**: Image builds can take 30+ minutes and require significant disk space (~5GB per repo).
-
-### Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| "Environment image not found" | Build images first with `build_swebench_images.py` |
-| OOM (exit code 137) | Increase Colima memory: `colima start --memory 12` |
-| Docker socket not found | Set `DOCKER_HOST` environment variable |
-| Image build failure | Check `logs/build_images/` for details |
 
 ---
 
@@ -208,10 +155,10 @@ DOCKER_HOST=unix://$HOME/.colima/default/docker.sock \
 1. CLI loads batch config (scenarios/*.yaml)
 2. Container wires up adapters (LLM, Grader, Tracer, Storage)
 3. For each Run (task × condition × attempt):
-   a. Grader.setup() → clones repo at base_commit
+   a. Grader.setup() → prepares workspace
    b. LLM.generate() → Claude solves with condition as system prompt
-   c. Grader.get_solution() → captures git diff
-   d. Grader.grade() → evaluates in Docker container
+   c. Grader.get_solution() → captures solution
+   d. Grader.grade() → evaluates via function grader
    e. Storage.append_result() → streams to disk
 4. Storage.save_summary() → final aggregation
 ```
@@ -223,29 +170,27 @@ DOCKER_HOST=unix://$HOME/.colima/default/docker.sock \
 lab-1337 experiment validate rep-002
 
 # 2. Validate batch configuration
-lab-1337 batch validate stratified-ready -e rep-002
+lab-1337 batch validate v2-pilot -e rep-002
 
 # 3. Dry run (show what would execute)
-lab-1337 batch run stratified-ready -e rep-002 -n
+lab-1337 batch run v2-pilot -e rep-002 -n
 
-# 4. Execute with Docker grader
-DOCKER_HOST=unix://$HOME/.colima/default/docker.sock \
-  lab-1337 batch run stratified-ready -e rep-002 --grader swebench-docker
+# 4. Execute with function grader
+lab-1337 batch run v2-pilot -e rep-002 --grader function
 ```
 
 ### Scenario Configuration
 
 ```yaml
-# scenarios/pilot.yaml
-name: rep-002-pilot
+# scenarios/v2-pilot.yaml
+name: rep-002-v2-pilot
 
 # Grader selection
-grader: swebench-docker  # or: mock, swebench, function
+grader: function  # or: mock
 
 # Task references (full path or short name)
 tasks:
-  - tasks/swebench/pytest-dev__pytest-10051.yaml
-  - tasks/swebench/django__django-10097.yaml
+  - tasks/discriminating/safe-calculator-task.yaml
 
 # Condition references (full path or short name)
 conditions:
@@ -294,25 +239,7 @@ The markdown body (after frontmatter) becomes the **system prompt**.
 
 ## Task File Format
 
-### SWE-bench Tasks
-
-```yaml
-id: pytest-dev__pytest-10051
-prompt: |
-  caplog.get_records and caplog.clear conflict
-  [Full issue description...]
-repo: pytest-dev/pytest
-base_commit: aa55975c7d3f6c9f6d7f68accc41bb7cadf0eb9a
-fail_to_pass:
-  - testing/logging/test_fixture.py::test_clear_for_call_stage
-pass_to_pass:
-  - testing/logging/test_fixture.py::test_change_level
-  - testing/logging/test_fixture.py::test_with_statement
-difficulty: "15 min - 1 hour"
-hints: ''
-```
-
-### Custom Tasks (Function Grader)
+### Function Grader Tasks
 
 ```yaml
 id: safe-calculator
@@ -407,8 +334,8 @@ Rich console output with structured spans:
 | mandate-structure | Mandate | ✓ | ✓ | ✓ | File structure |
 | mandate-role | Mandate | ✓ | ✓ | ✓ | Expert persona |
 
-**Tasks**: 6 SWE-bench tasks stratified by ambiguity
-**Design**: 6 tasks × 5 conditions × 3 runs = 90 total runs
+**Tasks**: Custom discriminating tasks with function grader
+**Design**: Uses function grader for flexible evaluation
 
 ---
 
@@ -416,7 +343,6 @@ Rich console output with structured spans:
 
 | Variable | Purpose | Example |
 |----------|---------|---------|
-| `DOCKER_HOST` | Docker socket path | `unix://$HOME/.colima/default/docker.sock` |
 | `LAB_ROOT` | Override lab root directory | `/path/to/lab-1337` |
 | `ANTHROPIC_API_KEY` | Claude API access | (set in environment) |
 
@@ -455,3 +381,23 @@ uv add --dev <dev-package>
 2. **Check current work**: Look at `reps/rep-002-*.md` for active experiments
 3. **Run commands**: Use `lab-1337 --help` to explore CLI
 4. **Read conditions**: Understand what's being tested in `experiments/rep-002/conditions/`
+
+---
+
+## TODOs
+
+### LLM-as-Judge Methodology (Priority: High)
+
+**Problem**: Current `llm_judge.py` imports DeepEval but doesn't use it properly — just prompts Claude Haiku with a rubric.
+
+**What's needed**:
+1. Implement DeepEval GEval correctly for rubric-based evaluation
+2. Or replace with proper evaluation framework
+3. Add inter-rater reliability testing
+4. Document calibration approach
+
+**Why it matters**: LLM-as-judge favored verbose code over secure code. Without proper evaluation methodology, quality metrics are unreliable.
+
+**Files**: `src/lab/adapters/driven/llm_judge.py`
+
+**Reference**: REP-002 interim findings show LLM-as-judge and approach analysis disagree — need to understand why and fix evaluation.

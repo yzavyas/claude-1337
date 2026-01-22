@@ -1,12 +1,17 @@
 # REP-002: Stratified Tasks - Ready to Run
 #
+# DEPRECATED: SWE-bench Docker grader has been removed.
+# These tasks are kept for reference but the scenario cannot be executed.
+# See v2-pilot.yaml for the function grader approach.
+#
 # 6 tasks with working Docker images, stratified by ambiguity.
 # (4 tasks excluded due to image build failures: sympy, matplotlib, astropy×2)
 
 name: rep-002-stratified-ready
 
 # Grader configuration
-grader: swebench-docker  # Full Docker-based SWE-bench harness
+# NOTE: swebench-docker grader removed - this scenario is deprecated
+grader: function  # Was: swebench-docker
 
 # Task selection - only tasks with working Docker images
 tasks:

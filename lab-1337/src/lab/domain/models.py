@@ -163,6 +163,13 @@ class RunResult(BaseModel):
     # Timestamp
     timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
 
+    # NEW: Stored for post-hoc analysis (LLM-as-judge)
+    solution: str | None = None  # Git diff or code output
+    conversation_trace: list[dict] | None = None  # Full message history
+
+    # NEW: Quality metrics (filled by LLM-as-judge post-processing)
+    quality_scores: dict | None = None  # {problem_understanding: 0-3, ...}
+
     @computed_field
     @property
     def total_tokens(self) -> int:

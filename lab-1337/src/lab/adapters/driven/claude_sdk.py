@@ -8,7 +8,16 @@ import time
 from pathlib import Path
 from typing import AsyncIterator
 
-from claude_agent_sdk import query, ClaudeAgentOptions, AssistantMessage, ResultMessage, TextBlock
+from claude_agent_sdk import (
+    query,
+    ClaudeAgentOptions,
+    AssistantMessage,
+    ResultMessage,
+    TextBlock,
+    ThinkingBlock,
+    ToolUseBlock,
+    ToolResultBlock,
+)
 
 from lab.ports.driven.llm import LLMPort, LLMConfig, LLMResponse
 
@@ -33,10 +42,19 @@ class ClaudeSDKAdapter:
         self,
         prompt: str,
         config: LLMConfig,
-    ) -> LLMResponse:
+        capture_trace: bool = False,
+    ) -> LLMResponse | tuple[LLMResponse, list[dict]]:
         """Generate a response from Claude.
 
         Uses the Claude Code SDK to run an agentic session.
+
+        Args:
+            prompt: The user prompt
+            config: LLM configuration
+            capture_trace: If True, returns (response, trace) tuple
+
+        Returns:
+            LLMResponse, or (LLMResponse, trace) if capture_trace=True
         """
         start_time = time.time()
 
@@ -52,8 +70,8 @@ class ClaudeSDKAdapter:
 
         # Collect results from the streaming query
         content_parts: list[str] = []
-        tokens_input = 0
-        tokens_output = 0
+        conversation_trace: list[dict] = []  # Capture full trace
+        result_message: ResultMessage | None = None  # Capture for token counts
 
         async for message in query(
             prompt=prompt,
@@ -65,20 +83,36 @@ class ClaudeSDKAdapter:
                     if isinstance(block, TextBlock):
                         content_parts.append(block.text)
 
+                # Capture message for trace
+                if capture_trace:
+                    conversation_trace.append({
+                        "role": "assistant",
+                        "content": [self._serialize_block(b) for b in message.content],
+                        "timestamp": time.time(),
+                    })
+
             elif isinstance(message, ResultMessage):
-                # ResultMessage contains the final result
-                # We track these for debugging but don't include in content
-                pass
+                # Always capture ResultMessage for token counts
+                result_message = message
+                if capture_trace:
+                    conversation_trace.append({
+                        "role": "result",
+                        "usage": message.usage if message.usage else {},
+                        "timestamp": time.time(),
+                    })
 
         duration_ms = int((time.time() - start_time) * 1000)
 
-        # Note: The SDK doesn't expose token counts directly
-        # We'd need to extract from usage stats if available
-        # For now, estimate based on content length as placeholder
-        content = "\n".join(content_parts)
-        tokens_output = len(content) // 4  # Rough estimate
+        # Extract actual token counts from ResultMessage.usage (SDK pattern)
+        tokens_input = 0
+        tokens_output = 0
+        if result_message and result_message.usage:
+            tokens_input = result_message.usage.get("input_tokens", 0)
+            tokens_output = result_message.usage.get("output_tokens", 0)
 
-        return LLMResponse(
+        content = "\n".join(content_parts)
+
+        response = LLMResponse(
             content=content,
             tokens_input=tokens_input,
             tokens_output=tokens_output,
@@ -87,22 +121,77 @@ class ClaudeSDKAdapter:
             finish_reason="stop",
         )
 
+        if capture_trace:
+            return response, conversation_trace
+        return response
+
+    def _serialize_block(self, block) -> dict:
+        """Serialize a content block for trace storage.
+
+        Handles all SDK content block types for proper trace fidelity.
+        """
+        if isinstance(block, TextBlock):
+            return {"type": "text", "text": block.text}
+        elif isinstance(block, ThinkingBlock):
+            return {
+                "type": "thinking",
+                "thinking": block.thinking,
+                "signature": getattr(block, "signature", None),
+            }
+        elif isinstance(block, ToolUseBlock):
+            return {
+                "type": "tool_use",
+                "id": block.id,
+                "name": block.name,
+                "input": block.input,
+            }
+        elif isinstance(block, ToolResultBlock):
+            return {
+                "type": "tool_result",
+                "tool_use_id": block.tool_use_id,
+                "content": block.content,
+                "is_error": getattr(block, "is_error", False),
+            }
+        # Fallback for unknown types
+        return {"type": type(block).__name__, "data": str(block)}
+
     async def generate_with_iteration(
         self,
         prompt: str,
         config: LLMConfig,
         max_iterations: int = 1,
         review_prompt: str = "",
-    ) -> tuple[LLMResponse, int]:
+        capture_trace: bool = False,
+    ) -> tuple[LLMResponse, int] | tuple[LLMResponse, int, list[dict]]:
         """Generate with self-review iterations.
 
         For now, implements a simple loop where we ask the agent
         to review its own work between iterations.
+
+        Args:
+            prompt: The user prompt
+            config: LLM configuration
+            max_iterations: Maximum iterations
+            review_prompt: Prompt for self-review
+            capture_trace: If True, returns (response, iterations, trace) tuple
+
+        Returns:
+            (LLMResponse, iterations), or (LLMResponse, iterations, trace) if capture_trace=True
         """
-        current_response = await self.generate(prompt, config)
+        full_trace: list[dict] = []
+
+        if capture_trace:
+            result = await self.generate(prompt, config, capture_trace=True)
+            current_response, trace = result
+            full_trace.extend(trace)
+        else:
+            current_response = await self.generate(prompt, config)
+
         iterations_used = 1
 
         if max_iterations <= 1 or not review_prompt:
+            if capture_trace:
+                return current_response, iterations_used, full_trace
             return current_response, iterations_used
 
         # Iterate with self-review
@@ -117,7 +206,13 @@ Previous solution:
 If improvements are needed, provide the improved solution.
 If the solution is correct, respond with "SOLUTION_VERIFIED".
 """
-            review_response = await self.generate(full_review_prompt, config)
+            if capture_trace:
+                result = await self.generate(full_review_prompt, config, capture_trace=True)
+                review_response, trace = result
+                full_trace.extend(trace)
+            else:
+                review_response = await self.generate(full_review_prompt, config)
+
             iterations_used += 1
 
             # Check if verified
@@ -134,6 +229,8 @@ If the solution is correct, respond with "SOLUTION_VERIFIED".
                 finish_reason="stop",
             )
 
+        if capture_trace:
+            return current_response, iterations_used, full_trace
         return current_response, iterations_used
 
     async def stream_generate(
