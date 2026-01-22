@@ -1,11 +1,11 @@
-"""Tests for git source adapter."""
+"""Tests for git source adapter and scanners."""
 
 import json
 from pathlib import Path
 
 import pytest
 
-from ace.adapters.out.git_repository import GitSourceAdapter
+from ace.adapters.out.scanners import ClaudePluginScanner
 from ace.domain.models import Source
 
 
@@ -53,50 +53,64 @@ def mock_source(tmp_path: Path) -> Path:
     return source
 
 
-class TestGitSourceAdapter:
-    """Tests for GitSourceAdapter."""
+class TestClaudePluginScanner:
+    """Tests for ClaudePluginScanner."""
 
-    def test_parse_package(self, temp_cache: Path, mock_source: Path):
-        """Adapter can parse plugin.json files."""
-        adapter = GitSourceAdapter(temp_cache)
+    def test_can_scan_detects_plugin_structure(self, mock_source: Path):
+        """Scanner detects Claude plugin structure."""
+        scanner = ClaudePluginScanner()
+        assert scanner.can_scan(mock_source)
 
-        plugin_json = (
-            mock_source / "plugins" / "test-plugin" / ".claude-plugin" / "plugin.json"
+    def test_can_scan_rejects_empty_dir(self, tmp_path: Path):
+        """Scanner rejects directories without plugins."""
+        scanner = ClaudePluginScanner()
+        assert not scanner.can_scan(tmp_path)
+
+    def test_scan_finds_packages(self, mock_source: Path):
+        """Scanner finds packages in source."""
+        scanner = ClaudePluginScanner()
+        packages = scanner.scan(mock_source)
+
+        assert len(packages) == 1
+        pkg = packages[0]
+        assert pkg.name == "test-plugin"
+        assert pkg.description == "A test plugin"
+        assert pkg.version == "1.0.0"
+
+    def test_scan_finds_extensions(self, mock_source: Path):
+        """Scanner discovers extensions within packages."""
+        scanner = ClaudePluginScanner()
+        packages = scanner.scan(mock_source)
+
+        pkg = packages[0]
+        assert "test-skill" in pkg.extensions.skills
+        assert "test-agent" in pkg.extensions.agents
+
+    def test_scan_handles_invalid_json(self, tmp_path: Path):
+        """Scanner handles malformed plugin.json."""
+        pkg = tmp_path / "bad-plugin"
+        pkg.mkdir()
+        meta = pkg / ".claude-plugin"
+        meta.mkdir()
+        (meta / "plugin.json").write_text("not valid json")
+
+        scanner = ClaudePluginScanner()
+        packages = scanner.scan(tmp_path)
+
+        # Should not crash, just skip invalid
+        assert len(packages) == 0
+
+
+class TestSource:
+    """Tests for Source model used in git operations."""
+
+    def test_source_creation(self):
+        """Source can be created with URL."""
+        source = Source(
+            name="test",
+            url="https://github.com/test/test",
         )
-        package = adapter._parse_package(plugin_json)
-
-        assert package is not None
-        assert package.name == "test-plugin"
-        assert package.description == "A test plugin"
-        assert package.version == "1.0.0"
-
-    def test_parse_package_missing_file(self, temp_cache: Path, tmp_path: Path):
-        """Adapter handles missing plugin.json gracefully."""
-        adapter = GitSourceAdapter(temp_cache)
-
-        missing = tmp_path / "nonexistent" / "plugin.json"
-        package = adapter._parse_package(missing)
-
-        assert package is None
-
-    def test_parse_package_invalid_json(self, temp_cache: Path, tmp_path: Path):
-        """Adapter handles invalid JSON gracefully."""
-        adapter = GitSourceAdapter(temp_cache)
-
-        bad_json = tmp_path / "bad" / ".claude-plugin"
-        bad_json.mkdir(parents=True)
-        (bad_json / "plugin.json").write_text("not valid json")
-
-        package = adapter._parse_package(bad_json / "plugin.json")
-
-        assert package is None
-
-    def test_scan_contents(self, temp_cache: Path, mock_source: Path):
-        """Adapter scans package contents correctly."""
-        adapter = GitSourceAdapter(temp_cache)
-
-        pkg_dir = mock_source / "plugins" / "test-plugin"
-        contents = adapter._scan_contents(pkg_dir)
-
-        assert "test-skill" in contents.skills
-        assert "test-agent" in contents.agents
+        assert source.name == "test"
+        assert source.url == "https://github.com/test/test"
+        assert not source.default
+        assert source.ref is None

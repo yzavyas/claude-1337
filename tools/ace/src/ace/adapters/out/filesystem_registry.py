@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from ace.domain.models import Installation, Package, PackageContents, Source
+from ace.domain.models import Extensions, Installation, Package, Source
 
 
 class FilesystemRegistryAdapter:
@@ -88,17 +88,22 @@ class FilesystemRegistryAdapter:
             if target and data.get("target") != target:
                 continue
 
-            pkg_data = data["package"]
+            # Backwards compat: bundle → package, components/contents → extensions
+            pkg_data = data.get("package", data.get("bundle", {}))
             source_data = data["source"]
 
-            contents = PackageContents(**pkg_data.get("contents", {}))
+            ext_data = pkg_data.get("extensions", pkg_data.get("components", pkg_data.get("contents", {})))
+            # Handle old "mcp" key vs new "mcps"
+            if "mcp" in ext_data and "mcps" not in ext_data:
+                ext_data["mcps"] = ext_data.pop("mcp")
+            extensions = Extensions(**ext_data)
 
             package = Package(
                 name=pkg_data["name"],
                 description=pkg_data.get("description", ""),
                 version=pkg_data.get("version", "0.0.0"),
                 path=Path(pkg_data["path"]),
-                contents=contents,
+                extensions=extensions,
             )
 
             source = Source(
@@ -127,7 +132,7 @@ class FilesystemRegistryAdapter:
                 "description": installation.package.description,
                 "version": installation.package.version,
                 "path": str(installation.package.path),
-                "contents": installation.package.contents.model_dump(),
+                "extensions": installation.package.extensions.model_dump(),
             },
             "source": {
                 "name": installation.source.name,

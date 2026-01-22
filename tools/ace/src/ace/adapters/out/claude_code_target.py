@@ -26,12 +26,10 @@ class ClaudeCodeTargetAdapter:
             return Path.cwd() / ".claude"
 
     def is_available(self) -> bool:
-        """Check if Claude Code is available."""
         claude_dir = Path.home() / ".claude"
         return claude_dir.exists() or shutil.which("claude") is not None
 
     def install(self, package: Package, source_path: Path) -> None:
-        """Install a package to Claude Code."""
         config_dir = self._config_path()
         dest_dir = config_dir / "plugins" / package.name
 
@@ -41,7 +39,6 @@ class ClaudeCodeTargetAdapter:
         shutil.copytree(source_path, dest_dir)
 
     def uninstall(self, package: Package) -> None:
-        """Remove a package from Claude Code."""
         config_dir = self._config_path()
         dest_dir = config_dir / "plugins" / package.name
 
@@ -49,7 +46,6 @@ class ClaudeCodeTargetAdapter:
             shutil.rmtree(dest_dir)
 
     def is_installed(self, package: Package) -> bool:
-        """Check if a package is installed."""
         config_dir = self._config_path()
         return (config_dir / "plugins" / package.name).exists()
 

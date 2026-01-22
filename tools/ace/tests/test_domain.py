@@ -4,59 +4,46 @@ from datetime import datetime
 from pathlib import Path
 
 from ace.domain.models import (
-    Extension,
+    Extensions,
     ExtensionType,
     Installation,
     Package,
-    PackageContents,
     Source,
 )
 
 
-class TestExtension:
-    """Tests for Extension model."""
+class TestExtensionType:
+    """Tests for ExtensionType enum."""
 
-    def test_extension_id(self):
-        """Extension ID is type/name."""
-        ext = Extension(
-            name="wolf",
-            type=ExtensionType.AGENT,
-            path=Path("agents/wolf.md"),
-        )
-        assert ext.id == "agent/wolf"
-
-    def test_extension_types(self):
-        """All extension types work correctly."""
-        for ext_type in ExtensionType:
-            ext = Extension(
-                name="test",
-                type=ext_type,
-                path=Path(f"{ext_type.value}/test"),
-            )
-            assert ext.type == ext_type
+    def test_extension_types_exist(self):
+        """All extension types are defined."""
+        assert ExtensionType.SKILL == "skill"
+        assert ExtensionType.AGENT == "agent"
+        assert ExtensionType.HOOK == "hook"
+        assert ExtensionType.MCP == "mcp"
 
 
-class TestPackageContents:
-    """Tests for PackageContents model."""
+class TestExtensions:
+    """Tests for Extensions model."""
 
-    def test_empty_contents(self):
-        """Empty contents has zero total."""
-        contents = PackageContents()
-        assert contents.total == 0
-        assert contents.summary == "empty"
+    def test_empty_extensions(self):
+        """Empty extensions has zero total."""
+        ext = Extensions()
+        assert ext.total == 0
+        assert ext.summary == "empty"
 
-    def test_contents_with_items(self):
-        """Contents counts items correctly."""
-        contents = PackageContents(
+    def test_extensions_with_items(self):
+        """Extensions counts items correctly."""
+        ext = Extensions(
             skills=["core", "rust"],
             agents=["wolf"],
             hooks=["hooks.json"],
-            mcp=[],
+            mcps=[],
         )
-        assert contents.total == 4
-        assert "2 skill(s)" in contents.summary
-        assert "1 agent(s)" in contents.summary
-        assert "1 hook(s)" in contents.summary
+        assert ext.total == 4
+        assert "2 skill(s)" in ext.summary
+        assert "1 agent(s)" in ext.summary
+        assert "1 hook(s)" in ext.summary
 
 
 class TestPackage:
@@ -72,16 +59,16 @@ class TestPackage:
         assert pkg.version == "0.0.0"  # default
         assert pkg.description == ""  # default
 
-    def test_package_with_contents(self):
-        """Package can have contents."""
+    def test_package_with_extensions(self):
+        """Package can have extensions."""
         pkg = Package(
             name="core-1337",
             description="Engineering excellence",
             version="1.0.0",
             path=Path("plugins/core-1337"),
-            contents=PackageContents(skills=["core"], agents=["wolf"]),
+            extensions=Extensions(skills=["core"], agents=["wolf"]),
         )
-        assert pkg.contents.total == 2
+        assert pkg.extensions.total == 2
 
 
 class TestSource:

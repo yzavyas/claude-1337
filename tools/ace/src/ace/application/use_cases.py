@@ -1,11 +1,4 @@
-"""Application use cases - orchestrates domain operations through ports.
-
-In hexagonal architecture, this layer:
-- Coordinates use cases (what the system can do)
-- Depends only on domain models and port interfaces
-- Is independent of delivery mechanism (CLI, API, etc.)
-- Receives adapters via dependency injection
-"""
+"""Application use cases - orchestrates domain operations through ports."""
 
 from datetime import datetime
 
@@ -14,15 +7,9 @@ from ace.ports.out import RegistryPort, SourcePort, TargetPort
 
 
 class Ace:
-    """Application facade - coordinates use cases for ace.
+    """Application facade for ace.
 
-    This is the application layer entry point. It orchestrates:
-    - Source management (add, remove, list, refresh)
-    - Package discovery (list, get)
-    - Installation (install, uninstall, update)
-
-    Depends on ports (abstractions), not adapters (concretions).
-    Adapters are injected at the composition root.
+    Orchestrates: source management, package discovery, installation.
     """
 
     def __init__(
@@ -31,13 +18,6 @@ class Ace:
         registry_port: RegistryPort,
         targets: dict[str, TargetPort],
     ):
-        """Initialize with injected ports.
-
-        Args:
-            source_port: For fetching packages from sources
-            registry_port: For tracking sources and installations
-            targets: Map of target name to target port
-        """
         self._source = source_port
         self._registry = registry_port
         self._targets = targets
@@ -47,7 +27,6 @@ class Ace:
     def add_source(
         self, url: str, name: str | None = None, set_default: bool = False
     ) -> Source:
-        """Add a new source."""
         if not name:
             name = self._derive_source_name(url)
 
@@ -57,26 +36,21 @@ class Ace:
         return source
 
     def _derive_source_name(self, url: str) -> str:
-        """Derive source name from URL."""
         name = url.rstrip("/").split("/")[-1]
         if name.endswith(".git"):
             name = name[:-4]
         return name
 
     def remove_source(self, name: str) -> None:
-        """Remove a source."""
         self._registry.remove_source(name)
 
     def list_sources(self) -> list[Source]:
-        """List all sources."""
         return self._registry.list_sources()
 
     def get_source(self, name: str) -> Source | None:
-        """Get a source by name."""
         return self._registry.get_source(name)
 
     def refresh_source(self, name: str | None = None) -> None:
-        """Refresh source cache."""
         sources = self._registry.list_sources()
         if name:
             sources = [s for s in sources if s.name == name]
@@ -88,7 +62,6 @@ class Ace:
     def list_packages(
         self, source_name: str | None = None
     ) -> list[tuple[Source, Package]]:
-        """List available packages from sources."""
         results: list[tuple[Source, Package]] = []
 
         sources = self._registry.list_sources()
@@ -98,8 +71,8 @@ class Ace:
         for source in sources:
             try:
                 packages = self._source.list_packages(source)
-                for pkg in packages:
-                    results.append((source, pkg))
+                for package in packages:
+                    results.append((source, package))
             except Exception:
                 continue
 
@@ -108,16 +81,15 @@ class Ace:
     def get_package(
         self, source_name: str, package_name: str
     ) -> tuple[Source, Package] | None:
-        """Get a specific package."""
         source = self._registry.get_source(source_name)
         if not source:
             return None
 
-        pkg = self._source.get_package(source, package_name)
-        if not pkg:
+        package = self._source.get_package(source, package_name)
+        if not package:
             return None
 
-        return (source, pkg)
+        return (source, package)
 
     # === Installation ===
 
@@ -133,7 +105,6 @@ class Ace:
         - "package-name" (uses default source)
         - "source/package-name" (explicit source)
         """
-        # Parse reference
         if "/" in package_ref:
             source_name, package_name = package_ref.split("/", 1)
         else:
@@ -144,16 +115,14 @@ class Ace:
             source_name = default_sources[0].name
             package_name = package_ref
 
-        # Get source and package
         source = self._registry.get_source(source_name)
         if not source:
             raise ValueError(f"Source not found: {source_name}")
 
-        pkg = self._source.get_package(source, package_name)
-        if not pkg:
+        package = self._source.get_package(source, package_name)
+        if not package:
             raise ValueError(f"Package not found: {package_name}")
 
-        # Get target adapter
         target_port = self._targets.get(target)
         if not target_port:
             raise ValueError(f"Unknown target: {target}")
@@ -161,14 +130,12 @@ class Ace:
         if not target_port.is_available():
             raise ValueError(f"Target not available: {target}")
 
-        # Install
-        source_path = self._source.get_package_path(source, pkg)
-        target_port.install(pkg, source_path)
+        source_path = self._source.get_package_path(source, package)
+        target_port.install(package, source_path)
 
-        # Record installation
         commit = self._source.get_commit(source) if pin_commit else ""
         installation = Installation(
-            package=pkg,
+            package=package,
             source=source,
             installed_at=datetime.now(),
             commit=commit,
@@ -179,7 +146,6 @@ class Ace:
         return installation
 
     def uninstall(self, package_ref: str) -> None:
-        """Uninstall a package."""
         installations = self._registry.list_installations()
         matching = [
             i for i in installations if package_ref in i.id or i.package.name == package_ref
@@ -195,11 +161,9 @@ class Ace:
             self._registry.remove_installation(inst.id)
 
     def list_installed(self, target: str | None = None) -> list[Installation]:
-        """List installed packages."""
         return self._registry.list_installations(target)
 
     def update(self, package_ref: str | None = None) -> list[Installation]:
-        """Update installed packages."""
         installations = self._registry.list_installations()
         if package_ref:
             installations = [i for i in installations if package_ref in i.id]
@@ -212,15 +176,15 @@ class Ace:
             if not target_port:
                 continue
 
-            pkg = self._source.get_package(inst.source, inst.package.name)
-            if not pkg:
+            package = self._source.get_package(inst.source, inst.package.name)
+            if not package:
                 continue
 
-            source_path = self._source.get_package_path(inst.source, pkg)
-            target_port.install(pkg, source_path)
+            source_path = self._source.get_package_path(inst.source, package)
+            target_port.install(package, source_path)
 
             new_install = Installation(
-                package=pkg,
+                package=package,
                 source=inst.source,
                 installed_at=datetime.now(),
                 commit=self._source.get_commit(inst.source),
@@ -235,5 +199,4 @@ class Ace:
     # === Info ===
 
     def list_targets(self) -> list[str]:
-        """List available targets."""
         return [name for name, t in self._targets.items() if t.is_available()]

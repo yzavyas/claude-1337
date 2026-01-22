@@ -1,15 +1,6 @@
 """ace CLI - Agentic Capability Extensions.
 
-Discover, install, and manage capability extensions for AI agents.
-
-CLI Grammar:
-- ace source add/rm/list  (noun-first subcommand group)
-- ace install/uninstall/update/list/show  (verb-first actions)
-
-This module is the COMPOSITION ROOT in hexagonal architecture:
-- Creates concrete adapters
-- Injects them into the application layer
-- Handles CLI presentation
+Discover, install, and manage extension packages for AI agents.
 """
 
 import json
@@ -30,7 +21,6 @@ from ace.domain.models import Source
 
 console = Console()
 
-# Default paths
 DEFAULT_CONFIG_DIR = Path.home() / ".ace"
 DEFAULT_CACHE_DIR = DEFAULT_CONFIG_DIR / "cache"
 
@@ -40,30 +30,22 @@ def create_ace(
     cache_dir: Path | None = None,
     skip_defaults: bool = False,
 ) -> Ace:
-    """Create and configure the Ace application.
-
-    This is the composition root - where adapters are created
-    and injected into the application layer.
-    """
+    """Composition root - creates adapters and injects into application."""
     config_dir = config_dir or DEFAULT_CONFIG_DIR
     cache_dir = cache_dir or DEFAULT_CACHE_DIR
 
-    # Ensure directories exist
     config_dir.mkdir(parents=True, exist_ok=True)
     cache_dir.mkdir(parents=True, exist_ok=True)
 
-    # Create adapters (concrete implementations)
     source_adapter = GitSourceAdapter(cache_dir)
     registry_adapter = FilesystemRegistryAdapter(config_dir)
     target_adapters = {
         "claude-code": ClaudeCodeTargetAdapter(global_config=True),
     }
 
-    # Initialize default sources if needed
     if not skip_defaults:
         _initialize_defaults(registry_adapter)
 
-    # Create application with injected ports
     return Ace(
         source_port=source_adapter,
         registry_port=registry_adapter,
@@ -112,22 +94,18 @@ def error_panel(msg: str, guidance: str | None = None) -> None:
 @click.group()
 @click.version_option(version=__version__)
 def main():
-    """ace - Agentic Capability Extensions.
-
-    Manage capability extensions for AI coding assistants.
+    """ace - drop extensions into your AI agent.
 
     \b
-    Sources: where packages come from
+    Sources:
       ace source add <url>
       ace source list
-      ace source rm <name>
 
     \b
-    Packages: install and manage extensions
-      ace install <package>
-      ace uninstall <package>
-      ace update [package]
-      ace list [--available]
+    Packages:
+      ace add <package>
+      ace rm <package>
+      ace list [-a]
     """
     pass
 
@@ -227,23 +205,18 @@ def source_refresh(name: str | None):
 
 @main.command("list")
 @click.option("-a", "--available", is_flag=True, help="Show available packages")
-@click.option("-v", "--verbose", is_flag=True, help="Show extension details")
+@click.option("-v", "--verbose", is_flag=True, help="Show extensions")
 def list_cmd(available: bool, verbose: bool):
-    """List installed packages.
-
-    Use -a/--available to see packages from sources.
-    Use -v/--verbose to see extensions inside packages.
-    """
+    """List packages."""
     ace = get_ace()
 
-    # Show installed first
     installations = ace.list_installed()
     if installations:
         console.print("\n[bold]Installed[/bold]")
         table = Table(show_header=True, header_style="bold", box=None)
         table.add_column("Package")
         table.add_column("Target")
-        table.add_column("Installed")
+        table.add_column("Date")
 
         for inst in installations:
             table.add_row(
@@ -254,17 +227,15 @@ def list_cmd(available: bool, verbose: bool):
 
         console.print(table)
     elif not available:
-        console.print("[dim]No packages installed.[/dim]")
-        console.print("[dim]→ ace list --available[/dim]")
+        console.print("[dim]Nothing installed.[/dim]")
+        console.print("[dim]→ ace list -a[/dim]")
 
-    # Show available if requested
     if available:
         results = ace.list_packages()
         if results:
             console.print("\n[bold]Available[/bold]")
 
             if verbose:
-                # Detailed view with extensions
                 for source, pkg in results:
                     console.print(
                         f"\n[bold cyan]{source.name}/{pkg.name}[/bold cyan] v{pkg.version}"
@@ -272,38 +243,28 @@ def list_cmd(available: bool, verbose: bool):
                     if pkg.description:
                         console.print(f"  [dim]{pkg.description[:80]}[/dim]")
 
-                    # Extensions inside
-                    contents = pkg.contents
-                    if contents.skills:
-                        console.print(
-                            f"  [yellow]skills:[/yellow] {', '.join(contents.skills)}"
-                        )
-                    if contents.agents:
-                        console.print(
-                            f"  [magenta]agents:[/magenta] {', '.join(contents.agents)}"
-                        )
-                    if contents.hooks:
+                    ext = pkg.extensions
+                    if ext.skills:
+                        console.print(f"  [yellow]skills:[/yellow] {', '.join(ext.skills)}")
+                    if ext.agents:
+                        console.print(f"  [magenta]agents:[/magenta] {', '.join(ext.agents)}")
+                    if ext.hooks:
                         console.print(f"  [green]hooks:[/green] ✓")
-                    if contents.mcp:
-                        console.print(f"  [blue]mcp:[/blue] ✓")
+                    if ext.mcps:
+                        console.print(f"  [blue]mcps:[/blue] ✓")
             else:
-                # Table view
                 table = Table(show_header=True, header_style="bold", box=None)
                 table.add_column("Package")
                 table.add_column("Version")
-                table.add_column("Contents")
+                table.add_column("Extensions")
                 table.add_column("Description")
 
                 for source, pkg in results:
-                    desc = (
-                        pkg.description[:50] + "..."
-                        if len(pkg.description) > 50
-                        else pkg.description
-                    )
+                    desc = pkg.description[:50] + "..." if len(pkg.description) > 50 else pkg.description
                     table.add_row(
                         f"{source.name}/{pkg.name}",
                         pkg.version,
-                        pkg.contents.summary,
+                        pkg.extensions.summary,
                         desc,
                     )
 
@@ -315,55 +276,45 @@ def list_cmd(available: bool, verbose: bool):
     console.print()
 
 
-@main.command("install")
+@main.command("add")
 @click.argument("package")
-@click.option(
-    "-t", "--target", default="claude-code", help="Target agent (default: claude-code)"
-)
-def install(package: str, target: str):
-    """Install a package.
-
-    PACKAGE format: source/name or just name (uses default source)
+@click.option("-t", "--target", default="claude-code", help="Target agent")
+def add_cmd(package: str, target: str):
+    """Add a package.
 
     \b
     Examples:
-      ace install core-1337
-      ace install claude-1337/core-1337
+      ace add core-1337
+      ace add claude-1337/core-1337
     """
     try:
         ace = get_ace()
         installation = ace.install(package, target)
 
-        console.print(
-            f"[green]✓[/green] Installed [bold]{installation.package.name}[/bold] to {target}"
-        )
+        console.print(f"[green]✓[/green] added [bold]{installation.package.name}[/bold] → {target}")
         if installation.commit:
-            console.print(f"  [dim]pinned to {installation.commit[:8]}[/dim]")
+            console.print(f"  [dim]({installation.commit[:8]})[/dim]")
 
-        # Show what was installed
-        contents = installation.package.contents
-        if contents.total > 0:
-            console.print(f"  [dim]{contents.summary}[/dim]")
+        ext = installation.package.extensions
+        if ext.total > 0:
+            console.print(f"  [dim]{ext.summary}[/dim]")
 
     except ValueError as e:
-        error_panel(str(e), "Run 'ace list --available' to see available packages.")
+        error_panel(str(e), "Run 'ace list -a' to see available packages.")
         raise SystemExit(1)
     except Exception as e:
         error_panel(str(e))
         raise SystemExit(1)
 
 
-@main.command("uninstall")
+@main.command("rm")
 @click.argument("package")
-def uninstall(package: str):
-    """Uninstall a package.
-
-    Example: ace uninstall core-1337
-    """
+def rm_cmd(package: str):
+    """Remove a package."""
     try:
         ace = get_ace()
         ace.uninstall(package)
-        console.print(f"[green]✓[/green] Uninstalled [bold]{package}[/bold]")
+        console.print(f"[green]✓[/green] removed [bold]{package}[/bold]")
     except ValueError as e:
         error_panel(str(e), "Run 'ace list' to see installed packages.")
         raise SystemExit(1)
@@ -375,10 +326,7 @@ def uninstall(package: str):
 @main.command("update")
 @click.argument("package", required=False)
 def update(package: str | None):
-    """Update installed packages.
-
-    If no PACKAGE specified, updates all.
-    """
+    """Update packages."""
     try:
         ace = get_ace()
         updated = ace.update(package)
@@ -386,8 +334,7 @@ def update(package: str | None):
         if updated:
             for inst in updated:
                 console.print(
-                    f"[green]✓[/green] Updated [bold]{inst.id}[/bold] "
-                    f"→ {inst.commit[:8] if inst.commit else 'latest'}"
+                    f"[green]✓[/green] updated [bold]{inst.id}[/bold] → {inst.commit[:8] if inst.commit else 'latest'}"
                 )
         else:
             console.print("[dim]Nothing to update.[/dim]")
@@ -400,37 +347,27 @@ def update(package: str | None):
 @main.command("show")
 @click.argument("package")
 def show(package: str):
-    """Show package details.
-
-    PACKAGE format: source/name or just name
-
-    Example: ace show core-1337
-    """
+    """Show package details."""
     ace = get_ace()
 
-    # Parse reference
     if "/" in package:
         source_name, package_name = package.split("/", 1)
     else:
         sources = ace.list_sources()
         default_sources = [s for s in sources if s.default]
         if not default_sources:
-            error_panel(
-                "No default source set.",
-                "Use source/package format or set a default source.",
-            )
+            error_panel("No default source.", "Use source/package format.")
             raise SystemExit(1)
         source_name = default_sources[0].name
         package_name = package
 
     result = ace.get_package(source_name, package_name)
     if not result:
-        error_panel(f"Package not found: {package}")
+        error_panel(f"Not found: {package}")
         raise SystemExit(1)
 
     source, pkg = result
 
-    # Header
     console.print(
         Panel.fit(
             f"[bold]{pkg.name}[/bold] v{pkg.version}\n"
@@ -439,65 +376,51 @@ def show(package: str):
         )
     )
 
-    # Contents
-    contents = pkg.contents
-    console.print("\n[bold]Contents[/bold]")
+    ext = pkg.extensions
+    console.print("\n[bold]Extensions[/bold]")
 
-    if contents.skills:
+    if ext.skills:
         console.print("  [yellow]Skills:[/yellow]")
-        for skill in contents.skills:
+        for skill in ext.skills:
             console.print(f"    • {skill}")
 
-    if contents.agents:
+    if ext.agents:
         console.print("  [magenta]Agents:[/magenta]")
-        for agent in contents.agents:
+        for agent in ext.agents:
             console.print(f"    • {agent}")
 
-    if contents.hooks:
+    if ext.hooks:
         console.print("  [green]Hooks:[/green] ✓")
 
-    if contents.mcp:
-        console.print("  [blue]MCP:[/blue] ✓")
+    if ext.mcps:
+        console.print("  [blue]MCPs:[/blue] ✓")
 
-    if contents.total == 0:
-        console.print("  [dim]No extensions[/dim]")
+    if ext.total == 0:
+        console.print("  [dim]Empty[/dim]")
 
-    # Installation status
     installations = ace.list_installed()
     installed = [i for i in installations if i.package.name == pkg.name]
     if installed:
         console.print("\n[bold]Installed[/bold]")
         for inst in installed:
-            console.print(f"  Target: {inst.target}")
-            console.print(f"  Date: {inst.installed_at.strftime('%Y-%m-%d %H:%M')}")
+            console.print(f"  {inst.target} ({inst.installed_at.strftime('%Y-%m-%d')})")
             if inst.commit:
-                console.print(f"  Commit: {inst.commit[:8]}")
+                console.print(f"  [dim]{inst.commit[:8]}[/dim]")
 
     console.print()
 
 
 @main.command("info")
 def info():
-    """Show ace configuration."""
+    """Show ace status."""
     ace = get_ace()
 
-    console.print(
-        Panel.fit(
-            f"[bold]ace[/bold] v{__version__}\n" "Agentic Capability Extensions",
-            title="About",
-        )
-    )
+    console.print(Panel.fit(f"[bold]ace[/bold] v{__version__}", title=""))
 
     console.print(f"\n[bold]Config:[/bold] {get_config_path()}")
-
-    sources = ace.list_sources()
-    console.print(f"[bold]Sources:[/bold] {len(sources)}")
-
-    installations = ace.list_installed()
-    console.print(f"[bold]Installed:[/bold] {len(installations)}")
-
-    targets = ace.list_targets()
-    console.print(f"[bold]Targets:[/bold] {', '.join(targets) or 'none detected'}")
+    console.print(f"[bold]Sources:[/bold] {len(ace.list_sources())}")
+    console.print(f"[bold]Installed:[/bold] {len(ace.list_installed())}")
+    console.print(f"[bold]Targets:[/bold] {', '.join(ace.list_targets()) or 'none'}")
 
 
 if __name__ == "__main__":

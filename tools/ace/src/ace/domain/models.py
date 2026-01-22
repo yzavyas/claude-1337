@@ -2,11 +2,10 @@
 
 Ontology:
 - Source: Where packages come from (marketplaces, git repos)
-- Package: The installable bundle (core-1337, rust-1337)
-- Extension: Individual capability inside a package (skill, agent, hook, mcp)
+- Package: The installable unit (core-1337, rust-1337)
+- Extensions: What's inside a package (skills, agents, hooks, mcps)
 
-User-facing: "Add sources, install extensions"
-Internal: Sources contain Packages, Packages contain Extensions
+User-facing: "Add sources, install packages"
 """
 
 from datetime import datetime
@@ -17,7 +16,7 @@ from pydantic import BaseModel, Field
 
 
 class ExtensionType(str, Enum):
-    """Extension modalities - the types of capability extensions."""
+    """Types of extensions a package can provide."""
 
     SKILL = "skill"
     AGENT = "agent"
@@ -25,39 +24,21 @@ class ExtensionType(str, Enum):
     MCP = "mcp"
 
 
-class Extension(BaseModel):
-    """An individual extension within a package.
-
-    Addressed as: package:type/name (e.g., core-1337:agent/wolf)
-    """
-
-    name: str
-    type: ExtensionType
-    path: Path
-
-    model_config = {"frozen": True}
-
-    @property
-    def id(self) -> str:
-        """Extension ID within package: type/name."""
-        return f"{self.type.value}/{self.name}"
-
-
-class PackageContents(BaseModel):
-    """What's inside a package - the extensions it provides."""
+class Extensions(BaseModel):
+    """What's inside a package."""
 
     skills: list[str] = Field(default_factory=list)
     agents: list[str] = Field(default_factory=list)
     hooks: list[str] = Field(default_factory=list)
-    mcp: list[str] = Field(default_factory=list)
+    mcps: list[str] = Field(default_factory=list)
 
     @property
     def total(self) -> int:
-        return len(self.skills) + len(self.agents) + len(self.hooks) + len(self.mcp)
+        return len(self.skills) + len(self.agents) + len(self.hooks) + len(self.mcps)
 
     @property
     def summary(self) -> str:
-        """Human-readable summary of contents."""
+        """Human-readable summary."""
         parts = []
         if self.skills:
             parts.append(f"{len(self.skills)} skill(s)")
@@ -65,39 +46,30 @@ class PackageContents(BaseModel):
             parts.append(f"{len(self.agents)} agent(s)")
         if self.hooks:
             parts.append(f"{len(self.hooks)} hook(s)")
-        if self.mcp:
-            parts.append(f"{len(self.mcp)} mcp")
+        if self.mcps:
+            parts.append(f"{len(self.mcps)} mcp(s)")
         return ", ".join(parts) if parts else "empty"
 
 
 class Package(BaseModel):
-    """A package - the installable bundle containing extensions.
-
-    User-facing term: "extension" (ace install core-1337)
-    Internal term: "package"
-    """
+    """An installable package of extensions."""
 
     name: str
     description: str = ""
     version: str = "0.0.0"
     path: Path
-    contents: PackageContents = Field(default_factory=PackageContents)
+    extensions: Extensions = Field(default_factory=Extensions)
 
     model_config = {"frozen": True}
 
 
 class Source(BaseModel):
-    """A source of packages (marketplace, git repo).
-
-    Examples:
-    - github.com/yzavyas/claude-1337
-    - github.com/anthropics/claude-code-plugins
-    """
+    """A source of packages (marketplace, git repo)."""
 
     name: str
     url: str
     default: bool = False
-    ref: str | None = None  # pinned commit/tag/branch
+    ref: str | None = None
 
     model_config = {"frozen": True}
 
@@ -112,10 +84,9 @@ class Installation(BaseModel):
     package: Package
     source: Source
     installed_at: datetime = Field(default_factory=datetime.now)
-    commit: str = ""  # git commit at install time
+    commit: str = ""
     target: str = "claude-code"
 
     @property
     def id(self) -> str:
-        """Installation ID: source/package."""
         return f"{self.source.name}/{self.package.name}"

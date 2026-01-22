@@ -7,15 +7,11 @@ from ace.domain.models import Package
 
 
 class TargetPort(Protocol):
-    """Interface for installing packages to a target agent.
-
-    Each target (Claude Code, Codex, Cursor, etc.) has its own
-    configuration format and installation location.
-    """
+    """Installs packages to a target agent (Claude Code, Cursor, etc.)."""
 
     @property
     def name(self) -> str:
-        """Target identifier (e.g., 'claude-code', 'codex')."""
+        """Target identifier (e.g., 'claude-code')."""
         ...
 
     def is_available(self) -> bool:
@@ -35,5 +31,5 @@ class TargetPort(Protocol):
         ...
 
     def get_config_path(self) -> str:
-        """Get the path to the target's configuration directory."""
+        """Get the target's configuration directory path."""
         ...

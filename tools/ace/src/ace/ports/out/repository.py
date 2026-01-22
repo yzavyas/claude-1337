@@ -7,11 +7,7 @@ from ace.domain.models import Package, Source
 
 
 class SourcePort(Protocol):
-    """Interface for fetching packages from sources.
-
-    A source is a git repository containing packages (plugins).
-    This port abstracts the fetch/clone operations.
-    """
+    """Interface for fetching packages from sources."""
 
     def fetch(self, source: Source) -> None:
         """Fetch/clone source to local cache."""
@@ -26,7 +22,7 @@ class SourcePort(Protocol):
         ...
 
     def get_package_path(self, source: Source, package: Package) -> Path:
-        """Get local filesystem path to package content."""
+        """Get local filesystem path to package."""
         ...
 
     def get_commit(self, source: Source) -> str:

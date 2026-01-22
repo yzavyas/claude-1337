@@ -1,12 +1,13 @@
 """Git source adapter - fetches packages from git repos."""
 
-import json
 from pathlib import Path
 
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 
-from ace.domain.models import Package, PackageContents, Source
+from ace.adapters.out.scanners import ClaudePluginScanner, SkillOnlyScanner
+from ace.domain.models import Package, Source
+from ace.ports.out.scanner import ScannerPort
 
 
 class SourceError(Exception):
@@ -18,12 +19,30 @@ class SourceError(Exception):
 class GitSourceAdapter:
     """Fetches packages from git-based sources."""
 
-    def __init__(self, cache_dir: Path):
+    def __init__(self, cache_dir: Path, scanner: ScannerPort | None = None):
         self.cache_dir = cache_dir
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self._scanner = scanner
 
     def _source_path(self, source: Source) -> Path:
         return self.cache_dir / source.name
+
+    def _get_scanner(self, path: Path) -> ScannerPort:
+        """Get appropriate scanner for the source directory."""
+        if self._scanner:
+            return self._scanner
+
+        # Auto-detect: try Claude plugin format first, then skill-only
+        claude_scanner = ClaudePluginScanner()
+        if claude_scanner.can_scan(path):
+            return claude_scanner
+
+        skill_scanner = SkillOnlyScanner()
+        if skill_scanner.can_scan(path):
+            return skill_scanner
+
+        # Default to Claude plugin scanner
+        return claude_scanner
 
     def fetch(self, source: Source) -> None:
         """Fetch/clone source to local cache."""
@@ -51,71 +70,14 @@ class GitSourceAdapter:
         if not path.exists():
             self.fetch(source)
 
-        seen: set[str] = set()
-        packages: list[Package] = []
-
-        for plugin_json in path.glob("**/.claude-plugin/plugin.json"):
-            pkg = self._parse_package(plugin_json)
-            if pkg and pkg.name not in seen:
-                seen.add(pkg.name)
-                packages.append(pkg)
-
-        return packages
-
-    def _parse_package(self, plugin_json: Path) -> Package | None:
-        """Parse a plugin.json into a Package."""
-        try:
-            data = json.loads(plugin_json.read_text())
-            pkg_dir = plugin_json.parent.parent
-
-            contents = self._scan_contents(pkg_dir)
-
-            return Package(
-                name=data.get("name", pkg_dir.name),
-                description=data.get("description", ""),
-                version=data.get("version", "0.0.0"),
-                path=pkg_dir,
-                contents=contents,
-            )
-        except Exception:
-            return None
-
-    def _scan_contents(self, pkg_dir: Path) -> PackageContents:
-        """Scan package directory for extensions."""
-        skills: list[str] = []
-        agents: list[str] = []
-        hooks: list[str] = []
-        mcp: list[str] = []
-
-        # Skills
-        skills_dir = pkg_dir / "skills"
-        if skills_dir.exists():
-            for skill_md in skills_dir.glob("**/SKILL.md"):
-                skills.append(skill_md.parent.name)
-
-        # Agents
-        agents_dir = pkg_dir / "agents"
-        if agents_dir.exists():
-            for agent_md in agents_dir.glob("*.md"):
-                agents.append(agent_md.stem)
-
-        # Hooks
-        if (pkg_dir / "hooks.json").exists():
-            hooks.append("hooks.json")
-
-        # MCP
-        for mcp_name in ["mcp.json", ".mcp.json"]:
-            if (pkg_dir / mcp_name).exists():
-                mcp.append(mcp_name)
-                break
-
-        return PackageContents(skills=skills, agents=agents, hooks=hooks, mcp=mcp)
+        scanner = self._get_scanner(path)
+        return scanner.scan(path)
 
     def get_package(self, source: Source, name: str) -> Package | None:
         """Get a specific package by name."""
-        for pkg in self.list_packages(source):
-            if pkg.name == name:
-                return pkg
+        for package in self.list_packages(source):
+            if package.name == name:
+                return package
         return None
 
     def get_package_path(self, source: Source, package: Package) -> Path:
