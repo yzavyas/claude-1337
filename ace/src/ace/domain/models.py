@@ -1,4 +1,4 @@
-"""Domain models for ace - Pydantic for validation and serialization.
+"""Domain models for ace (Agentic Capability Extensions).
 
 Ontology:
 - Source: Where packages come from (marketplaces, git repos)
@@ -17,7 +17,7 @@ from pydantic import BaseModel, Field
 
 
 class ExtensionType(str, Enum):
-    """Extension modalities - the types of cognitive extensions."""
+    """Extension modalities - the types of capability extensions."""
 
     SKILL = "skill"
     AGENT = "agent"

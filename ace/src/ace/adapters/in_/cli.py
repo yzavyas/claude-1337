@@ -1,6 +1,6 @@
-"""ace CLI - Agentic Cognitive Extensions.
+"""ace CLI - Agentic Capability Extensions.
 
-Discover, install, and manage cognitive extensions.
+Discover, install, and manage capability extensions for AI agents.
 
 CLI Grammar:
 - ace source add/rm/list  (noun-first subcommand group)
@@ -112,9 +112,9 @@ def error_panel(msg: str, guidance: str | None = None) -> None:
 @click.group()
 @click.version_option(version=__version__)
 def main():
-    """ace - Agentic Cognitive Extensions.
+    """ace - Agentic Capability Extensions.
 
-    Manage cognitive extensions for AI coding assistants.
+    Manage capability extensions for AI coding assistants.
 
     \b
     Sources: where packages come from
@@ -483,7 +483,7 @@ def info():
 
     console.print(
         Panel.fit(
-            f"[bold]ace[/bold] v{__version__}\n" "Agentic Cognitive Extensions",
+            f"[bold]ace[/bold] v{__version__}\n" "Agentic Capability Extensions",
             title="About",
         )
     )
