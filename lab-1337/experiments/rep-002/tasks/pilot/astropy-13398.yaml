@@ -1,0 +1,57 @@
+# SWE-bench Verified: astropy__astropy-13398
+# ITRS topocentric coordinate support
+
+instance_id: astropy__astropy-13398
+repo: astropy/astropy
+base_commit: 6ed769d58d89380ebaa1ef52b300691eefda8928
+
+problem_statement: |
+  Add support for topocentric ITRS frames
+
+  Currently, ITRS frames are always geocentric (Earth-centered). This makes it
+  impossible to properly handle topocentric (observer-location-based) calculations
+  for things like satellite tracking or local horizon coordinates.
+
+  The request is to:
+  1. Add a `location` attribute to the ITRS frame (defaulting to EARTH_CENTER)
+  2. Support transformations that preserve the location when going between frames
+  3. Enable direct ITRS ↔ AltAz/HADec conversions with proper refraction handling
+
+  Use case: Satellite tracking requires computing apparent positions from a
+  specific ground location, accounting for atmospheric refraction.
+
+  Example desired API:
+  ```python
+  from astropy.coordinates import ITRS, AltAz, EarthLocation
+  from astropy.time import Time
+
+  loc = EarthLocation.of_site('greenwich')
+  obstime = Time('2022-01-01')
+
+  # Create topocentric ITRS
+  itrs_topo = ITRS(x=100*u.km, y=200*u.km, z=300*u.km,
+                   location=loc, obstime=obstime)
+
+  # Transform to AltAz (should work directly)
+  altaz = itrs_topo.transform_to(AltAz(location=loc, obstime=obstime))
+  ```
+
+hints_text: |
+  The fix involves:
+  1. Adding EarthLocationAttribute to ITRS frame definition
+  2. Modifying existing transformation functions to use frame.location
+  3. Creating new transform registration for ITRS ↔ observed frames
+
+fail_to_pass:
+  - astropy/coordinates/tests/test_frames.py::test_itrs_topo_to_altaz_with_refraction
+
+pass_to_pass:
+  - astropy/coordinates/tests/test_frames.py::test_itrs
+  - astropy/coordinates/tests/test_frames.py::test_altaz_basic
+  - astropy/coordinates/tests/test_transformations.py
+
+difficulty: medium
+estimated_time: "30-60 min"
+files_affected:
+  - astropy/coordinates/builtin_frames/itrs.py
+  - astropy/coordinates/builtin_frames/itrs_observed_transforms.py

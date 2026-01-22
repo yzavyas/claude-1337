@@ -1,0 +1,62 @@
+# REP-002 Pilot Scenario
+# Purpose: Validate harness works before scaling up
+
+name: rep-002-pilot
+description: |
+  Test mandate vs motivation on 2 SWE-bench tasks.
+  Validate experiment infrastructure before signal/full runs.
+
+# Hypothesis: Does prescribing HOW help, hurt, or not matter?
+hypothesis: |
+  Given WHAT + WHY + CONSTRAINTS, adding HOW (mandate) either:
+  - Helps (mandate wins): Structure reduces errors
+  - Hurts (motivation wins): Constraints limit good judgment
+  - Neutral: Framework overhead is just overhead
+
+# Model
+model: sonnet
+
+# Tasks (2 for pilot)
+tasks:
+  - tasks/pilot/astropy-13033.yaml  # Easy: exception message fix
+  - tasks/pilot/astropy-13398.yaml  # Medium: ITRS topocentric support
+
+# Conditions (start with 2 for pilot)
+conditions:
+  - conditions/motivation.md
+  - conditions/mandate-template.md
+  # Add these in signal phase:
+  # - conditions/mandate-structure.md
+  # - conditions/mandate-role.md
+
+# Runs
+runs_per_condition: 3  # 5 for signal, pilot uses 3 to validate
+
+# Iteration (all conditions get same iteration budget)
+iteration:
+  strategy: self-review
+  max_iterations: 3
+
+# Evaluation
+evaluation:
+  # Primary: Did the fix work?
+  primary:
+    type: swebench
+    metric: pass@k
+    k: 3
+
+  # Secondary: Efficiency
+  secondary:
+    - tokens_used
+    - iterations_used
+    - duration_ms
+
+# Expected output
+# 2 tasks × 2 conditions × 3 runs = 12 total runs
+# ~$5-10 estimated cost (Sonnet)
+
+# Success criteria for pilot
+pilot_success:
+  - harness_runs: All 12 runs complete without errors
+  - tasks_discriminate: At least one condition difference per task
+  - metrics_captured: All primary/secondary metrics logged

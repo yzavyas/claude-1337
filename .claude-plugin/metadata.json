@@ -38,5 +38,9 @@
   "visuals-1337": {
     "displayName": "AI Visuals",
     "category": "visuals"
+  },
+  "arch-guild": {
+    "displayName": "Architecture Guild",
+    "category": "foundation"
   }
 }
