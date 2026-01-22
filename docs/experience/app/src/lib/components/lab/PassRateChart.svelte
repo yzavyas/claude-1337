@@ -19,8 +19,8 @@
 	const chartWidth = width - padding.left - padding.right;
 	const chartHeight = height - padding.top - padding.bottom;
 
-	// Calculate bar positions
-	const barWidth = chartWidth / data.length - 40;
+	// Calculate bar positions - $derived for reactivity when data changes
+	const barWidth = $derived(chartWidth / data.length - 40);
 	const maxValue = 100;
 </script>
 
