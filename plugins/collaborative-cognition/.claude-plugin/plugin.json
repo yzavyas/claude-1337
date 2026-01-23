@@ -1,0 +1,9 @@
+{
+  "name": "collaborative-cognition",
+  "description": "Verified reasoning and metacognition for human-AI collaboration. Use when: building software, making decisions, reasoning through complex problems.",
+  "version": "0.3.0",
+  "author": {
+    "name": "yzavyas",
+    "email": "yza.vyas@gmail.com"
+  }
+}

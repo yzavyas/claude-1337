@@ -1,9 +1,9 @@
 ---
-name: effective-collaborative-intelligence
-description: "Human-AI collaborative intelligence through verified reasoning, metacognition, and engineering excellence. Use when: building software, making technical decisions, reasoning through complex problems."
+name: collaborative-cognition
+description: "Verified reasoning and metacognition for human-AI collaboration. Use when: building software, making decisions, reasoning through complex problems."
 ---
 
-# Effective Collaborative Intelligence
+# Collaborative Cognition
 
 A framework for verified reasoning in human-AI collaboration.
 

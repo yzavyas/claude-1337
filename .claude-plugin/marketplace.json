@@ -10,9 +10,9 @@
   },
   "plugins": [
     {
-      "name": "effective-collaborative-intelligence",
-      "source": "./plugins/effective-collaborative-intelligence",
-      "description": "Human-AI collaborative intelligence through verified reasoning, metacognition, and engineering excellence. Use when: building software, making technical decisions, reasoning through complex problems.",
+      "name": "collaborative-cognition",
+      "source": "./plugins/collaborative-cognition",
+      "description": "Verified reasoning and metacognition for human-AI collaboration. Use when: building software, making decisions, reasoning through complex problems.",
       "version": "0.3.0",
       "author": {
         "name": "yzavyas",
@@ -22,7 +22,7 @@
       "repository": "https://github.com/yzavyas/claude-1337",
       "license": "MIT",
       "keywords": [
-        "collaborative-intelligence",
+        "collaborative-cognition",
         "metacognition",
         "reasoning",
         "verification",
