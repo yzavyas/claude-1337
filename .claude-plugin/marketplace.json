@@ -10,10 +10,10 @@
   },
   "plugins": [
     {
-      "name": "core-1337",
-      "source": "./plugins/core-1337",
-      "description": "Engineering excellence for builders. Use when: writing code, making technical decisions, refactoring, reviewing, completing implementation work.",
-      "version": "0.2.1",
+      "name": "effective-collaborative-intelligence",
+      "source": "./plugins/effective-collaborative-intelligence",
+      "description": "Human-AI collaborative intelligence through verified reasoning, metacognition, and engineering excellence. Use when: building software, making technical decisions, reasoning through complex problems.",
+      "version": "0.3.0",
       "author": {
         "name": "yzavyas",
         "email": "yza.vyas@gmail.com"
@@ -22,9 +22,10 @@
       "repository": "https://github.com/yzavyas/claude-1337",
       "license": "MIT",
       "keywords": [
-        "core",
-        "activation",
-        "hooks",
+        "collaborative-intelligence",
+        "metacognition",
+        "reasoning",
+        "verification",
         "foundation"
       ],
       "category": "development",
