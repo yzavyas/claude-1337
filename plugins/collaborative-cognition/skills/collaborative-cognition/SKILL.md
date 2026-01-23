@@ -359,33 +359,9 @@ See [kaizen-crystallization.md](references/kaizen-crystallization.md).
 | Need | Load |
 |------|------|
 | Reasoning techniques | [reasoning-techniques.md](references/reasoning-techniques.md) |
-| Research foundations | [research-foundations.md](references/research-foundations.md) |
 | Reasoning verification | [reasoning-verification.md](references/reasoning-verification.md) |
 | Verification patterns | [verification-patterns.md](references/verification-patterns.md) |
 | Anti-patterns | [behavioral-awareness.md](references/behavioral-awareness.md) |
 | Crystallization | [kaizen-crystallization.md](references/kaizen-crystallization.md) |
 | Writing quality | [writing-antipatterns.md](references/writing-antipatterns.md) |
-
----
-
-## Key Sources
-
-**Reasoning Architecture:**
-- Wei et al. (2022). Chain-of-Thought Prompting. NeurIPS 2022.
-- Yao et al. (2023). Tree of Thoughts. NeurIPS 2023 Oral.
-- Wang et al. (2023). Self-Consistency. ICLR 2023.
-- Dhuliawala et al. (2024). Chain-of-Verification. ACL 2024.
-
-**Metacognition:**
-- Huang et al. (2024). LLMs Cannot Self-Correct Reasoning Yet.
-- Shinn et al. (2023). Reflexion. NeurIPS 2023.
-- Tian et al. (2023). Calibrated Confidence. EMNLP 2023.
-- Farquhar et al. (2024). Semantic Entropy. Nature.
-
-**Collaboration:**
-- Blaurock et al. (2024). AI-Based Service Experience. Journal of Service Research.
-- Gomez et al. (2024). Human-AI Interaction Taxonomy. Frontiers in Computer Science.
-
-**Alignment:**
-- Bai et al. (2022). Constitutional AI. Anthropic.
-- Rafailov et al. (2023). Direct Preference Optimization. NeurIPS 2023.
+| Academic sources | [sources.md](references/sources.md) |
