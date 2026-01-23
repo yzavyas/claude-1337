@@ -1,128 +1,177 @@
 # Skills
 
-Templates, best practices, and observability for skill extensions.
+Reference for building skill extensions. Follows the Agent Skills open standard.
 
 Sources:
-- [Claude Code - Agent Skills](https://code.claude.com/docs/en/skills.md)
+- [Claude Code - Skills](https://code.claude.com/docs/en/skills)
+- [Claude Code - Best Practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
 - [AgentSkills.io - Open Standard](https://agentskills.io/specification)
 
 ---
 
-## Open Standard (agentskills.io)
+## Quick Reference
 
-Agent Skills is an **open standard format** for giving AI agents new capabilities. Maintained by Anthropic and the broader ecosystem.
-
-### Required Fields
-
-| Field | Type | Constraints |
-|-------|------|-------------|
-| `name` | string | 1-64 chars, lowercase alphanumeric + hyphens, no `--`, must not start/end with `-`, must match parent directory name |
-| `description` | string | **1-1024 chars**, describe what skill does AND when to use it, include specific keywords for agent identification |
-
-### Optional Fields
-
-| Field | Type | Constraints |
-|-------|------|-------------|
-| `license` | string | License name or reference to bundled license file |
-| `compatibility` | string | 1-500 chars, environment requirements (product, system packages, network access) |
-| `metadata` | object | Key-value mapping (string → string), use unique keys |
-| `allowed-tools` | string | Space-delimited list of pre-approved tools (experimental) |
-
-### Validation
-
-```bash
-skills-ref validate ./my-skill
-```
-
-Validates SKILL.md frontmatter syntax, field constraints, and directory structure.
+| Field | Required | Purpose |
+|-------|----------|---------|
+| `name` | No (uses directory name) | Slash command name. Lowercase, hyphens, max 64 chars. |
+| `description` | Recommended | When to use. Claude uses this for auto-activation. |
+| `disable-model-invocation` | No | Set `true` to prevent Claude from auto-triggering. |
+| `user-invocable` | No | Set `false` to hide from `/` menu. |
+| `allowed-tools` | No | Tools Claude can use without asking. |
+| `context` | No | Set `fork` to run in subagent. |
+| `agent` | No | Subagent type when `context: fork`. |
 
 ---
 
-## Location
+## Two Types of Content
 
-Skills can live in two places:
+### Reference Content
 
-### Project Skills (for one project)
+Knowledge Claude applies to current work. Conventions, patterns, style guides.
 
-```
-your-project/
-└── .claude/
-    └── skills/
-        └── my-skill/
-            └── SKILL.md
-```
+```yaml
+---
+name: api-conventions
+description: API design patterns for this codebase
+---
 
-### Plugin Skills (bundled with plugins)
-
-```
-my-plugin/
-└── skills/
-    └── skill-name/
-        └── SKILL.md
+When writing API endpoints:
+- Use RESTful naming conventions
+- Return consistent error formats
+- Include request validation
 ```
 
-**Important**: SKILL.md must be inside a subdirectory under `skills/`.
+Runs inline. Claude uses it alongside conversation context.
+
+### Task Content
+
+Step-by-step instructions for specific actions. Deployments, commits, generation.
+
+```yaml
+---
+name: deploy
+description: Deploy the application to production
+context: fork
+disable-model-invocation: true
+---
+
+Deploy the application:
+1. Run the test suite
+2. Build the application
+3. Push to the deployment target
+```
+
+Often invoke-only (`disable-model-invocation: true`).
 
 ---
 
-## Skill Directory Structure
+## Invocation Control
+
+| Setting | You invoke | Claude invokes | Use for |
+|---------|------------|----------------|---------|
+| (default) | Yes | Yes | Most skills |
+| `disable-model-invocation: true` | Yes | No | Workflows with side effects (deploy, commit) |
+| `user-invocable: false` | No | Yes | Background knowledge (legacy-system-context) |
+
+---
+
+## Frontmatter Reference
+
+```yaml
+---
+name: my-skill
+description: What this skill does and when to use it
+argument-hint: [issue-number]
+disable-model-invocation: true
+user-invocable: true
+allowed-tools: Read, Grep, Glob
+model: sonnet
+context: fork
+agent: Explore
+---
+```
+
+| Field | Description |
+|-------|-------------|
+| `name` | Display name. If omitted, uses directory name. |
+| `description` | What and when. Claude uses for auto-activation. |
+| `argument-hint` | Shown in autocomplete. Example: `[filename]`. |
+| `disable-model-invocation` | Prevent Claude from auto-triggering. |
+| `user-invocable` | Hide from `/` menu if `false`. |
+| `allowed-tools` | Pre-approved tools list. |
+| `model` | Model to use when active. |
+| `context` | `fork` runs in isolated subagent. |
+| `agent` | Subagent type (`Explore`, `Plan`, `general-purpose`, or custom). |
+
+---
+
+## String Substitutions
+
+| Variable | Replaced with |
+|----------|---------------|
+| `$ARGUMENTS` | Arguments passed when invoking |
+| `${CLAUDE_SESSION_ID}` | Current session ID |
+
+If `$ARGUMENTS` not in content, arguments appended as `ARGUMENTS: <value>`.
+
+---
+
+## Dynamic Context Injection
+
+Shell commands in `` !`command` `` run before content is sent to Claude:
+
+```yaml
+---
+name: pr-summary
+description: Summarize changes in a pull request
+context: fork
+agent: Explore
+---
+
+## Pull request context
+- PR diff: !`gh pr diff`
+- PR comments: !`gh pr view --comments`
+- Changed files: !`gh pr diff --name-only`
+
+## Your task
+Summarize this pull request...
+```
+
+Commands execute immediately. Claude sees the output, not the command.
+
+---
+
+## Subagent Execution
+
+`context: fork` runs skill in isolated subagent. Skill content becomes the prompt.
+
+```yaml
+---
+name: deep-research
+description: Research a topic thoroughly
+context: fork
+agent: Explore
+---
+
+Research $ARGUMENTS thoroughly:
+
+1. Find relevant files using Glob and Grep
+2. Read and analyze the code
+3. Summarize findings with specific file references
+```
+
+**Note:** Only makes sense for skills with explicit instructions. Guidelines without a task return without meaningful output.
+
+---
+
+## Directory Structure
 
 ```
 skill-name/
 ├── SKILL.md           # Required - pragmatic, < 500 lines
-├── references/        # Detailed docs, academic sources, load as needed
-├── scripts/           # Executable code, deterministic operations
+├── references/        # Detailed docs, load as needed
+├── scripts/           # Executable code
 └── assets/            # Templates, files used in output
-```
-
----
-
-## SKILL.md Format
-
-### Required Frontmatter
-
-```yaml
----
-name: skill-name
-description: "What it does. Use when: [trigger 1], [trigger 2]."
----
-```
-
-### Full Template
-
-```yaml
----
-name: skill-name
-description: "What it does. Use when: [trigger 1], [trigger 2]."
----
-
-# Skill Title
-
-One sentence: what this enables.
-
-## Why This Approach
-
-Practical motivation: why this matters, not research citations.
-
-## Core Content
-
-| situation | choice | why |
-|-----------|--------|-----|
-| [context] | **[winner]** | [practical reason] |
-
-## Gotchas
-
-| trap | fix |
-|------|-----|
-| [what goes wrong] | [how to avoid] |
-
-## References
-
-| need | load |
-|------|------|
-| [specific need] | [reference.md](references/reference.md) |
-
-Research citations, detailed patterns, and examples live in references.
 ```
 
 ---
@@ -133,7 +182,7 @@ Research citations, detailed patterns, and examples live in references.
 |----------|-------------|
 | High-level workflow | Detailed patterns |
 | Decision frameworks | Full examples |
-| Practical motivation | Academic/industry citations |
+| Practical motivation | Academic citations |
 | "Load X when Y" navigation | Deep technical content |
 | Gotchas and traps | API documentation |
 | < 500 lines | No limit |
@@ -144,17 +193,13 @@ Research citations, detailed patterns, and examples live in references.
 
 ## Progressive Disclosure
 
-Context is shared. Tokens are a public good.
-
-| level | size | when loaded |
+| Level | Size | When loaded |
 |-------|------|-------------|
-| **Metadata** (name + description) | ~100 words | Always — triggers activation |
-| **SKILL.md body** | < 500 lines | When skill activates |
-| **References** | Unlimited | When Claude needs them |
+| Metadata (name + description) | ~100 words | Always — triggers activation |
+| SKILL.md body | < 500 lines | When skill activates |
+| References | Unlimited | When Claude needs them |
 
-### Referencing Patterns
-
-**Pattern 1: Load table**
+Reference pattern:
 ```markdown
 ## References
 
@@ -164,83 +209,19 @@ Context is shared. Tokens are a public good.
 | Error handling | [errors.md](references/errors.md) |
 ```
 
-**Pattern 2: Inline conditional**
-```markdown
-For simple edits, modify directly.
-
-**For tracked changes**: See [redlining.md](references/redlining.md)
-```
-
-**Pattern 3: Domain routing**
-```markdown
-| detected | load |
-|----------|------|
-| AWS | [aws.md](references/aws.md) |
-| GCP | [gcp.md](references/gcp.md) |
-```
-
 ---
 
 ## Activation
 
-Skills activate through LLM reasoning. The **description is the only signal**.
+Skills activate through LLM reasoning. **Description is the only signal.**
 
-| good | bad |
+| Good | Bad |
 |------|-----|
 | "Use when: debugging TypeScript, need tsconfig help" | "Helps with TypeScript" |
 | "Use when: creating diagrams, need Mermaid syntax" | "Diagram skill" |
 | Action verbs + specific triggers | Abstract nouns |
 
-### Character Budget
-
-Default: 15,000 characters for all skill descriptions combined (~4000 tokens).
-
-**Workaround**: `SLASH_COMMAND_TOOL_CHAR_BUDGET=30000`
-
-Source: [fsck.com](https://blog.fsck.com/2025/12/17/claude-code-skills-not-triggering/)
-
----
-
-## Observability
-
-### Tracing
-
-```python
-def trace_skill_activation(prompt: str, skills: list[Skill]):
-    with tracer.start_as_current_span("skill_check") as span:
-        span.set_attribute("prompt", prompt[:200])
-        span.set_attribute("available_skills", len(skills))
-
-        activated = []
-        for skill in skills:
-            with tracer.start_as_current_span("skill_match") as skill_span:
-                skill_span.set_attribute("skill_name", skill.name)
-                matches = skill.matches(prompt)
-                skill_span.set_attribute("activated", matches)
-                if matches:
-                    activated.append(skill.name)
-
-        span.set_attribute("activated_skills", activated)
-        span.set_attribute("activation_count", len(activated))
-        return activated
-```
-
-### Spans
-
-| span | attributes |
-|------|------------|
-| `skill_check` | prompt, available_skills, activation_count |
-| `skill_match` | skill_name, activated, match_score |
-| `skill_load` | skill_name, content_size, load_time_ms |
-| `skill_reference` | skill_name, reference_path, load_time_ms |
-
-### Metrics
-
-| metric | meaning |
-|--------|---------|
-| Activation rate | % of prompts that trigger skill |
-| False positive rate | Activated but not used |
-| Content load latency | Time to load SKILL.md + references |
+Character budget: 15,000 chars for all descriptions combined (~4000 tokens).
 
 ---
 
@@ -261,13 +242,20 @@ def trace_skill_activation(prompt: str, skills: list[Skill]):
 ### Structure
 - [ ] Skill in `skills/<name>/SKILL.md`
 - [ ] References clearly navigated
-- [ ] Academic/industry sources in references, not SKILL.md
+- [ ] Academic sources in references, not SKILL.md
 - [ ] Scripts for deterministic operations
 - [ ] Tested in real session
+
+### Invocation
+- [ ] `disable-model-invocation: true` if has side effects
+- [ ] `user-invocable: false` if background knowledge
+- [ ] `context: fork` if needs isolation
+- [ ] Correct subagent type if forked
 
 ---
 
 ## Sources
 
-- [Claude Code - Agent Skills](https://code.claude.com/docs/en/skills.md)
-- [Claude Code - Plugins Reference](https://code.claude.com/docs/en/plugins-reference.md)
+- [Claude Code - Skills](https://code.claude.com/docs/en/skills)
+- [Claude Code - Plugins Reference](https://code.claude.com/docs/en/plugins-reference)
+- [AgentSkills.io - Specification](https://agentskills.io/specification)
