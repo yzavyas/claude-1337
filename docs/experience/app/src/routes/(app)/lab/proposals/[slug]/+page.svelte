@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { marked } from 'marked';
 
 	let { data } = $props();
@@ -32,7 +33,7 @@
 
 <main class="proposal-page">
 	<nav class="breadcrumb">
-		<a href="/lab">Lab</a>
+		<a href="{base}/lab">Lab</a>
 		<span class="sep">/</span>
 		<span class="current">REP-{data.id}</span>
 	</nav>
@@ -67,12 +68,12 @@
 				</button>
 			{/if}
 			{#if data.experimentSlug}
-				<a href="/lab/experiments/{data.experimentSlug}" class="artifact-link">
+				<a href="{base}/lab/experiments/{data.experimentSlug}" class="artifact-link">
 					Experiment
 				</a>
 			{/if}
 			{#if data.findingsSlug}
-				<a href="/lab/findings/{data.findingsSlug}" class="artifact-link primary">
+				<a href="{base}/lab/findings/{data.findingsSlug}" class="artifact-link primary">
 					Findings
 				</a>
 			{/if}
@@ -91,7 +92,7 @@
 	{/if}
 
 	<footer class="proposal-footer">
-		<a href="/lab" class="back-link">← Back to Lab</a>
+		<a href="{base}/lab" class="back-link">← Back to Lab</a>
 	</footer>
 </main>
 

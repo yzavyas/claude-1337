@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { marked } from 'marked';
 
 	let { data } = $props();
@@ -14,9 +15,9 @@
 
 <main class="analysis-page">
 	<nav class="breadcrumb">
-		<a href="/lab">Lab</a>
+		<a href="{base}/lab">Lab</a>
 		<span class="sep">/</span>
-		<a href="/lab/experiments/{data.slug}">{data.slug}</a>
+		<a href="{base}/lab/experiments/{data.slug}">{data.slug}</a>
 		<span class="sep">/</span>
 		<span class="current">Analysis</span>
 	</nav>
