@@ -5,6 +5,7 @@
 	 * Card for published findings. Solid presence with sage accent.
 	 * Pinned items get a gold ribbon marker.
 	 */
+	import { base } from '$app/paths';
 	import Badge from '$lib/components/ui/Badge.svelte';
 
 	interface Finding {
@@ -38,7 +39,7 @@
 	</header>
 
 	<h3 class="finding-title">
-		<a href={finding.links.findings}>{finding.title}</a>
+		<a href="{base}{finding.links.findings}">{finding.title}</a>
 	</h3>
 
 	{#if finding.subtitle}
@@ -64,9 +65,9 @@
 	<footer class="card-footer">
 		<span class="finding-date">{finding.date}</span>
 		<div class="finding-links">
-			<a href={finding.links.findings} class="finding-link primary">Findings</a>
+			<a href="{base}{finding.links.findings}" class="finding-link primary">Findings</a>
 			{#if finding.links.proposal}
-				<a href={finding.links.proposal} class="finding-link">Proposal</a>
+				<a href="{base}{finding.links.proposal}" class="finding-link">Proposal</a>
 			{/if}
 		</div>
 	</footer>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { marked } from 'marked';
 
 	let { data } = $props();
@@ -14,7 +15,7 @@
 
 <main class="experiment-page">
 	<nav class="breadcrumb">
-		<a href="/lab">Lab</a>
+		<a href="{base}/lab">Lab</a>
 		<span class="sep">/</span>
 		<span class="current">{data.slug}</span>
 	</nav>
@@ -22,7 +23,7 @@
 	<header class="experiment-header">
 		<h1>{data.name}</h1>
 		{#if data.repId}
-			<a href="/lab/proposals/rep-{data.repId}-rigor-is-what-you-want" class="rep-link">
+			<a href="{base}/lab/proposals/rep-{data.repId}-rigor-is-what-you-want" class="rep-link">
 				REP-{data.repId}
 			</a>
 		{/if}
@@ -102,7 +103,7 @@
 	{/if}
 
 	<footer class="page-footer">
-		<a href="/lab" class="back-link">← Back to Lab</a>
+		<a href="{base}/lab" class="back-link">← Back to Lab</a>
 	</footer>
 </main>
 

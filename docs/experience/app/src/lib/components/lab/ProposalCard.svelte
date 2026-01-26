@@ -5,6 +5,7 @@
 	 * Card for active proposals. Dashed border (draft convention).
 	 * Status determines accent color and badge variant.
 	 */
+	import { base } from '$app/paths';
 	import Badge from '$lib/components/ui/Badge.svelte';
 
 	type Status = 'draft' | 'discussion' | 'fcp' | 'accepted';
@@ -61,7 +62,7 @@
 	</header>
 
 	<h3 class="proposal-title">
-		<a href={proposal.links.proposal}>{proposal.title}</a>
+		<a href="{base}{proposal.links.proposal}">{proposal.title}</a>
 	</h3>
 
 	<p class="proposal-summary">{proposal.summary}</p>
@@ -81,9 +82,9 @@
 	<footer class="card-footer">
 		<span class="proposal-date">{proposal.date}</span>
 		<div class="proposal-links">
-			<a href={proposal.links.proposal} class="proposal-link primary">Proposal</a>
+			<a href="{base}{proposal.links.proposal}" class="proposal-link primary">Proposal</a>
 			{#if proposal.links.experiment}
-				<a href={proposal.links.experiment} class="proposal-link">Experiment</a>
+				<a href="{base}{proposal.links.experiment}" class="proposal-link">Experiment</a>
 			{/if}
 		</div>
 	</footer>

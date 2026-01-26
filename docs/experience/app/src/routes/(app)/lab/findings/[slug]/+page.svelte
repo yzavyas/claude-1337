@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { marked } from 'marked';
 	import PassRateChart from '$lib/components/lab/PassRateChart.svelte';
 
@@ -15,7 +16,7 @@
 
 <main class="findings-page">
 	<nav class="breadcrumb">
-		<a href="/lab">Lab</a>
+		<a href="{base}/lab">Lab</a>
 		<span class="sep">/</span>
 		<span class="current">REP-{data.repId} Findings</span>
 	</nav>
@@ -36,12 +37,12 @@
 
 		<div class="artifact-links">
 			{#if data.proposalSlug}
-				<a href="/lab/proposals/{data.proposalSlug}" class="artifact-link">
+				<a href="{base}/lab/proposals/{data.proposalSlug}" class="artifact-link">
 					View Proposal
 				</a>
 			{/if}
 			{#if data.experimentSlug}
-				<a href="/lab/experiments/{data.experimentSlug}" class="artifact-link">
+				<a href="{base}/lab/experiments/{data.experimentSlug}" class="artifact-link">
 					View Experiment
 				</a>
 			{/if}
@@ -59,7 +60,7 @@
 	</article>
 
 	<footer class="findings-footer">
-		<a href="/lab" class="back-link">← Back to Lab</a>
+		<a href="{base}/lab" class="back-link">← Back to Lab</a>
 	</footer>
 </main>
 
