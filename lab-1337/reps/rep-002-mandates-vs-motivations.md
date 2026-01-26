@@ -7,33 +7,28 @@
 
 ## Summary
 
-Test whether motivation-based prompting produces different outcomes than mandate-based prompting in agentic systems. The hypothesis: the mental model we use for AI (algorithm runner vs reasoning agent) may affect results.
+Test whether explaining WHY (motivation) produces different outcomes than prescribing HOW (mandate) when working with Claude. The hypothesis: Claude is Constitutional AI — trained with values, not rigid rules — and may respond better to motivation than mandate.
 
 ## Motivation
 
-REP-001 established that methodology effectiveness is measurable. This REP applies that capability to a foundational question about how we interact with AI.
+REP-001 established that methodology effectiveness is measurable. This REP applies that capability to a foundational question: **how should we interact with AI?**
 
-### The Algorithm Runner Mental Model
+### The Mental Model Gap
 
-We're conditioned to treat "thinking machines" as algorithm runners:
-- Input → deterministic process → output
-- Specify exactly what to do
-- More detail = more control = better outcomes
+Two competing mental models for AI interaction:
 
-This mental model shaped spec-driven frameworks:
-- BMAD: 21 specialized agents with detailed role specifications
-- GSD: Rigid file structure (PROJECT/ROADMAP/STATE/PLAN)
-- spec-kit: 7-step process (Constitution → Implement)
+| Model | Assumption | Interaction Style |
+|-------|------------|-------------------|
+| **Algorithm runner** | AI executes instructions | Prescribe HOW in detail |
+| **Reasoning agent** | AI exercises judgment | Explain WHY, let it decide HOW |
 
-The assumption: Claude is a sophisticated algorithm. Tell it exactly what to do.
+The algorithm runner model shaped early prompt engineering: more detail = more control = better outcomes. This led to frameworks prescribing exact artifacts, file structures, and personas.
 
-### The Constitutional AI Model
+### The Constitutional AI Insight
 
-Claude is trained differently. Constitutional AI uses values, not rules.
+Claude is trained differently. Constitutional AI (Anthropic 2022) uses values-based training:
 
-Research on Constitutional AI (Anthropic 2022) shows:
-- Values-based training produces understanding and judgment
-- Rule-based constraints produce compliance and brittleness
+> "Values-based training produces understanding and judgment. Rule-based constraints produce compliance and brittleness."
 
 This suggests a different interaction model might be effective:
 - Explain WHY, not just WHAT
@@ -42,15 +37,14 @@ This suggests a different interaction model might be effective:
 
 ### The Uncertainty
 
-We don't know which model produces better outcomes. Both have plausible arguments:
+We don't know which produces better outcomes. Both have plausible arguments:
 
-**For mandate-based (spec-driven):**
+**For mandate (prescribe HOW):**
 - Removes ambiguity
 - Consistent structure
 - Explicit expectations
-- Works for traditional software
 
-**For motivation-based (principles-driven):**
+**For motivation (explain WHY):**
 - Enables judgment
 - Handles edge cases
 - Adapts to context
@@ -60,151 +54,143 @@ The discourse is tribal. This is testable.
 
 ## The Question
 
-> Does the interaction model (mandate vs motivation) affect outcomes?
+> Does prescribing HOW help or hurt, compared to explaining WHY?
 
-**Operationalized:**
-- **Mandate**: Detailed specification of steps, format, structure
-- **Motivation**: Principles, goals, reasoning for why approach matters
+## Experiment Design
 
-## Proposed Experiment
+### Isolating the Variable
+
+The key insight: **all conditions share the same WHAT + WHY + CONSTRAINTS**. The only difference is whether/how HOW is prescribed.
+
+This isolates the variable being tested.
 
 ### Conditions
 
-| Condition | Type | Description |
-|-----------|------|-------------|
-| **baseline** | Control | Pure Claude, no methodology |
-| **spec-kit** | Mandate | GitHub's 7-step process |
-| **gsd** | Mandate | Rigid file structure, explicit state |
-| **bmad** | Mandate | 21 specialized agents |
-| **principles** | Motivation | core-1337 style (why over what) |
-| **hybrid** | Mixed | Principles + minimal structure |
+| Condition | Type | What Claude Receives |
+|-----------|------|---------------------|
+| `baseline` | Control | WHAT only — pure Claude, no methodology |
+| `motivation` | Principles | WHAT + WHY + CONSTRAINTS (Claude decides HOW) |
+| `mandate-template` | Mandate | Above + HOW via required template artifacts |
+| `mandate-structure` | Mandate | Above + HOW via required file structure |
+| `mandate-role` | Mandate | Above + HOW via prescribed expert persona |
 
-### Task Stratification
+### Why These Specific Mandates?
 
-Different task types may favor different approaches:
+Each tests a different flavor of "prescribing HOW":
 
-| Category | Example | Notes |
-|----------|---------|-------|
-| Algorithmic | Implement merge sort | Clear spec, deterministic |
-| Multi-step | Add authentication flow | Multiple components, integration |
-| Ambiguous | "Make it faster" | Requires interpretation |
-| Recovery | Fix failing tests | Diagnosis + correction |
-| Edge cases | Handle malformed input | Unspecified scenarios |
+| Mandate Type | Example Pattern | Tests Whether... |
+|--------------|-----------------|------------------|
+| **Template** | "Produce these artifacts: spec.md, plan.md, impl.md" | Required outputs help or constrain |
+| **Structure** | "Use this file layout: PROJECT/, PLAN/, STATE/" | Imposed organization helps or constrains |
+| **Role** | "You are a senior architect who always..." | Prescribed persona helps or constrains |
 
 ### Metrics
 
-| Metric | What it measures |
+| Metric | What it Measures |
 |--------|------------------|
 | `pass@k` | Task completion in k attempts |
 | `recovery_rate` | Ability to fix own mistakes |
-| `edge_case_handling` | Handles unspecified situations |
-| `tokens_used` | Efficiency |
-| `code_quality` | LLM-as-judge (blind to condition) |
+| `tokens_used` | Efficiency (cost) |
 
-### Key Measurement: Ambiguity Response
+### Benchmark
 
-When tasks are underspecified:
-- Does mandate approach fail or ask for clarification?
-- Does motivation approach infer reasonable behavior?
-
-Design tasks with intentional ambiguity to test this.
+SWE-bench lite subset — real-world software engineering tasks with ground truth via test suites.
 
 ## Hypotheses
 
 **H0** (null): No difference between approaches.
 
 **H1**: Mandate outperforms motivation.
-- Explicit specs reduce errors
-- Structure helps task completion
-- Algorithms benefit from algorithms
+- Explicit structure reduces errors
+- Prescribed process helps task completion
 
 **H2**: Motivation outperforms mandate.
 - Agency enables judgment
-- Principles handle edge cases
+- Principles handle varied contexts
 - Constitutional AI responds to reasoning
 
 **H3**: Effect is task-dependent.
-- Mandate wins on algorithmic tasks
+- Mandate wins on structured tasks
 - Motivation wins on judgment tasks
-- Hybrid optimal overall
 
-**H4**: No approach beats baseline.
-- Framework overhead exceeds benefit
+**H4**: Baseline wins.
+- Any methodology overhead hurts outcomes
 - Keep it simple
 
 All outcomes are valuable findings.
 
 ## What Would Falsify Each Hypothesis
 
-| Hypothesis | Falsified by |
+| Hypothesis | Falsified By |
 |------------|--------------|
 | H0 (no difference) | Statistically significant difference on any metric |
 | H1 (mandate wins) | Motivation outperforms on pass@k or recovery_rate |
-| H2 (motivation wins) | Mandate outperforms on pass@k or recovery_rate |
+| H2 (motivation wins) | Any mandate outperforms on pass@k or recovery_rate |
 | H3 (task-dependent) | One approach wins across all task types |
 | H4 (baseline wins) | Any methodology beats baseline significantly |
+
+## Interim Findings
+
+*Status: Pre-experiment — design phase*
+
+No quantitative results yet. However, observations during skill development and collaborative sessions suggest:
+
+**Directional signals (not evidence):**
+- Forceful language ("MUST", "MANDATORY") doesn't improve activation beyond threshold (Scott Spence eval, 200+ tests)
+- Claude exercises judgment about relevance regardless of instruction style
+- Over-specified instructions sometimes produce worse outcomes (anecdotal)
+
+**What we don't know:**
+- Whether these observations generalize to controlled conditions
+- The magnitude of any effect
+- Whether task type moderates the effect
+
+**Next steps:**
+1. Finalize condition prompts (ensure fair representation)
+2. Pilot batch: 2 tasks × 5 conditions × 3 runs
+3. Signal batch if pilot validates harness
+4. Full batch for statistical significance
 
 ## Prior Art
 
 | Work | Relevance |
 |------|-----------|
 | Constitutional AI (Anthropic 2022) | Values vs rules in AI training |
-| Blaurock et al. 2024 | Transparency + control > engagement |
+| Blaurock et al. 2024 | Transparency + control produce complementary outcomes (β = 0.415, 0.507) |
 | Scott Spence eval | Forced language doesn't improve activation beyond threshold |
 | REP-001 | Methodology measurement is possible |
 
 ### Gap This Fills
 
 No controlled experiments compare:
-- Spec-driven frameworks vs principles-based approaches
-- Mandate vs motivation prompting styles
-- Algorithm runner vs reasoning agent mental models
-
-The discourse is tribal. We can measure.
+- Motivation-based vs mandate-based prompting
+- The effect of prescribing HOW vs explaining WHY
+- Whether Constitutional AI training affects optimal interaction style
 
 ## Open Questions
 
-1. **Fair representation**: How to crystallize each framework as a prompt without strawmanning?
+1. **Fair representation**: How to crystallize each condition as a prompt without strawmanning?
 
-2. **Principles prompt**: What does an effective motivation-based prompt look like? (core-1337 as starting point, but may need iteration)
+2. **Shared context**: What WHAT + WHY + CONSTRAINTS should all conditions share?
 
-3. **Ambiguity calibration**: How underspecified is underspecified enough to differentiate?
+3. **Task selection**: Which SWE-bench tasks best differentiate the approaches?
 
-4. **Model dependency**: Results may vary by model. Test Haiku, Sonnet, Opus?
-
-5. **Task selection**: Use existing benchmarks (SWE-bench, HumanEval) or custom tasks?
+4. **Model dependency**: Results may vary by model. Start with Sonnet, extend if findings warrant.
 
 ## Why This Matters
 
-Whichever finding emerges is valuable:
+The agentic era is scaling fast. Teams adopt interaction patterns based on intuition and tribal preference. Evidence would help.
 
-**If mandate-based approaches produce better outcomes:**
-- Validates spec-driven frameworks
-- Suggests structure > agency for current AI
-- Informs how to write effective prompts
+**If motivation wins:** Validates the Constitutional AI interaction model. Stop prescribing HOW; explain WHY.
 
-**If motivation-based approaches produce better outcomes:**
-- Validates Constitutional AI interaction model
-- Suggests principles > specs
-- Changes how we design AI collaboration
+**If mandate wins:** Structure helps even reasoning agents. Invest in process specification.
 
-**If task-dependent:**
-- Provides decision framework for when to use which
-- Both approaches have valid use cases
-- Context determines choice
+**If task-dependent:** Provides decision framework for when to use which.
 
-**If baseline wins:**
-- Framework overhead hurts outcomes
-- Simplicity > methodology
-- Keep interaction minimal
-
-The agentic era is scaling fast. Teams adopt frameworks based on GitHub stars and Twitter threads. Evidence would help.
+**If baseline wins:** Framework overhead hurts. Keep interaction minimal.
 
 ## References
 
 - Anthropic. "Constitutional AI: Harmlessness from AI Feedback" (2022)
 - Blaurock, M. et al. "AI-Based Service Experience Contingencies" Journal of Service Research (2024)
-- BMAD Method: https://github.com/bmad-code-org/BMAD-METHOD
-- Get Shit Done: https://github.com/glittercowboy/get-shit-done
-- spec-kit: https://github.com/github/spec-kit
 - Feynman, R. "Cargo Cult Science" (1974)
