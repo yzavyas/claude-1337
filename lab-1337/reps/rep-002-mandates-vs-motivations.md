@@ -1,47 +1,34 @@
 # REP-002: Mandates vs Motivations
 
-- **Status**: In Progress
+- **Status**: Draft
 - **Created**: 2026-01-16
-- **Updated**: 2026-01-22
 - **Authors**: Collaborative Intelligence Session
 - **Builds on**: [REP-001](rep-001-rigor-is-what-you-want.md)
-- **Interim Findings**: [rep-002-interim-findings.md](../findings/rep-002-interim-findings.md)
-
----
 
 ## Summary
 
-Test whether motivation-based prompting (WHAT + WHY) produces different outcomes than mandate-based prompting (prescribing HOW) in agentic systems.
-
-**Current status**: Signal detected. Interim findings available. Replication pending.
-
----
+Test whether explaining WHY (motivation) produces different outcomes than prescribing HOW (mandate) when working with Claude. The hypothesis: Claude is Constitutional AI — trained with values, not rigid rules — and may respond better to motivation than mandate.
 
 ## Motivation
 
-REP-001 established that methodology effectiveness is measurable. This REP applies that capability to a foundational question about how we interact with AI.
+REP-001 established that methodology effectiveness is measurable. This REP applies that capability to a foundational question: **how should we interact with AI?**
 
-### The Algorithm Runner Mental Model
+### The Mental Model Gap
 
-We're conditioned to treat "thinking machines" as algorithm runners:
-- Input → deterministic process → output
-- Specify exactly what to do
-- More detail = more control = better outcomes
+Two competing mental models for AI interaction:
 
-This mental model shaped spec-driven frameworks:
-- BMAD: 21 specialized agents with detailed role specifications
-- GSD: Rigid file structure (PROJECT/ROADMAP/STATE/PLAN)
-- spec-kit: 7-step process (Constitution → Implement)
+| Model | Assumption | Interaction Style |
+|-------|------------|-------------------|
+| **Algorithm runner** | AI executes instructions | Prescribe HOW in detail |
+| **Reasoning agent** | AI exercises judgment | Explain WHY, let it decide HOW |
 
-The assumption: Claude is a sophisticated algorithm. Tell it exactly what to do.
+The algorithm runner model shaped early prompt engineering: more detail = more control = better outcomes. This led to frameworks prescribing exact artifacts, file structures, and personas.
 
-### The Constitutional AI Model
+### The Constitutional AI Insight
 
-Claude is trained differently. Constitutional AI uses values, not rules.
+Claude is trained differently. Constitutional AI (Anthropic 2022) uses values-based training:
 
-Research on Constitutional AI (Anthropic 2022) shows:
-- Values-based training produces understanding and judgment
-- Rule-based constraints produce compliance and brittleness
+> "Values-based training produces understanding and judgment. Rule-based constraints produce compliance and brittleness."
 
 This suggests a different interaction model might be effective:
 - Explain WHY, not just WHAT
@@ -50,15 +37,14 @@ This suggests a different interaction model might be effective:
 
 ### The Uncertainty
 
-We don't know which model produces better outcomes. Both have plausible arguments:
+We don't know which produces better outcomes. Both have plausible arguments:
 
-**For mandate-based (spec-driven):**
+**For mandate (prescribe HOW):**
 - Removes ambiguity
 - Consistent structure
 - Explicit expectations
-- Works for traditional software
 
-**For motivation-based (principles-driven):**
+**For motivation (explain WHY):**
 - Enables judgment
 - Handles edge cases
 - Adapts to context
@@ -66,197 +52,145 @@ We don't know which model produces better outcomes. Both have plausible argument
 
 The discourse is tribal. This is testable.
 
----
+## The Question
 
-## The Research Question
+> Does prescribing HOW help or hurt, compared to explaining WHY?
 
-> Does the interaction model (mandate vs motivation) affect outcomes?
+## Experiment Design
 
-**Operationalized:**
-- **Mandate**: Detailed specification of steps, format, structure (prescribes HOW)
-- **Motivation**: Principles, goals, reasoning for why approach matters (explains WHAT + WHY)
+### Isolating the Variable
 
----
+The key insight: **all conditions share the same WHAT + WHY + CONSTRAINTS**. The only difference is whether/how HOW is prescribed.
 
-## Current Experiment Status
+This isolates the variable being tested.
 
-### What Has Been Tested
+### Conditions
 
-| Run | Model | Conditions | Tasks | N | Status |
-|-----|-------|------------|-------|---|--------|
-| v3-sonnet-signal | Claude Sonnet 4 | 3 | safe-calculator | 30 (10/condition) | Complete |
-| v3-quick-pilot | Claude Sonnet 4 | 3 | safe-calculator | 9 (3/condition) | Complete |
-| v2-pilot | Claude Sonnet 4 | 5 | safe-calculator | 15 | Complete |
-| Haiku pilot | Claude Haiku | 3 | safe-calculator | 6 (2/condition) | Complete |
+| Condition | Type | What Claude Receives |
+|-----------|------|---------------------|
+| `baseline` | Control | WHAT only — pure Claude, no methodology |
+| `motivation` | Principles | WHAT + WHY + CONSTRAINTS (Claude decides HOW) |
+| `mandate-template` | Mandate | Above + HOW via required template artifacts |
+| `mandate-structure` | Mandate | Above + HOW via required file structure |
+| `mandate-role` | Mandate | Above + HOW via prescribed expert persona |
 
-### Conditions Tested (v3)
+### Why These Specific Mandates?
 
-| Condition | Type | What It Provides |
-|-----------|------|------------------|
-| **full-autonomy** | Baseline | "Use your judgment" — minimal guidance |
-| **principle-guided** | WHAT+WHY | Context, constraints, rationale — Claude derives HOW |
-| **highly-structured** | HOW | 4-step prescribed process — explicit methodology |
+Each tests a different flavor of "prescribing HOW":
 
-**Condition files**: `experiments/rep-002/conditions/{full-autonomy,principle-guided,highly-structured}.md`
+| Mandate Type | Example Pattern | Tests Whether... |
+|--------------|-----------------|------------------|
+| **Template** | "Produce these artifacts: spec.md, plan.md, impl.md" | Required outputs help or constrain |
+| **Structure** | "Use this file layout: PROJECT/, PLAN/, STATE/" | Imposed organization helps or constrains |
+| **Role** | "You are a senior architect who always..." | Prescribed persona helps or constrains |
 
-### The Discriminating Task
+### Metrics
 
-**Task**: `safe-calculator` — Implement a function that safely evaluates arithmetic expressions.
+| Metric | What it Measures |
+|--------|------------------|
+| `pass@k` | Task completion in k attempts |
+| `recovery_rate` | Ability to fix own mistakes |
+| `tokens_used` | Efficiency (cost) |
 
-**Why this discriminates**: Two fundamentally different approaches exist:
-1. **Safe parser**: Build lexer/parser, never execute code (secure by construction)
-2. **Code execution**: Use dynamic evaluation with restrictions (insecure by construction)
+### Benchmark
 
-Runtime security tests pass for both approaches, but source inspection reveals the engineering decision.
+SWE-bench lite subset — real-world software engineering tasks with ground truth via test suites.
 
-### Evaluation Methods Used
+## Hypotheses
 
-| Method | What It Measures | Implementation | Status |
-|--------|------------------|----------------|--------|
-| **Function grader** | Runtime behavior (pass/fail) | `src/lab/evals/safe_calculator.py` | Working |
-| **Approach analysis** | Source inspection (safe parser vs code execution) | Pattern matching in grader | NEW (2026-01-22) |
-| **LLM-as-judge** | Perceived quality (documentation, structure) | Claude Haiku with rubric prompt | Working but problematic |
+**H0** (null): No difference between approaches.
 
-### Known Issues with Evaluation
+**H1**: Mandate outperforms motivation.
+- Explicit structure reduces errors
+- Prescribed process helps task completion
 
-**LLM-as-judge limitations:**
-- Uses Claude Haiku with a rubric prompt (not proper DeepEval GEval)
-- Favors verbose, well-documented code — even insecure code
-- Not blind to writing style (may have style preferences)
-- No inter-rater reliability testing
+**H2**: Motivation outperforms mandate.
+- Agency enables judgment
+- Principles handle varied contexts
+- Constitutional AI responds to reasoning
 
-**This is a known methodological weakness.** The approach analysis (source inspection) was added to provide a more objective measure.
+**H3**: Effect is task-dependent.
+- Mandate wins on structured tasks
+- Motivation wins on judgment tasks
 
----
+**H4**: Baseline wins.
+- Any methodology overhead hurts outcomes
+- Keep it simple
 
-## Interim Findings (Signal Detection)
+All outcomes are valuable findings.
 
-**Full details**: [rep-002-interim-findings.md](../findings/rep-002-interim-findings.md)
+## What Would Falsify Each Hypothesis
 
-### Two Signals Detected
+| Hypothesis | Falsified By |
+|------------|--------------|
+| H0 (no difference) | Statistically significant difference on any metric |
+| H1 (mandate wins) | Motivation outperforms on pass@k or recovery_rate |
+| H2 (motivation wins) | Any mandate outperforms on pass@k or recovery_rate |
+| H3 (task-dependent) | One approach wins across all task types |
+| H4 (baseline wins) | Any methodology beats baseline significantly |
 
-| Metric | Best Condition | Finding |
-|--------|----------------|---------|
-| LLM-as-judge quality | full-autonomy (0.891) | Autonomy produces verbose, well-documented code |
-| Secure-by-construction | principle-guided (80%) | WHAT+WHY produces fundamentally safer implementations |
+## Interim Findings
 
-### Approach Analysis Results (n=10 per condition)
+*Status: Pre-experiment — design phase*
 
-| Condition | Pure Safe Parser | Uses Code Execution | % Secure |
-|-----------|------------------|---------------------|----------|
-| **principle-guided** | 8 | 2 | **80%** |
-| full-autonomy | 7 | 3 | 70% |
-| highly-structured | 3 | 7 | **30%** |
+No quantitative results yet. However, observations during skill development and collaborative sessions suggest:
 
-### Key Finding
+**Directional signals (not evidence):**
+- Forceful language ("MUST", "MANDATORY") doesn't improve activation beyond threshold (Scott Spence eval, 200+ tests)
+- Claude exercises judgment about relevance regardless of instruction style
+- Over-specified instructions sometimes produce worse outcomes (anecdotal)
 
-**Prescribing HOW produces 2.5x worse security outcomes than explaining WHAT+WHY.**
+**What we don't know:**
+- Whether these observations generalize to controlled conditions
+- The magnitude of any effect
+- Whether task type moderates the effect
 
-- principle-guided vs highly-structured: 80% vs 30% (Δ = +50%)
-
----
-
-## Caveats and Limitations
-
-### Statistical Power
-- n=10 per condition is signal detection, not confirmation
-- Need n=60+ for robust statistical inference
-- Effect sizes are estimates, not conclusions
-
-### Single Task
-- Only tested on `safe-calculator`
-- Results may not generalize to other task types
-- Security-critical domain may favor principles differently than other domains
-
-### Condition Design
-- v3 conditions were designed to test autonomy spectrum
-- Original hypothesis was about specific frameworks (BMAD, GSD, spec-kit)
-- Current conditions are simplified proxies
-
-### Evaluation Methodology
-- LLM-as-judge is not rigorous (no proper GEval, no inter-rater reliability)
-- Approach analysis uses pattern matching (may miss edge cases)
-- No human evaluation baseline
-
-### Model Specificity
-- Tested primarily on Claude Sonnet 4
-- Haiku pilot (n=2) showed opposite pattern
-- May be capability-dependent effect
-
----
-
-## Hypotheses Status
-
-| Hypothesis | Prediction | Evidence | Status |
-|------------|------------|----------|--------|
-| H0 (no difference) | Approaches are equivalent | 80% vs 30% difference detected | LIKELY FALSIFIED |
-| H1 (mandate wins) | Prescribing HOW helps | 30% secure vs 80% for principles | CONTRADICTED |
-| H2 (motivation wins) | WHAT+WHY helps | 80% secure for principles | SUPPORTED (pending replication) |
-| H3 (task-dependent) | Depends on task type | Only 1 task tested | UNTESTED |
-| H4 (baseline wins) | Keep it simple | 70% for baseline (middle) | PARTIALLY SUPPORTED |
-
----
-
-## What Would Falsify Current Findings
-
-| Claim | Falsified by |
-|-------|--------------|
-| "WHAT+WHY produces better security outcomes" | Replication at n=60 shows no difference or reversal |
-| "Prescribing HOW hurts" | highly-structured matches or beats principle-guided at scale |
-| "Effect is real, not noise" | Effect size < 0.3 at larger n |
-
----
-
-## Next Steps
-
-### Immediate (Pending)
-1. **Replication run** — n=60 per condition with updated grader
-2. **Cross-model validation** — Test on Haiku, Opus
-3. **Additional tasks** — Test on other discriminating tasks
-
-### Methodology Improvements Needed
-1. **Proper LLM-as-judge** — Implement DeepEval GEval properly or use human evaluation
-2. **Inter-rater reliability** — Test consistency of evaluation
-3. **Blind evaluation** — Ensure evaluator can't infer condition from artifacts
-
-### Research Questions
-1. Is there a capability threshold where principles start/stop helping?
-2. Do other task types show the same pattern?
-3. What aspects of WHAT+WHY drive the effect (context? constraints? rationale?)
-
----
-
-## Files Reference
-
-| Artifact | Location |
-|----------|----------|
-| This REP | `reps/rep-002-mandates-vs-motivations.md` |
-| Interim findings | `findings/rep-002-interim-findings.md` |
-| Conditions | `experiments/rep-002/conditions/*.md` |
-| Tasks | `experiments/rep-002/tasks/` |
-| Scenario configs | `experiments/rep-002/scenarios/*.yaml` |
-| Results | `experiments/rep-002/results/` |
-| Grader | `src/lab/evals/safe_calculator.py` |
-| LLM Judge | `src/lab/adapters/driven/llm_judge.py` |
-
----
+**Next steps:**
+1. Finalize condition prompts (ensure fair representation)
+2. Pilot batch: 2 tasks × 5 conditions × 3 runs
+3. Signal batch if pilot validates harness
+4. Full batch for statistical significance
 
 ## Prior Art
 
 | Work | Relevance |
 |------|-----------|
 | Constitutional AI (Anthropic 2022) | Values vs rules in AI training |
-| Blaurock et al. 2024 | Transparency + control > engagement |
+| Blaurock et al. 2024 | Transparency + control produce complementary outcomes (β = 0.415, 0.507) |
 | Scott Spence eval | Forced language doesn't improve activation beyond threshold |
 | REP-001 | Methodology measurement is possible |
 
----
+### Gap This Fills
+
+No controlled experiments compare:
+- Motivation-based vs mandate-based prompting
+- The effect of prescribing HOW vs explaining WHY
+- Whether Constitutional AI training affects optimal interaction style
+
+## Open Questions
+
+1. **Fair representation**: How to crystallize each condition as a prompt without strawmanning?
+
+2. **Shared context**: What WHAT + WHY + CONSTRAINTS should all conditions share?
+
+3. **Task selection**: Which SWE-bench tasks best differentiate the approaches?
+
+4. **Model dependency**: Results may vary by model. Start with Sonnet, extend if findings warrant.
+
+## Why This Matters
+
+The agentic era is scaling fast. Teams adopt interaction patterns based on intuition and tribal preference. Evidence would help.
+
+**If motivation wins:** Validates the Constitutional AI interaction model. Stop prescribing HOW; explain WHY.
+
+**If mandate wins:** Structure helps even reasoning agents. Invest in process specification.
+
+**If task-dependent:** Provides decision framework for when to use which.
+
+**If baseline wins:** Framework overhead hurts. Keep interaction minimal.
 
 ## References
 
 - Anthropic. "Constitutional AI: Harmlessness from AI Feedback" (2022)
 - Blaurock, M. et al. "AI-Based Service Experience Contingencies" Journal of Service Research (2024)
-- BMAD Method: https://github.com/bmad-code-org/BMAD-METHOD
-- Get Shit Done: https://github.com/glittercowboy/get-shit-done
-- spec-kit: https://github.com/github/spec-kit
 - Feynman, R. "Cargo Cult Science" (1974)
