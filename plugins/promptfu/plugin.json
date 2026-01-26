@@ -1,0 +1,5 @@
+{
+  "name": "promptfu",
+  "description": "Prompt engineering for reasoning models. Search space constraints, not chain-of-thought.",
+  "version": "0.1.0"
+}

@@ -273,6 +273,29 @@
       ],
       "category": "development",
       "strict": false
+    },
+    {
+      "name": "promptfu",
+      "source": "./plugins/promptfu",
+      "description": "Prompt engineering for different model architectures. Use when: writing prompts for reasoning models (o1, Gemini Deep Think) vs autoregressive models (Claude, GPT-4). Covers search space constraints, scenario injection, triangulation.",
+      "version": "0.1.0",
+      "author": {
+        "name": "yzavyas",
+        "email": "yza.vyas@gmail.com"
+      },
+      "homepage": "https://github.com/yzavyas/claude-1337",
+      "repository": "https://github.com/yzavyas/claude-1337",
+      "license": "MIT",
+      "keywords": [
+        "prompts",
+        "prompt-engineering",
+        "reasoning-models",
+        "o1",
+        "deep-think",
+        "constraints"
+      ],
+      "category": "development",
+      "strict": false
     }
   ]
 }

@@ -42,5 +42,9 @@
   "arch-guild": {
     "displayName": "Architecture Guild",
     "category": "foundation"
+  },
+  "promptfu": {
+    "displayName": "Prompt Engineering",
+    "category": "foundation"
   }
 }
