@@ -26,7 +26,7 @@ from lab.adapters.driven.phoenix import PhoenixTracerAdapter
 from lab.adapters.driven.console_tracer import ConsoleTracerAdapter, NoOpTracerAdapter
 from lab.adapters.driven.filesystem import StreamingFileAdapter
 from lab.adapters.driven.mock_grader import MockGraderAdapter
-from lab.adapters.driven.swebench_grader import SWEBenchGraderAdapter
+from lab.adapters.driven.function_grader import FunctionGraderAdapter
 
 from lab.ports.driven.llm import LLMPort
 from lab.ports.driven.grader import GraderPort
@@ -40,7 +40,7 @@ from lab.ports.driving.use_cases import (
 
 
 TracerType = Literal["phoenix", "console", "noop"]
-GraderType = Literal["mock", "swebench"]
+GraderType = Literal["mock", "function"]
 
 
 class ContainerConfig(BaseModel):
@@ -58,8 +58,6 @@ class ContainerConfig(BaseModel):
     # Grader configuration
     grader: GraderType = "mock"
     mock_pass_rate: float = 0.5  # For mock grader
-    swebench_workspace: Path | None = None  # For swebench grader
-    swebench_timeout: int = 300  # 5 min default
 
     # LLM configuration
     working_dir: Path | None = None
@@ -94,20 +92,16 @@ class Container:
         working_dir: Path | None = None,
         verbose: bool = True,
         mock_pass_rate: float = 0.5,
-        swebench_workspace: Path | None = None,
-        swebench_timeout: int = 300,
     ) -> "Container":
         """Create a container with sensible defaults.
 
         Args:
             tracer: Which tracer to use (phoenix, console, noop)
-            grader: Which grader to use (mock, swebench)
+            grader: Which grader to use (mock, function)
             results_dir: Where to store results
             working_dir: Working directory for agent
             verbose: Verbose tracing output
             mock_pass_rate: Pass rate for mock grader
-            swebench_workspace: Workspace for swebench grader
-            swebench_timeout: Timeout for swebench grader
 
         Returns:
             Configured Container instance
@@ -119,8 +113,6 @@ class Container:
             verbose_tracing=verbose,
             grader=grader,
             mock_pass_rate=mock_pass_rate,
-            swebench_workspace=swebench_workspace,
-            swebench_timeout=swebench_timeout,
         )
         return cls(config)
 
@@ -142,10 +134,10 @@ class Container:
                     strategy="random",
                     pass_rate=self.config.mock_pass_rate,
                 )
-            elif self.config.grader == "swebench":
-                self._grader = SWEBenchGraderAdapter(
-                    workspace_dir=self.config.swebench_workspace,
-                    timeout=self.config.swebench_timeout,
+            elif self.config.grader == "function":
+                self._grader = FunctionGraderAdapter(
+                    timeout=30,
+                    keep_workspace=True,  # Keep for debugging
                 )
             else:
                 raise ValueError(f"Unknown grader type: {self.config.grader}")

@@ -1,0 +1,36 @@
+# REP-002 v3 Quick Pilot: Autonomy Spectrum
+#
+# Fast validation with Haiku before investing in larger runs.
+# Just testing that the new design works and shows any signal.
+#
+# Run: lab-1337 batch run v3-quick-pilot -e rep-002 --grader function
+#
+name: rep-002-v3-quick-pilot
+
+grader: function
+
+tasks:
+  - tasks/discriminating/safe-calculator-task.yaml
+
+conditions:
+  - conditions/full-autonomy.md
+  - conditions/principle-guided.md
+  - conditions/highly-structured.md
+
+# Haiku for speed (~10-15 min total)
+model: haiku
+
+# Minimal runs - just validate the design
+runs_per_condition: 2
+
+iteration:
+  strategy: self-review
+  max_iterations: 2
+  review_prompt: |
+    Review your implementation:
+    1. Does it handle all the requirements correctly?
+    2. Are there edge cases you haven't considered?
+    3. Is it robust against unexpected input?
+
+# Expected: ~6 runs × ~2 min = ~12 minutes
+# Then judge evaluation: ~6 runs × ~5 sec = ~30 seconds

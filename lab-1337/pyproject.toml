@@ -19,6 +19,15 @@ dependencies = [
     "swebench>=2.0.0",  # SWE-bench evaluation harness
     "arize-phoenix>=4.0.0",  # Local trace visualization
     "openinference-instrumentation-anthropic>=0.1.0",  # Auto-instrument Claude calls
+    "anthropic>=0.76.0",
+    "deepeval>=3.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.8.0",
 ]
 
 [project.scripts]
@@ -35,3 +44,13 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/lab"]
 
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

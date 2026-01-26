@@ -13,10 +13,8 @@ interface PluginInfo {
 	sourceUrl: string;
 }
 
-// Pre-render all plugins at build time
-export async function entries() {
-	return [{}]; // Single catalog page
-}
+// Pre-render this page at build time
+export const prerender = true;
 
 function parseReadme(content: string): { displayName: string; description: string } {
 	const lines = content.split('\n');

@@ -1,0 +1,30 @@
+# REP-002 Discriminating Batch
+#
+# Tests mandate vs motivation on the safe-calculator task.
+# Uses function grader with custom grading logic.
+#
+name: rep-002-discriminating
+
+# Task selection
+tasks:
+  - discriminating/safe-calculator-task
+
+# Conditions to compare
+conditions:
+  - baseline
+  - motivation
+  - mandate-template
+
+# Model and runs
+model: sonnet
+runs_per_condition: 3  # Start small, can increase
+
+# Iteration - all get self-review to control for that variable
+iteration:
+  strategy: self-review
+  max_iterations: 2
+  review_prompt: |
+    Review your implementation:
+    1. Does it handle all basic arithmetic correctly?
+    2. Are there edge cases you haven't considered?
+    3. Is it robust and production-ready?

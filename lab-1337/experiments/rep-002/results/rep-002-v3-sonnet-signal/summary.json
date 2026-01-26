@@ -1,0 +1,49 @@
+{
+  "batch_name": "rep-002-v3-sonnet-signal",
+  "timestamp": "2026-01-21T03:23:30.945345",
+  "total_runs": 30,
+  "completed_runs": 30,
+  "passed_runs": 30,
+  "by_condition": {
+    "full-autonomy": {
+      "condition_name": "full-autonomy",
+      "total_runs": 10,
+      "passed": 10,
+      "failed": 0,
+      "total_tokens": 51573,
+      "total_iterations": 20,
+      "total_duration_ms": 1412806,
+      "pass_rate": 1.0,
+      "avg_tokens": 5157.3,
+      "avg_iterations": 2.0,
+      "avg_duration_ms": 141280.6
+    },
+    "principle-guided": {
+      "condition_name": "principle-guided",
+      "total_runs": 10,
+      "passed": 10,
+      "failed": 0,
+      "total_tokens": 59075,
+      "total_iterations": 20,
+      "total_duration_ms": 1610497,
+      "pass_rate": 1.0,
+      "avg_tokens": 5907.5,
+      "avg_iterations": 2.0,
+      "avg_duration_ms": 161049.7
+    },
+    "highly-structured": {
+      "condition_name": "highly-structured",
+      "total_runs": 10,
+      "passed": 10,
+      "failed": 0,
+      "total_tokens": 40930,
+      "total_iterations": 20,
+      "total_duration_ms": 1520979,
+      "pass_rate": 1.0,
+      "avg_tokens": 4093.0,
+      "avg_iterations": 2.0,
+      "avg_duration_ms": 152097.9
+    }
+  },
+  "pass_rate": 1.0
+}

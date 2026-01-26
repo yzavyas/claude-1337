@@ -1,0 +1,37 @@
+# REP-002 v3 Sonnet Signal Detection
+#
+# Medium-scale run to detect effect sizes.
+# n=10 gives ~80% power to detect d=0.8 (large effects)
+#
+# Run: lab-1337 batch run v3-sonnet-signal -e rep-002 --grader function
+# Judge: lab-1337 judge evaluate rep-002-v3-sonnet-signal -e rep-002
+#
+name: rep-002-v3-sonnet-signal
+
+grader: function
+
+tasks:
+  - tasks/discriminating/safe-calculator-task.yaml
+
+conditions:
+  - conditions/full-autonomy.md
+  - conditions/principle-guided.md
+  - conditions/highly-structured.md
+
+# Sonnet for better capability
+model: sonnet
+
+# n=10 per condition (30 total runs)
+runs_per_condition: 10
+
+iteration:
+  strategy: self-review
+  max_iterations: 2
+  review_prompt: |
+    Review your implementation:
+    1. Does it handle all the requirements correctly?
+    2. Are there edge cases you haven't considered?
+    3. Is it robust against unexpected input?
+
+# Expected: ~30 runs × ~2-3 min = ~60-90 minutes
+# Cost: ~30 runs × $0.15-0.20 = ~$5-6

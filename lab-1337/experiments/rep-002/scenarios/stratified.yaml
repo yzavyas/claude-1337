@@ -1,0 +1,73 @@
+# REP-002: Stratified Tasks - Mandate vs Motivation
+#
+# DEPRECATED: SWE-bench Docker grader has been removed.
+# These tasks are kept for reference but the scenario cannot be executed.
+# See v2-pilot.yaml for the function grader approach.
+#
+# 10 tasks from SWE-bench Verified, stratified by ambiguity:
+# - 5 low-ambiguity (clear bugs with specific expected behavior)
+# - 5 high-ambiguity (design judgment required)
+#
+# Hypothesis: Motivation-based prompting (WHY) produces better outcomes
+# on HIGH ambiguity tasks, while mandate-based prompting may work
+# equally well on LOW ambiguity tasks.
+
+name: rep-002-stratified
+
+# Grader configuration
+# NOTE: swebench-docker grader removed - this scenario is deprecated
+grader: function  # Was: swebench-docker
+
+# Task selection - stratified by ambiguity
+# Format: tasks/<subdir>/<task-file>.yaml (relative to experiment root)
+tasks:
+  # LOW AMBIGUITY (clear expected behavior)
+  # These are specific bugs with clear reproduction and expected outcomes
+  - tasks/swebench/sympy__sympy-13480.yaml      # .subs error on coth - specific crash
+  - tasks/swebench/pytest-dev__pytest-10051.yaml  # caplog conflict - specific behavior
+  - tasks/swebench/scikit-learn__scikit-learn-10297.yaml  # store_cv_values bug
+  - tasks/swebench/matplotlib__matplotlib-20488.yaml  # test failing - specific
+  - tasks/swebench/django__django-10554.yaml     # Union queryset ordering - specific
+
+  # HIGH AMBIGUITY (requires judgment)
+  # These need interpretation of requirements or design decisions
+  - tasks/swebench/django__django-10097.yaml     # URLValidator - what chars are "invalid"?
+  - tasks/swebench/django__django-11848.yaml     # parse_http_date - spec interpretation
+  - tasks/swebench/astropy__astropy-13236.yaml   # "consider removing" - design decision
+  - tasks/swebench/astropy__astropy-13977.yaml   # "should X return..." - API design
+  - tasks/swebench/django__django-11087.yaml     # "optimize .delete()" - implementation choice
+
+# Conditions to compare (all 5 conditions)
+# Format: conditions/<name>.md (relative to experiment root)
+conditions:
+  - conditions/baseline.md           # Control: WHAT only, pure Claude
+  - conditions/motivation.md         # Principles: WHAT + WHY + CONSTRAINTS (Claude decides HOW)
+  - conditions/mandate-template.md   # Mandate: + HOW via required template artifacts
+  - conditions/mandate-structure.md  # Mandate: + HOW via required file structure (GSD-style)
+  - conditions/mandate-role.md       # Mandate: + HOW via prescribed expert persona
+
+# Model and runs
+model: sonnet
+runs_per_condition: 3  # Start small for pilot
+
+# No iteration for first pass - just direct attempt
+iteration:
+  strategy: none
+  max_iterations: 1
+
+# Metadata for analysis
+metadata:
+  task_stratification:
+    low_ambiguity:
+      - sympy__sympy-13480
+      - pytest-dev__pytest-10051
+      - scikit-learn__scikit-learn-10297
+      - matplotlib__matplotlib-20488
+      - django__django-10554
+    high_ambiguity:
+      - django__django-10097
+      - django__django-11848
+      - astropy__astropy-13236
+      - astropy__astropy-13977
+      - django__django-11087
+  hypothesis: "Motivation-based prompting discriminates on high-ambiguity tasks"

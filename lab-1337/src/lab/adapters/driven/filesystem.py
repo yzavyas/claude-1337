@@ -213,15 +213,19 @@ class StreamingFileAdapter:
 
         if path.suffix in (".yaml", ".yml"):
             data = yaml.safe_load(content)
+            # Support both SWE-bench format (problem_statement) and our format (prompt)
+            prompt = data.get("prompt") or data.get("problem_statement", "")
+            hints = data.get("hints") or data.get("hints_text", "")
+            task_id = data.get("id") or data.get("instance_id", path.stem)
             return Task(
-                id=data.get("id", path.stem),
-                prompt=data.get("prompt", ""),
+                id=task_id,
+                prompt=prompt,
                 repo=data.get("repo", ""),
                 base_commit=data.get("base_commit", ""),
                 fail_to_pass=tuple(data.get("fail_to_pass", [])),
                 pass_to_pass=tuple(data.get("pass_to_pass", [])),
                 difficulty=data.get("difficulty", "medium"),
-                hints=data.get("hints", ""),
+                hints=hints,
             )
         else:
             # Markdown with YAML frontmatter

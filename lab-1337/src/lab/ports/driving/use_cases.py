@@ -113,6 +113,9 @@ class RunExperimentUseCase:
         batch: Batch,
     ) -> RunResult:
         """Execute a single run."""
+        import logging
+        log = logging.getLogger("lab.usecase")
+
         run.start()
 
         with self.tracer.span("experiment_run", {
@@ -128,33 +131,53 @@ class RunExperimentUseCase:
                 if not task or not condition:
                     raise ValueError(f"Missing task or condition for run: {run.identity}")
 
-                # Build prompts separately for proper agent configuration
-                # - condition.prompt → system_prompt (agent framing/personality)
-                # - task_prompt → user prompt (what to solve)
-                task_prompt = self.prompt_builder.build_task_prompt(task)
+                # Setup grader FIRST to get working directory
+                working_dir = await self.grader.setup(task)
+                log.info(f"Grader setup returned cwd: {working_dir}")
 
-                # Call LLM with iteration
+                # Build task prompt
+                task_prompt = self.prompt_builder.build_task_prompt(task)
+                log.debug(f"Task prompt (first 200 chars): {task_prompt[:200]}...")
+
+                # Call LLM - Claude works IN the grader's working directory
                 config = LLMConfig(
                     model=batch.model,
-                    system_prompt=condition.prompt,  # Condition becomes system prompt
+                    system_prompt=condition.prompt,
+                    cwd=working_dir,  # Claude executes in the cloned repo
                 )
-                response, iterations = await self.llm.generate_with_iteration(
-                    prompt=task_prompt,  # Task is the user prompt
+
+                # Generate with trace capture for post-hoc analysis
+                llm_result = await self.llm.generate_with_iteration(
+                    prompt=task_prompt,
                     config=config,
                     max_iterations=batch.iteration.max_iterations,
                     review_prompt=batch.iteration.review_prompt,
+                    capture_trace=True,  # NEW: Capture conversation trace
                 )
 
-                # Setup grader for this task (clone repo, etc.)
-                await self.grader.setup(task)
+                # Unpack result (may be 2 or 3 tuple depending on capture_trace)
+                if len(llm_result) == 3:
+                    response, iterations, conversation_trace = llm_result
+                else:
+                    response, iterations = llm_result
+                    conversation_trace = None
+
+                # Get the solution (git diff) after Claude made changes
+                solution = await self.grader.get_solution(task)
+                log.info(f"Solution captured (length: {len(solution)} chars)")
+                if solution:
+                    log.debug(f"Solution preview: {solution[:500]}...")
+                else:
+                    log.warning("No solution (empty git diff) - Claude may not have made changes")
 
                 # Grade the solution
-                grade = await self.grader.grade(response.content, task)
+                grade = await self.grader.grade(solution, task)
+                log.info(f"Grade result: passed={grade.passed}, message={grade.message}")
 
                 # Cleanup grader
                 await self.grader.teardown(task)
 
-                # Build result
+                # Build result with trace and solution for post-hoc analysis
                 result = RunResult(
                     task_id=run.task_id,
                     condition_name=run.condition_name,
@@ -166,6 +189,9 @@ class RunExperimentUseCase:
                     tokens_output=response.tokens_output,
                     duration_ms=response.duration_ms,
                     trace_id=self.tracer.get_trace_id(),
+                    # NEW: Store for LLM-as-judge post-processing
+                    solution=solution if solution else None,
+                    conversation_trace=conversation_trace,
                 )
 
                 span.set_attribute("passed", result.passed)

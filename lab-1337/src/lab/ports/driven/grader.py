@@ -55,9 +55,7 @@ class GraderPort(Protocol):
     2. Get back pass/fail with optional score
 
     Implementations:
-    - SWEBenchGraderAdapter: Runs SWE-bench test harness
-    - TestRunnerAdapter: Runs pytest/unittest
-    - LLMJudgeAdapter: Uses LLM to grade
+    - FunctionGraderAdapter: Custom function-based grading
     - MockGraderAdapter: For testing
     """
 
@@ -77,11 +75,19 @@ class GraderPort(Protocol):
         """
         ...
 
-    async def setup(self, task: Task) -> None:
+    async def setup(self, task: Task) -> str | None:
         """Setup environment for grading a task.
 
         Some graders need setup (clone repo, create container, etc.)
-        This is optional - default implementation does nothing.
+        Returns the working directory where Claude should execute,
+        or None if no special directory is needed.
+        """
+        ...
+
+    async def get_solution(self, task: Task) -> str:
+        """Get the solution (git diff) after Claude has made changes.
+
+        For SWE-bench, this captures `git diff` from the working directory.
         """
         ...
 
