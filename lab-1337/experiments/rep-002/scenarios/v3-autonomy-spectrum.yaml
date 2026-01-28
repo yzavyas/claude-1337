@@ -1,0 +1,59 @@
+# REP-002 v3: Autonomy vs Structure Spectrum
+#
+# Research Question:
+# "What is the right balance between autonomy/judgment and structure/prescription
+#  for Opus 4.5?"
+#
+# Key insight from guild deliberation:
+# - Previous designs had confounds (mandate was superset of motivation)
+# - CONSTRAINTS now in task prompt (constant across conditions)
+# - Three points on the autonomy spectrum
+#
+# Run: lab-1337 batch run v3-autonomy-spectrum -e rep-002 --grader function
+# Judge: lab-1337 judge evaluate rep-002-v3-autonomy-spectrum -e rep-002
+#
+name: rep-002-v3-autonomy-spectrum
+
+# Grader type
+grader: function
+
+# Task selection - discriminating tasks with embedded constraints
+tasks:
+  - tasks/discriminating/safe-calculator-task.yaml
+
+# Three points on the autonomy spectrum
+conditions:
+  - conditions/full-autonomy.md      # High autonomy, low structure
+  - conditions/principle-guided.md   # Medium autonomy (derive from principles)
+  - conditions/highly-structured.md  # Low autonomy, high structure
+
+# Model - testing on Opus 4.5 specifically
+model: opus
+
+# Sample size per condition
+# n=20 for signal detection phase (guild recommendation)
+runs_per_condition: 20
+
+# Iteration - all conditions get self-review (control variable)
+iteration:
+  strategy: self-review
+  max_iterations: 2
+  review_prompt: |
+    Review your implementation:
+    1. Does it handle all the requirements correctly?
+    2. Are there edge cases you haven't considered?
+    3. Is it robust against unexpected input?
+
+# Expected analysis:
+#
+# Primary metric: judgment_under_ambiguity (LLM-as-judge, 0-3)
+#
+# Hypotheses:
+# H1: principle-guided > full-autonomy (principles help without constraining)
+# H2: principle-guided > highly-structured (judgment beats prescription)
+# H3: highly-structured >= full-autonomy (some structure helps)
+#
+# Decision gates (from Ixian):
+# - d < 0.1 after n=20: Abandon (no signal)
+# - d >= 0.3 in any direction: Proceed to n=60
+# - ICC >= 0.7 inter-rater reliability required

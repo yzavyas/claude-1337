@@ -69,25 +69,33 @@ The key insight: **all conditions share the same WHAT + WHY + CONSTRAINTS**. The
 
 This isolates the variable being tested.
 
-### Conditions
+### Design Evolution
 
-| Condition | Type | What Claude Receives |
-|-----------|------|---------------------|
-| `baseline` | Control | WHAT only — pure Claude, no methodology |
-| `motivation` | Principles | WHAT + WHY + CONSTRAINTS (Claude decides HOW) |
-| `mandate-template` | Mandate | Above + HOW via required template artifacts |
-| `mandate-structure` | Mandate | Above + HOW via required file structure |
-| `mandate-role` | Mandate | Above + HOW via prescribed expert persona |
+Original design had 5 conditions (baseline, motivation, mandate-template, mandate-structure, mandate-role). Signal detection revealed confounds:
+- "mandate" conditions were supersets of "motivation" (not properly isolated)
+- Too many conditions for clear signal
 
-### Why These Specific Mandates?
+Simplified to 3-point autonomy spectrum for cleaner comparison.
 
-Each tests a different flavor of "prescribing HOW":
+### v3: Autonomy Spectrum (Signal Detection Phase)
 
-| Mandate Type | Example Pattern | Tests Whether... |
-|--------------|-----------------|------------------|
-| **Template** | "Produce these artifacts: spec.md, plan.md, impl.md" | Required outputs help or constrain |
-| **Structure** | "Use this file layout: PROJECT/, PLAN/, STATE/" | Imposed organization helps or constrains |
-| **Role** | "You are a senior architect who always..." | Prescribed persona helps or constrains |
+| Condition | Autonomy Level | What Claude Receives |
+|-----------|----------------|---------------------|
+| `full-autonomy` | High | WHAT only, pure Claude, no methodology |
+| `principle-guided` | Medium | WHAT + WHY + CONSTRAINTS (Claude derives HOW from principles) |
+| `highly-structured` | Low | WHAT + WHY + CONSTRAINTS + explicit HOW (artifacts, structure) |
+
+**Flaw discovered**: "principle-guided" contained generic principles Claude already knows (redundant info, not novel context).
+
+### v4: Fixed Conditions (Next Phase)
+
+| Condition | What It Tests |
+|-----------|---------------|
+| `full-autonomy` | Baseline, pure Claude judgment |
+| `what-why-constraints` | NOVEL domain context specific to the task (not generic principles) |
+| `spec-driven` | Explicit process methodology (GSD/BMAD style) |
+
+The fix: replace "generic principles" with "novel domain context" that Claude doesn't already have.
 
 ### Metrics
 
