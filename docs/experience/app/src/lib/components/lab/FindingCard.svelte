@@ -2,22 +2,22 @@
 	/**
 	 * FindingCard — Lab Component
 	 *
-	 * Card for published findings. Solid presence with sage accent.
-	 * Pinned items get a gold ribbon marker.
+	 * Card for published REPs with findings. Click opens a dialog preview.
 	 */
-	import { base } from '$app/paths';
-	import Badge from '$lib/components/ui/Badge.svelte';
+	import StatusBadge from './StatusBadge.svelte';
+	import FindingDialog from './FindingDialog.svelte';
 
 	interface Finding {
 		id: string;
 		title: string;
-		subtitle?: string;
 		summary: string;
+		hypothesis?: string;
+		findingsRaw?: string;
 		date: string;
 		keywords: string[];
 		links: {
-			findings: string;
-			proposal?: string;
+			rep: string;
+			experiment?: string;
 		};
 	}
 
@@ -30,48 +30,65 @@
 		pinned?: boolean;
 		onKeywordClick?: (keyword: string) => void;
 	} = $props();
+
+	let dialogOpen = $state(false);
+
+	function openDialog() {
+		dialogOpen = true;
+	}
+
+	function handleKeydown(e: KeyboardEvent) {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			openDialog();
+		}
+	}
+
+	function handleKeywordClick(e: MouseEvent, keyword: string) {
+		e.stopPropagation();
+		onKeywordClick?.(keyword);
+	}
 </script>
 
-<article class="finding-card" class:pinned>
+<article
+	class="finding-card"
+	class:pinned
+	onclick={openDialog}
+	onkeydown={handleKeydown}
+	role="button"
+	tabindex="0"
+	aria-haspopup="dialog"
+>
 	<header class="card-header">
 		<span class="finding-id">REP-{finding.id}</span>
-		<Badge variant="sage">Published</Badge>
+		<StatusBadge status="implemented" />
 	</header>
 
-	<h3 class="finding-title">
-		<a href="{base}{finding.links.findings}">{finding.title}</a>
-	</h3>
+	<h3 class="finding-title">{finding.title}</h3>
 
-	{#if finding.subtitle}
-		<p class="finding-subtitle">{finding.subtitle}</p>
-	{/if}
-
-	{#if finding.summary}
-		<p class="finding-summary">{finding.summary}</p>
-	{/if}
-
-	<div class="finding-keywords">
-		{#each finding.keywords.slice(0, 4) as keyword}
-			<button
-				type="button"
-				class="keyword-chip"
-				onclick={() => onKeywordClick?.(keyword)}
-			>
-				{keyword}
-			</button>
-		{/each}
-	</div>
-
-	<footer class="card-footer">
-		<span class="finding-date">{finding.date}</span>
-		<div class="finding-links">
-			<a href="{base}{finding.links.findings}" class="finding-link primary">Findings</a>
-			{#if finding.links.proposal}
-				<a href="{base}{finding.links.proposal}" class="finding-link">Proposal</a>
-			{/if}
+	{#if finding.keywords.length > 0}
+		<div class="finding-keywords">
+			{#each finding.keywords.slice(0, 4) as keyword}
+				<button
+					type="button"
+					class="keyword-chip"
+					onclick={(e) => handleKeywordClick(e, keyword)}
+				>
+					{keyword}
+				</button>
+			{/each}
 		</div>
-	</footer>
+	{/if}
+
+	<div class="card-hint">
+		<span class="hint-text">Click to preview</span>
+		<svg class="hint-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+			<path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+		</svg>
+	</div>
 </article>
+
+<FindingDialog {finding} bind:open={dialogOpen} />
 
 <style>
 	.finding-card {
@@ -82,33 +99,22 @@
 		border-radius: var(--radius-lg);
 		padding: var(--space-5);
 		box-shadow: var(--shadow-sm);
+		cursor: pointer;
 		transition:
 			border-color var(--duration-fast) var(--ease-out),
-			box-shadow var(--duration-fast) var(--ease-out);
+			box-shadow var(--duration-fast) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
 	}
 
 	.finding-card:hover {
-		border-color: var(--color-accent);
-		border-left-color: var(--color-accent);
+		border-color: var(--color-border-strong);
 		box-shadow: var(--shadow-md);
+		transform: translateY(-2px);
 	}
 
-	/* Gold ribbon for pinned findings */
-	.finding-card.pinned::after {
-		content: '';
-		position: absolute;
-		top: -4px;
-		left: var(--space-4);
-		width: 8px;
-		height: 24px;
-		background: linear-gradient(
-			135deg,
-			var(--primitive-gold-300) 0%,
-			var(--primitive-gold-500) 50%,
-			var(--primitive-gold-300) 100%
-		);
-		border-radius: 0 0 2px 2px;
-		box-shadow: 0 2px 4px hsl(35 30% 15% / 20%);
+	.finding-card:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
 	}
 
 	.card-header {
@@ -130,37 +136,14 @@
 		font-weight: var(--font-medium);
 		color: var(--color-text-primary);
 		line-height: var(--leading-snug);
-		margin-bottom: var(--space-2);
-	}
-
-	.finding-title a {
-		color: inherit;
-		text-decoration: none;
-	}
-
-	.finding-title a:hover {
-		color: var(--color-accent);
-	}
-
-	.finding-subtitle {
-		font-size: var(--text-sm);
-		font-style: italic;
-		color: var(--color-text-tertiary);
 		margin-bottom: var(--space-3);
-	}
-
-	.finding-summary {
-		font-size: var(--text-sm);
-		color: var(--color-text-secondary);
-		line-height: var(--leading-relaxed);
-		margin-bottom: var(--space-4);
 	}
 
 	.finding-keywords {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-1);
-		margin-bottom: var(--space-4);
+		margin-bottom: var(--space-3);
 	}
 
 	.keyword-chip {
@@ -169,7 +152,7 @@
 		color: var(--color-text-tertiary);
 		background: var(--color-bg-elevated);
 		border: 1px solid var(--color-border);
-		padding: 2px var(--space-2);
+		padding: var(--space-1) var(--space-2);
 		border-radius: var(--radius-sm);
 		cursor: pointer;
 		transition: all var(--duration-fast) var(--ease-out);
@@ -180,39 +163,44 @@
 		color: var(--color-text-secondary);
 	}
 
-	.card-footer {
+	.card-hint {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		padding-top: var(--space-4);
-		border-top: 1px solid var(--color-border);
+		gap: var(--space-1);
+		padding-top: var(--space-3);
+		border-top: 1px dashed var(--color-border);
 	}
 
-	.finding-date {
+	.hint-text {
 		font-family: var(--font-mono);
 		font-size: var(--text-xs);
 		color: var(--color-text-muted);
-		font-variant-numeric: tabular-nums;
 	}
 
-	.finding-links {
-		display: flex;
-		gap: var(--space-3);
+	.hint-icon {
+		color: var(--color-text-muted);
+		transition: transform var(--duration-fast) var(--ease-out);
 	}
 
-	.finding-link {
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		color: var(--color-text-tertiary);
-		text-decoration: none;
-		transition: color var(--duration-fast) var(--ease-out);
+	.finding-card:hover .hint-icon {
+		transform: translateX(2px);
 	}
 
-	.finding-link:hover {
-		color: var(--color-accent);
-	}
-
-	.finding-link.primary {
-		color: var(--color-accent);
+	/* Pinned ribbon */
+	.finding-card.pinned::after {
+		content: '';
+		position: absolute;
+		top: -4px;
+		left: var(--space-4);
+		width: 8px;
+		height: 24px;
+		background: linear-gradient(
+			135deg,
+			var(--primitive-gold-300) 0%,
+			var(--primitive-gold-500) 50%,
+			var(--primitive-gold-300) 100%
+		);
+		border-radius: 0 0 2px 2px;
+		box-shadow: 0 2px 4px hsl(35 30% 15% / 20%);
 	}
 </style>

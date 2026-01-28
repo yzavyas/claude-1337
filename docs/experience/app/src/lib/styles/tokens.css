@@ -174,6 +174,66 @@
 	--primitive-z-modal: 400;
 	--primitive-z-toast: 500;
 
+	/* ===========================================
+	   LAB DARK MODE PRIMITIVES - Observatory Annex
+	   Revised for accessibility (2026-01-28)
+	   =========================================== */
+
+	/* --- Deep Observation Space (Night Sky) --- */
+	--primitive-night-950: oklch(8% 0.015 250);    /* Deepest void */
+	--primitive-night-900: oklch(10% 0.018 250);   /* Primary background */
+	--primitive-night-850: oklch(12% 0.02 245);    /* Elevated surface */
+	--primitive-night-800: oklch(15% 0.022 240);   /* Cards, panels */
+	--primitive-night-750: oklch(18% 0.02 235);    /* Hover states */
+	--primitive-night-700: oklch(22% 0.018 230);   /* Active states */
+
+	/* --- Celestial Gold (Light, not repair) --- */
+	--primitive-celestial-50: oklch(98% 0.03 85);
+	--primitive-celestial-100: oklch(94% 0.06 82);
+	--primitive-celestial-200: oklch(88% 0.1 78);
+	--primitive-celestial-300: oklch(80% 0.14 72);  /* Trajectory lines */
+	--primitive-celestial-400: oklch(75% 0.16 68);  /* Primary accent */
+	--primitive-celestial-500: oklch(70% 0.17 65);  /* Hover accent */
+	--primitive-celestial-600: oklch(62% 0.15 60);  /* Muted text accent */
+
+	/* --- Observation Paper (Cream surfaces) ---
+	   8% luminance gap for reliable discrimination (Ware 2012) */
+	--primitive-paper-50: oklch(98% 0.01 85);      /* Primary paper (findings) */
+	--primitive-paper-100: oklch(90% 0.02 82);     /* Elevated paper (proposals) */
+	--primitive-paper-200: oklch(85% 0.025 78);    /* Hover paper */
+
+	/* --- Starlight Text (for dark backgrounds) --- */
+	--primitive-starlight-50: oklch(95% 0.005 85);  /* Primary text */
+	--primitive-starlight-100: oklch(88% 0.008 80); /* Secondary */
+	--primitive-starlight-200: oklch(75% 0.01 75);  /* Tertiary */
+	--primitive-starlight-300: oklch(60% 0.012 70); /* Muted */
+	--primitive-starlight-400: oklch(45% 0.015 65); /* Very muted */
+
+	/* --- Grid/Coordinate System --- */
+	--primitive-grid-line: oklch(20% 0.015 250 / 30%);
+	--primitive-grid-line-major: oklch(25% 0.02 250 / 40%);
+	--primitive-grid-dot: oklch(30% 0.02 250 / 20%);
+
+	/* --- Dark Mode Status Colors ---
+	   Luminance 72-75% for improved contrast (WCAG)
+	   Paired with icons for color blindness accessibility */
+	--primitive-night-sage: oklch(72% 0.12 145);      /* Published/Implemented */
+	--primitive-night-plum: oklch(72% 0.12 310);      /* Discussion */
+	--primitive-night-terracotta: oklch(75% 0.14 50); /* FCP - hue 50 (more orange) */
+	--primitive-night-ocean: oklch(72% 0.12 230);     /* Accepted */
+	--primitive-night-rust: oklch(70% 0.14 25);       /* Rejected */
+	--primitive-night-slate: oklch(65% 0.04 250);     /* Draft */
+
+	/* --- Transition Threshold Gradient --- */
+	--primitive-threshold-gradient: linear-gradient(
+		to bottom,
+		oklch(98% 0.01 85) 0%,
+		oklch(75% 0.02 85) 25%,
+		oklch(50% 0.02 250) 50%,
+		oklch(25% 0.018 250) 75%,
+		oklch(10% 0.018 250) 100%
+	);
+
 
 	/* ===========================================
 	   LAYER 2: SEMANTIC ALIASES
@@ -454,3 +514,5 @@
 		--duration-slower: 0ms;
 	}
 }
+
+

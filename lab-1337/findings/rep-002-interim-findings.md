@@ -1,3 +1,7 @@
+---
+tags: [prompting, security, autonomy]
+---
+
 # REP-002 Interim Findings: Mandates vs Motivations
 
 - **Status**: Interim (dual signal detected, framing clarified)

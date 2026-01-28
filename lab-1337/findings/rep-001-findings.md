@@ -1,44 +1,61 @@
-# REP-001 Findings
+---
+tags: [iteration, cost-benefit, humaneval]
+---
 
-**Date**: 2026-01-16
-**Status**: Complete
+# When Iteration Actually Helps
+
+**REP-001 Findings** — Published 2026-01-16
 
 ---
 
-## Primary Finding
+## TL;DR
 
-> Rigorous evaluation produces actionable, reproducible data.
+We ran 164 coding problems through Claude Haiku twice: once single-shot, once with self-review iteration.
 
-We ran controlled experiments. We got clear signal. Methodology decisions can now be evidence-based.
+**The punchline**: Iteration improved success from 87% to 99% at 10x the token cost.
 
----
+**The insight**: Iteration is insurance, not optimization. It only helps the 13% of tasks at the edge of capability — recovering 91% of those failures. For the 87% that succeed anyway, it just burns tokens.
 
-## The Data
-
-### Full HumanEval Benchmark (164 problems, Haiku)
-
-| Strategy | Pass Rate | Problems | Avg Tokens |
-|----------|-----------|----------|------------|
-| Single-shot | **86.6%** | 142/164 | 232 |
-| Ralph-style | **98.8%** | 162/164 | 2,264 |
-
-**Iteration recovered 20 of 22 failures.** Two problems remained unsolved regardless of strategy — these represent the model's capability ceiling.
+**The decision**: If failure costs more than 10x tokens, iterate. Otherwise, single-shot.
 
 ---
 
-## What the Numbers Mean
+## What We Measured
 
-### Iteration Recovers Most Failures
+**Benchmark**: HumanEval (164 Python coding problems)
+**Model**: Claude 3.5 Haiku
+**Strategies**: Single-shot vs Ralph-style self-review iteration
+
+| Strategy | Pass Rate | Average Tokens |
+|----------|-----------|----------------|
+| Single-shot | 86.6% (142/164) | 232 |
+| Ralph iteration | 98.8% (162/164) | 2,264 |
+
+**Cost-benefit**: 12.2% improvement at ~10x token cost.
+
+---
+
+## The Core Pattern
 
 ```
-Single-shot failures:  22 problems
-Ralph recovered:       20 problems (91%)
-Unrecoverable:          2 problems (9%)
+Total problems:          164
+Single-shot solved:      142 (87%)
+Single-shot failed:       22 (13%)
+
+Of those 22 failures:
+  Iteration recovered:    20 (91%)
+  Still failed:            2 (9%)
 ```
 
-Iteration isn't magic — it can't solve problems beyond the model's capability. But for problems at the edge, it provides significant recovery.
+**What this means**:
 
-### The Cost
+- For ~87% of tasks, the model gets it right immediately. Iteration wastes tokens.
+- For ~13% at capability edge, iteration recovers 91% of failures.
+- 2 problems failed both strategies — that's the model's ceiling.
+
+---
+
+## Visualizing the Tradeoff
 
 ```
                     ITERATION VALUE
@@ -56,110 +73,157 @@ Pass Rate
     12.2% improvement at ~10x cost
 ```
 
----
-
-## Subset Analysis
-
-Earlier runs on problem subsets showed consistent patterns:
-
-| Problem Range | Single-shot | Ralph | Recovered |
-|---------------|-------------|-------|-----------|
-| Easy (0-49) | 94.0% | 100% | +3 |
-| Hard (50-79) | 93.3% | 100% | +2 |
-| **Full (0-163)** | **86.6%** | **98.8%** | **+20** |
-
-The full dataset reveals more failures in both strategies — larger samples expose edge cases that smaller subsets miss.
+The question: Is that 12% worth 10x cost for your use case?
 
 ---
 
 ## When to Use Each
 
 ### Single-shot (87% success)
+
+Use when:
 - Speed matters more than perfection
-- Cost sensitivity is high
-- Task is well within capability
+- Token budget is constrained
+- Task is well within model capability
 - Occasional failure is acceptable
-- Exploratory/draft work
+- You're doing exploratory or draft work
+
+**Example**: Generating documentation, refactoring suggestions, code explanations.
 
 ### Iteration (99% success)
+
+Use when:
 - Correctness is non-negotiable
-- Task has known edge cases
+- Task has known edge cases or complexity
 - Cost of failure exceeds 10x token cost
-- Critical path, production systems
-- Final/shipping code
+- Critical path or production code
+- Final/shipping deliverables
+
+**Example**: Production bug fixes, security-sensitive code, customer-facing features.
 
 ---
 
-## Key Insight
+## The Decision Framework
 
-**Iteration is insurance, not optimization.**
-
-For the ~87% of tasks the model solves correctly, iteration adds only cost. For the ~13% at the edge of capability, iteration recovers 91% of failures.
-
-The decision framework:
-
-```
-if (failure_cost > 10x token_cost):
-    use iteration
+```python
+if (cost_of_failure > 10x_token_cost):
+    use_iteration()
 else:
-    use single-shot
+    use_single_shot()
 ```
+
+Simple heuristic, backed by data.
 
 ---
 
 ## What Iteration Can't Fix
 
-Two problems (HumanEval/80, HumanEval/130) failed both strategies. These represent:
-- True capability limits
-- Problems requiring reasoning the model can't perform
-- Cases where more iterations won't help
+Two problems (HumanEval/80, HumanEval/130) failed both strategies.
 
-This ceiling effect is important: iteration is recovery, not capability expansion.
+This tells us:
+- Iteration is **recovery**, not capability expansion
+- There's a ceiling (98.8%, not 100%)
+- Some problems require reasoning the model can't perform
+- More iterations won't help beyond capability limits
 
----
-
-## Methodology Validated
-
-This experiment proves:
-
-1. **Measurable signal** — 12% pass rate difference, consistent pattern
-2. **Reproducible** — Pattern holds across subsets and full dataset
-3. **Actionable** — Clear decision framework emerges from data
-4. **Ceiling identified** — Iteration has limits (98.8%, not 100%)
-
-The scientific method works. Rigorous evaluation produces answers, not opinions.
+**Practical implication**: If iteration fails, try a different model or approach. More iterations won't help.
 
 ---
 
-## Context: Public Discourse Gap
+## Why This Matters
 
-Our research found **no controlled experiments exist** in public discourse measuring Ralph effectiveness. The "iteration always helps" narrative is based entirely on anecdotal testimonials — this is the first quantitative measurement.
+Before this experiment, the discourse was:
 
-Additionally, academic research (IEEE-ISTAS 2025) shows iteration may improve functional correctness while degrading security — a dimension we didn't measure but should in future work.
+> "Ralph-style iteration always improves results." — Testimonials, no data
+
+We searched. **No controlled experiments exist** measuring Ralph effectiveness quantitatively.
+
+Now we have data:
+- Clear signal (12% improvement)
+- Reproducible (pattern holds across subsets)
+- Actionable (decision framework emerges)
+
+**Evidence beats anecdotes.**
+
+---
+
+## Additional Context
+
+### Subset Consistency
+
+Earlier runs on problem subsets showed the same pattern:
+
+| Subset | Single-shot | Ralph | Recovered |
+|--------|-------------|-------|-----------|
+| Easy (0-49) | 94.0% | 100% | +3 |
+| Hard (50-79) | 93.3% | 100% | +2 |
+| **Full (0-163)** | **86.6%** | **98.8%** | **+20** |
+
+Larger samples expose more edge cases. The full dataset revealed the true distribution.
+
+### What We Didn't Measure
+
+Academic research (IEEE-ISTAS 2025) shows iteration may improve functional correctness while degrading **security** — a dimension we didn't evaluate.
+
+**Future work**: Measure security vulnerabilities, code quality, optimal iteration count.
 
 ---
 
 ## Limitations
 
-- Single model (Haiku)
-- Single benchmark (HumanEval)
-- Coding tasks only
-- Single run per strategy
-- Functional correctness only (no security/quality analysis)
+Be honest about scope:
+
+- **Single model**: Haiku only (does pattern hold for Sonnet, Opus?)
+- **Single benchmark**: HumanEval (coding tasks only)
+- **Functional correctness**: Didn't measure security, maintainability, or quality
+- **Single run**: No statistical variance analysis (deterministic execution)
+
+These are experiments, not universal laws. Validate in your context.
 
 ---
 
-## Future Work
+## Future Research
 
-- **Model comparison**: Does pattern hold for Sonnet, Opus?
-- **Security analysis**: Do iterated solutions have more vulnerabilities?
-- **Optimal iteration count**: Is there a threshold beyond which quality degrades?
-- **Task type variation**: Does pattern hold for non-coding tasks?
+Questions worth answering:
+
+1. **Model comparison**: Does the 10x cost/12% improvement ratio hold for Sonnet and Opus?
+2. **Security analysis**: Do iterated solutions introduce more vulnerabilities?
+3. **Optimal iteration count**: Is there a point where quality degrades from over-iteration?
+4. **Task type variation**: Does pattern hold for non-coding tasks (writing, analysis, planning)?
+
+---
+
+## Methodology Validated
+
+This experiment proves the approach works:
+
+1. **Measurable signal** — 12% difference, consistent across subsets
+2. **Reproducible** — Pattern holds at multiple scales
+3. **Actionable** — Clear decision framework emerges
+4. **Honest about limits** — Identified ceiling (98.8%)
+
+The scientific method applies to prompting strategies. We can test, measure, and decide based on evidence.
 
 ---
 
 ## Raw Data
 
-- [results-haiku-full-164.json](../experiments/humaneval/results-haiku-full-164.json) — Full benchmark (164 problems)
-- [results-haiku-50.json](../experiments/humaneval/results-haiku-50.json) — Easy subset (0-49)
-- [results-haiku-hard-30.json](../experiments/humaneval/results-haiku-hard-30.json) — Hard subset (50-79)
+Complete results available:
+
+- [Full benchmark (164 problems)](../experiments/humaneval/results-haiku-full-164.json)
+- [Easy subset (0-49)](../experiments/humaneval/results-haiku-50.json)
+- [Hard subset (50-79)](../experiments/humaneval/results-haiku-hard-30.json)
+
+All data is reproducible with the lab harness.
+
+---
+
+## The Bottom Line
+
+**Iteration is insurance.**
+
+It costs 10x tokens to recover 91% of the 13% of tasks at capability edge.
+
+Do the math for your use case. Sometimes it's worth it. Sometimes it's not.
+
+Now you have data to decide.
