@@ -30,8 +30,8 @@ const config = {
 					console.warn(`Warning: ${path} not found (linked from ${referrer})`);
 					return;
 				}
-				// Ignore 400s for non-HTML resources (JSON, etc.)
-				if (message.includes('400') && (path.endsWith('.json') || path.endsWith('.md'))) {
+				// Ignore 400s for non-HTML resources (JSON, md, etc.)
+				if (message.includes('400') && (path.includes('.json') || path.includes('.md'))) {
 					console.warn(`Warning: ${path} is not a valid route (linked from ${referrer})`);
 					return;
 				}

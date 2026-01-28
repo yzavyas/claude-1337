@@ -7,213 +7,142 @@ interface ResearchPaper {
 	id: string;
 	slug: string;
 	title: string;
-	subtitle?: string;
-	summary: string;
+	summary: string;  // Hypothesis from ## Summary
 	keywords: string[];
 	date: string;
 	status: 'published' | 'in-progress' | 'draft';
-	type: 'finding' | 'proposal';
-	metrics?: {
-		key: string;
-		value: string;
-		highlight?: boolean;
-	}[];
+	hypothesis?: string;  // The research question
+	findingsHtml?: string;  // Rendered findings section for dialog
+	findingsRaw?: string;   // Raw markdown of findings section
 	links: {
-		proposal?: string;
+		rep: string;  // Single source of truth - the REP
 		experiment?: string;
-		findings?: string;
 	};
 }
 
+interface Frontmatter {
+	tags?: string[];
+	keywords?: string[];
+}
+
+function parseFrontmatter(content: string): { frontmatter: Frontmatter; body: string } {
+	const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+	if (!match) {
+		return { frontmatter: {}, body: content };
+	}
+
+	const yamlStr = match[1];
+	const body = match[2];
+	const frontmatter: Frontmatter = {};
+
+	for (const line of yamlStr.split('\n')) {
+		const colonIdx = line.indexOf(':');
+		if (colonIdx === -1) continue;
+
+		const key = line.slice(0, colonIdx).trim();
+		let value = line.slice(colonIdx + 1).trim();
+
+		if (key === 'tags' || key === 'keywords') {
+			value = value.replace(/^\[|\]$/g, '');
+			frontmatter[key] = value.split(',').map(t => t.trim()).filter(Boolean);
+		}
+	}
+
+	return { frontmatter, body };
+}
+
+function extractSection(content: string, sectionName: string): string | undefined {
+	// Match ## Section Name followed by content until next ## or ---
+	const regex = new RegExp(`## ${sectionName}[^\\n]*\\n\\n([\\s\\S]*?)(?=\\n---\\n|\\n## |$)`, 'i');
+	const match = content.match(regex);
+	return match?.[1]?.trim();
+}
+
 function extractKeywords(content: string): string[] {
-	const keywords: string[] = [];
-	const lower = content.toLowerCase();
-
-	// Core themes
-	if (lower.includes('methodology') || lower.includes('framework')) {
-		keywords.push('methodology');
-	}
-	if (lower.includes('measure') || lower.includes('signal') || lower.includes('data')) {
-		keywords.push('measurement');
-	}
-	if (lower.includes('evidence') || lower.includes('empirical') || lower.includes('rigorous')) {
-		keywords.push('evidence');
-	}
-
-	// Methodology patterns
-	if (lower.includes('iteration') || lower.includes('ralph') || lower.includes('multiple passes')) {
-		keywords.push('iteration');
-	}
-	if (lower.includes('single-shot') || lower.includes('single shot') || lower.includes('one attempt')) {
-		keywords.push('single-shot');
-	}
-
-	// Analysis concepts
-	if (lower.includes('ceiling effect') || lower.includes('task difficulty') || lower.includes('harder tasks')) {
-		keywords.push('task-design');
-	}
-	if (lower.includes('token') || lower.includes('cost') || lower.includes('resource')) {
-		keywords.push('efficiency');
-	}
-	if (lower.includes('reproducib') || lower.includes('reliable') || lower.includes('consistent')) {
-		keywords.push('reproducibility');
-	}
-
-	// Specific benchmarks/prior art
-	if (lower.includes('humaneval') || lower.includes('swe-bench') || lower.includes('benchmark')) {
-		keywords.push('benchmark');
-	}
-
-	return [...new Set(keywords)]; // Dedupe
+	const { frontmatter } = parseFrontmatter(content);
+	return frontmatter.tags || frontmatter.keywords || [];
 }
 
-function extractMetrics(content: string): ResearchPaper['metrics'] {
-	const metrics: ResearchPaper['metrics'] = [];
-
-	// Try to extract key findings
-	const successMatch = content.match(/(\d+)%.*success/i);
-	if (successMatch) {
-		metrics.push({ key: 'Success Rate', value: successMatch[1] + '%', highlight: true });
-	}
-
-	const tokenMatch = content.match(/~?(\d+)x?\s*tokens/i);
-	if (tokenMatch) {
-		metrics.push({ key: 'Token Cost', value: tokenMatch[1] + 'x' });
-	}
-
-	return metrics;
-}
-
-async function loadPublishedFindings(): Promise<ResearchPaper[]> {
+async function loadREPs(): Promise<ResearchPaper[]> {
 	const papers: ResearchPaper[] = [];
 
 	try {
-		const resultsDir = join(LAB_ROOT, 'findings');
-		const proposalsDir = join(LAB_ROOT, 'reps');
-		const files = await readdir(resultsDir);
-		const findingFiles = files.filter(f => f.startsWith('rep-') && f.endsWith('-findings.md'));
+		const repsDir = join(LAB_ROOT, 'reps');
+		const files = await readdir(repsDir);
+		const repFiles = files.filter(f => f.startsWith('rep-') && f.endsWith('.md'));
 
-		// Get proposal files for linking
-		const proposalFiles = await readdir(proposalsDir).catch(() => [] as string[]);
-
-		for (const file of findingFiles) {
-			const content = await readFile(join(resultsDir, file), 'utf-8');
-
-			// Parse metadata
-			const titleMatch = content.match(/^#\s+(.+?)(?:\n|$)/m);
-			const title = titleMatch?.[1]?.replace(/^LEP-\d+\s*(?:Findings)?:?\s*/i, '') || 'Untitled';
-
-			const subtitleMatch = content.match(/^\((.+?)\)$/m);
-			const subtitle = subtitleMatch?.[1];
-
-			const dateMatch = content.match(/\*\*Date\*\*:\s*(.+)/i);
-			const date = dateMatch?.[1] || '';
-
-			const summaryMatch = content.match(/\*\*Primary finding\*\*:\s*(.+)/i);
-			const summary = summaryMatch?.[1] || content.match(/##\s+Summary\n\n([^\n]+)/)?.[1] || '';
+		for (const file of repFiles) {
+			const content = await readFile(join(repsDir, file), 'utf-8');
+			const { body } = parseFrontmatter(content);
 
 			const idMatch = file.match(/^rep-(\d+)/);
 			const id = idMatch?.[1] || '000';
 
-			// Find matching proposal file
-			const proposalFile = proposalFiles.find(f => f.startsWith(`rep-${id}`) && f.endsWith('.md'));
-			const proposalSlug = proposalFile ? proposalFile.replace('.md', '') : undefined;
+			// Extract title
+			const titleMatch = body.match(/^#\s+(.+?)(?:\n|$)/m);
+			const title = titleMatch?.[1]?.replace(/^REP-\d+:?\s*/i, '') || 'Untitled';
+
+			// Extract status
+			const statusMatch = body.match(/\*\*Status\*\*:\s*(\w+)/i);
+			const rawStatus = statusMatch?.[1]?.toLowerCase() || 'draft';
+
+			// Map status to our categories
+			let status: ResearchPaper['status'];
+			if (['implemented', 'interim'].includes(rawStatus)) {
+				status = 'published';
+			} else if (['discussion', 'fcp', 'accepted'].includes(rawStatus)) {
+				status = 'in-progress';
+			} else {
+				status = 'draft';
+			}
+
+			// Skip rejected/postponed
+			if (['rejected', 'postponed'].includes(rawStatus)) continue;
+
+			// Extract dates
+			const createdMatch = body.match(/\*\*Created\*\*:\s*(.+)/i);
+			const updatedMatch = body.match(/\*\*Updated\*\*:\s*(.+)/i);
+			const publishedMatch = body.match(/\*\*Published\*\*:\s*(.+)/i);
+			const date = updatedMatch?.[1] || publishedMatch?.[1] || createdMatch?.[1] || '';
+
+			// Extract summary (hypothesis)
+			const summary = extractSection(body, 'Summary') || '';
+
+			// Extract findings section if it exists
+			const findingsRaw = extractSection(body, 'Findings(?:\\s*\\(Interim\\))?');
+
+			// Extract the research question/hypothesis
+			const questionSection = extractSection(body, 'The Question');
+			const hypothesis = questionSection?.match(/>\s*(.+)/)?.[1] || summary.split('.')[0];
 
 			papers.push({
 				id,
 				slug: file.replace('.md', ''),
 				title,
-				subtitle,
-				summary: summary.replace(/\*\*/g, ''),
+				summary: summary.split('\n')[0] || '', // First paragraph
 				keywords: extractKeywords(content),
 				date,
-				status: 'published',
-				type: 'finding',
-				metrics: extractMetrics(content),
+				status,
+				hypothesis,
+				findingsRaw,
 				links: {
-					proposal: proposalSlug ? `/lab/proposals/${proposalSlug}` : undefined,
-					findings: `/lab/findings/${file.replace('.md', '')}`
+					rep: `/lab/reps/${file.replace('.md', '')}`,
+					experiment: `/lab/experiments/rep-${id}`
 				}
 			});
 		}
 	} catch (e) {
-		console.error('Failed to load findings:', e);
-	}
-
-	return papers;
-}
-
-async function loadActiveProposals(): Promise<ResearchPaper[]> {
-	const papers: ResearchPaper[] = [];
-
-	try {
-		const proposalsDir = join(LAB_ROOT, 'reps');
-		const files = await readdir(proposalsDir);
-		const lepFiles = files.filter(f => f.startsWith('rep-') && f.endsWith('.md'));
-
-		// Check what findings exist (to exclude already published)
-		const resultsDir = join(LAB_ROOT, 'findings');
-		const resultFiles = await readdir(resultsDir).catch(() => []);
-		const publishedIds = new Set(
-			resultFiles
-				.filter(f => f.endsWith('-findings.md'))
-				.map(f => f.match(/^rep-(\d+)/)?.[1])
-				.filter(Boolean)
-		);
-
-		for (const file of lepFiles) {
-			const content = await readFile(join(proposalsDir, file), 'utf-8');
-
-			const idMatch = file.match(/^rep-(\d+)/);
-			const id = idMatch?.[1] || '000';
-
-			// Skip if already has published findings
-			if (publishedIds.has(id)) continue;
-
-			const statusMatch = content.match(/\*\*Status\*\*:\s*(\w+)/i);
-			const status = statusMatch?.[1]?.toLowerCase() || 'draft';
-
-			// Only show active proposals (not implemented/rejected/postponed)
-			if (['implemented', 'rejected', 'postponed'].includes(status)) continue;
-
-			const titleMatch = content.match(/^#\s+(.+?)(?:\n|$)/m);
-			const title = titleMatch?.[1]?.replace(/^LEP-\d+:?\s*/i, '') || 'Untitled';
-
-			const summaryMatch = content.match(/##\s+Summary\n\n([^\n]+)/);
-			const summary = summaryMatch?.[1] || '';
-
-			const dateMatch = content.match(/\*\*Created\*\*:\s*(.+)/i);
-			const date = dateMatch?.[1] || '';
-
-			papers.push({
-				id,
-				slug: file.replace('.md', ''),
-				title,
-				summary,
-				keywords: extractKeywords(content),
-				date,
-				status: status === 'fcp' ? 'in-progress' : 'draft',
-				type: 'proposal',
-				links: {
-					proposal: `/lab/proposals/${file.replace('.md', '')}`
-				}
-			});
-		}
-	} catch (e) {
-		console.error('Failed to load proposals:', e);
+		console.error('Failed to load REPs:', e);
 	}
 
 	return papers;
 }
 
 export async function load() {
-	const [findings, proposals] = await Promise.all([
-		loadPublishedFindings(),
-		loadActiveProposals()
-	]);
+	const papers = await loadREPs();
 
-	// Combine and sort - published first, then by date
-	const papers = [...findings, ...proposals].sort((a, b) => {
+	// Sort: published first, then by date
+	papers.sort((a, b) => {
 		if (a.status === 'published' && b.status !== 'published') return -1;
 		if (b.status === 'published' && a.status !== 'published') return 1;
 		return b.date.localeCompare(a.date);

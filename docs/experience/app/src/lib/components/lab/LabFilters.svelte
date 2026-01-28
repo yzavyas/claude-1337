@@ -69,7 +69,8 @@
 		font-family: var(--font-display);
 		font-size: var(--text-xl);
 		font-weight: var(--font-medium);
-		color: var(--color-text-primary);
+		/* Use accent color for visibility on dark backgrounds */
+		color: var(--color-accent);
 	}
 
 	.result-count {

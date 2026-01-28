@@ -25,14 +25,14 @@
 <main class="landing">
 	<section class="hero">
 		<h1 class="headline">
-			<FlipTerm term="Cognitive Extensions" definition="External processes that become part of thinking" />
-			<FlipTerm term="for Effective" definition="for Complementary · Transparent · Reliable" />
-			<FlipTerm term="Collaborative Intelligence" definition="Human-AI cognitive partnership" />
+			<span class="headline-line"><FlipTerm term="Cognitive Extensions" definition="External processes that become part of thinking" /></span>
+			<span class="headline-line"><FlipTerm term="for Effective" definition="Complementary · Transparent · Reliable" /></span>
+			<span class="headline-line nowrap"><FlipTerm term="Collaborative Intelligence" definition="Human-AI cognitive partnership" /></span>
 		</h1>
 
 		<p class="description">
-			Research-backed frameworks that shape how Claude thinks.<br />
-			Readable. Forkable. Yours to verify.
+			Capability extensions for AI-enhanced builders.<br />
+			Learn with your agents. Grow your knowledge through collaboration.
 		</p>
 
 		<div class="install">
@@ -40,17 +40,6 @@
 			<p class="install-note">
 				Run in Claude Code, then browse with <code>/plugin</code>
 			</p>
-			<div class="troubleshoot">
-				<p class="troubleshoot-label">Known issues</p>
-				<p class="troubleshoot-links">
-					<a href="https://github.com/anthropics/claude-code/issues/14815" target="_blank" rel="noopener">#14815</a>,
-					<a href="https://github.com/anthropics/claude-code/issues/14061" target="_blank" rel="noopener">#14061</a>,
-					<a href="https://github.com/anthropics/claude-code/issues/15369" target="_blank" rel="noopener">#15369</a>
-				</p>
-				<p class="troubleshoot-links">
-					Workaround → <a href="{base}/explore/how-to/troubleshoot">How-To</a>
-				</p>
-			</div>
 		</div>
 
 		<div class="secondary-actions">
@@ -88,6 +77,14 @@
 		margin-bottom: var(--space-4);
 	}
 
+	.headline-line {
+		display: block;
+	}
+
+	.headline-line.nowrap {
+		white-space: nowrap;
+	}
+
 	.description {
 		font-size: var(--text-lg);
 		color: var(--color-text-secondary);
@@ -108,33 +105,6 @@
 	.install-note code {
 		font-family: var(--font-mono);
 		color: var(--color-text-secondary);
-	}
-
-	.troubleshoot {
-		margin-top: var(--space-6);
-		padding-top: var(--space-4);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.troubleshoot-label {
-		font-size: var(--text-xs);
-		color: var(--color-text-muted);
-		margin-bottom: var(--space-2);
-	}
-
-	.troubleshoot-links {
-		font-size: var(--text-xs);
-		color: var(--color-text-muted);
-	}
-
-	.troubleshoot-links a {
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		transition: color var(--duration-fast) var(--ease-out);
-	}
-
-	.troubleshoot-links a:hover {
-		color: var(--color-accent);
 	}
 
 	.secondary-actions {

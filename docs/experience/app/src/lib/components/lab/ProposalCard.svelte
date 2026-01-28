@@ -4,9 +4,10 @@
 	 *
 	 * Card for active proposals. Dashed border (draft convention).
 	 * Status determines accent color and badge variant.
+	 * Uses StatusBadge with icons for accessibility (WCAG 1.4.1).
 	 */
 	import { base } from '$app/paths';
-	import Badge from '$lib/components/ui/Badge.svelte';
+	import StatusBadge from './StatusBadge.svelte';
 
 	type Status = 'draft' | 'discussion' | 'fcp' | 'accepted';
 
@@ -31,20 +32,6 @@
 		onKeywordClick?: (keyword: string) => void;
 	} = $props();
 
-	const statusVariant = {
-		draft: 'muted',
-		discussion: 'plum',
-		fcp: 'rust',
-		accepted: 'ocean'
-	} as const;
-
-	const statusLabel = {
-		draft: 'Draft',
-		discussion: 'Discussion',
-		fcp: 'Final Comment',
-		accepted: 'Accepted'
-	} as const;
-
 	// Show left accent for active proposals (not draft)
 	const hasAccent = $derived(proposal.status !== 'draft');
 </script>
@@ -56,9 +43,7 @@
 >
 	<header class="card-header">
 		<span class="proposal-id">REP-{proposal.id}</span>
-		<Badge variant={statusVariant[proposal.status]}>
-			{statusLabel[proposal.status]}
-		</Badge>
+		<StatusBadge status={proposal.status} />
 	</header>
 
 	<h3 class="proposal-title">
@@ -93,18 +78,26 @@
 <style>
 	.proposal-card {
 		position: relative;
-		background: var(--color-bg-elevated);
-		border: 1px dashed var(--color-border);
+		/* Elevated paper: slightly darker cream for proposals (8% luminance gap) */
+		background: var(--color-paper-elevated, var(--color-bg-elevated));
+		border: 1px dashed var(--primitive-stone-400, var(--color-border));
 		border-radius: var(--radius-lg);
 		padding: var(--space-5);
+		box-shadow: var(--shadow-paper, none);
+		/* Minimum touch target (WCAG 2.5.5) */
+		min-height: 44px;
 		transition:
 			border-color var(--duration-fast) var(--ease-out),
-			border-style var(--duration-fast) var(--ease-out);
+			border-style var(--duration-fast) var(--ease-out),
+			box-shadow var(--duration-fast) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
 	}
 
 	.proposal-card:hover {
 		border-color: var(--color-border-strong);
 		border-style: solid;
+		box-shadow: var(--shadow-paper-hover, var(--shadow-sm));
+		transform: translateY(-2px);
 	}
 
 	/* Left accent for active proposals */
@@ -142,7 +135,8 @@
 		font-family: var(--font-display);
 		font-size: var(--text-lg);
 		font-weight: var(--font-medium);
-		color: var(--color-text-primary);
+		/* Dark ink on paper in lab mode */
+		color: var(--color-text-on-paper, var(--color-text-primary));
 		line-height: var(--leading-snug);
 		margin-bottom: var(--space-2);
 	}
@@ -158,7 +152,7 @@
 
 	.proposal-summary {
 		font-size: var(--text-sm);
-		color: var(--color-text-secondary);
+		color: var(--color-text-on-paper-secondary, var(--color-text-secondary));
 		line-height: var(--leading-relaxed);
 		margin-bottom: var(--space-4);
 	}
@@ -173,13 +167,21 @@
 	.keyword-chip {
 		font-family: var(--font-mono);
 		font-size: 10px;
-		color: var(--color-text-tertiary);
-		background: var(--color-bg-surface);
+		color: var(--color-text-on-paper-muted, var(--color-text-tertiary));
+		background: var(--color-paper-hover, var(--color-bg-surface));
 		border: 1px solid var(--color-border);
-		padding: 2px var(--space-2);
+		padding: var(--space-1-5) var(--space-3);
 		border-radius: var(--radius-sm);
 		cursor: pointer;
+		/* Expand touch target with pseudo-element */
+		position: relative;
 		transition: all var(--duration-fast) var(--ease-out);
+	}
+
+	.keyword-chip::before {
+		content: '';
+		position: absolute;
+		inset: -6px;
 	}
 
 	.keyword-chip:hover {

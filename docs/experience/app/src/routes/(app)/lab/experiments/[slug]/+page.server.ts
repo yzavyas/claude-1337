@@ -33,6 +33,7 @@ interface ExperimentData {
 	slug: string;
 	name: string;
 	repId?: string;
+	repSlug?: string;
 	readme?: string;
 	results: ExperimentResult[];
 }
@@ -57,6 +58,21 @@ export async function load({ params }): Promise<ExperimentData> {
 		// Check for REP linkage
 		const repMatch = slug.match(/^rep-(\d+)/);
 		const repId = repMatch?.[1];
+
+		// Find the actual REP file to get the full slug
+		let repSlug: string | undefined;
+		if (repId) {
+			try {
+				const repsDir = join(LAB_ROOT, 'reps');
+				const repFiles = await readdir(repsDir);
+				const repFile = repFiles.find(f => f.startsWith(`rep-${repId}`) && f.endsWith('.md'));
+				if (repFile) {
+					repSlug = repFile.replace('.md', '');
+				}
+			} catch {
+				// No REPs directory
+			}
+		}
 
 		// Try to read README
 		let readme: string | undefined;
@@ -112,6 +128,7 @@ export async function load({ params }): Promise<ExperimentData> {
 			slug,
 			name: slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
 			repId,
+			repSlug,
 			readme,
 			results
 		};
