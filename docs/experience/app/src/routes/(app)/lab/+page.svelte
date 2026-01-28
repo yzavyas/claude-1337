@@ -39,7 +39,7 @@
 <main class="lab-page">
 	<header class="lab-header">
 		<h1>Experimentation Lab</h1>
-		<p class="lab-tagline">Evidence over opinions. Measurement over intuition.</p>
+		<p class="lab-intro">Research experiments in collaborative intelligence. We test hypotheses, measure outcomes, and publish findings.</p>
 	</header>
 
 	<LabFilters
@@ -59,13 +59,14 @@
 						finding={{
 							id: finding.id,
 							title: finding.title,
-							subtitle: finding.subtitle,
 							summary: finding.summary,
+							hypothesis: finding.hypothesis,
+							findingsRaw: finding.findingsRaw,
 							date: finding.date,
 							keywords: finding.keywords,
 							links: {
-								findings: finding.links.findings || '',
-								proposal: finding.links.proposal
+								rep: finding.links.rep,
+								experiment: finding.links.experiment
 							}
 						}}
 						pinned={i === 0}
@@ -91,7 +92,7 @@
 							date: proposal.date,
 							keywords: proposal.keywords,
 							links: {
-								proposal: proposal.links.proposal || '',
+								proposal: proposal.links.rep,
 								experiment: proposal.links.experiment
 							}
 						}}
@@ -134,11 +135,11 @@
 		margin-bottom: var(--space-2);
 	}
 
-	.lab-tagline {
+	.lab-intro {
 		font-family: var(--font-reading);
 		font-size: var(--text-lg);
-		color: var(--color-text-tertiary);
-		font-style: italic;
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
 	}
 
 	.lab-section {

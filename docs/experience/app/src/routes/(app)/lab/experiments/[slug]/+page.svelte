@@ -22,8 +22,8 @@
 
 	<header class="experiment-header">
 		<h1>{data.name}</h1>
-		{#if data.repId}
-			<a href="{base}/lab/proposals/rep-{data.repId}-rigor-is-what-you-want" class="rep-link">
+		{#if data.repSlug}
+			<a href="{base}/lab/reps/{data.repSlug}" class="rep-link">
 				REP-{data.repId}
 			</a>
 		{/if}

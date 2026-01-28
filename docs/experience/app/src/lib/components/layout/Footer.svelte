@@ -33,7 +33,7 @@
 			<div class="footer-column">
 				<h4 class="footer-heading">About</h4>
 				<a href="{base}/ethos">Ethos</a>
-				<a href="{base}/library/research">Research</a>
+				<a href="{base}/explore/reference/research">Research</a>
 			</div>
 		</nav>
 	</div>
