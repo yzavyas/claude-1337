@@ -179,73 +179,87 @@ scratch/             → Working documents, session context
 
 ## Git Workflows
 
+Uses [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow): short-lived feature branches, PRs to main, deploy on merge.
+
 ### Branch Strategy
 
 | Branch | Purpose |
 |--------|---------|
-| **main** | Release branch, PRs target here |
-| **dev** | Kept in sync with main |
+| **main** | Production. Always deployable. PRs target here. |
+| **feature branches** | Short-lived. Named `claude/<description>` or `feat/<description>`. |
 
-Both branches contain full repo content.
+**NEVER push directly to main.**
 
 ### Feature Branch Workflow
 
-**ALWAYS use feature branches. NEVER push directly to main.**
-
 ```bash
-# 1. Create feature branch
+# Start from main
 git checkout main
-git pull origin main
+git fetch origin && git rebase origin/main
+
+# Create feature branch
 git checkout -b claude/feature-name
 
-# 2. Do work, commit with conventional commits
+# Work, commit often
 git add <files>
 git commit -m "feat(scope): description"
 
-# 3. Push and create PR
+# Push and PR
 git push -u origin claude/feature-name
 gh pr create --base main
 
-# 4. After PR merged, clean up
+# After merge, clean up
 git checkout main
-git pull origin main
+git fetch origin && git rebase origin/main
 git branch -d claude/feature-name
 ```
 
-### Fetch + Rebase (Never Pull, Never Merge)
+### Rebase, Not Merge
 
 ```bash
-git fetch --all
+git fetch origin
 git rebase origin/main
 ```
 
-**Why?** `pull` and `merge` create merge commits → messy history. `rebase` replays commits → clean linear history.
+Rebase replays commits on top of main. Clean linear history. Easy to bisect.
 
 ### Conventional Commits
 
 Format: `type(scope): description`
 
-| Type | When to use |
-|------|-------------|
+| Type | When |
+|------|------|
 | `feat` | New feature |
 | `fix` | Bug fix |
-| `refactor` | Code change that neither fixes nor adds |
-| `docs` | Documentation only |
-| `chore` | Build, tooling, dependencies |
+| `refactor` | Neither fixes nor adds |
+| `docs` | Documentation |
+| `chore` | Build, deps, tooling |
 
-### Semantic Versioning
+### Releases (Semver)
 
-Format: `MAJOR.MINOR.PATCH`
+Format: `vMAJOR.MINOR.PATCH`
 
 | Increment | When |
 |-----------|------|
-| MAJOR | Breaking changes |
+| MAJOR | Breaking changes to plugin API |
 | MINOR | New features, backward compatible |
 | PATCH | Bug fixes |
 
+To release:
+```bash
+# Tag on main
+git checkout main
+git fetch origin && git rebase origin/main
+git tag v1.2.3
+git push origin v1.2.3
+
+# Or use GitHub Releases UI for changelog
+gh release create v1.2.3 --generate-notes
+```
+
 ### Worktrees (Optional)
 
-For parallel feature work:
+Parallel feature work without stashing:
 
 ```bash
 git worktree add ../claude-1337-feature -b claude/feature
