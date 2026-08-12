@@ -1,3 +1,5 @@
+
+
 # claude-1337
 
 A marketplace of cognitive extensions for Claude Code.
@@ -26,10 +28,10 @@ Workaround:
 
 ## Contributing
 
-Development happens on the `dev` branch. This `main` branch is for marketplace distribution only.
+Development happens on short-lived feature branches targeting `main`.
 
 ```bash
-git checkout dev
+git checkout main
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) or the [contributor guide](https://yzavyas.github.io/claude-1337/explore/how-to/contribute/).
