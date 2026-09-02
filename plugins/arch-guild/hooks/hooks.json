@@ -1,13 +1,16 @@
 {
-  "SessionStart": [
-    {
-      "matcher": "",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "if [ \"$SKIP_GUILD_RATCHET\" = \"1\" ]; then echo '[Guild Ratchet: Skipped via SKIP_GUILD_RATCHET=1]'; elif [ -f \"${CLAUDE_PROJECT_ROOT}/.claude/guild-ratchet.md\" ]; then echo '[Guild Ratchet: Loading project learnings from .claude/guild-ratchet.md]'; cat \"${CLAUDE_PROJECT_ROOT}/.claude/guild-ratchet.md\"; else echo '[Guild Ratchet: No .claude/guild-ratchet.md found - fresh session]'; fi"
-        }
-      ]
-    }
-  ]
+  "description": "Arch-guild hooks: load project ratchet at session start",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "RATCHET_ROOT=\"${CLAUDE_PROJECT_DIR:-$PWD}\"; if [ \"$SKIP_GUILD_RATCHET\" = \"1\" ]; then echo '[Guild Ratchet: Skipped via SKIP_GUILD_RATCHET=1]'; elif [ -f \"$RATCHET_ROOT/.claude/guild-ratchet.md\" ]; then echo '[Guild Ratchet: Loading project learnings from .claude/guild-ratchet.md]'; cat \"$RATCHET_ROOT/.claude/guild-ratchet.md\"; else echo '[Guild Ratchet: No .claude/guild-ratchet.md found - fresh session]'; fi"
+          }
+        ]
+      }
+    ]
+  }
 }
